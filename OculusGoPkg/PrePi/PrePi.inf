@@ -1,0 +1,50 @@
+## @file
+# Original Go SEC implementation. SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = OculusGoSec
+  FILE_GUID      = 4180d6e6-cfb5-4a63-9df8-47e21387d5ef
+  MODULE_TYPE    = SEC
+  VERSION_STRING = 0.2
+
+[Sources]
+  SecMain.c
+  Memory.c
+
+[Sources.AARCH64]
+  Entry.S | GCC
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[LibraryClasses]
+  ArmLib
+  ArmMmuLib
+  BaseLib
+  CacheMaintenanceLib
+  DebugLib
+  ExtractGuidedSectionLib
+  HobLib
+  LzmaDecompressLib
+  MemoryAllocationLib
+  PrePiHobListPointerLib
+  PrePiLib
+
+[Guids]
+  gOculusGoEntryHobGuid
+
+[FixedPcd]
+  gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase
+  gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize
+  gOculusGoPkgTokenSpaceGuid.PcdStackSize
+  gArmTokenSpaceGuid.PcdFdBaseAddress
+  gArmTokenSpaceGuid.PcdFdSize
+  gArmTokenSpaceGuid.PcdFvBaseAddress
+  gArmTokenSpaceGuid.PcdFvSize
+  gArmTokenSpaceGuid.PcdSystemMemoryBase
+  gArmTokenSpaceGuid.PcdSystemMemorySize
