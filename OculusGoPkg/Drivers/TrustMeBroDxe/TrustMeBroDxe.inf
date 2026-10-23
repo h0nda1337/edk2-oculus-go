@@ -1,0 +1,25 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = TrustMeBroDxe
+  FILE_GUID      = 54ccb903-e352-4144-a204-2cc03d743e48
+  MODULE_TYPE    = DXE_DRIVER
+  VERSION_STRING = 1.0
+  ENTRY_POINT    = TrustMeBroDxeEntry
+[Sources]
+  TrustMeBroDxe.c
+[Packages]
+  MdePkg/MdePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+[LibraryClasses]
+  BaseMemoryLib
+  DebugLib
+  HobLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+[Guids]
+  gOculusGoEntryHobGuid
+[Protocols]
+  gOculusGoTrustMeBroProtocolGuid
+[Depex]
+  TRUE

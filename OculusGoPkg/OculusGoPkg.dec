@@ -1,0 +1,23 @@
+## @file
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+[Defines]
+  DEC_SPECIFICATION = 0x0001001B
+  PACKAGE_NAME      = OculusGoPkg
+  PACKAGE_GUID      = e6262bbf-0fc4-4565-b625-b35b4bb48365
+  PACKAGE_VERSION   = 0.2
+
+[Includes]
+  Include
+
+[Guids]
+  gOculusGoPkgTokenSpaceGuid = { 0x5ea43b6a, 0xd17e, 0x43e5, { 0xa4, 0xca, 0xd1, 0xd7, 0xc0, 0xa4, 0x1a, 0x7e } }
+  gOculusGoEntryHobGuid = { 0x6140ad32, 0xc38e, 0x4296, { 0x8d, 0x6b, 0x28, 0x42, 0x46, 0x3c, 0x22, 0xc1 } }
+
+[Protocols]
+  gOculusGoTrustMeBroProtocolGuid = { 0x4b7e5f2a, 0x196d, 0x47cc, { 0xb8, 0x1f, 0x54, 0x91, 0x4a, 0x3e, 0x9d, 0x70 } }
+
+[PcdsFixedAtBuild]
+  gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase|0x94000000|UINT64|0x00000001
+  gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize|0x04000000|UINT32|0x00000002
+  gOculusGoPkgTokenSpaceGuid.PcdStackSize|0x00040000|UINT32|0x00000003
