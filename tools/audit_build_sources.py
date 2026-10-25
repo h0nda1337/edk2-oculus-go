@@ -88,7 +88,9 @@ def main():
         'dependencyLists': len(lists), 'linkArchives': len(archives),
         'files': records, 'rejected': rejected,
         'scope': 'compiler dependency lists and static link archives; not physical behavior'}
-    host_path(args.output).write_text(json.dumps(result, indent=2) + '\n')
+    records.sort(key=lambda record: record['file'])
+    host_path(args.output).write_text(json.dumps(result, indent=2) + '\n',
+                                     encoding='utf-8', newline='\n')
     counts = {kind: sum(r['origin'] == kind for r in records)
               for kind in ('original-project', 'upstream-edk2', 'edk2-generated')}
     print(json.dumps({'result': result['result'], 'counts': counts,

@@ -1,0 +1,356 @@
+{
+  "scope": "historical backup metadata; no new device reads or dump rehash",
+  "sourceManifestSha256": "12ee626968c09da21dc3e4465537962574b71abf1eca64960a865be9564eb12c",
+  "partitions": [
+    {
+      "name": "aboot_a",
+      "blockDevice": "/dev/block/sde16",
+      "size": 1048576,
+      "sha256": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "modify": false
+    },
+    {
+      "name": "aboot_b",
+      "blockDevice": "/dev/block/sde17",
+      "size": 1048576,
+      "sha256": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "modify": false
+    },
+    {
+      "name": "apdp",
+      "blockDevice": "/dev/block/sde31",
+      "size": 262144,
+      "sha256": "8a39d2abd3999ab73c34db2476849cddf303ce389b35826850f9a700589b4a90",
+      "modify": false
+    },
+    {
+      "name": "bluetooth_a",
+      "blockDevice": "/dev/block/sde23",
+      "size": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58",
+      "modify": false
+    },
+    {
+      "name": "bluetooth_b",
+      "blockDevice": "/dev/block/sde24",
+      "size": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58",
+      "modify": false
+    },
+    {
+      "name": "boot_a",
+      "blockDevice": "/dev/block/sde18",
+      "size": 67108864,
+      "sha256": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "modify": false
+    },
+    {
+      "name": "boot_b",
+      "blockDevice": "/dev/block/sde19",
+      "size": 67108864,
+      "sha256": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a",
+      "modify": false
+    },
+    {
+      "name": "cdt",
+      "blockDevice": "/dev/block/sdd2",
+      "size": 4096,
+      "sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+      "modify": false
+    },
+    {
+      "name": "cmnlib64_a",
+      "blockDevice": "/dev/block/sde29",
+      "size": 262144,
+      "sha256": "9db5e17360606a3250a5d37558bf7eaaed56698a9c6f3c8741091d3c51839a2f",
+      "modify": false
+    },
+    {
+      "name": "cmnlib64_b",
+      "blockDevice": "/dev/block/sde30",
+      "size": 262144,
+      "sha256": "f158715ff335761279e61104871ecd42bb3a806b080b673a6bbff2f535f64b61",
+      "modify": false
+    },
+    {
+      "name": "cmnlib_a",
+      "blockDevice": "/dev/block/sde27",
+      "size": 262144,
+      "sha256": "02a3eef6af54c6aed2b107498b29adc790dbf7970c8468b650cc18eb1a195c7a",
+      "modify": false
+    },
+    {
+      "name": "cmnlib_b",
+      "blockDevice": "/dev/block/sde28",
+      "size": 262144,
+      "sha256": "d241c34e4ad6f9e0845ee1942cd6119db45ec16333a20d6917cb7f5fef17870e",
+      "modify": false
+    },
+    {
+      "name": "ddr",
+      "blockDevice": "/dev/block/sdd3",
+      "size": 134021120,
+      "sha256": "9a94f11d9750b95abe50ead0495a8dc1378a6fcff1b0b6f0b23565170a25843f",
+      "modify": false
+    },
+    {
+      "name": "devcfg_a",
+      "blockDevice": "/dev/block/sda5",
+      "size": 131072,
+      "sha256": "0c6ff64e161cf4f9d0e91d174f4a0939605230012509c8efa07afbd95eb86b3f",
+      "modify": false
+    },
+    {
+      "name": "devcfg_b",
+      "blockDevice": "/dev/block/sda6",
+      "size": 131072,
+      "sha256": "b4145554d279b8ebcd710e0a4074d16f090ba652dd892e82409d108a8a72f932",
+      "modify": false
+    },
+    {
+      "name": "devinfo",
+      "blockDevice": "/dev/block/sde22",
+      "size": 4096,
+      "sha256": "b518726f9ee5451b2faa893e0fb32c616f25af855fba3b63e10759779ef0d840",
+      "modify": false
+    },
+    {
+      "name": "dip",
+      "blockDevice": "/dev/block/sde15",
+      "size": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58",
+      "modify": false
+    },
+    {
+      "name": "dpo",
+      "blockDevice": "/dev/block/sde33",
+      "size": 4096,
+      "sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+      "modify": false
+    },
+    {
+      "name": "frp",
+      "blockDevice": "/dev/block/sda7",
+      "size": 524288,
+      "sha256": "5564c51ed7287ca16f8e123ea94fe2ea795983a2e8cdf17f59c960bebe4a566c",
+      "modify": false
+    },
+    {
+      "name": "fsc",
+      "blockDevice": "/dev/block/sdf3",
+      "size": 1606258688,
+      "sha256": "73e93cd1baed30b722b93358362edc52c7b1b590e6050c20e3b73c32738e1158",
+      "modify": false
+    },
+    {
+      "name": "fsg",
+      "blockDevice": "/dev/block/sde7",
+      "size": 2097152,
+      "sha256": "5647f05ec18958947d32874eeb788fa396a05d0bab7c1b71f112ceb7e9b31eee",
+      "modify": false
+    },
+    {
+      "name": "hyp_a",
+      "blockDevice": "/dev/block/sde5",
+      "size": 524288,
+      "sha256": "25484f850d760bcb376fef2b33cf0b588d65aa06ed6510c25e6b4d8a32cf9413",
+      "modify": false
+    },
+    {
+      "name": "hyp_b",
+      "blockDevice": "/dev/block/sde6",
+      "size": 524288,
+      "sha256": "f1857add5078df54b972261e7d786f3e9c20eaef98ec4b82558c2d8f28ec4e0a",
+      "modify": false
+    },
+    {
+      "name": "keymaster_a",
+      "blockDevice": "/dev/block/sde25",
+      "size": 524288,
+      "sha256": "28cea6d7fd25e12c09ca41cfb574aaafdc5f32d77e7c214dd303b3c9fc1647f3",
+      "modify": false
+    },
+    {
+      "name": "keymaster_b",
+      "blockDevice": "/dev/block/sde26",
+      "size": 524288,
+      "sha256": "3ecd36d056c0a8afd6939bf0a1e69bb7d78adad0f56129b8ff8275efb8b458f3",
+      "modify": false
+    },
+    {
+      "name": "keystore",
+      "blockDevice": "/dev/block/sda4",
+      "size": 524288,
+      "sha256": "07854d2fef297a06ba81685e660c332de36d5d18d546927d30daad6d7fda1541",
+      "modify": false
+    },
+    {
+      "name": "misc",
+      "blockDevice": "/dev/block/sda3",
+      "size": 1048576,
+      "sha256": "09f2d8a7d9d38e17d78c74f058bdc09e64a8fa6e8ed401ac46daedc0b66185e5",
+      "modify": false
+    },
+    {
+      "name": "modem_a",
+      "blockDevice": "/dev/block/sde11",
+      "size": 99614720,
+      "sha256": "044ffe113230bdc73272e224651c0e5867e187366e6fc925740a48ec51a8d95b",
+      "modify": false
+    },
+    {
+      "name": "modem_b",
+      "blockDevice": "/dev/block/sde12",
+      "size": 99614720,
+      "sha256": "78ad2283022795ba1d8dd4adb305b2647cc1568dc7659a5f2ffbec2e93e0ef7a",
+      "modify": false
+    },
+    {
+      "name": "modemst1",
+      "blockDevice": "/dev/block/sdf1",
+      "size": 2097152,
+      "sha256": "5647f05ec18958947d32874eeb788fa396a05d0bab7c1b71f112ceb7e9b31eee",
+      "modify": false
+    },
+    {
+      "name": "modemst2",
+      "blockDevice": "/dev/block/sdf2",
+      "size": 2097152,
+      "sha256": "5647f05ec18958947d32874eeb788fa396a05d0bab7c1b71f112ceb7e9b31eee",
+      "modify": false
+    },
+    {
+      "name": "msadp",
+      "blockDevice": "/dev/block/sde32",
+      "size": 262144,
+      "sha256": "8a39d2abd3999ab73c34db2476849cddf303ce389b35826850f9a700589b4a90",
+      "modify": false
+    },
+    {
+      "name": "ovrtz_a",
+      "blockDevice": "/dev/block/sde13",
+      "size": 16777216,
+      "sha256": "d1c4fd1020d9832fba5fa9b99efdaadb256078f05cf96eb4752ff2dff4f5cde6",
+      "modify": false
+    },
+    {
+      "name": "ovrtz_b",
+      "blockDevice": "/dev/block/sde14",
+      "size": 16777216,
+      "sha256": "2f99b6d9918734b04e456ba6b8716972af60b1aa681258d42224e543cadf1d69",
+      "modify": false
+    },
+    {
+      "name": "persist",
+      "blockDevice": "/dev/block/sda2",
+      "size": 33554432,
+      "sha256": "e557defa25b479ff9e56088ffe04ceb8f587c0a0acc470c850d4fb0593f08cf2",
+      "modify": false
+    },
+    {
+      "name": "pmic_a",
+      "blockDevice": "/dev/block/sde9",
+      "size": 524288,
+      "sha256": "f45f43f331a35d7234eb9b8bb67c6856e25d9bb253a07ebe8ced3d8e1be46dff",
+      "modify": false
+    },
+    {
+      "name": "pmic_b",
+      "blockDevice": "/dev/block/sde10",
+      "size": 524288,
+      "sha256": "4521e03d26b31badfa123d6370be35f3bad68b82fa3c8e1f14e79aaa2ee44992",
+      "modify": false
+    },
+    {
+      "name": "reserve",
+      "blockDevice": "/dev/block/sdd1",
+      "size": 32768,
+      "sha256": "c35020473aed1b4642cd726cad727b63fff2824ad68cedd7ffb73c7cbd890479",
+      "modify": false
+    },
+    {
+      "name": "rpm_a",
+      "blockDevice": "/dev/block/sde1",
+      "size": 524288,
+      "sha256": "d7c0541d0e56b1d2f812db8bffc24e521d75436c6a8969f17430b1faf359dae2",
+      "modify": false
+    },
+    {
+      "name": "rpm_b",
+      "blockDevice": "/dev/block/sde2",
+      "size": 524288,
+      "sha256": "8dee54fccc80392d1db785f349445e69cfb725316181d834c6abad7638cbe7be",
+      "modify": false
+    },
+    {
+      "name": "sec",
+      "blockDevice": "/dev/block/sde8",
+      "size": 131072,
+      "sha256": "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+      "modify": false
+    },
+    {
+      "name": "splash",
+      "blockDevice": "/dev/block/sde34",
+      "size": 34226176,
+      "sha256": "d8ba4434e87f8bfc55f33091c2d78401fcea22a068105942285edb2da6869d4a",
+      "modify": false
+    },
+    {
+      "name": "ssd",
+      "blockDevice": "/dev/block/sda1",
+      "size": 8192,
+      "sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47",
+      "modify": false
+    },
+    {
+      "name": "sti",
+      "blockDevice": "/dev/block/sde35",
+      "size": 547540992,
+      "sha256": "ef16859f8c41e27cd8cbda26eb22907dcc7d4e0e3ea9f61d1a50d45ecd0ab11e",
+      "modify": false
+    },
+    {
+      "name": "system_a",
+      "blockDevice": "/dev/block/sde20",
+      "size": 1932734464,
+      "sha256": "544aac240a97b69bf65fed6a9cdbb3b40d5f663c56209e9086ed3c994408d37f",
+      "modify": false
+    },
+    {
+      "name": "system_b",
+      "blockDevice": "/dev/block/sde21",
+      "size": 1932734464,
+      "sha256": "57eb87eb29bfed7902a22ad2f188d6d24e858e8a6c9725987618ee7699a349c7",
+      "modify": false
+    },
+    {
+      "name": "tz_a",
+      "blockDevice": "/dev/block/sde3",
+      "size": 2097152,
+      "sha256": "81151a62cf4ce294d9c068f8cb8199cc733e1c315f8a05ad29ae5117cf8cef2e",
+      "modify": false
+    },
+    {
+      "name": "tz_b",
+      "blockDevice": "/dev/block/sde4",
+      "size": 2097152,
+      "sha256": "426e0cab4de8cbb58f069648a07c83d91cc6a89d75bb02f149e20404886be114",
+      "modify": false
+    },
+    {
+      "name": "xbl_a",
+      "blockDevice": "/dev/block/sdb1",
+      "size": 4034560,
+      "sha256": "862e2c5690d5977b133553a710d745b7d018c2a5fe550b335d2a4cc0bab7e3bb",
+      "modify": false
+    },
+    {
+      "name": "xbl_b",
+      "blockDevice": "/dev/block/sdc1",
+      "size": 4034560,
+      "sha256": "19fc26040a95c7edffc64cec929107c3b095442fce064d8ba08135698ae60a44",
+      "modify": false
+    }
+  ]
+}
