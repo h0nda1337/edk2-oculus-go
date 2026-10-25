@@ -18,7 +18,10 @@
 
 Captures were made during the preceding project, initially 2026-08-24. The
 reconstruction reuses measured facts and preserved backups, not its derived
-platform code. No headset operation has occurred in this reconstruction.
+platform code. After offline reconstruction, a read-only ADB session on
+2026-10-25 reconfirmed product `pacific`, APQ8096pro, SoC ID 312 and revision
+1.1. No payload was sent; incoming firmware CPU/display/watchdog state remains
+UNKNOWN. See READONLY_PREFLIGHT.md for the exact scope.
 
 The official kernel has separate CNC and EVT DT variants. The observed unit
 selected APQ8096 Pro EVT ID 312. Do not substitute CNC pinmux/PHY/panel data.

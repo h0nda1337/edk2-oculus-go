@@ -1,0 +1,55 @@
+{
+  "scope": "Sanitized record of a subsequent read-only ADB device session; not a firmware execution test",
+  "sessionStartedUtc": "2026-10-25T16:41:57Z",
+  "result": "PASS-READONLY",
+  "rawLocalReportSha256": "f2c85fe8e3118c2084f584677c00152b61530418023c7c09fd3bc67404811d5a",
+  "inventorySha256": "c0876b3a80bf1470260e3bc05b33decbde855082227ca52242a69dff9946e722",
+  "adbSha256": "957e46b8615f7af5b7292a2ddabe98d2e61940c3fb2b0545756507f080613e71",
+  "product": "pacific",
+  "root": true,
+  "rootRestartRequested": true,
+  "slot": "_a",
+  "androidBootCompleted": true,
+  "soc": {
+    "machine": "APQ8096pro",
+    "id": 312,
+    "revision": "1.1"
+  },
+  "batteryAtCapture": {
+    "level": 18,
+    "scale": 100,
+    "usbPowered": true,
+    "androidStatus": 2
+  },
+  "partitionReadbacks": [
+    {
+      "name": "aboot_a",
+      "size": 1048576,
+      "sha256": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "originalMatch": true
+    },
+    {
+      "name": "aboot_b",
+      "size": 1048576,
+      "sha256": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "originalMatch": true
+    },
+    {
+      "name": "boot_a",
+      "size": 67108864,
+      "sha256": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "originalMatch": true
+    },
+    {
+      "name": "boot_b",
+      "size": 67108864,
+      "sha256": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a",
+      "originalMatch": true
+    }
+  ],
+  "headsetRebootCommandIssued": false,
+  "firmwareSent": false,
+  "partitionWriteCommandIssued": false,
+  "physicalRecoveryRevalidated": false,
+  "firmwareClearedForDeviceExecution": false
+}

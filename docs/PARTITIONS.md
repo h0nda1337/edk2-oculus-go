@@ -6,6 +6,11 @@ readable `evidence/partitions.json`. These are imported backup records, not
 new readbacks or a new verification of every dump. Actual images remain local
 in the previous project's ignored dumps directory.
 
+A later read-only ADB session on 2026-10-25 completely read back `boot_a`,
+`boot_b`, `aboot_a` and `aboot_b`; all four sizes and hashes matched these
+records. This does not extend to the other 46 partitions or to every local
+backup file. See READONLY_PREFLIGHT.md and its sanitized evidence record.
+
 The observed by-name path is `/dev/block/bootdevice/by-name`; Android did not
 expose `/dev/block/by-name`. The device uses UFS and A/B boot partitions.
 No recovery, vendor, dtbo or vbmeta partition was found, with or without A/B

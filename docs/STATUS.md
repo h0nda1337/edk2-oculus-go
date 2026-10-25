@@ -38,9 +38,12 @@ official EDK2 commit/origin, tracked-file membership and clean tree are also
 checked. No rejected input; optional Brotli code is not present or compiled.
 
 M1 is reached for the new build. **M2 and M3 remain unconfirmed on hardware.**
-No ADB/Fastboot command was issued during this reconstruction. The next step
-that needs the headset starts with fresh read-only identity/state/integrity
-checks, with the owner notified and this turn ended before device access.
+No ADB/Fastboot command was issued during the completed offline reconstruction.
+In a subsequent owner-confirmed device session on 2026-10-25, the read-only
+preflight passed: Android/root/identity checked, slot A, APQ8096pro ID 312
+revision 1.1, and boot A/B plus aboot A/B readbacks matched the original hashes.
+Battery was 18%, charging by USB. No headset reboot, payload or partition-write
+command was issued. See READONLY_PREFLIGHT.md and its sanitized evidence record.
 The complete FD is not cleared for a physical execution test.
 
 The previous experiment accepted one temporary diagnostic image and showed
