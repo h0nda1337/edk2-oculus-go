@@ -1,7 +1,15 @@
 # Recovery boundary
 
-No new physical test has occurred in this reconstruction. The previous local
-project holds original partition dumps and SHA-256 manifests. Do not replace
+No new experimental firmware test has occurred in this reconstruction. Stock
+button recovery was revalidated with the owner on 2026-10-25: Power off from
+Android, physical Power + volume down entry to USB Update Mode, Power off
+from that menu, re-entry and Boot device back to Android. Read-only Android
+and Fastboot identity/lock-state checks were also recorded. This is not proof
+of recovery from the reconstructed payload. See
+`evidence/stock-recovery-session-20261025.json` for scope and raw report hashes.
+
+The previous local project holds original partition dumps and SHA-256
+manifests. Do not replace
 those originals with regenerated or newly built files.
 
 Historical stock recovery was verified with the owner: long Power switched

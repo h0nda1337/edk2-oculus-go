@@ -50,6 +50,14 @@ The sanitized record is `evidence/readonly-preflight-20261025.json`. The raw
 local report is identified there by SHA-256; its contents are not uploaded.
 Physical recovery controls were not retested in this session.
 
+A separate owner-present session starting at 17:04:05 UTC again matched all
+four partition hashes and reconfirmed Android/root/identity. The owner then
+revalidated stock button recovery and Boot device. Fastboot read-only queries
+confirmed product/slot/security/locks; the first inspection report remains FAIL
+because its parser expected `a` instead of the actual `_a`. The corrected
+parser validated the saved replies offline, with no repeated device queries.
+The raw failure is preserved. See `evidence/stock-recovery-session-20261025.json`.
+
 `PASS-READONLY` is an integrity/connection observation only. It does not prove
 EDK2 execution, reserve memory, validate inherited display/watchdog state or
 clear any image for a physical boot. The full candidate remains

@@ -1,0 +1,47 @@
+{
+  "scope": "Read-only Android and Fastboot checks plus owner-observed stock button recovery; no experimental firmware transfer",
+  "dateUtc": "2026-10-25",
+  "androidReadback": {
+    "sessionStartedUtc": "2026-10-25T17:04:05Z",
+    "rawLocalReportSha256": "1f24274334b1a2e92aaa1cdb8407cded5999ee1ca4a593cd8d982a60b1ec3f4d",
+    "result": "PASS-READONLY",
+    "product": "pacific",
+    "root": true,
+    "slot": "_a",
+    "androidBootCompleted": true,
+    "originalHashesMatched": ["aboot_a", "aboot_b", "boot_a", "boot_b"],
+    "batteryLevelAtCapture": 25,
+    "batteryUsedAsExecutionGate": false
+  },
+  "fastbootInspection": {
+    "sessionStartedUtc": "2026-10-25T17:07:37Z",
+    "rawLocalReportSha256": "6e1f107771096f60ce1268a2e8f0605e5eeb4f7a9eafbddae26efcebffb5bd79",
+    "rawReportResult": "FAIL",
+    "rawReportFailure": "Original parser expected slot a instead of the device's _a; raw report preserved unchanged",
+    "allFiveNativeCommandsExitZero": true,
+    "correctedOfflineParsing": "PASS; no repeated device queries needed",
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "deviceUnlocked": true,
+    "criticalUnlocked": false,
+    "replySha256": {
+      "product": "8b4a91d55ad933ee1b16e7b5e880d9061f0912ebb6ebae445c7a5ff6982d407d",
+      "slot": "332c1298639995def7a8b59b775311d70d0d21cd4e9099cc1bd99b0e6626ab12",
+      "secure": "9a1eae17fa8661e68c26389c7c48b66a892210cb80864ac9a7191d3a32398a18",
+      "deviceInfo": "7fbe142c04a13dd43d0281bfb1c2774bd92499308d5c39f9c3d4c0ec021c3515"
+    }
+  },
+  "ownerObserved": {
+    "powerOffFromAndroid": true,
+    "physicalEntryToUsbUpdateMode": true,
+    "powerOffFromUsbUpdateMode": true,
+    "bootDeviceReturnedToAndroid": true,
+    "source": "Owner's explicit replies in this chat; not host screen observation"
+  },
+  "firmwareSent": false,
+  "projectRebootCommandIssued": false,
+  "partitionWriteCommandIssued": false,
+  "experimentalExecution": "NOT-PERFORMED",
+  "universalRecoveryGuarantee": false
+}
