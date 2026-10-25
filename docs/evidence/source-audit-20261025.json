@@ -1,0 +1,2930 @@
+{
+  "result": "PASS",
+  "edk2": {
+    "url": "https://github.com/tianocore/edk2.git",
+    "commit": "e7aac7fc137e247edad22f7ee53b9a1fba227397"
+  },
+  "upstreamTreeClean": true,
+  "upstreamInputsTracked": true,
+  "dependencyLists": 66,
+  "linkArchives": 67,
+  "files": [
+    {
+      "file": "OculusGoPkg/Drivers/TrustMeBroDxe/TrustMeBroDxe.c",
+      "origin": "original-project",
+      "sha256": "502b33484e180f224d4215fb36d91f7d153bef041902ae515060bc770cf29ee1"
+    },
+    {
+      "file": "OculusGoPkg/Include/Protocol/TrustMeBro.h",
+      "origin": "original-project",
+      "sha256": "806aeac4acccb625e3e595230a52b2f94a438bd31890da4105974d5ae30ab3b0"
+    },
+    {
+      "file": "OculusGoPkg/PrePi/Entry.S",
+      "origin": "original-project",
+      "sha256": "64ed4477fe38c07cd8b5ec9e444159c6411840299c79019b160e56a5e4664f70"
+    },
+    {
+      "file": "OculusGoPkg/PrePi/Memory.c",
+      "origin": "original-project",
+      "sha256": "576c3fd890a8c4156d97a1aefa4c5e5c635e36f42f466dffa655a873d0243e67"
+    },
+    {
+      "file": "OculusGoPkg/PrePi/SecMain.c",
+      "origin": "original-project",
+      "sha256": "76523e98ac94e91dd7896bc1ca18572383f0abf1361c0eb47d95e7735f1e3fe5"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/ArmGic/ArmGicDxe/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "2f4ae6dec5fb75810ad0628983cac097297146089882aef6ce7abeb5f5e790ce"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/ArmGic/ArmGicDxe/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "1f3a6ed673245cfa46c2d493eb939185360cbc4bb267509c4ed03c6354f5feb0"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/ArmGic/ArmGicDxe/OUTPUT/ArmGicDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "69a4b5ee5ae227b7204a2a217c1eb4be075fcf611f4c7000bd44398b1fe8fef6"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/ArmGic/ArmGicLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "536f8127e106d1ec9eaed1027b980402e8c83387dca86144573995ae236eed67"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/ArmGic/ArmGicLib/OUTPUT/ArmGicLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "63dcbd5b07b363d5f2d2fdbbb4b2e0fe7a9587d391f3802a06dfde28770629a9"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/CpuDxe/CpuDxe/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "7fd19dcdbc07deca912f23d533c584a7a81e7d13df6158f4397cfd9fc1a119ac"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/CpuDxe/CpuDxe/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "7003399e107e781cad856eb24d840724dcfa46446723e88846f6501557b5fb05"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/CpuDxe/CpuDxe/OUTPUT/ArmCpuDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "f9e7febac6c86f4fedab28ec9b2395e3e7b901f894de68e3eb321b896a419700"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/TimerDxe/TimerDxe/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "914c42b8f776121d209d0e82f3d212e115219ba71b5eb6f7003ca928a32a2c9e"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/TimerDxe/TimerDxe/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "1e21364200ab40dc809b6c58a75c7a712e7934cfd137883ca481d1450d4eb00d"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/TimerDxe/TimerDxe/OUTPUT/ArmTimerDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "61d95e0bd2a730bd46d02a497cc250892f2827457d2f65caf115180d29e5ab9b"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "aacce53b57163d12cddafaa37c257a274cc33bfdcf0f2757f954245bb8517bb0"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib/OUTPUT/ArmArchTimerLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "c04d4d39cefae1eff9d80b6615674b94c95e3eb5dc86f3f7b61757602e196ec6"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmCacheMaintenanceLib/ArmCacheMaintenanceLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "93572d657d3661e07528e20309f1a03042cd2af07074ae7df6a7d941ae453066"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmCacheMaintenanceLib/ArmCacheMaintenanceLib/OUTPUT/ArmCacheMaintenanceLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "0378d8bd733e9acc1a6c36d2e2c37a68fc2049011005bbd2c59966a96c6c0eed"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmDisassemblerLib/ArmDisassemblerLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "f6c02e607758c3e8581e1351e36f02ea7563176f9193a12b6d27a3e993256b8f"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmDisassemblerLib/ArmDisassemblerLib/OUTPUT/ArmDisassemblerLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "4b43cfbb2f7ee6559e1a2235dc84eb7134dce9afa229096ac94cfb14d0e0ab21"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmExceptionLib/ArmExceptionLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "d08174c9be56df633507f7d4aac049c92784e8401090b9e1a3eebaa55e904598"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmExceptionLib/ArmExceptionLib/OUTPUT/ArmExceptionLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "8d274115ca5e22bd7eefd46bbe49c20f15dc9bcadc3c90556b53971dfd162944"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmGenericTimerPhyCounterLib/ArmGenericTimerPhyCounterLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "11c1905f8b873701cd12127972ef14d0edd31dd7f454e84cfd886035c81e2c7a"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmGenericTimerPhyCounterLib/ArmGenericTimerPhyCounterLib/OUTPUT/ArmGenericTimerPhyCounterLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "ace70d2bcd2b88e4977f316456fa9cd7ef4102ea4a3aac2b2cdfe20230a3ba97"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmGicArchLib/ArmGicArchLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "f29e77f69267f392ed4314ea10728c013c4bc6f7de828f47002008b3ded4ef8f"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmGicArchLib/ArmGicArchLib/OUTPUT/ArmGicArchLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "1718da5f22af109631a737518c001d1337b4e5cf6276202ebcd6eb89022666b2"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmLib/ArmBaseLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "1a8ae8117ef20576d258d9f985613e0b356b7d109a33d3151a407d9eaffab78f"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmLib/ArmBaseLib/OUTPUT/ArmBaseLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "11270bf4432b4d95f8b98ea8f8516289f51fc3231640ebb85300bbb392f09d45"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "eea0080d337c87fe04cd92c8aceb552971e708c71df8873b55264be0f96e77ab"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib/OUTPUT/ArmMmuBaseLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "d296a21579457504e3e5c5366ec1e1b40324dd00fda6bd4c3b342ce1950d2228"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmSmcLib/ArmSmcLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "2bf1806505e310948b017d0a5483544ad70ede5122b483a595741ee30dfccc18"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmSmcLib/ArmSmcLib/OUTPUT/ArmSmcLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "513c76147a7d77b5ced0e942c765a2a8bf093f2630cc4a1606cc0b2d36279192"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "94e43b0164e1f4605dcd4ad536e547b3793f8b40f74d60e66e8c5d26c4190375"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib/OUTPUT/ArmSmcPsciResetSystemLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "de15bd9f0db2a2ca89ce758ac059bdbf32c97d79b979caafef21a13033a2e107"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/CompilerIntrinsicsLib/CompilerIntrinsicsLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "4f65bdd0861cf8ba21aa500b952fdf61592a3e9891cbdcbbfd849440d7fc4211"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/CompilerIntrinsicsLib/CompilerIntrinsicsLib/OUTPUT/CompilerIntrinsicsLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "7d2a11251207faddfc47a4c1f4326c687c8cef13519ebcb1311314fc0ef37add"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/DefaultExceptionHandlerLib/DefaultExceptionHandlerLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "6d64167ec1c9ce42f904f217eb78bbb9db05c3896681e75dba4fc99ff1f90872"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPkg/Library/DefaultExceptionHandlerLib/DefaultExceptionHandlerLib/OUTPUT/DefaultExceptionHandlerLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "3f31cc82f5f564f02155076480c1c4f3141fe4bee3941c727ec56a77d91c74d9"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPlatformPkg/Library/PrePiHobListPointerLib/PrePiHobListPointerLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "e8e59622c032c4c50670fbfa923784b09030b1c15f0f3bd9a1fe672ce58e129e"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/ArmPlatformPkg/Library/PrePiHobListPointerLib/PrePiHobListPointerLib/OUTPUT/PrePiHobListPointerLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "9b6a29b7525524d9d64d8d430e96899f1ca9074fd75442d6fa703b2775980af8"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/EmbeddedMonotonicCounter/EmbeddedMonotonicCounter/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "d388752b6722b09ab272bfe244613081e81edf064942ac6157d6809537aa4d86"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/EmbeddedMonotonicCounter/EmbeddedMonotonicCounter/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "80bbe1ab3a3dba5e2c13b21ce0943a333211d982d9ef84c221088d31dbc1bd0e"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/EmbeddedMonotonicCounter/EmbeddedMonotonicCounter/OUTPUT/EmbeddedMonotonicCounter.lib",
+      "origin": "edk2-generated",
+      "sha256": "64620f97f435dcc4a137f98f82b221a9d79e72f12aef412b6741ffb9022fdf55"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/Library/PrePiExtractGuidedSectionLib/PrePiExtractGuidedSectionLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "a99c9bbf5b8b2a712b4425a180b747686c47f0d0da30019d189cbfdbd3e23a68"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/Library/PrePiExtractGuidedSectionLib/PrePiExtractGuidedSectionLib/OUTPUT/PrePiExtractGuidedSectionLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "eabd03354472069a75aaa5541f45b8cf49bf4db505c75c9df865ceb3c4094e24"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/Library/PrePiHobLib/PrePiHobLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "38a5a4ce1917afb7a69cad7593b0ca099822483903430da12a49966528db8160"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/Library/PrePiHobLib/PrePiHobLib/OUTPUT/PrePiHobLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "1cc20c89df07c8f8ba07ab5d9eb233ee3506fe75e10515717cb32b87df6487ed"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/Library/PrePiLib/PrePiLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "b448237f587d7ae6a9b180e8410f0f6bcc400bdf96b42c24e35cdc4d2d42c8fb"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/Library/PrePiLib/PrePiLib/OUTPUT/PrePiLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "56599c0d22ca670a576420d075fd6c4b3ee62ec5dedff344c03bc0e1c890ccdb"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/Library/PrePiMemoryAllocationLib/PrePiMemoryAllocationLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "1cbecea6372e1257dba151e5e73cd71312db1576f17fdfd2e8a9e1f164abbfac"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/Library/PrePiMemoryAllocationLib/PrePiMemoryAllocationLib/OUTPUT/PrePiMemoryAllocationLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "a93c0c3adf14f52e697546d7a6446df6558a672a3a34840fa7a064fe15134aee"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/MetronomeDxe/MetronomeDxe/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "95c162a6589945296ca77b045d999caf35c26eeb838a55270c3464ae0959f77c"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/MetronomeDxe/MetronomeDxe/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "26a68d916f1ac2b1abdbc3905facb99f35024f86f6363d5018ad33ea895958c8"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/EmbeddedPkg/MetronomeDxe/MetronomeDxe/OUTPUT/MetronomeDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "38ae455c154af9386fe58ab47fc69fd79c0769459f91a9f80d9e9e77630f207c"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/Dxe/DxeMain/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "df974ea519fac48c41e26823c5166cdf57b7cc26a5ef7375e72860dc392bf2a5"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/Dxe/DxeMain/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "1ff92e73c0b88e7d28cdade768e4cd83856567fb2c72f5a88b1e0eecf0372198"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/Dxe/DxeMain/OUTPUT/DxeCore.lib",
+      "origin": "edk2-generated",
+      "sha256": "a232bf677e992f5fcaf0b1216fbf193c6069358bc4a156de50289d995676398a"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/RuntimeDxe/RuntimeDxe/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "345ba2b15f004f50765f3bf08d04a78250ba79f6675661e478a248c96b92c26f"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/RuntimeDxe/RuntimeDxe/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "6a09a248600889178b16df04723ac2728abcac343483854aff4366e60ff92f00"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/RuntimeDxe/RuntimeDxe/OUTPUT/RuntimeDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "884004d3d266a748d31ba26d9f50f3de35767d2007dfddf79e0acdd570fd94ac"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "5f7df0b4c29a9e4f86f0e07f1d3f41c569592bc76442bf35ba006c18d8be9be7"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull/OUTPUT/DebugAgentLibNull.lib",
+      "origin": "edk2-generated",
+      "sha256": "5d0d3f50812db536ee5a2ac7f0ae0fccc755d8cdfbe872203f29726711dffe49"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/DxeCoreMemoryAllocationLib/DxeCoreMemoryAllocationLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "145c6b69dbc65301f1affe9326ccff2cd003ee0d057bd738b2a2b668a5595ca9"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/DxeCoreMemoryAllocationLib/DxeCoreMemoryAllocationLib/OUTPUT/DxeCoreMemoryAllocationLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "3f6fdeca7304c0e2fd7a63c5b8e6e76a1fb734f1886bcde6d373512721e6bc2c"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/DxeCrc32GuidedSectionExtractLib/DxeCrc32GuidedSectionExtractLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "dd890874bce0cb54ab18689107d8426723462b9fe92dc9550c36f43823ed5b40"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/DxeCrc32GuidedSectionExtractLib/DxeCrc32GuidedSectionExtractLib/OUTPUT/DxeCrc32GuidedSectionExtractLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "0f8c38a2588f6c32d089eee0a9a3fd6d031a6ebfb176c345efdc41fdfae6b72b"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "abf6f95fa47cf3d1ded000032fba642959bfdc69236f3bc5e3ea32c11a398b6a"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib/OUTPUT/DxeSecurityManagementLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "9af73d8362d3c5475c1fe0e6826b1e0c42a49503644755dbcddf5879ee6dfb53"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "c8d5dd888006b9800a1946e166c520447cef92daf30173937a748b976f89bd06"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib/OUTPUT/LzmaDecompressLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "db575973129908101b341bd1893ef1bf92261d0283127178922b3b8d307a47c7"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/PCD/Dxe/Pcd/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "4345a5b5a91f9e17241421e7c3b2399ef6b5baa4fad280f196528f5db6d2f1d8"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/PCD/Dxe/Pcd/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "131f40ec15b8eb7be3ed14dfa666c237d1ee8e01f8dc577d5a5a0c59a0c1c5be"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/PCD/Dxe/Pcd/OUTPUT/PcdDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "213dcd8a56249f46bcfc6e0bdc3ed603c5718a628b028e43f8298dee60032e72"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "8df9c9ca0fd0b31183d85549247019abfebded55788ad0587bdb2b879e73c6a9"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "edac3bbfe90b48c7fe066c9ac57650a5b7e1d3234876550c64adfcf3e4c442eb"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/OUTPUT/ResetSystemRuntimeDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "e39542040f7b11af88aca3019becd5eb041253dcb105522077eeace05f804e57"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "5a0b016fa9a224bdb175a6b550c5583d4440993110cdb3079f24eed9056d32ad"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "05c8cb7de1ed29efde9be3791374614132d125aa8c2c3c414294bad75404ec4d"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe/OUTPUT/SecurityStubDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "bf70e2c783a26e7d8e73738892c768010819e4767377824fa8617ecbc56c6cab"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseCpuLib/BaseCpuLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "1d8e0d347778c3ff2a41eaad027b088cc699cd48c1afafd691b4ed0a11beb8f2"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseCpuLib/BaseCpuLib/OUTPUT/BaseCpuLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "ea740a86207312ab426873377b7588b506745616c23523ce2c91433f1e2bb640"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "fe13b4ed88593b28206164e2e5a02f7d3013e5be063b2dc425f92cb0f97e0a7f"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort/OUTPUT/BaseDebugLibSerialPort.lib",
+      "origin": "edk2-generated",
+      "sha256": "4dedeb735e183df8f13a39f4e8a7236409b637fb2b20bc18f9462d8a47431e65"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "29134bba215bde92de7e856e78641215bd6195b494ffec6b6e4c67b5a132b6a0"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib/OUTPUT/BaseDebugPrintErrorLevelLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "00a894a60efce6f2ff76eaf9a87448a3c64ac5ea5d4cb7c4a237aeacad940aa6"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "c2bdc1f2b6b56887b01dba8374f896ec42c15757bfb89999f829173aacdd783e"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic/OUTPUT/BaseIoLibIntrinsic.lib",
+      "origin": "edk2-generated",
+      "sha256": "bf226e3504ef25a5d3749249d39b3db5f84e454267484c4cdbabe620cba4ec9a"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseLib/BaseLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "3388e6956a4bf519071a5c7c62d08d2672e62be4a5de494905952b55e84377c5"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseLib/BaseLib/OUTPUT/BaseLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "129a436d61a79de9ef53bc75104b0f949be92edd93aef01bbfb9b2bcfaa11fe0"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseMemoryLib/BaseMemoryLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "bc0427cb22d2a0c6a17b4d20e132718b4a482deeb9642350fd7636e5a0973893"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseMemoryLib/BaseMemoryLib/OUTPUT/BaseMemoryLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "171f66c4b3126ae247b5adfbe16143029d9a4134e2288d3787f690c68a25b9dc"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePcdLibNull/BasePcdLibNull/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "257e11d00a4be4d8be80619c3145a0d5fd2de5d27cb0ded92d6203b44bd24d20"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePcdLibNull/BasePcdLibNull/OUTPUT/BasePcdLibNull.lib",
+      "origin": "edk2-generated",
+      "sha256": "159cf3c6545057bc07caa578abe00abdfc4e559b1b44a06c98177d7026e485e8"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "045d3ac8e386062728ab3456434f81648455f91f915969d8b8d0320621e5e832"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull/OUTPUT/PeCoffExtraActionLibNull.lib",
+      "origin": "edk2-generated",
+      "sha256": "ee44558c4ac1420f34ab21a7f0ff1ad26c89b494cd58d8203d0e30b4bb1a84ff"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "521d22ca50a4b8db0fd8fe0a415160bd95f64f5607c130f2e7d4fe883f6a75e1"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib/OUTPUT/BasePeCoffGetEntryPointLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "ffdf82494143c4e096e61908a46baa01df0eec8a286acf7ecaac17f0dd14b4ac"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePeCoffLib/BasePeCoffLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "748d5679e60986792d3aa82a7e9467d028425e43063c55888f93a159101a312b"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePeCoffLib/BasePeCoffLib/OUTPUT/BasePeCoffLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "f844f8380974ff68ef779cf4f5ab178d378c19fb22127e78bfe7bb1f82a5406f"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "8671634848a8041aa007a00eda9db02e552cc8c1413d586dcf5cd1120016167d"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull/OUTPUT/BasePerformanceLibNull.lib",
+      "origin": "edk2-generated",
+      "sha256": "ae39e5b1b952a26fe8868c7496017e9a5da189b9227881c260d24009288bee3e"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePrintLib/BasePrintLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "a81a687ffa9fbcbdf09d5c84e30be893d24ac96bcc21beda5afac7db4ee7064e"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BasePrintLib/BasePrintLib/OUTPUT/BasePrintLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "092a14783252df9b844b47e768c0475bbc90aeea06a676305e3f7ab88816cbd7"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseReportStatusCodeLibNull/BaseReportStatusCodeLibNull/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "edf58198ad9e5db223f8255c5736a7d2b3f66b0445ef57910e3d1ca1486ceb75"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseReportStatusCodeLibNull/BaseReportStatusCodeLibNull/OUTPUT/BaseReportStatusCodeLibNull.lib",
+      "origin": "edk2-generated",
+      "sha256": "25dae8ea420d85f6502d126bb3ddeb0cb6ba1869d5ae31ae62d94f5827bca19d"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseSerialPortLibNull/BaseSerialPortLibNull/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "6b8b9a582daf77c1743fd13085994d0932d9843d54564cdd35a2849ac02c81a7"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseSerialPortLibNull/BaseSerialPortLibNull/OUTPUT/BaseSerialPortLibNull.lib",
+      "origin": "edk2-generated",
+      "sha256": "3fa2ed72306823ba5da342a50697894206d0e3d401216d23da9631614a029dad"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseStackCheckLib/BaseStackCheckLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "8970fef0a1c8783c893c9273cbe707ffecc79760ae99f6f20ee58b5256339665"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseStackCheckLib/BaseStackCheckLib/OUTPUT/BaseStackCheckLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "c2676c0c366bc0b865a3de235bcf7271825f69090f26327d753cfbbdf7f510bb"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseUefiDecompressLib/BaseUefiDecompressLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "d0a102b4748e56986723e074d28f8dc9830cd054dc5b92a9f4e64ab236931552"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/BaseUefiDecompressLib/BaseUefiDecompressLib/OUTPUT/BaseUefiDecompressLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "6d0dc9ac20ce9f7c95cd8b398fc343133e5956555ee786e2b43da4af3d7aa9d3"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "742bf2161116a6573032bd99205c5247447428f4a0a8e6c9ceef14b2d7e52ab7"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint/OUTPUT/DxeCoreEntryPoint.lib",
+      "origin": "edk2-generated",
+      "sha256": "333afbd582f37ef3d98754bf16a6d4da2da3d4731b5b21bb31bd3d11bb70b544"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeCoreHobLib/DxeCoreHobLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "28690cded58b4d71313ce5e8efc6ccb3c008705e0412f196746cb77e75e2d627"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeCoreHobLib/DxeCoreHobLib/OUTPUT/DxeCoreHobLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "a9823b13b5a08d102f4e7a54fcca512e42b93748d684a7e08a1dd3c293ff5f79"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeExtractGuidedSectionLib/DxeExtractGuidedSectionLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "c92262176706508b0c60acd855d8a4f9357896b8731f945d809845f2f84008a6"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeExtractGuidedSectionLib/DxeExtractGuidedSectionLib/OUTPUT/DxeExtractGuidedSectionLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "c4fbcdfd20a8137d67e83005e90378c6575dbc88c1ac9d3e30aa484d1c8b135b"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeHobLib/DxeHobLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "5166bef72ce24d06da2bc6e5b7a70886e2ebede960eba00b705dbc2032db6046"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeHobLib/DxeHobLib/OUTPUT/DxeHobLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "0ddc4961cf7ac44514fca810c344a9f4af0328104c181b37c1864e3237831580"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxePcdLib/DxePcdLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "795f00b80c01887aa01c67cd8184a0851bdf660a51de6a0062de2215dfd7c84b"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxePcdLib/DxePcdLib/OUTPUT/DxePcdLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "6b01ee21b9acd51f39c6210dd234cbc52e8f688416af162e55c527e26621b207"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeServicesLib/DxeServicesLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "dd44ab35c6a79be5b40e00578f5f76d13980a7797b5cfada65ae4ae0eb4cdf36"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeServicesLib/DxeServicesLib/OUTPUT/DxeServicesLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "a9cd9efbc3d13b91f71e242e7087f1aff4624efebf0883b5addcb87d6cf1bc59"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeServicesTableLib/DxeServicesTableLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "bd883c49d189ce2c6adf7acf3ef8a7c0a81773aa8d854cc627944103b7705122"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/DxeServicesTableLib/DxeServicesTableLib/OUTPUT/DxeServicesTableLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "a043d254157d0d17417363346fca9050c70bb51bef278763467e3735c24b3e10"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "c1b76e35d23f56cb93020bd3cb04f766182505dd4103d8bea7e940964c9b3ca5"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull/OUTPUT/FilterLibNull.lib",
+      "origin": "edk2-generated",
+      "sha256": "f8d34f2ca551b4748bc19879827b20e9235533679c2592af8f4db3599629da8b"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "756491052d9c86999727d264e9614c39d8d359694c6a95caba8a1be4e998041a"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib/OUTPUT/UefiBootServicesTableLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "aebd08274b0fe32d8bb8940c94597e0aded6c54ae31f7fc78f4422a7400aa1f5"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "775fab49456cbf35f529a54239c0f59e8ee7b4db62cc05fde5f3d605ae6f704f"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib/OUTPUT/UefiDevicePathLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "772e5c6b21602d6c301809ec943211eaea3da110902c04204b8f47798b3cdff9"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "87c5bacbc53a7b9b2f6eb853767acf209b2c9634f28b0438ff766395ca771f78"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint/OUTPUT/UefiDriverEntryPoint.lib",
+      "origin": "edk2-generated",
+      "sha256": "ee501db45d8d296dd43e4f31fbaba9bf6b08f8bcaa2fca58063f160b56ef7ca0"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiLib/UefiLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "023ec2457048c47fbeefee63de1db809e40a377362a4a5103be68b6528eaf1e0"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiLib/UefiLib/OUTPUT/UefiLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "c216980ccac805aacc7dd5573f81ba11be47b7c1baa60d7c3d9a4ee872996e81"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "b4aa09726a4f459232655758a66714778a9463cca5f486aac75f834108821b38"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib/OUTPUT/UefiMemoryAllocationLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "a9d55353ea55dfbc0cf036abb0c3cd38ea51dd8c7104547d340ad42f72c2e406"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiRuntimeLib/UefiRuntimeLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "9f9722645d575b524d2e78b44847cceafe53e61392b4686fe211621f01e61921"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiRuntimeLib/UefiRuntimeLib/OUTPUT/UefiRuntimeLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "3b2a2ca765014a7f0292d6767d134b562a78dcef9d0e12efdc1e2aa41ed4b05f"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "8a4a7757b8d9f7c9678a0b53f5583ac596bda91885f01ad14ac94ff918d8a4a0"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib/OUTPUT/UefiRuntimeServicesTableLib.lib",
+      "origin": "edk2-generated",
+      "sha256": "a0bf4865d3b9a10e5994e93ab90f0a475602cfb7406ca3f99303f2570ca45b4c"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/OculusGoPkg/Drivers/TrustMeBroDxe/TrustMeBroDxe/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "91864f98b106e561ede624529c44644142aef74bc7f6368562ac0bf58458887b"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/OculusGoPkg/Drivers/TrustMeBroDxe/TrustMeBroDxe/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "4f0dbb22f55bb5bf0f5519b9d82eaf00a4dd13d551d6c533e03504d8f3a907e5"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/OculusGoPkg/Drivers/TrustMeBroDxe/TrustMeBroDxe/OUTPUT/TrustMeBroDxe.lib",
+      "origin": "edk2-generated",
+      "sha256": "e7faa5e0b7366f0dee9ab17ca2e42cbe123c8e34d5e349024c64d14a4769278c"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/OculusGoPkg/PrePi/PrePi/DEBUG/AutoGen.c",
+      "origin": "edk2-generated",
+      "sha256": "41a7986ee0c2298ff153222ffd809ce42cf7fed33981611f7d893eb43f3994f7"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/OculusGoPkg/PrePi/PrePi/DEBUG/AutoGen.h",
+      "origin": "edk2-generated",
+      "sha256": "971795709ab8eb19d0d649cbe68431424cd8beca0fe3da41ddcf762abb1e51dc"
+    },
+    {
+      "file": "build/OculusGo/DEBUG_GCC5/AARCH64/OculusGoPkg/PrePi/PrePi/OUTPUT/OculusGoSec.lib",
+      "origin": "edk2-generated",
+      "sha256": "e4de6a4f0d040ef1afa2a820f71c81edfa60e49e67540d5ec9b76265994d4458"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/ArmGicCommonDxe.c",
+      "origin": "upstream-edk2",
+      "sha256": "e319c11e2a3521ea559b291a88e005083b2aa4496aa65ed12b497ac62bc5afaa"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/ArmGicDxe.c",
+      "origin": "upstream-edk2",
+      "sha256": "1b5ec0dfef21495aa3385e0294ea05ce2cfe278e025789ef9e1673ef08bf8f41"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/ArmGicDxe.h",
+      "origin": "upstream-edk2",
+      "sha256": "ea712708800c1915125846bbe10130007463aad1e0dc13258193f80e7159b92f"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/ArmGicLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "9ed991a882f679b5dcfc519e733f4e4c3cc6b1fc5a2af2f4a0b12cd7fb14b268"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/ArmGicNonSecLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "9696abd9c3235afe990744f0c3e2fb3977abc0364dcf20cced5e68befdcf5dce"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/GicV2/ArmGicV2Dxe.c",
+      "origin": "upstream-edk2",
+      "sha256": "2ce814d102de0bd5b6ec808319b310874fb68ee21f9536328dbe827a35b0cd89"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/GicV2/ArmGicV2Lib.c",
+      "origin": "upstream-edk2",
+      "sha256": "cf3d8596ddf245c6b99d64f8271c3036f76c7ef5f681c97b4f86a18300ca877f"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/GicV2/ArmGicV2NonSecLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "a76782706e893545bcc3c79bccd40060e2fd47c3a7289266faca9af00ad6de5b"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/GicV3/AArch64/ArmGicV3.S",
+      "origin": "upstream-edk2",
+      "sha256": "45b851dc2f89be216c61fc73e2222aca0562c873f93f60f5b8c35d478f748473"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/ArmGic/GicV3/ArmGicV3Dxe.c",
+      "origin": "upstream-edk2",
+      "sha256": "6f8900db28653c4f187000910a8c5568ee6892612deb0b9f1ed63ae4ba08dcb2"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/CpuDxe/AArch64/Mmu.c",
+      "origin": "upstream-edk2",
+      "sha256": "e392a03847033b76dda65b9fbfc2016242e802830ef3c6a1c20d8f4a36d81135"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/CpuDxe/CpuDxe.c",
+      "origin": "upstream-edk2",
+      "sha256": "d4c0515b3fb1568d4fbf09cd1e0b18fa9fa0bed8d1a2035ee7e7a1ee65f3bd7d"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/CpuDxe/CpuDxe.h",
+      "origin": "upstream-edk2",
+      "sha256": "c39210355a177b78afab78984969de61181202b3add5ea2bb881e8970ed8dd6f"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/CpuDxe/CpuMmuCommon.c",
+      "origin": "upstream-edk2",
+      "sha256": "800e766e4e1768d18769b55e48e92009a8da53598b1c38fcfb9a7fe67ec4ec75"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/CpuDxe/Exception.c",
+      "origin": "upstream-edk2",
+      "sha256": "5e9a7c77a0ce410a46b5fc5fe69b97f5fb0bfb8e37761928ff8a50e3cdabca1c"
+    },
+    {
+      "file": "edk2/ArmPkg/Drivers/TimerDxe/TimerDxe.c",
+      "origin": "upstream-edk2",
+      "sha256": "76271a184169ad54af739bac7776dc8565276c3b251ff147978a074dde4ea132"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/AsmMacroIoLibV8.h",
+      "origin": "upstream-edk2",
+      "sha256": "282be2ab9d331f2c1e8a7037076f0dd80b9a59b92413c7e68afbd6d3f59da263"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Chipset/AArch64.h",
+      "origin": "upstream-edk2",
+      "sha256": "b27b29d6d9d1be4a148f5b435e7884a74765926085d914ea10895c188de2503e"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Chipset/AArch64Mmu.h",
+      "origin": "upstream-edk2",
+      "sha256": "76d4149f3aaac80b463caa8055f587f0872c8ffafff9aa1a16695f44ee805539"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/IndustryStandard/ArmStdSmc.h",
+      "origin": "upstream-edk2",
+      "sha256": "8d406aff379e10a295d2d5a491215cb5364bd45902523e2217f8762ef3aae1dc"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Library/ArmDisassemblerLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "c13c78ffc8dfe4df05fac18470319e207b00f8ba18ebf0c841c6f2274deec917"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Library/ArmGenericTimerCounterLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "51ea4c936ad4ffb0beb7aae7ced82c432c5e664c8ef99eb6fbaea47fb363b98c"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Library/ArmGicArchLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "42e31b34a0ccbacc5b3a62a513daf4a541faf4bb9f4f7d3f251cfeba325f9c70"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Library/ArmGicLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "14740cc3cf20020ad57c9ef9647dcae5eb5e8a9004f97630e4a1f60265080692"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Library/ArmLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "b741e18016b6aa031b35f4871f22f5feca35278d6facb990fad5ddc5cc8da52c"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Library/ArmMmuLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "01c87279cdbb0b5adf8b5f5df2d47e472b4f8a72e464503c652ac0bef217e596"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Library/ArmSmcLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "e205fc858f4abcfd09571fbc31af32f304c29e08d00b484e1aa07d93963e1bfc"
+    },
+    {
+      "file": "edk2/ArmPkg/Include/Library/DefaultExceptionHandlerLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "f56e6cd21efc8c8a99b9997de5ccecc8288017a624f8ac3d9e7a570635d41ee0"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "dc5342b5b2b74d99d5f29e3617d4499a090c3fc4f85ec3d245799b3972a46890"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmCacheMaintenanceLib/ArmCacheMaintenanceLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "023a564661f545cd71457291252cb01b2ae6d5585dc4adb421af829f195a378b"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmDisassemblerLib/Aarch64Disassembler.c",
+      "origin": "upstream-edk2",
+      "sha256": "f0f8a7274550c08a226b01b8417200a22f28c88dc91eb1a11ae912cd153dffa6"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmExceptionLib/AArch64/AArch64Exception.c",
+      "origin": "upstream-edk2",
+      "sha256": "72eacf5455b2b420a289cd56aa510f6db10ab1831dfd218587f34473eb499be6"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmExceptionLib/AArch64/ExceptionSupport.S",
+      "origin": "upstream-edk2",
+      "sha256": "b2c740b1cc3f2db198d2d86b9c72a1f30d09999f72ba49207b193711bb41f348"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmExceptionLib/ArmExceptionLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "4cbc785dd0ea3594c50f97334c9a13b32e8875d5d661cbbb97e67b6b9649db57"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmGenericTimerPhyCounterLib/ArmGenericTimerPhyCounterLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "76e5faf02f7c5386297a4b81f61f491cea22e3e5c547528863b67e290fc00069"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmGicArchLib/ArmGicArchLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "466d825a09f1d8c2ae937aaf3d3114592afa47c01e1810c7e6dc8af7dbb44cf7"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmLib/AArch64/AArch64ArchTimerSupport.S",
+      "origin": "upstream-edk2",
+      "sha256": "f1613e2022677df75d9f3e06e86a510c191e8753b375799552a99d327e0fb1a3"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmLib/AArch64/AArch64Lib.c",
+      "origin": "upstream-edk2",
+      "sha256": "63e58cb840a66b3d79ee8368096f8733531857f5aa6c54d5b8005a3369b1adfb"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmLib/AArch64/AArch64Lib.h",
+      "origin": "upstream-edk2",
+      "sha256": "6efcd0b7a7131f19a3f8f9f63cc88c61dd0fa14161bc04eb8a903be10ce8dfc6"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmLib/AArch64/AArch64Support.S",
+      "origin": "upstream-edk2",
+      "sha256": "ad08ae8f7a24648b3242374b935f7a0ef3c2fb65efc4fc19a781c96961f8e6cb"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmLib/AArch64/ArmLibSupport.S",
+      "origin": "upstream-edk2",
+      "sha256": "fe5dad87c538af1565daa73b6c0e84ffe89cd3df8071930bfeca931c4b80c8bc"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmLib/AArch64/ArmLibSupportV8.S",
+      "origin": "upstream-edk2",
+      "sha256": "0164342db9c73e3389f3c69491b6486e0a30d2411e97e77189409aff4ecae9dd"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmLib/ArmLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "ef9520ba69b22ebbeeff225a0b5c087490783b9c1ac67d94e932fdc13c3540f2"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmLib/ArmLibPrivate.h",
+      "origin": "upstream-edk2",
+      "sha256": "69861f629e293adb0d3dd22630b14af777aae74e1df7b52fd3e5511d3f145e68"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmMmuLib/AArch64/ArmMmuLibCore.c",
+      "origin": "upstream-edk2",
+      "sha256": "ec5d74ce9ed4061a125178a681762da34abe005e6e85082406bfe13c0974db2f"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmMmuLib/AArch64/ArmMmuLibReplaceEntry.S",
+      "origin": "upstream-edk2",
+      "sha256": "0733ffa1b19be8b186a1c83e89369a5eb42c5eccce2e5e51e547c2b08cef1d46"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmSmcLib/AArch64/ArmSmc.S",
+      "origin": "upstream-edk2",
+      "sha256": "fb4946a35d5b1b6f541c53d13ee08288ce1b21d6945212cc24f99eca2d8479a4"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmSmcLib/ArmSmc.c",
+      "origin": "upstream-edk2",
+      "sha256": "07a43cc229081a17cb387f0bc0a4f226deedc51f9728f7a522689b312c7c2c81"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "af1619960f8cf4130fdafe5fea10526b4afc294b7cdbe1509fcd6fe34e4b3e87"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/CompilerIntrinsicsLib/AArch64/Atomics.S",
+      "origin": "upstream-edk2",
+      "sha256": "11f2dca710e36b61d25c880bb14a5f8cac2c85568a518a4842b10a647c657f33"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/CompilerIntrinsicsLib/memcpy.c",
+      "origin": "upstream-edk2",
+      "sha256": "0914602d6cbff2d4432a3bb498d6c5a7cab89624d8bd7d2163e5a094cb8c1d1e"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/CompilerIntrinsicsLib/memset.c",
+      "origin": "upstream-edk2",
+      "sha256": "24eba0ddbebbbc03c5e741df6551906c49547056fb772428334c9012fae5d14e"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/DefaultExceptionHandlerLib/AArch64/DefaultExceptionHandler.c",
+      "origin": "upstream-edk2",
+      "sha256": "5f22321e43da96651c10718c7ececd27675cf86ef04f7a3ab9b1a326d431295a"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/DefaultExceptionHandlerLib/DefaultExceptionHandlerUefi.c",
+      "origin": "upstream-edk2",
+      "sha256": "e16840030fa6ad7f48f19e694f04d8573190b52c8117ac2be249dc47a5b8b0a7"
+    },
+    {
+      "file": "edk2/ArmPkg/Library/GccLto/liblto-aarch64.a",
+      "origin": "upstream-edk2",
+      "sha256": "05a9b7cbdb8f98efded6c51b73448f8e6e714a910b31a006af36e8d515fcf1ea"
+    },
+    {
+      "file": "edk2/ArmPlatformPkg/Library/PrePiHobListPointerLib/PrePiHobListPointer.c",
+      "origin": "upstream-edk2",
+      "sha256": "45c9bdc109dd1b717bf540ecad22e1ca8e48da956e7d61e9d3c026bd0e4362ad"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/EmbeddedMonotonicCounter/EmbeddedMonotonicCounter.c",
+      "origin": "upstream-edk2",
+      "sha256": "dff1a344bbc87c6949fa39967c56b254cdc94973ff0693bf237e4565e1a2c449"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Include/Guid/ExtractSection.h",
+      "origin": "upstream-edk2",
+      "sha256": "8e2184616dc272206995ffb5208b8ffcc05d960c2d240c9e18672987e34b5fa9"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Include/Library/PrePiHobListPointerLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "b859f78e646c7263add435416647e4df2c5021542722bdde7e731612e823f4df"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Include/Library/PrePiLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "79ff8e50698ae5af1fd5ad10fce74a994020aed5043a8dcb43c8017dbadbb9e9"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Include/Protocol/HardwareInterrupt.h",
+      "origin": "upstream-edk2",
+      "sha256": "5107cbbc7d3cd1e66349de89f2d5bddc5854b8f227b32fad02e54092da9adb42"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Include/Protocol/HardwareInterrupt2.h",
+      "origin": "upstream-edk2",
+      "sha256": "978add4d2a3c6dd77e6a4a332f3f27ec9a96b1c4bda9be5b282186cf3e258d9f"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Include/Protocol/PeCoffLoader.h",
+      "origin": "upstream-edk2",
+      "sha256": "7d8382ebb6fe2d0fa294cca55fe31bf0f0030fc6eb743a9a16c381b492c2929d"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Library/PrePiExtractGuidedSectionLib/PrePiExtractGuidedSectionLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "b8238e943d867b4edd5d1e757c9adf65903dce5efbc177ae93704e2eea41873d"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Library/PrePiHobLib/Hob.c",
+      "origin": "upstream-edk2",
+      "sha256": "320b651a649f0853d2b2c439c2908a7b59b5f19bc636525ed60668595a1147ad"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Library/PrePiLib/FwVol.c",
+      "origin": "upstream-edk2",
+      "sha256": "ad66475a52972cc455f697610076528a5dbc7285af00d1f19d287ba792103e88"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Library/PrePiLib/PrePi.h",
+      "origin": "upstream-edk2",
+      "sha256": "6a6e8d672fab728379b9d4215223f7fc44b3a591b8d6b9d8030db276e743e9cb"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Library/PrePiLib/PrePiLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "baecace07be6eeee8236fb2d49dcb83f2204dd4480589a1da222b899105a7086"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/Library/PrePiMemoryAllocationLib/MemoryAllocationLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "05c86ab2871f9d6b2603b35f9eee1db0ccf588d4fed20b8b4bbd9f4d011713bd"
+    },
+    {
+      "file": "edk2/EmbeddedPkg/MetronomeDxe/Metronome.c",
+      "origin": "upstream-edk2",
+      "sha256": "96cfacef77696d728c518c8fec55005f5ce8c808cf4dd38b10c8b6194f98eb29"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Dispatcher/Dependency.c",
+      "origin": "upstream-edk2",
+      "sha256": "e8ea138a360925f0961b1c467971140524400cb7c3db68ef97ce2ce28e6802e0"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Dispatcher/Dispatcher.c",
+      "origin": "upstream-edk2",
+      "sha256": "5ebe20f18b78907c388044266123a822ce71654080c450a751f9d9600aec0fa4"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/DxeMain.h",
+      "origin": "upstream-edk2",
+      "sha256": "d1118e5adfb93c82548edb6fd0abdb12b25bce869d0bd6ec4d6cd843aafc0ac3"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c",
+      "origin": "upstream-edk2",
+      "sha256": "0714d88f6e75a68c1be158fa7637ab876e5f3e5efa0c4fda3d73c45f9298dc4a"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/DxeMain/DxeProtocolNotify.c",
+      "origin": "upstream-edk2",
+      "sha256": "7e8de1835e354e2fd2ff30067e32671e4369f51fdb4521cc15d3aaf521d9c65a"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Event/Event.c",
+      "origin": "upstream-edk2",
+      "sha256": "596d2e178a6decd98d81e508fb04bbe531ad2559ce49a6233acd559ffd240a25"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Event/Event.h",
+      "origin": "upstream-edk2",
+      "sha256": "cbad5c4165e9329774d63304f2c516570c33ccbd5ea8bf3bbb8c97d834f1835c"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Event/Timer.c",
+      "origin": "upstream-edk2",
+      "sha256": "56123bddcf205d14d82fffe10b37d0f5d98ab60a1bdb1d159ef4b00e31ac7869"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Event/Tpl.c",
+      "origin": "upstream-edk2",
+      "sha256": "88c02ea9fe360ccefb16ba9d24c6a54dfa7018a361e8b97cffb5c48415da56fa"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/FwVol/Ffs.c",
+      "origin": "upstream-edk2",
+      "sha256": "122e0a2fe4e7979abe097b56c41064883ddc61ea62aa26796e6c50162a5b5e33"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/FwVol/FwVol.c",
+      "origin": "upstream-edk2",
+      "sha256": "e6254476d7eebd0e2be33d761c481992522a965ce6401df6f7c01dda23273250"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/FwVol/FwVolAttrib.c",
+      "origin": "upstream-edk2",
+      "sha256": "4ec26050e201fc06d97368dd5c69d52c0a21cff09153d77ac0466828a9b42ff9"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/FwVol/FwVolDriver.h",
+      "origin": "upstream-edk2",
+      "sha256": "7f5a87e587c96b8eee9066f185de79aaa2dbd87e9a112589a7f53c34e95f31f1"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/FwVol/FwVolRead.c",
+      "origin": "upstream-edk2",
+      "sha256": "880b80e327d2d995dcb6897fed355466e8aebba31a95286c4c4ff1e461e51675"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/FwVol/FwVolWrite.c",
+      "origin": "upstream-edk2",
+      "sha256": "3db26302165f4ef9db2567da3ff3632897cce3578d0e49c9446435c0c7e31f11"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/FwVolBlock/FwVolBlock.c",
+      "origin": "upstream-edk2",
+      "sha256": "f569900b027fc8e8ec12f216d20ee9e2fb3ca30e8fa4acc49680d263503a1ece"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/FwVolBlock/FwVolBlock.h",
+      "origin": "upstream-edk2",
+      "sha256": "a5d6afbc871fb96685dcd58f306358be36dba2f973c25a301040f39e18b02b06"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Gcd/Gcd.c",
+      "origin": "upstream-edk2",
+      "sha256": "a77de14706f5fcc228664cb2621730618055c0124b75ddfb68316e2fbda090ef"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Gcd/Gcd.h",
+      "origin": "upstream-edk2",
+      "sha256": "7ef27dd25b043567219770a03986fc7086df4a79ea8dc03920a2808d139e522c"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Hand/DriverSupport.c",
+      "origin": "upstream-edk2",
+      "sha256": "eee93839ae4e214326f916cba3a432085853f285f3078d1a6ff854cb3b2b390d"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Hand/Handle.c",
+      "origin": "upstream-edk2",
+      "sha256": "fcf32c560b54329d7ce49489c801f6fa94ba787671f3b21ad0716f18e777de84"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Hand/Handle.h",
+      "origin": "upstream-edk2",
+      "sha256": "956fce713cfc003c799a298f56590d8971dac3c2378c78ae784b2b08baa13c53"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Hand/Locate.c",
+      "origin": "upstream-edk2",
+      "sha256": "a3a01d47bddd868ab63c967a43f05db57c52876574587203ee3ef14198b2a4eb"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Hand/Notify.c",
+      "origin": "upstream-edk2",
+      "sha256": "3239f9a6fec2de9cfdf4cb726541c6980a489641862ecb77d98b574ccc9680fd"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Image/Image.c",
+      "origin": "upstream-edk2",
+      "sha256": "5dc9abf6f665fe83a696252e421ca49600223d9581c5f1b1bfdb306f607617a3"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Image/Image.h",
+      "origin": "upstream-edk2",
+      "sha256": "8fe19a417e549342a20c081e4569b30ff3d0363bb3235bbd02f2eeec98e734ca"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Library/Library.c",
+      "origin": "upstream-edk2",
+      "sha256": "06530fb08ec47db878d16ea148605f683b48e948d0f764f8d51724056bc81bae"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Mem/HeapGuard.c",
+      "origin": "upstream-edk2",
+      "sha256": "0c059350f422c7d9f1914c1b41dfaa3e117bca80b59e0f4650266c83cb138308"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Mem/HeapGuard.h",
+      "origin": "upstream-edk2",
+      "sha256": "2ea3b32fc43cf9fe2a290c6fd5e3fe4ac54fe9430c56aa73a0625c56e87eca85"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Mem/Imem.h",
+      "origin": "upstream-edk2",
+      "sha256": "d15ef1614e4995bd6e5f1120f54eda12959b3d74e0e65ade49972823c6ab6e9c"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Mem/MemData.c",
+      "origin": "upstream-edk2",
+      "sha256": "376437234abeacd1384afa5966e39360bf7e148c5cdeffe97953366f88d15e30"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Mem/MemoryProfileRecord.c",
+      "origin": "upstream-edk2",
+      "sha256": "6d126d5a9da43c275f5eca388e4ea1ee0d73f802bd6357bc02c2ed089b5bd1b0"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Mem/Page.c",
+      "origin": "upstream-edk2",
+      "sha256": "721f4efa246deb1b4c95049f1c3df389620239ecff776d51be00cffb3b26e74a"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Mem/Pool.c",
+      "origin": "upstream-edk2",
+      "sha256": "7ff89291cb47bf3611bc0216f37f358731a5c430f8164ef228d1d1b9674e00a4"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Misc/DebugImageInfo.c",
+      "origin": "upstream-edk2",
+      "sha256": "c655d7cabfbf562271055776adbe0a066a900b1216344422b0996ea86d79170c"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Misc/InstallConfigurationTable.c",
+      "origin": "upstream-edk2",
+      "sha256": "435734fa28abd5b7b3680931c7b00b87e43918d40eb367d7277fa7d7e1b5bd09"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Misc/MemoryAttributesTable.c",
+      "origin": "upstream-edk2",
+      "sha256": "87d0cf7d97650c89ff887e90cb657cfcf52da04e44264fc328ddc43a3c67b91a"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Misc/MemoryProtection.c",
+      "origin": "upstream-edk2",
+      "sha256": "434ebe37217d26b88e4653b7fbada2b8eccce9d2fe28ff4b573d820085a4dbb6"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Misc/SetWatchdogTimer.c",
+      "origin": "upstream-edk2",
+      "sha256": "1862f4aadccae25c3d5e13982029e2864011ac8a0f5f0073bb1686a94e962faf"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/Misc/Stall.c",
+      "origin": "upstream-edk2",
+      "sha256": "ffd1d1a19b988de83a95ebf8ecc7b3c9071de8d1d018bff04a3eca6771e3784d"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/Dxe/SectionExtraction/CoreSectionExtraction.c",
+      "origin": "upstream-edk2",
+      "sha256": "812eae114c8cf6b7cd6f607201491a325013747a053271641fcf6c4835c5a385"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/RuntimeDxe/Crc32.c",
+      "origin": "upstream-edk2",
+      "sha256": "041181dc9566b87156cb83325787ec2b53de22b1dbf814e3731cca6a199d7fb3"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/RuntimeDxe/Runtime.c",
+      "origin": "upstream-edk2",
+      "sha256": "030e331d6f0e0142078b23363e2e70b7d092fd7e26e2994db4f100decda97527"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Core/RuntimeDxe/Runtime.h",
+      "origin": "upstream-edk2",
+      "sha256": "ddbfbb8a29804a25ba1ec3a1fa682a131981fe231325599b732045d93e63b12a"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/CapsuleVendor.h",
+      "origin": "upstream-edk2",
+      "sha256": "325ff12161b68fe58a8f528df9990c38a500c728349170a5abb8614959736234"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/Crc32GuidedSectionExtraction.h",
+      "origin": "upstream-edk2",
+      "sha256": "d90bb0ea128b874975f4d0e3cbf7728f105b23a4121394f5fa43cc9a42438505"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/EventExitBootServiceFailed.h",
+      "origin": "upstream-edk2",
+      "sha256": "b4b0b100e414aae501db5faef3722c9072786663a161d3c2746d6e7dece3aff1"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/IdleLoopEvent.h",
+      "origin": "upstream-edk2",
+      "sha256": "e79bf61dad93447df9899e50529a4bd9abf9628aaaee660af320bcd5a254b3ad"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/LoadModuleAtFixedAddress.h",
+      "origin": "upstream-edk2",
+      "sha256": "ab6e385c0489f51d36f4f8cb37718262ef48eb2c110509f44128a5e9614633aa"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/LzmaDecompress.h",
+      "origin": "upstream-edk2",
+      "sha256": "3898eb3d0325a5c103f9de7efe4e6235eae4c1b74c15d5f4b793850c3771673f"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/MemoryProfile.h",
+      "origin": "upstream-edk2",
+      "sha256": "5044fb85b9326a6480f448a59f0103defd39dfa1a34d2691ce909569ae44dcd5"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/MemoryTypeInformation.h",
+      "origin": "upstream-edk2",
+      "sha256": "da8e2a118bf6814673193436c3bbf7627eeb62cce15a0501f13b362f69ae4571"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/PcdDataBaseHobGuid.h",
+      "origin": "upstream-edk2",
+      "sha256": "4918c7de397c514278914e503cf0e3904e85f6b08765c1370bccb29e03471d5e"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Guid/PcdDataBaseSignatureGuid.h",
+      "origin": "upstream-edk2",
+      "sha256": "87ed699f6f6a498894d5d95ae3f41792ce3b751aa156e6d1d10490323ccff65f"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Library/CpuExceptionHandlerLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "e303bea9ed9ce1a3d36675390f78b1fc2f3b64d3b5454f07a71d56ca24ef645c"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Library/DebugAgentLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "b4aedaaf12045019d12b5791051f0bae7b76607e67e5373f1851a4c239158ecc"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Library/MemoryProfileLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "beaf0b6b6ba5766c7a5672e9342cf4007cfceeeeeaf2e85509fcb50325693b11"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Library/ResetSystemLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "dd7a9767cc0e826cd41ef5bea75b62addab64fd724886415660de50eb9ab9472"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Library/SecurityManagementLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "80f5438800cd72b1ed3f2e368a3927ef3a0192b54e1f43e904690485d67a5268"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Pi/PrePiDxeCis.h",
+      "origin": "upstream-edk2",
+      "sha256": "999722c15170ac8f6826fac287ae3f6838f47cd2c106759b7d16c17335878864"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Pi/PrePiHob.h",
+      "origin": "upstream-edk2",
+      "sha256": "ce239fbcf0467b5185ae08515527784d42d4adf715a0992797a47728530440ef"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Protocol/LoadPe32Image.h",
+      "origin": "upstream-edk2",
+      "sha256": "0db946b1de895ad5adcdfe896690e915320ac536b10f842da22de01bcd177d5d"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Protocol/PeCoffImageEmulator.h",
+      "origin": "upstream-edk2",
+      "sha256": "0974445ee7f3051ceb25eaa0bdd6aa4e95ff9594ba4d447b16c5df5a36677ecb"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Protocol/PlatformSpecificResetFilter.h",
+      "origin": "upstream-edk2",
+      "sha256": "a84c6f4b76e6562744b3141caa0d479675480fc27075df9a02af3081ac971d6a"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Protocol/PlatformSpecificResetHandler.h",
+      "origin": "upstream-edk2",
+      "sha256": "824417b3a93840e6dd8f85d554f5c6856abeb28a8dbe545fbc3d994df4f89619"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Protocol/VarCheck.h",
+      "origin": "upstream-edk2",
+      "sha256": "d16f317b7afb25a32c2b8d51f97df481c67646fed7739776ebbf38ade97957db"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Include/Protocol/VariableLock.h",
+      "origin": "upstream-edk2",
+      "sha256": "4f2753cbd9f6363c9409e32fe006da9b9c3ff0ee209237458562d46b312140b8"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull.c",
+      "origin": "upstream-edk2",
+      "sha256": "3f319a7625baf90db84f552df7c00e9bc731c63587484c5eeab85f46cef95a32"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/DxeCoreMemoryAllocationLib/DxeCoreMemoryAllocationServices.h",
+      "origin": "upstream-edk2",
+      "sha256": "f834e1d6aa0fd38a706c0af5a6da48abc5ecbe271ac7599dfcdd43153d6747e3"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/DxeCoreMemoryAllocationLib/DxeCoreMemoryProfileLibNull.c",
+      "origin": "upstream-edk2",
+      "sha256": "283b7665c1a580ee3066afb98976b196efb8d750e04943a7c375cdbcd81b5dbc"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/DxeCoreMemoryAllocationLib/MemoryAllocationLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "1af064837126a4ea089c7144bb55b0009a43943641cff9653a041f6027a3a806"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/DxeCrc32GuidedSectionExtractLib/DxeCrc32GuidedSectionExtractLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "565a6242a87ac950c0fbff1eae07c89d8709c6623ef0553ef8a5b22cd8c1b750"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "b109156948b39356ed0e917ac494c0148ce25c2b75e8134d219b95d3bfaff96c"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/GuidedSectionExtraction.c",
+      "origin": "upstream-edk2",
+      "sha256": "313d76720e317eb6b1b561ba1e5cd67e31c2328cddd7b23b72c439b90f35b6aa"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaDecompress.c",
+      "origin": "upstream-edk2",
+      "sha256": "9cf4aea32c964164520f1ec799025c3fa24e4b357606bee2048ed2106eb5f1fe"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaDecompressLibInternal.h",
+      "origin": "upstream-edk2",
+      "sha256": "b37e95ad85f187e093513aeb127b0b30bae482727d465aa4b6f1fb4bd635a7d6"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/7zTypes.h",
+      "origin": "upstream-edk2",
+      "sha256": "d870f8ed17b18f75a6cc3f2a5ef44515d26e1490ef225966d41ee08569b514e6"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/7zVersion.h",
+      "origin": "upstream-edk2",
+      "sha256": "4d8457a253ffbcdb922f9078d80820b23e39ff82bc6d54bd523972992ecdaeac"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/Compiler.h",
+      "origin": "upstream-edk2",
+      "sha256": "fcc67dcc9369c815d8603422f1ce04cd9f640cbc5ab48825c0c1a51ec8881c2b"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/LzFind.c",
+      "origin": "upstream-edk2",
+      "sha256": "1af8d369fea69d26b6582c55fa955419adb81a3b44e8202b5aff343ae4b269df"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/LzFind.h",
+      "origin": "upstream-edk2",
+      "sha256": "91059bd846e5bf024be79f73f3b5cc2c39b5c4222d2bae2ddf0bbbf0c444a584"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/LzHash.h",
+      "origin": "upstream-edk2",
+      "sha256": "433671fff540bdef6fc5b17e80048278f0ead18a618b3305864785ba0c8c1082"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/LzmaDec.c",
+      "origin": "upstream-edk2",
+      "sha256": "37147fe4ebe6ab467610f423419da50733b61c2f878a7ff9ac352046e7c9e595"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/LzmaDec.h",
+      "origin": "upstream-edk2",
+      "sha256": "b4f0cdd7b8ae5c59d950b6ad20435448eda8e76b9e6d2f6b594bb794c6c14ab2"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/Sdk/C/Precomp.h",
+      "origin": "upstream-edk2",
+      "sha256": "3850ffe13cb2207dba1c037fe41a803303883aaeec1407052f6038c4e6722ace"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Library/LzmaCustomDecompressLib/UefiLzma.h",
+      "origin": "upstream-edk2",
+      "sha256": "aedbbf20156eeec157f8e2a24aa5323bcd97ebbb7d50056b70ab585f64733b05"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Universal/PCD/Dxe/Pcd.c",
+      "origin": "upstream-edk2",
+      "sha256": "76c10b0d0be4f695cce2b3f1d637538f9393353340d5eba93bdc0fa2e426fa05"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Universal/PCD/Dxe/Service.c",
+      "origin": "upstream-edk2",
+      "sha256": "406ab32d98b1c6418915c53694d5cfcdb679cacd2a25c61291b8f26e4977cdd7"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Universal/PCD/Dxe/Service.h",
+      "origin": "upstream-edk2",
+      "sha256": "aaa80b05402687ff0749c1fd245c99a36a48e194b17a0030aa31b74d33c43f8d"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystem.c",
+      "origin": "upstream-edk2",
+      "sha256": "5a7532c21272373c751bcdc1c8b0ee81eb9e31bb9fd5ff463bba22ac201b9786"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystem.h",
+      "origin": "upstream-edk2",
+      "sha256": "4944fed326a3ef14757e4489bbecff60327be3a17b1f35082a9096f074d931dc"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Universal/SecurityStubDxe/Defer3rdPartyImageLoad.c",
+      "origin": "upstream-edk2",
+      "sha256": "067735d230789578564258d457752ef6c3e1b0ccdacfbb85cd180b23c99e7aba"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Universal/SecurityStubDxe/Defer3rdPartyImageLoad.h",
+      "origin": "upstream-edk2",
+      "sha256": "024f2feb06f269643f536c2384915d2e3311d4b25a325317d5ed61cc2c6f5fd8"
+    },
+    {
+      "file": "edk2/MdeModulePkg/Universal/SecurityStubDxe/SecurityStub.c",
+      "origin": "upstream-edk2",
+      "sha256": "a559902aef2179aa5da2e913574b1522e66b21fb267cf95b8f6f4650af028640"
+    },
+    {
+      "file": "edk2/MdePkg/Include/AArch64/ProcessorBind.h",
+      "origin": "upstream-edk2",
+      "sha256": "079cea87f62f1efd58de947f553388bbc99a89b4f1fbbbf88db29454827f31ce"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Base.h",
+      "origin": "upstream-edk2",
+      "sha256": "42330283c4cc19def81dc0917f4c809129eeab1edd4cfc02d9b9fbbe69723637"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/Acpi.h",
+      "origin": "upstream-edk2",
+      "sha256": "dfbbe75e335eab9835c055ca475cb86c2bea22bd3939d60b923462e719f5dbd3"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/Apriori.h",
+      "origin": "upstream-edk2",
+      "sha256": "d8f001914004e525a530e66debc0803da9115656f62157b30a00d6fe0d6a0546"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/DebugImageInfoTable.h",
+      "origin": "upstream-edk2",
+      "sha256": "a73a9487fd26dc396f591b87fef0971d0219fb87878a396f787c8d68a2cad805"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/DxeServices.h",
+      "origin": "upstream-edk2",
+      "sha256": "25d973a1a767e5af0525ed96a277351d9ea3377a3bcb744639dc1633b9c86e78"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/EventGroup.h",
+      "origin": "upstream-edk2",
+      "sha256": "ef435b785c6e93104708530159268fd9c1e114fb94df6ccda985252138d22516"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/EventLegacyBios.h",
+      "origin": "upstream-edk2",
+      "sha256": "6df2912a44120d8d803536f1e248df15c597a07443c9d91090b975c2f8f9c3dd"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/FileInfo.h",
+      "origin": "upstream-edk2",
+      "sha256": "9c2c8a7ebb68315c0104ab0d9e694758a77ab77d98f8f9a218ce0cdcb8cb239e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/FirmwareFileSystem2.h",
+      "origin": "upstream-edk2",
+      "sha256": "e304bee04e75f129e7a59dac9ff29780eb42d74449da65581a76cef70a2bd677"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/FirmwareFileSystem3.h",
+      "origin": "upstream-edk2",
+      "sha256": "cb9d03d76c81dcbb513d2bf1e513e6b2be26015d5b74bd5f511948fc4b09caa4"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/GlobalVariable.h",
+      "origin": "upstream-edk2",
+      "sha256": "54db736a9474f38bf6e5de93da0c77b9cb628d27a3f92f7e7f5d043ff6fc09de"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/HiiFormMapMethodGuid.h",
+      "origin": "upstream-edk2",
+      "sha256": "193ddd68b259adc2c45d3ecaf5ac864ee504cc0332bb001a1345f7cf1c7fc55b"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/HobList.h",
+      "origin": "upstream-edk2",
+      "sha256": "4ae789e958181de2e13db298cc90fb83ae64c818041f6e3e40ee77dcb5215985"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/MemoryAllocationHob.h",
+      "origin": "upstream-edk2",
+      "sha256": "17284705235be76f72b75e0c325f8bc56c04390b64793385534d50d73b86f1a1"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/MemoryAttributesTable.h",
+      "origin": "upstream-edk2",
+      "sha256": "4e3edde6332307f2034c7318809c2957c3ed36fd63a2415c3c1cd74a5b57ee1c"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/PcAnsi.h",
+      "origin": "upstream-edk2",
+      "sha256": "24e83bcdbe7ac4a93b2f992ec760c2d13f4e105346bd0a97ad862e36f28df886"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/VectorHandoffTable.h",
+      "origin": "upstream-edk2",
+      "sha256": "c8230c141fdd2cd0a54852774c7d9263ad7db27c0735e933a0c8c5615e055777"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Guid/WinCertificate.h",
+      "origin": "upstream-edk2",
+      "sha256": "0bbd18ac30f846cf707e3ae7015d980185caf2b166ca410d373c7cd4c3898ab3"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi.h",
+      "origin": "upstream-edk2",
+      "sha256": "fbc63df496432cb24ae93607d4a96f1b0d05b3965fdb57a60afc3a5444964313"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi10.h",
+      "origin": "upstream-edk2",
+      "sha256": "1b08ce3e7064909f1695c19a29fc0f7d2cfba7d6afe52c5eef08c5532557c10e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi20.h",
+      "origin": "upstream-edk2",
+      "sha256": "58a61a4553128868a2aa93c0b969fe97ffbb235626a71066329a2f67bc8aa211"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi30.h",
+      "origin": "upstream-edk2",
+      "sha256": "f11bc7c4c326d2deff55451d0663976729626e43a255c1131ba126d3b1c98487"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi40.h",
+      "origin": "upstream-edk2",
+      "sha256": "3aadf59135c1d4713dd7f9dd30ba1f4eb0f3a6a7ef847113747f3320ae7f988e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi50.h",
+      "origin": "upstream-edk2",
+      "sha256": "b9ca00d99b234c28ff2c58430c58e979aadb99f69f0c9ae745a9ed6f2eb193b3"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi51.h",
+      "origin": "upstream-edk2",
+      "sha256": "28145a93159c7b4df155c702222e2b75ac4b4f01e8cd59350a1de6adf5c27d6e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi60.h",
+      "origin": "upstream-edk2",
+      "sha256": "7ad0c09174be56013909362c2b9212476d40810fddd78efa881010f49d046f0a"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi61.h",
+      "origin": "upstream-edk2",
+      "sha256": "0541db4df949bbe1ea70c693e3939bfac5984caf0e1bcce6076788f848d03e9e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi62.h",
+      "origin": "upstream-edk2",
+      "sha256": "1de312b71d1ff680a3602c5f37eaa459dbb7b0d4cc3f064cdd9f0441c6a29fee"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi63.h",
+      "origin": "upstream-edk2",
+      "sha256": "6478993589ae119ec6c2506c76b19a9a0b733c51cce333eada2d00d6496ebe3a"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Acpi64.h",
+      "origin": "upstream-edk2",
+      "sha256": "94e58f9274d87481f66bcac8e1ff0b45642bd85b2acbdb720d998349ec9fc211"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/AcpiAml.h",
+      "origin": "upstream-edk2",
+      "sha256": "49c246183bf7b42f898bf183c88450e14984637d82788fc1820256b0e99bd72a"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Bluetooth.h",
+      "origin": "upstream-edk2",
+      "sha256": "95e0690500d17f00408c47a5ee8eb649e0884231ed03bdc1baa1b654a93838f3"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/PeImage.h",
+      "origin": "upstream-edk2",
+      "sha256": "89dfaa278e88e66434d0175733e6f673b7c543ed8e615e54f21a48837ff75f8c"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Tpm12.h",
+      "origin": "upstream-edk2",
+      "sha256": "7a350306053854f8f198126b10167e7303935e36c47640ba58610ea0eebaec11"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/Tpm20.h",
+      "origin": "upstream-edk2",
+      "sha256": "96fd9d9a9ea95d2c7704a70ccdfb21091dea7c8d50ddae8b75705a6ff48e142d"
+    },
+    {
+      "file": "edk2/MdePkg/Include/IndustryStandard/UefiTcgPlatform.h",
+      "origin": "upstream-edk2",
+      "sha256": "a35686667f9079e76bd5eaa646e3da198748204dd48ac9ec7c5b33dff9776755"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/BaseLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "6f618f02a6df950f76a466f7bca5e288b09467643314d4eec541c9bed5fc444c"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/BaseMemoryLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "9d5dfaed66c6b29876a02be176b01e775ad33ac6ec55a2303057e7b9f83a8ada"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/CacheMaintenanceLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "a7bd720bbd75cc49bb03911d6d1d7de0638734720869d66a59a3c8addef18ae5"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/CpuLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "fa01eacdcbfcc42fb86cee06dfd08e7580bf7c9ea277e40d743b52f4a161760a"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/DebugLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "ddd50977bc36b509130fe8b45f2e51070e4d12229de05cc500e32d78140f7de8"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/DebugPrintErrorLevelLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "b30ad05550d1d1e2016597d9d3f31bbf0730e7a0848f8bd47c78054e0e0b516f"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/DevicePathLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "018d53a99d52d1fda8b4511d02ac876a1143f156e6fe615228f1a11b4b320efe"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/DxeCoreEntryPoint.h",
+      "origin": "upstream-edk2",
+      "sha256": "ab72a20f26c6db3a82b835d09182a43390e6c206c373f28a05ca56a6eefe7f9d"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/DxeServicesLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "a56b5d93d2fd8c733a60e09e6631f2f5bbfc7dec2f49a85dbd1e59a59a52d816"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/DxeServicesTableLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "c363f55e9c87b9778199384d4512092c0f2e15c615ddd93dc49b31c05c9cd463"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/ExtractGuidedSectionLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "973daaed26deaf35e2183155dc992f72bddc28278e785ee9ed43b6f58d920aca"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/HobLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "06bc6a75618eef02cac71341a697d8c68dd38cd894d2078670ac30586f159197"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/IoLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "a165f1c7777a53929ba0ac6876b0c8269133561d6d4832319d7a2958c9f4a4e4"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/MemoryAllocationLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "6a5ea0095527482c268572f3c26ff7f76fff653d24a50690af7e8baff6880923"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/PcdLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "707399eb01c5a1dbc7847d206aa7e2e2ab96bfd17d6c51fb0becbcd4ca7a1196"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/PeCoffExtraActionLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "0e5593e8132e580249715b93bfd7e3b94f470d25b0896c0fb2ef970d9b2ea4bd"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/PeCoffGetEntryPointLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "a7b6927cb9e5021e638d08814df818207f6935ac0a165973e3dfd64faef65fe3"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/PeCoffLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "c1c7a5e8a9f3ccff25cbd2eb3290c184878a8dec4753b2d39fb5adee2883bc4b"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/PerformanceLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "ac5868f626fff68d91e94e2e8a58d265f35cdffc2ced849cb81968cbfb699bec"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/PrintLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "a517beb32ce58e1791e04853f5635bdbe13614231cd0995ce3e70db1ebfa0d01"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/RegisterFilterLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "e0c3ceb94dba449dca41f6f7cc9b4afebd67a57b808bb46e3a660ba0ee50a877"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/ReportStatusCodeLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "3fe77c8724b9c33f7d8b0b868219eea2624dcdc1422ba220c5f2bace8e387cfd"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/SerialPortLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "4bbd2c3d2af9332f05bee5ec434b04f7434319fcd2311dfb309d0c1d4f980dc8"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/TimerLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "bb6ad0f0b7556ba06f6ea24c0bf058fa00423fb2974044f5343e796881672780"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/UefiBootServicesTableLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "ff55e3ccd1c3e6981dd2af6186efa07aa763e99e572319e25d7e84771748b845"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/UefiDecompressLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "59f67246cde258d45496e7d474c32c93a2275ae61435c44a848372048209ef5e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/UefiDriverEntryPoint.h",
+      "origin": "upstream-edk2",
+      "sha256": "ff43b8156c88b2abec3d69f4dd06461325055025a72dd82e0aa7a18d58fcc820"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/UefiLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "106928c4343be5ff44c678e9f5ef35138e7f9aaf7da93c6827124181fbf389ac"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/UefiRuntimeLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "afd33390ffc9fe5064969dc0ab266a856cf826d933f15e19f473b688918d1306"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Library/UefiRuntimeServicesTableLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "b6c0a78b1e1374fd2984bcb32e648fd991c50780474c16bae8f2d1b37a9f4cea"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiBootMode.h",
+      "origin": "upstream-edk2",
+      "sha256": "7ef4ab818983cc4f622ce914cbe33081a6495e48d91707563e6a2a619f21b4cf"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiDependency.h",
+      "origin": "upstream-edk2",
+      "sha256": "240b4ae72c62ce8af4bfdd853ae7f5a062e8203b3559f94edc9a049f69a93349"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiDxeCis.h",
+      "origin": "upstream-edk2",
+      "sha256": "27a6566292d6098195dad60754044a8c0658b9c165867d2c23a006df257e1f75"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiFirmwareFile.h",
+      "origin": "upstream-edk2",
+      "sha256": "9db002e19ab153c625f2fc6413538cbdadea0945a076976208eebc283e5fb21e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiFirmwareVolume.h",
+      "origin": "upstream-edk2",
+      "sha256": "4f6b750ea84214a8e5a046ad6d6f8f83eff06ac2cbf3452462b42d751e5eb58c"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiHob.h",
+      "origin": "upstream-edk2",
+      "sha256": "647d9fefcfc2f3b06c8d47c4a7f624a20ee55250a670f9c6eb97ab9a3e38caf1"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiMmCis.h",
+      "origin": "upstream-edk2",
+      "sha256": "7177201d57c1cfb4d1e8a0b99c8be24e10d09a77f818e225c444412dae5aa9dc"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiMultiPhase.h",
+      "origin": "upstream-edk2",
+      "sha256": "326d7181e2dc130a3769ad170551d9d67f5486994d88af930c7d2978c283d807"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiPeiCis.h",
+      "origin": "upstream-edk2",
+      "sha256": "1ea5f14d3b412f58868832bf3745235f3018691b6a4abf200eaa98e13f0bf89e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiS3BootScript.h",
+      "origin": "upstream-edk2",
+      "sha256": "179c9cc0e1b2aa8b441230644d5d6c31f1316182787468c839d420cf3b03de0b"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiSmmCis.h",
+      "origin": "upstream-edk2",
+      "sha256": "071a2395c78180cd9cf4b5e38d931fd1198d32f5ea23d128664d3fc8c812e5a0"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Pi/PiStatusCode.h",
+      "origin": "upstream-edk2",
+      "sha256": "fb4f8e7f3ad09c8158894a8dcbff474be792fd548d38d4bed22a8380dc8d6d74"
+    },
+    {
+      "file": "edk2/MdePkg/Include/PiDxe.h",
+      "origin": "upstream-edk2",
+      "sha256": "a7a15158cd4ccadf18345119232ca29c937dd272d9712a613d664557b6cd4a52"
+    },
+    {
+      "file": "edk2/MdePkg/Include/PiPei.h",
+      "origin": "upstream-edk2",
+      "sha256": "11cfd3147a490aa6ed5a6fa4a261099911cb5746ee5dba06bb0e4b2817780a2a"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Ppi/CpuIo.h",
+      "origin": "upstream-edk2",
+      "sha256": "70d698d11c2554db1a68a1f6392e4a212e9b4feb8dd509b151cca88df76eac07"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Ppi/PciCfg2.h",
+      "origin": "upstream-edk2",
+      "sha256": "0be17a9137377d82b8c7ef4beacecd52e15ed0aa35ad6de975cb690eb557f204"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Ppi/VectorHandoffInfo.h",
+      "origin": "upstream-edk2",
+      "sha256": "4fe770828af4e649b5a56dba639c44a7e1763ca1a663ec63ebaf268a09eb815b"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Bds.h",
+      "origin": "upstream-edk2",
+      "sha256": "9dff61ca5728bc2fdf060dbb7a1341f91a50ca96e6f22b93e15261201c190199"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/BusSpecificDriverOverride.h",
+      "origin": "upstream-edk2",
+      "sha256": "bbf87c8ffc541df4e46ebd4f51e8546426fc8758f60143db3f7d049b266aa335"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Capsule.h",
+      "origin": "upstream-edk2",
+      "sha256": "eca3ac80f1b893d92a01d74eaa62d25919e651c82c044a192a7417e82679307d"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/ComponentName.h",
+      "origin": "upstream-edk2",
+      "sha256": "67378e498beb939ca49016e501f8dd28a571063a46e36999721230e80193c401"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/ComponentName2.h",
+      "origin": "upstream-edk2",
+      "sha256": "26f4ef102a6c5a2ac9181ab1643a2e1b7387504d030ea29e53b73851873d9659"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Cpu.h",
+      "origin": "upstream-edk2",
+      "sha256": "5ea29c03035cafb84c74d35bc5735d4af07ce35dd92b134debf4cd4a3fd6ced2"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DebugPort.h",
+      "origin": "upstream-edk2",
+      "sha256": "36af054542275cc4e26095507c0ba5f45c278ce39e794274d04daaa8351874c7"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DebugSupport.h",
+      "origin": "upstream-edk2",
+      "sha256": "d8964c7ab57f7585af30a1cfb340952814f5751376ce0f88006d713580078bd4"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Decompress.h",
+      "origin": "upstream-edk2",
+      "sha256": "9b56f2a548f5c54de9f1090c15ff7708897e5f9456e518eee46aab4131775a69"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DeferredImageLoad.h",
+      "origin": "upstream-edk2",
+      "sha256": "a93687c9ca5c6b266302f9cc239b3431f23257f42ee3ad00f3bdf4f76743f341"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DevicePath.h",
+      "origin": "upstream-edk2",
+      "sha256": "81b9d259bfc475966b0e477ecc20904306069a69a113595fba6a72aa3501a9f2"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DevicePathFromText.h",
+      "origin": "upstream-edk2",
+      "sha256": "c2ee2a2754e8d1cb774344bd97c75e2f69aa092daa595055e98dca1d36045b7b"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DevicePathToText.h",
+      "origin": "upstream-edk2",
+      "sha256": "e65e82ebb3a0278fe6d7944fb4d227e6f512ea7724443ba715ffb008a3a551be"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DevicePathUtilities.h",
+      "origin": "upstream-edk2",
+      "sha256": "38ae116eb3d85d374c8173a5e7d3ef180dae3d59b71609bb4d453ff955f26314"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DriverBinding.h",
+      "origin": "upstream-edk2",
+      "sha256": "9cdbfab98629534548f7dca45e1226f33ad081f3adee92b9fc13bdf319e56a93"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DriverConfiguration.h",
+      "origin": "upstream-edk2",
+      "sha256": "e8707e782eef1d16f7132bffb7bb7d2728ae7b0e32f82eb12e51d58766ac7e8f"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DriverConfiguration2.h",
+      "origin": "upstream-edk2",
+      "sha256": "6a3775cab59767abf98c873f645d842ecd96490afa1ec11724a16ef7d996da22"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DriverDiagnostics.h",
+      "origin": "upstream-edk2",
+      "sha256": "85da722377c4f46d3a2bea4fd69cca20b7781bce225cda084df10d5f291d95af"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DriverDiagnostics2.h",
+      "origin": "upstream-edk2",
+      "sha256": "e4fc8dd2b62e57e230db69c17e1d7f6e2118182cfa6efb483e83bce107fc3e55"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DriverFamilyOverride.h",
+      "origin": "upstream-edk2",
+      "sha256": "2dae408f6a2d311fa5bd72331c71c9c635d21d23553a6908ebde1ed8a43dceb3"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DxeMmReadyToLock.h",
+      "origin": "upstream-edk2",
+      "sha256": "7a6f32ca7c6028c6b3c8d398dc37e624da1c3b2b93668e09f836758f7f0b67e4"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/DxeSmmReadyToLock.h",
+      "origin": "upstream-edk2",
+      "sha256": "2d8eb579f7b592e9147603f2081bbaf4e0aedc4e8fb3654c71e6335eda3092ed"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/FirmwareVolume2.h",
+      "origin": "upstream-edk2",
+      "sha256": "8ae95451ce40e9dfa076b4dacaf996623ce88d5e5bad6e562d114228e41bdf67"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/FirmwareVolumeBlock.h",
+      "origin": "upstream-edk2",
+      "sha256": "b12ae71166369fbb1de832caa44e7a44fcd52139427914e7e47d57d30e205c65"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/GraphicsOutput.h",
+      "origin": "upstream-edk2",
+      "sha256": "8056348b5887ef9b8c425eb917b029594a0ad850ea6627c3bb80cc3167847286"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/GuidedSectionExtraction.h",
+      "origin": "upstream-edk2",
+      "sha256": "e898998299c1a3b9b25864e48746901744466f14a6b7f4608e3b8b671851219a"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/HiiFont.h",
+      "origin": "upstream-edk2",
+      "sha256": "158933e36d79a6744ead12b26e6b431db407a764091b5f77dbd6b399f4bbf9a2"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/HiiImage.h",
+      "origin": "upstream-edk2",
+      "sha256": "48712b072b0a71ce28928b8d01ffaf0bfb1b6867346681438accc73bf01db887"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/HiiPackageList.h",
+      "origin": "upstream-edk2",
+      "sha256": "d9ceeb83ebd0776b460b2f05be6530c495806828952f6c8fb221770dc0198056"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/LoadFile.h",
+      "origin": "upstream-edk2",
+      "sha256": "11e19a9b7e93728dec1e083ce5cfb72b1c9f12b475dbded0bb124a95c2a632fd"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/LoadFile2.h",
+      "origin": "upstream-edk2",
+      "sha256": "d8428bb2effaf895816665e0475869e71d42f2ce9c2f38fb4045843d4c9b592b"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/LoadedImage.h",
+      "origin": "upstream-edk2",
+      "sha256": "349b3894f83ca943779dffce3b86772cb17b60c67505137940ae4c0b5ba8dc4c"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Metronome.h",
+      "origin": "upstream-edk2",
+      "sha256": "56529a990170e4f0478990d36997a07b637d75799294f52bbe11567fcb5f15f4"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/MmBase.h",
+      "origin": "upstream-edk2",
+      "sha256": "edac7de4c8ff75a84557488771209e65ea7d2766b49112294b171e39e6df07cd"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/MmCpuIo.h",
+      "origin": "upstream-edk2",
+      "sha256": "b2aff7e83378a5ccf48e7c7cdaa3cc4627f3efdaa715aabb777b63d786cf6511"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/MonotonicCounter.h",
+      "origin": "upstream-edk2",
+      "sha256": "4dd5ab3aece75a2a567b18b7a055483807eabdffeafe4ccfdfbfda3f10f43932"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Pcd.h",
+      "origin": "upstream-edk2",
+      "sha256": "555dc780bbc37f209781e6151f720df89756265e1fc333ee70d9749614543247"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/PcdInfo.h",
+      "origin": "upstream-edk2",
+      "sha256": "349aac7319f1ee00cc6fdfc201371422a7a0fbf2f98dde2b14410ce0f7646b32"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/PiPcd.h",
+      "origin": "upstream-edk2",
+      "sha256": "a18c3829b5d9969d6c08ca1a5afba8eb980ff92b0c0b88235fd62bc25415343a"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/PiPcdInfo.h",
+      "origin": "upstream-edk2",
+      "sha256": "c10d1ba3b00f27ec8e928806d15f397aa967b298f54fb0b2cee7f45719ef98db"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/PlatformDriverOverride.h",
+      "origin": "upstream-edk2",
+      "sha256": "2a81b99e142a6696bd66eff22cd966f4aa54204436f61f8f051c78b5599fd1e5"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/RealTimeClock.h",
+      "origin": "upstream-edk2",
+      "sha256": "b75d410bdb20e889e4423790ea10d39191662a99b26c4d7a871357ed83db8eed"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Reset.h",
+      "origin": "upstream-edk2",
+      "sha256": "4f68d1b480ce47c91303a3986e8594035da730a8d54f6b21c09cc760dff44c92"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/ResetNotification.h",
+      "origin": "upstream-edk2",
+      "sha256": "4ea0cb9923440d307e4d376c75498d50ebf3025086465b933cf732bef16e5dcc"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Runtime.h",
+      "origin": "upstream-edk2",
+      "sha256": "b4627d86edb50ce2fbaaa0e4c362c0bdadbe4308e3893bc856fbc0778f9fff00"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Security.h",
+      "origin": "upstream-edk2",
+      "sha256": "4fe3dbf09ef00d121eef9df1d184763a8e4cb71243c1925b73c475e39190be02"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Security2.h",
+      "origin": "upstream-edk2",
+      "sha256": "11a8fe2815df57f3b5b3842f536614f4e847aa8ec81bc6c4ff9912368692a7ed"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/SecurityPolicy.h",
+      "origin": "upstream-edk2",
+      "sha256": "c934efb9b22e1343d9d4cdd48b4b245139369c75fd0bf577e33ddf8ee19bcfe4"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/SerialIo.h",
+      "origin": "upstream-edk2",
+      "sha256": "c3429c9ff631246a6f0e1cbc0752a9cd9fa0dc26be1bad744f257f90de679da9"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/SimpleFileSystem.h",
+      "origin": "upstream-edk2",
+      "sha256": "71881262caa5430e75e4292bc2003efc577d13a5db910b8b63f304e021cbaf40"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/SimpleTextIn.h",
+      "origin": "upstream-edk2",
+      "sha256": "d3ae7d2da979567b12fe971a5adff0fade795ef57607c7e71f4e4c0830051c9e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/SimpleTextInEx.h",
+      "origin": "upstream-edk2",
+      "sha256": "15853f937c9b1208890c90bc24a5ce0aebf2c28b7f371046f329214440453306"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/SimpleTextOut.h",
+      "origin": "upstream-edk2",
+      "sha256": "8459fb6468178b5cd690f9e487ead2776ae76efbca923fca68e5f68503fb7b9f"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/SmmBase2.h",
+      "origin": "upstream-edk2",
+      "sha256": "983aa63ed380e617372eb0c5fef1d4bc2345bbc5796315f702431b107f6de18c"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/SmmCpuIo2.h",
+      "origin": "upstream-edk2",
+      "sha256": "f0d83728519d1124d53408ed5e8afcbdfa5e460bed7aae8e0af794882aa6f291"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/StatusCode.h",
+      "origin": "upstream-edk2",
+      "sha256": "afb7e10e7e2a3dec1e756750b1c77cce9bcfa52f0616b273fb3fdd4d1bf5cde3"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/TcgService.h",
+      "origin": "upstream-edk2",
+      "sha256": "50c9670782c36525c904a80a4b70440db05bbcb9c53786a6bf34f8e5a9b7cfbe"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Timer.h",
+      "origin": "upstream-edk2",
+      "sha256": "9f7276778496e339fca6f2e0bfa9f35aa535b525503210f71581777b6d08e57a"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/UgaDraw.h",
+      "origin": "upstream-edk2",
+      "sha256": "e6040f4f827fad46a16de96b4417dc5faed33e68edf573f4fe6badc9674a6708"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/Variable.h",
+      "origin": "upstream-edk2",
+      "sha256": "4d6f0996c36b62d9218cb0708791798c3964d399558fabf6d20a4ee25a8a0101"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/VariableWrite.h",
+      "origin": "upstream-edk2",
+      "sha256": "50250215144bdf4ebfbc22f40f10336b46aa32e5d483b3ac87a0f7cdb934f709"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Protocol/WatchdogTimer.h",
+      "origin": "upstream-edk2",
+      "sha256": "2531e8a5fc5c2336374d5a19e037ae9e73dfdb64a27efdaf82dccabea1a93552"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Uefi.h",
+      "origin": "upstream-edk2",
+      "sha256": "b1750c005a1e090e3f882b53a33801900844255369d649f99f5eb966ac070e0e"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Uefi/UefiBaseType.h",
+      "origin": "upstream-edk2",
+      "sha256": "a27eaa9b2a8d4e81dc23bdec767a19c2aa725ff3e22be6cdf3904189d1913a54"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Uefi/UefiGpt.h",
+      "origin": "upstream-edk2",
+      "sha256": "bd35cfe034675f2d371ecbaaf9b71c9e561f4938a95c1f0656218a3b8401b8c2"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Uefi/UefiInternalFormRepresentation.h",
+      "origin": "upstream-edk2",
+      "sha256": "3754e59f0d50baf4a7f536b4929ad8e217cc5b9a04262b3366cfa68d7c8cd6cb"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Uefi/UefiMultiPhase.h",
+      "origin": "upstream-edk2",
+      "sha256": "2378821560691e16a42b523305dd08000c40109fba4e6e1e6ef1b1cc360bc5ab"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Uefi/UefiPxe.h",
+      "origin": "upstream-edk2",
+      "sha256": "6e13c150e7f81c7672ea2f79083d75019b1508324722bdd438159d0b781bf952"
+    },
+    {
+      "file": "edk2/MdePkg/Include/Uefi/UefiSpec.h",
+      "origin": "upstream-edk2",
+      "sha256": "c8923a4a370ecb0b56239304b3b5f2ef4b4b1cbf17892fadfb5b0a6a5936bf2b"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseCpuLib/AArch64/CpuFlushTlb.S",
+      "origin": "upstream-edk2",
+      "sha256": "1ecb0a5e8784839d8ac5a4991c50e5e6bf6c17d1de384a48ef0f41bbc64d42c9"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseCpuLib/AArch64/CpuSleep.S",
+      "origin": "upstream-edk2",
+      "sha256": "0d954a50aeeee7fb4d26ab19ff0abb428937be1e63f6c98d92f4ab29b9ca97c9"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseDebugLibSerialPort/DebugLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "4453b4fcb44691ec45f0e3ea7dc4d8ec2a71ad9bb66dbb13d0b4db7b6dbeacec"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "0236e8756ec569b57f76a9916ee6b25b53603ad9f8b74eccf6149d0e76bb9755"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsicInternal.h",
+      "origin": "upstream-edk2",
+      "sha256": "124529d38f56ec5640e9728ee518482f1a00ffd510e73bcd2a06fd8dd64e5996"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseIoLibIntrinsic/IoHighLevel.c",
+      "origin": "upstream-edk2",
+      "sha256": "aa7168e07ca00efe171068236b1be7e5c849c1408e344e29f8a6d5f31a3722da"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseIoLibIntrinsic/IoLibInternalTdxNull.c",
+      "origin": "upstream-edk2",
+      "sha256": "ab5b0340f86e56a4bf7ca7211e6316646a35ff6b7eb7d875c6139a7f8b713710"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseIoLibIntrinsic/IoLibMmioBuffer.c",
+      "origin": "upstream-edk2",
+      "sha256": "bb10afe5443a92f4093c7478ff6f9ac701d07948b779de3457251b1f0688776a"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseIoLibIntrinsic/IoLibNoIo.c",
+      "origin": "upstream-edk2",
+      "sha256": "e8a1d1645d06bdf70b7c005f99679a13dda6afc44ca3aedf32801235289ef3b1"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseIoLibIntrinsic/IoLibTdx.h",
+      "origin": "upstream-edk2",
+      "sha256": "592c3c9f0ca5dcb4e051c832ff015e827fac374f1047445b1a033c2f4c110350"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/AArch64/CpuBreakpoint.S",
+      "origin": "upstream-edk2",
+      "sha256": "337cad5577c15a0a5d51ae46040b328ba68238baff8dc105faa4a7033d1cf87b"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/AArch64/DisableInterrupts.S",
+      "origin": "upstream-edk2",
+      "sha256": "4d9b843f40687e832d5793c3d54352db90c29344dc5ac332f85c793e77789c14"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/AArch64/EnableInterrupts.S",
+      "origin": "upstream-edk2",
+      "sha256": "2a77e3bb342c9cb93ccbcb176c769beb079a37c343d24018c33d51b37c8bdabf"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/AArch64/GetInterruptsState.S",
+      "origin": "upstream-edk2",
+      "sha256": "046c878f5235ac28088fccf59c53f2a036695e177e7eee1d7fe5551bc74abdfc"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/AArch64/MemoryFence.S",
+      "origin": "upstream-edk2",
+      "sha256": "69fa7a69b429f6eeea236b568a1bce6e5c1e042ba594ada240c7f6a865abee17"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/AArch64/SetJumpLongJump.S",
+      "origin": "upstream-edk2",
+      "sha256": "8592ca770ad55923e7d250dd86036de2e1db019ae14fd873ee2e33963de91320"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/AArch64/SpeculationBarrier.S",
+      "origin": "upstream-edk2",
+      "sha256": "811e5218cb295e051239449ae379099552d38f0fe59bf2a9e385f6181337e8d6"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/AArch64/SwitchStack.S",
+      "origin": "upstream-edk2",
+      "sha256": "58ecec39f00b235556e96095c5ce9d56921280afb072f5dc8ece4f2d05fa484d"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/ARShiftU64.c",
+      "origin": "upstream-edk2",
+      "sha256": "ef1d0c371b8ca366b39f511090d6336f5bacc7ca9d680bf5041e411d54b44968"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/Arm/InternalSwitchStack.c",
+      "origin": "upstream-edk2",
+      "sha256": "2730223d0fc96dafec33d7981817b2c12e81e7d7b147c3510152d93bf14c1f47"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/Arm/Unaligned.c",
+      "origin": "upstream-edk2",
+      "sha256": "0e6848a70c0be146eba8368e6d682121b9aed96a8e7f0a27c0123b102e96fab5"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/BaseLibInternals.h",
+      "origin": "upstream-edk2",
+      "sha256": "5a27078cd8ae257b250fc2d882b052399a7e42cfcc22f8fcac2c5f215f954567"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/BitField.c",
+      "origin": "upstream-edk2",
+      "sha256": "4dc2339963742a884f30406dc29796eea63844b46fe2aadd80050baaae8374f0"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/CheckSum.c",
+      "origin": "upstream-edk2",
+      "sha256": "22a1cad19afcd6b1a2e539c005d4a752c28369d4a81a3924f63397924619443f"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/Cpu.c",
+      "origin": "upstream-edk2",
+      "sha256": "d4a73556fc936e341379214f4d486048384baf6109a63a50c4ddc07122d6096a"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/CpuDeadLoop.c",
+      "origin": "upstream-edk2",
+      "sha256": "dadfc8eaaa84f8debdeec88e4478c8594659766937e59688dd77cd72c1366be5"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/DivS64x64Remainder.c",
+      "origin": "upstream-edk2",
+      "sha256": "de5a93c1e64f63d07f66de4b759492552c596df120eaeb3b436d50de9a84b8fe"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/DivU64x32.c",
+      "origin": "upstream-edk2",
+      "sha256": "7e55e546579bdcc1cfef578e06c9a98554e67c461119f74e0cb5436866a48f94"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/DivU64x32Remainder.c",
+      "origin": "upstream-edk2",
+      "sha256": "dca70babaf5e65922d5428b1c1a5a9205b9dc5fbf1cf142920246f5bf908d54c"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/DivU64x64Remainder.c",
+      "origin": "upstream-edk2",
+      "sha256": "bcb3bed111bab7f823d7dc7b44b36add338ad22660a6ced88dd493fbf862831a"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/FilePaths.c",
+      "origin": "upstream-edk2",
+      "sha256": "84d1198ae1ac04ba4fd1a5a8fd2744f28da54f13f938476feeaad4f75bdfeb7a"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/GetPowerOfTwo32.c",
+      "origin": "upstream-edk2",
+      "sha256": "a9bcb215a795435647282479982cce3c557bd44a6943de4354fa611b412df68b"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/GetPowerOfTwo64.c",
+      "origin": "upstream-edk2",
+      "sha256": "91f73d310dbeb33cc32d369bc974b77fef608fc4dfaf24b6fdfdf1e5dace50be"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/HighBitSet32.c",
+      "origin": "upstream-edk2",
+      "sha256": "fa0a64a49d136be5f5c1a516b8e8374890d413cd1c054cf129cca2fa6e4bef44"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/HighBitSet64.c",
+      "origin": "upstream-edk2",
+      "sha256": "ea88488b7a07cdd4bcb067d2b6cd0c6c30948a4e0323391a21c34df435fe414f"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/LRotU32.c",
+      "origin": "upstream-edk2",
+      "sha256": "400e8d345d82282a744dd3ffefefd42cd2053cae36729173ae4048d4b262f36e"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/LRotU64.c",
+      "origin": "upstream-edk2",
+      "sha256": "afdcb5613b6292bd67f7091ddb1c26fe7e24beaf351ab75dcd65f18eea743c5a"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/LShiftU64.c",
+      "origin": "upstream-edk2",
+      "sha256": "475a72e7f041efcdf7c8ed91ebf9682126492b6f72af23fc77d237a34e1d9ee2"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/LinkedList.c",
+      "origin": "upstream-edk2",
+      "sha256": "5587ca14bc5349a311c2795f6249b257af3f6fd3f03e414639fb7dc6fae702fe"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/LongJump.c",
+      "origin": "upstream-edk2",
+      "sha256": "d6cb0ed60294718b4f4db8b13092c50d2d457a202e36c236118c5aa9c4e3e2d0"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/LowBitSet32.c",
+      "origin": "upstream-edk2",
+      "sha256": "c7535c15c1716033a3dfff3782b908bb0a749476f1ae2c8c1a0a76d90464d17e"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/LowBitSet64.c",
+      "origin": "upstream-edk2",
+      "sha256": "d383bb0fdc76ca35ae863dd2712add99ce5a34122326c4158d62e6de06d00fe4"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/Math64.c",
+      "origin": "upstream-edk2",
+      "sha256": "d880e5f7965fed795e8d0b798aead08ee281a454619b705a9e0bec0337171227"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/ModU64x32.c",
+      "origin": "upstream-edk2",
+      "sha256": "ab0ea099f9609cd34acbe22547b2ff57a4516c506bdcc472824f58b6647e33e4"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/MultS64x64.c",
+      "origin": "upstream-edk2",
+      "sha256": "344074fd1bc54e09a0be16461993ed7ded143f8e5be6a5cc17be176e40dd63dd"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/MultU64x32.c",
+      "origin": "upstream-edk2",
+      "sha256": "8732e5b9069d05b73795d2612485218cc765826694e03481692b132930b1a84c"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/MultU64x64.c",
+      "origin": "upstream-edk2",
+      "sha256": "d39ccdaed3a642fb7785f66e881b52a259f318c9ac7e454ca6754bd0f494d138"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/QuickSort.c",
+      "origin": "upstream-edk2",
+      "sha256": "bf40f292b536a49e49f79e4157190deb80e93827f627a37b25159e3a0c2b504f"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/RRotU32.c",
+      "origin": "upstream-edk2",
+      "sha256": "be14a6843ed8abcb6b2bf5dbb932c436366e4470edd842c1a8684a440d021786"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/RRotU64.c",
+      "origin": "upstream-edk2",
+      "sha256": "6892ff8ede5f77c4e96045211b0d22c963c638e2b52a0938d92bd0295f549b33"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/RShiftU64.c",
+      "origin": "upstream-edk2",
+      "sha256": "261e75875079ca7836a8e64fe5e92959a74dff4dd0b72d2f9ed2ecd6988d6dd2"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/SafeString.c",
+      "origin": "upstream-edk2",
+      "sha256": "b65beee26d703342478e3036c729f6aed5da57d36a0560283f75ad0166e631bb"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/SetJump.c",
+      "origin": "upstream-edk2",
+      "sha256": "a6f49387174abbc1f63d3e4ab8f83e227034842d07e7e682d844f2501b78ebc1"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/String.c",
+      "origin": "upstream-edk2",
+      "sha256": "1809d33fc3f234ed2032c9767c47f1ddef793d196e97095d42c097ee49d9b166"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/SwapBytes16.c",
+      "origin": "upstream-edk2",
+      "sha256": "a4c9635a3728844bad45ef92e9e4315de35cb4d8004b58f3b3df606c6308242d"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/SwapBytes32.c",
+      "origin": "upstream-edk2",
+      "sha256": "970787c6a1f69aea9b9ab2251566ab9feff0a9b1f6bf96beaf099461ee3e2489"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/SwapBytes64.c",
+      "origin": "upstream-edk2",
+      "sha256": "351a94a4ede3d15fbe30e4880bbf7e2132fe2d088bc101676b3a580f3fbf0139"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseLib/SwitchStack.c",
+      "origin": "upstream-edk2",
+      "sha256": "50d0d7c342242010df7d78db5b28deccb38840219356d4f916b3892f6b93b96f"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/CompareMemWrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "1b54a1fa0db258dcd828faaa2edf102e4c455d4be2536935e2a9d3e6411e1758"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/CopyMem.c",
+      "origin": "upstream-edk2",
+      "sha256": "0139518e51d88f3c6c9c35441b3b4ebb77daa478f9749b9eb602224366fb0f24"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/CopyMemWrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "013a28179959142b6a0f27e7a63bc43ed2afa4e5619e03b1d5614fd4bd0b7907"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/IsZeroBufferWrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "a32cd07abd28f361b961f024053ab16fd8fc18afbf0eacf1837c71a8a9c0fa7d"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/MemLibGeneric.c",
+      "origin": "upstream-edk2",
+      "sha256": "d66ccf57c662c732c743963f061c2bdef0e985180ecf7cb46dae143c5b9d2c87"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/MemLibGuid.c",
+      "origin": "upstream-edk2",
+      "sha256": "7024ee545ee79c032a0c698143b85dc2f330c6a5a7ef3234de856de1ddec01e7"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/MemLibInternals.h",
+      "origin": "upstream-edk2",
+      "sha256": "5a994c8204e2e57a0a6ac991daf4e810a7d5eb898e8c9c85f9c332831af5d876"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/ScanMem16Wrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "c915f8493671a185d6f6e34cf861a0b43abc5c9ba82aca8c53da04abe2698c56"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/ScanMem32Wrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "99f1d15881f9bbc9a2c80f410c4f4a21b38b5b5072b35b41b0f4d439423f545b"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/ScanMem64Wrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "8b3bf5e4de84e5c0e45c8357402896d411a94852484d2e30518f185fe2f2c1a6"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/ScanMem8Wrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "345ae1decbc3e238867013b4ccc38fe55b5e366688dae89446db01bd8606cc96"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/SetMem.c",
+      "origin": "upstream-edk2",
+      "sha256": "5f7219b6b4c6f17f476519546d44973153ac0e14ea083602a5f15f1b5ffbae06"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/SetMem16Wrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "344ac87a55e2192bc4c16d202f895568ba6460904be30558d531a5d5333a3aa3"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/SetMem32Wrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "e59172640cf66dc07af254ee4997bb2d99befdda8a3edecf4ae3fe98f7a416bd"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/SetMem64Wrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "d75cc123708c163f6dcd00ac94d6133bc1e5f4711bb291f6bc6d432de1e33dc3"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/SetMemWrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "b64fa0b4116dc2e259ad95d74a3e50d6fb4e88fe8a9da93264b7a880b672426b"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseMemoryLib/ZeroMemWrapper.c",
+      "origin": "upstream-edk2",
+      "sha256": "7fe57bc292a3712c9a7685e3e1eb038750a0645278aa93afa2431d96d6da07cc"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePcdLibNull/PcdLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "299889351a9397a67de7ce77a9a92cffb5aa894db25b0429bf77c124fe7daf31"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePeCoffExtraActionLibNull/PeCoffExtraActionLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "b739b58830924bef10bc229e4cc50f170ebb82f6fbdb91f73e5d25f6fea70e70"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePeCoffGetEntryPointLib/PeCoffGetEntryPoint.c",
+      "origin": "upstream-edk2",
+      "sha256": "1900e98b5172d383703445d618940bbb5916797b19bb88a88f28c5f89a643fd7"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePeCoffLib/BasePeCoff.c",
+      "origin": "upstream-edk2",
+      "sha256": "6a377ffa1d8827ce7a84277108c8091d3ab437e8238a05c6c4d036a54bd90893"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePeCoffLib/BasePeCoffLibInternals.h",
+      "origin": "upstream-edk2",
+      "sha256": "9e1231802bc1536512fd813eb0384313b510456fe4544d1c7cb4136e4c89c66e"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePeCoffLib/PeCoffLoaderEx.c",
+      "origin": "upstream-edk2",
+      "sha256": "33d90401b7b152079d1ace01b1b462d608515c3832349cceb3baee44f4c1ed5b"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePerformanceLibNull/PerformanceLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "548c459faebd7dfe050b6f9fb69e9eb355b116d50c57e95c9156eb27e54645d5"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePrintLib/PrintLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "b20d77cbe3db0f1b41413dc4776080af557345d5ee7827dfb379139706ed64e6"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePrintLib/PrintLibInternal.c",
+      "origin": "upstream-edk2",
+      "sha256": "f91d50a44aad083f41d81799946e5bc0cb631e44e72f73b3f6f850f3f687d61a"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BasePrintLib/PrintLibInternal.h",
+      "origin": "upstream-edk2",
+      "sha256": "32ea02e3a6647c90a443bdd509ec6a36725cac857710ca333e223ce7441100bb"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseReportStatusCodeLibNull/BaseReportStatusCodeLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "f4f097b043a280de58a96105bd27bd410e8674b099fbb63373cf1ef25272feb8"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseSerialPortLibNull/BaseSerialPortLibNull.c",
+      "origin": "upstream-edk2",
+      "sha256": "b01171c03889692c2a869f691c13041c743970b6a7964ccd5428047ebafc0983"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseStackCheckLib/BaseStackCheckGcc.c",
+      "origin": "upstream-edk2",
+      "sha256": "0faab8fd0d2dcecf3f9b351faa7667266d2d37d77b4657062495680a96143a15"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseUefiDecompressLib/BaseUefiDecompressLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "a50ab7540f4914b5edc292c06e3aa1ad09003541ce46a7ec2281efc541aceeb9"
+    },
+    {
+      "file": "edk2/MdePkg/Library/BaseUefiDecompressLib/BaseUefiDecompressLibInternals.h",
+      "origin": "upstream-edk2",
+      "sha256": "aec3fc836c947b0d52cdb269eb7a5345aeaf468e0431aa9d231323138ccb5620"
+    },
+    {
+      "file": "edk2/MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.c",
+      "origin": "upstream-edk2",
+      "sha256": "54bee08a94dfacae0df8872078e8346ff30f7558157dbe330580b8f278525981"
+    },
+    {
+      "file": "edk2/MdePkg/Library/DxeCoreHobLib/HobLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "6f67fb1ca468e16932cb8d510f7b7c359d33dc69d0a4ec1807ad6d755aaddca5"
+    },
+    {
+      "file": "edk2/MdePkg/Library/DxeExtractGuidedSectionLib/DxeExtractGuidedSectionLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "5369ac135811755127245280f62ada822af3e3361ca0fff9e7b26b4913d424a8"
+    },
+    {
+      "file": "edk2/MdePkg/Library/DxeHobLib/HobLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "b910fec7754132876986af0f28baf1f93d2c8dda502b97bd2876a343bcc5ad60"
+    },
+    {
+      "file": "edk2/MdePkg/Library/DxePcdLib/DxePcdLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "c066212eece1633111a34b193830f86dc20f6b4aa41d09b9405e3bea519022e1"
+    },
+    {
+      "file": "edk2/MdePkg/Library/DxeServicesLib/Allocate.c",
+      "origin": "upstream-edk2",
+      "sha256": "3fbcbe06c54a4df2bba47f39954b7fd3c9c550e71c5af9819efc456e7053430e"
+    },
+    {
+      "file": "edk2/MdePkg/Library/DxeServicesLib/DxeServicesLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "7bd7029aba901566c68d261e10074b1befaef03e4990ca45b6225bd794d02988"
+    },
+    {
+      "file": "edk2/MdePkg/Library/DxeServicesTableLib/DxeServicesTableLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "acec25440487e6a8c4bce2597f836ba11672758b8b436059b18ca01cc3f03d38"
+    },
+    {
+      "file": "edk2/MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.c",
+      "origin": "upstream-edk2",
+      "sha256": "174d4731256794832b062c5f5e97dcfcb5aa2a8c910bb63713eb8eb0fbd850af"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "74ffe662145a60808b71179d093e87b3633597a141203e0a6ffe5ac74164306e"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiDevicePathLib/DevicePathFromText.c",
+      "origin": "upstream-edk2",
+      "sha256": "14cbbd3d4268e6923b9051931ccc9b8cdac113892b4440c4743eb399bf3ca0ef"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiDevicePathLib/DevicePathToText.c",
+      "origin": "upstream-edk2",
+      "sha256": "6b7a510a5926d196ca6f3a2f394fe04dc5683c668818d62ca2015dac1d6508ff"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiDevicePathLib/DevicePathUtilities.c",
+      "origin": "upstream-edk2",
+      "sha256": "2d5faa540837cab1736cf438f3ed53a3265f6abeb3123fe2997e90b6b3ea29e0"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiDevicePathLib/DevicePathUtilitiesDxeSmm.c",
+      "origin": "upstream-edk2",
+      "sha256": "3fd72f66a7dce028c419764eab145d5d322c2a2a6ff10b44f5a63b903a5ca675"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "0afd2249c0288d67a3be1b40427e64617314912287a8ab575e4234895b5346d8"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.h",
+      "origin": "upstream-edk2",
+      "sha256": "7a856d7f96d1f6148a19721bd58258970eceae48c7c4ced766d50e35e717d281"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiDriverEntryPoint/DriverEntryPoint.c",
+      "origin": "upstream-edk2",
+      "sha256": "f363ee7f62750d0878087da60ef72ed15dc5bcc30675993bc9d7895ae59a431a"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiLib/Acpi.c",
+      "origin": "upstream-edk2",
+      "sha256": "c994c78518a51cbacae2de1b148f26fdaffff56623765f22d332625b2ad5e588"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiLib/Console.c",
+      "origin": "upstream-edk2",
+      "sha256": "a0cde90295f53e653b9e2ce93223ab2efbad5cc6e5f6c2728ba7acd43432d4fe"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiLib/UefiDriverModel.c",
+      "origin": "upstream-edk2",
+      "sha256": "79408cc31e09b658b0bd527a38b78ed4ae072635352d5e5259510c1b00b81e95"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiLib/UefiLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "6b5639e5819f61f0e48befad36093ca284363ea426b91096fee6d0683eadfbff"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiLib/UefiLibInternal.h",
+      "origin": "upstream-edk2",
+      "sha256": "4ec434f6420c34e223db72504358a9ef62f3251cf4786bd40cdc309b8b5a82d2"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiLib/UefiLibPrint.c",
+      "origin": "upstream-edk2",
+      "sha256": "f13f156a27583065daa2ea9aedeecf7464ae6c8f2e41931ade34bc4063ee015c"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiLib/UefiNotTiano.c",
+      "origin": "upstream-edk2",
+      "sha256": "d8b62146bcf9d5afd868001b6ea4c179835f5d8c3ff76afeaace4308c65f356a"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiMemoryAllocationLib/MemoryAllocationLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "bf5dbc8b7228b8f0aa1128b6923caff16976c586598e7dbd52f0d34ea0a7f424"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiRuntimeLib/RuntimeLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "f956f9468ab8d22e40d5656075811a11fcd78f0c2e8b17dc512f988e0bb7e9f1"
+    },
+    {
+      "file": "edk2/MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.c",
+      "origin": "upstream-edk2",
+      "sha256": "9b82c6a15d0b962322d52f9661626d54f3c305afd0c2d0a6a31c0b143fecedce"
+    }
+  ],
+  "rejected": [],
+  "scope": "compiler dependency lists and static link archives; not physical behavior"
+}

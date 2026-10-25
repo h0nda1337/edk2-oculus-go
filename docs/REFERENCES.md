@@ -15,3 +15,13 @@ No user-repository source or external driver has been imported. Any future
 import must extend `sources.lock.json` and this document with file/license/
 changes. A repository appearing under the user's account is not sufficient
 evidence that a driver matches this hardware.
+
+## Local reconstruction evidence, verified 2026-10-25
+
+| Record | Revision / hash | Information | Confidence |
+| --- | --- | --- | --- |
+| New firmware sources | Own commit `68f8264358cb81a1de1f27f8c01c37443e578dd9`, `OculusGoPkg/` | Independently authored SEC, memory handoff and TrustMeBro with only EDK2 libraries | CONFIRMED-SOURCE |
+| Validation tools | Own commit `e35e5479f8561d4e2f34cc7e0a1bc07c93dc3538` | Original container writer, tracked-source audit, QEMU entry/SEC/DXE tests | CONFIRMED-LOCAL-TEST |
+| `docs/evidence/source-audit-20261025.json` | SHA-256 `3a42da4b7946c678bf555ed91d306e1277d5b36a3e87fc56f42d946df2093704` | Compiler/link inputs, relative original paths and individual SHA-256 values; EDK2 clean/pinned/tracked checks; canonical LF publication from `db0abad4ec8b06fcfb3d89d2c468a3bec98e5cea` | CONFIRMED-BUILD-INPUTS |
+| `docs/evidence/offline-validation-20261025.json` | FD SHA-256 `a4acf898e51a814ad6ed4c84a9dacd8788120ad272c3fa528fb0b7579b698230` | Artifact hashes, test scopes, local report hashes and hardware limits | CONFIRMED-BUILD / CONFIRMED-EMULATOR; physical UNKNOWN |
+| `docs/evidence/partitions.json` | Source backup-manifest SHA-256 `12ee626968c09da21dc3e4465537962574b71abf1eca64960a865be9564eb12c` | All 50 original backup names, block paths, sizes and hashes; no binary contents | HISTORICAL-DEVICE-EVIDENCE; not a new rehash |

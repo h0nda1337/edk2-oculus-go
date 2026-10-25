@@ -1,0 +1,60 @@
+{
+  "verifiedLocalDate": "2026-10-25",
+  "result": "PASS-OFFLINE",
+  "firmwareSourceCommit": "68f8264358cb81a1de1f27f8c01c37443e578dd9",
+  "validationToolsCommit": "e35e5479f8561d4e2f34cc7e0a1bc07c93dc3538",
+  "provenancePublicationToolsCommit": "db0abad4ec8b06fcfb3d89d2c468a3bec98e5cea",
+  "edk2Commit": "e7aac7fc137e247edad22f7ee53b9a1fba227397",
+  "gcc": "14.2.0",
+  "qemu": "10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "fd": {
+    "size": 4194304,
+    "sha256": "a4acf898e51a814ad6ed4c84a9dacd8788120ad272c3fa528fb0b7579b698230",
+    "loadAddress": "0x80080000",
+    "secEntryAddress": "0x80088000",
+    "bootShim": false,
+    "firmwareCopyStage": false
+  },
+  "localAndroidContainer": {
+    "size": 487424,
+    "sha256": "cbccd484b056f16ddb55f2bf9170673e92beba6d7456b37d779a6347d841426c",
+    "roundtrip": "PASS",
+    "identicalLocalBuilds": 3,
+    "uploaded": false,
+    "deviceExecutionAuthorized": false
+  },
+  "tests": {
+    "driverHostChecks": 19,
+    "formatTestCases": 8,
+    "boundedEntryCases": 10,
+    "secHandoffCases": 2,
+    "dxeTrustMeBroCases": 2,
+    "exceptionLevels": [1, 2],
+    "dxeProtocolChecks": ["InstallMultipleProtocolInterfaces", "LocateProtocol", "GetState size query", "GetState DXE snapshot"]
+  },
+  "sourceAudit": {
+    "file": "source-audit-20261025.json",
+    "sha256": "3a42da4b7946c678bf555ed91d306e1277d5b36a3e87fc56f42d946df2093704",
+    "dependencyLists": 66,
+    "staticArchives": 67,
+    "originalProjectInputs": 5,
+    "upstreamEdk2Inputs": 434,
+    "generatedInputs": 144,
+    "upstreamTreeClean": true,
+    "upstreamInputsTracked": true,
+    "rejectedInputs": 0
+  },
+  "localReports": {
+    "validation": "build/validation-20261025-062930/REPORT.json",
+    "validationSha256": "365bcdc3096e3c7f740a608c6774f94e175b4b378ce85c356b7466b5267b1355",
+    "buildReportSha256": "631d340aafece1c9fed11e9f30b1c6e0a7f8033267a3a5a7a6901374cae75940",
+    "entrySha256": "e71f0f22cd861a0340489b4f20c955a142be462e18302f1838108a6f51feec48",
+    "secSha256": "08d33fefab8ab2fc35cf0c8d3d38f35e97abcfe1fd731ece815bfa79b8fff810",
+    "dxeSha256": "397a03b6f00f6f259dec03e2ed99a12f5725f75f3cb97cb0f3040d8b458f2a70"
+  },
+  "physicalExecution": "UNKNOWN",
+  "physicalGop": "UNKNOWN",
+  "boardHardwareValidation": "NOT-PERFORMED",
+  "deviceAccessDuringReconstruction": false,
+  "nextPhysicalStep": "Notify owner and end turn before fresh read-only state/integrity checks; no automatic reboot or payload"
+}
