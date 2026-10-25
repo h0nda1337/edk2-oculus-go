@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 import struct
+import zlib
 
 from verify_fd import verify
 
@@ -58,9 +59,32 @@ def make_container(fd, dtb):
     return padded(header) + padded(kernel)
 
 
+def verify_container(image, expected_fd, expected_dtb):
+    if len(image) < PAGE:
+        raise ValueError('Container truncated')
+    fields = HEADER.unpack_from(image)
+    if (fields[0] != b'ANDROID!' or fields[2:11] !=
+            (0x80008000, 0, 0, 0, 0, 0x80000100, PAGE, 0, 0)):
+        raise ValueError('Container header mismatch')
+    length = fields[1]
+    if length == 0 or len(image) != PAGE + (length + PAGE - 1) // PAGE * PAGE:
+        raise ValueError('Container length mismatch')
+    if any(image[HEADER.size:PAGE]) or any(image[PAGE + length:]):
+        raise ValueError('Container padding is not zero')
+    kernel = image[PAGE:PAGE + length]
+    decoder = zlib.decompressobj(31)
+    decoded = decoder.decompress(kernel, len(expected_fd) + 1)
+    if not decoder.eof or decoded != expected_fd or decoder.unused_data != expected_dtb:
+        raise ValueError('FD or appended DTB roundtrip failed')
+    identifier = hashlib.sha1(kernel + struct.pack('<I', length) + bytes(8)).digest()
+    if fields[13] != identifier.ljust(32, b'\0'):
+        raise ValueError('Container identifier mismatch')
+    return {'roundtrip': 'PASS', 'kernelSize': length,
+            'decompressedFdSize': len(decoded), 'appendedDtbSize': len(expected_dtb)}
+
+
 def main():
     import platform
-    import zlib
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--fd', type=Path, required=True)
     parser.add_argument('--dtb', type=Path, required=True)
@@ -77,6 +101,7 @@ def main():
     fd = args.fd.read_bytes()
     dtb = args.dtb.read_bytes()
     image = make_container(fd, dtb)
+    checks = verify_container(image, fd, dtb)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_bytes(image)
     manifest = {
@@ -86,6 +111,7 @@ def main():
         'bootShim': False, 'externalPackager': False, 'firmwareCopyStage': False,
         'python': platform.python_version(), 'zlib': zlib.ZLIB_RUNTIME_VERSION,
         'deviceExecution': 'UNKNOWN', 'writesToDevice': False,
+        'verification': checks,
     }
     output.with_suffix('.json').write_text(json.dumps(manifest, indent=2) + '\n')
     print(json.dumps(manifest, indent=2))

@@ -77,6 +77,11 @@ class Formats(unittest.TestCase):
         self.assertEqual(len(image) % 4096, 0)
         h = hashlib.sha1(kernel + struct.pack('<I', len(kernel)) + bytes(8))
         self.assertEqual(fields[13], h.digest() + bytes(12))
+        self.assertEqual(android_boot.verify_container(image, fd, dtb)['roundtrip'], 'PASS')
+        corrupt = bytearray(image)
+        corrupt[-1] = 1
+        with self.assertRaisesRegex(ValueError, 'padding'):
+            android_boot.verify_container(corrupt, fd, dtb)
 
     def test_stock_hash_gate(self):
         with self.assertRaisesRegex(ValueError, 'hash mismatch'):

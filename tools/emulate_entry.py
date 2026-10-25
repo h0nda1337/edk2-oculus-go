@@ -20,6 +20,7 @@ class Remote:
     def __init__(self, stream):
         self.stream = stream
         stream.settimeout(10)
+        stream.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
     def byte(self):
         item = self.stream.recv(1)
@@ -71,12 +72,13 @@ def one_case(qemu, fd, harness, output, el, icache, debug_mask, reject):
     with socket.socket() as reservation:
         reservation.bind(('127.0.0.1', 0))
         port = reservation.getsockname()[1]
-    command = [qemu, '-machine', 'virt,virtualization=on,secure=off',
+    machine = 'virt,virtualization=' + ('on' if el == 2 else 'off') + ',secure=off'
+    command = [qemu, '-machine', machine,
         '-cpu', 'cortex-a57', '-m', '2048', '-S', '-nodefaults',
         '-display', 'none', '-serial', 'none', '-monitor', 'none',
         '-gdb', f'tcp:127.0.0.1:{port}',
         '-device', f'loader,file={fd},addr={BASE:#x},force-raw=on',
-        '-device', f'loader,file={harness},addr=0x40080000,force-raw=on']
+        '-device', f'loader,file={harness},addr=0x41000000,force-raw=on']
     name = f'el{el}-i{int(icache)}-d{int(debug_mask)}-reject{int(reject)}'
     with (output / f'{name}.qemu.log').open('wb') as log:
         process = subprocess.Popen(command, stdout=log, stderr=log)
@@ -104,10 +106,9 @@ def one_case(qemu, fd, harness, output, el, icache, debug_mask, reject):
             remote.set_register(30, 0x8877665544332210)
             remote.set_register(18, (0x1000 if icache else 0) | (4 if reject else 0))
             remote.set_register(20, BASE)
-            remote.set_register(32, 0x40080000 + (64 if el == 2 else 0))
+            remote.set_register(32, 0x41000000 + (64 if el == 2 else 0))
             state_address = 0x98000000 - 96
             remote.write(state_address, b'\xa5' * 96)
-            previous = None
             for steps in range(160):
                 pc = remote.register(32)
                 if BASE <= pc < BASE + 0x400000:
@@ -129,12 +130,12 @@ def one_case(qemu, fd, harness, output, el, icache, debug_mask, reject):
                             raise RuntimeError('SEC phase mismatch')
                         return {'case': name, 'result': 'PASS', 'steps': steps,
                             'stoppedBeforeFirstBl': True, 'snapshotSha256': hashlib.sha256(state).hexdigest()}
-                    if previous == pc:
+                    if instruction == 0x14000000:
                         if not reject or remote.read(state_address, 96) != b'\xa5' * 96:
-                            raise RuntimeError('Unexpected rejection or a store before rejection')
+                            detail = {f'x{i}': hex(remote.register(i)) for i in range(9, 16)}
+                            raise RuntimeError(f'Unexpected rejection: {name}, pc={pc:#x}, state={detail}')
                         return {'case': name, 'result': 'PASS', 'steps': steps,
                             'rejectedWithoutStackStore': True}
-                previous = pc
                 if not remote.command('s').startswith(('T', 'S')):
                     raise RuntimeError('Unexpected single-step response')
             raise RuntimeError('Entry did not reach a bounded stop')
