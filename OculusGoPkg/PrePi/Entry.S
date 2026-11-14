@@ -30,6 +30,67 @@ _ModuleEntryPoint:
   b.ne EntryRejected
   tst x11, #4
   b.ne EntryRejected
+#if FixedPcdGetBool (PcdSecVisualDiagnostic)
+  // Original terminal SEC measurement, not a bootstrap or the legacy probe.
+  // Binary/DT facts and physical limits: docs/SEC_VISUAL_DIAGNOSTIC.md.
+  // Reject relocation before the first store. The exact linked entry is
+  // independently checked by the diagnostic emulator before any device test.
+  adr x15, _ModuleEntryPoint
+  ldr x16, =0x80088000
+  cmp x15, x16
+  b.ne EntryRejected
+  msr daifset, #0xf
+  mov x14, #2
+  ldr x15, =(0x83401000 + 640 * 4320)
+SecVisualBand:
+  mov x16, #32
+SecVisualRow:
+  mov x17, #0
+SecVisualPixel:
+  cmp x17, #360
+  b.lo SecVisualWhite
+  cmp x17, #720
+  b.lo SecVisualBlack
+  cmp x17, #1080
+  b.lo SecVisualGreen
+  // Magenta; all selected colors are invariant to R/B byte-order swapping.
+  mov w9, #255
+  mov w10, #0
+  mov w11, #255
+  b SecVisualStore
+SecVisualWhite:
+  mov w9, #255
+  mov w10, #255
+  mov w11, #255
+  b SecVisualStore
+SecVisualBlack:
+  mov w9, #0
+  mov w10, #0
+  mov w11, #0
+  b SecVisualStore
+SecVisualGreen:
+  mov w9, #0
+  mov w10, #255
+  mov w11, #0
+SecVisualStore:
+  strb w9, [x15], #1
+  strb w10, [x15], #1
+  strb w11, [x15], #1
+  add x17, x17, #1
+  cmp x17, #1440
+  b.lo SecVisualPixel
+  subs x16, x16, #1
+  b.ne SecVisualRow
+  subs x14, x14, #1
+  b.eq SecVisualDrain
+  ldr x15, =(0x83401000 + 1920 * 4320)
+  b SecVisualBand
+SecVisualDrain:
+  dsb sy
+.global SecVisualComplete
+SecVisualComplete:
+  b SecVisualComplete
+#endif
   mrs x13, daif
   mov x12, sp
   mov x14, x30

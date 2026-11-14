@@ -21,3 +21,4 @@
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase|0x94000000|UINT64|0x00000001
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize|0x04000000|UINT32|0x00000002
   gOculusGoPkgTokenSpaceGuid.PcdStackSize|0x00040000|UINT32|0x00000003
+  gOculusGoPkgTokenSpaceGuid.PcdSecVisualDiagnostic|FALSE|BOOLEAN|0x00000004

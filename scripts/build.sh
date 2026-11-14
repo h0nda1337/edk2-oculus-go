@@ -5,8 +5,17 @@ set -euo pipefail
 project_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 build_target=${1:-DEBUG}
 jobs=${2:-4}
+build_mode=${3:-NORMAL}
 [[ "$build_target" == DEBUG || "$build_target" == RELEASE ]] || exit 2
 [[ "$jobs" =~ ^[1-9][0-9]*$ ]] || exit 2
+[[ "$build_mode" == NORMAL || "$build_mode" == SEC_VISUAL ]] || exit 2
+build_flavor=OculusGo
+build_arguments=()
+if [[ "$build_mode" == SEC_VISUAL ]]; then
+  [[ "$build_target" == DEBUG ]] || { echo 'SEC_VISUAL requires DEBUG' >&2; exit 2; }
+  build_flavor=OculusGoSecVisual
+  build_arguments=(-D GO_BUILD_FLAVOR=OculusGoSecVisual --pcd gOculusGoPkgTokenSpaceGuid.PcdSecVisualDiagnostic=TRUE)
+fi
 export WORKSPACE="$project_root"
 export PACKAGES_PATH="$project_root/edk2:$project_root"
 export EDK_TOOLS_PATH="$project_root/edk2/BaseTools"
@@ -40,14 +49,14 @@ done
 make -C "$EDK_TOOLS_PATH/Source/C" -j"$jobs" GenFfs GenFv GenFw GenSec LzmaCompress VolInfo
 chmod +x "$project_root/scripts/wrappers/Trim"
 stamp=$(date -u +%Y%m%d-%H%M%S)
-report_dir="$project_root/build/$build_target-$stamp"
+report_dir="$project_root/build/$build_target-$build_mode-$stamp"
 mkdir -p "$report_dir"
 python3 "$EDK_TOOLS_PATH/Source/Python/build/build.py" \
   -a AARCH64 -t GCC5 -b "$build_target" -p OculusGoPkg/OculusGoPkg.dsc \
-  -n "$jobs" -y "$report_dir/BUILD_REPORT.txt" 2>&1 | tee "$project_root/logs/build-$stamp.log"
-cp "$project_root/Build/OculusGo/${build_target}_GCC5/FV/OCULUS_GO_DIRECT.fd" "$report_dir/"
-cp "$project_root/Build/OculusGo/${build_target}_GCC5/FV/Guid.xref" "$report_dir/"
+  -n "$jobs" "${build_arguments[@]}" -y "$report_dir/BUILD_REPORT.txt" 2>&1 | tee "$project_root/logs/build-$stamp.log"
+cp "$project_root/Build/$build_flavor/${build_target}_GCC5/FV/OCULUS_GO_DIRECT.fd" "$report_dir/"
+cp "$project_root/Build/$build_flavor/${build_target}_GCC5/FV/Guid.xref" "$report_dir/"
 python3 "$project_root/tools/verify_fd.py" "$report_dir/OCULUS_GO_DIRECT.fd" --report "$report_dir/VERIFY.json"
 python3 "$project_root/tools/audit_build_sources.py" \
-  --build "$project_root/Build/OculusGo/${build_target}_GCC5" --output "$report_dir/SOURCES.json"
+  --build "$project_root/Build/$build_flavor/${build_target}_GCC5" --output "$report_dir/SOURCES.json"
 echo "Output: $report_dir"

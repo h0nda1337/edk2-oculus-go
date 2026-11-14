@@ -1,10 +1,11 @@
 ## SPDX-License-Identifier: BSD-2-Clause-Patent
 [Defines]
+  DEFINE GO_BUILD_FLAVOR  = OculusGo
   PLATFORM_NAME           = OculusGo
   PLATFORM_GUID           = a7e559c7-3e6b-4254-ab21-5549719499af
   PLATFORM_VERSION        = 0.2
   DSC_SPECIFICATION       = 0x0001001B
-  OUTPUT_DIRECTORY        = Build/OculusGo
+  OUTPUT_DIRECTORY        = Build/$(GO_BUILD_FLAVOR)
   SUPPORTED_ARCHITECTURES = AARCH64
   BUILD_TARGETS           = DEBUG|RELEASE
   SKUID_IDENTIFIER        = DEFAULT
@@ -92,6 +93,7 @@
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase|0x94000000
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize|0x04000000
   gOculusGoPkgTokenSpaceGuid.PcdStackSize|0x00040000
+  gOculusGoPkgTokenSpaceGuid.PcdSecVisualDiagnostic|FALSE
   gEmbeddedTokenSpaceGuid.PcdPrePiCpuIoSize|0
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x09BC0000
   gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x09C00000

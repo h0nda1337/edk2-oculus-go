@@ -42,6 +42,7 @@
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize
   gOculusGoPkgTokenSpaceGuid.PcdStackSize
+  gOculusGoPkgTokenSpaceGuid.PcdSecVisualDiagnostic
   gArmTokenSpaceGuid.PcdFdBaseAddress
   gArmTokenSpaceGuid.PcdFdSize
   gArmTokenSpaceGuid.PcdFvBaseAddress
