@@ -6,6 +6,10 @@ readable `evidence/partitions.json`. These are imported backup records, not
 new readbacks or a new verification of every dump. Actual images remain local
 in the previous project's ignored dumps directory.
 
+The local backup files were independently rehashed on 2026-11-13: all 50
+matched. See the [boot-chain audit](BOOT_CHAIN_AUDIT.md) for validation scope,
+per-stage policy, recovery limits, and the EDK2 alternatives.
+
 A later read-only ADB session on 2026-10-25 completely read back `boot_a`,
 `boot_b`, `aboot_a` and `aboot_b`; all four sizes and hashes matched these
 records. This does not extend to the other 46 partitions or to every local

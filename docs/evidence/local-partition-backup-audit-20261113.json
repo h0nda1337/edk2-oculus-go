@@ -1,0 +1,20 @@
+{
+  "scope": "Local backup rehash; not a current device or signature verification",
+  "dateMexicoCity": "2026-11-13",
+  "result": "PASS",
+  "expectedCount": 50,
+  "matchedCount": 50,
+  "matchedBytes": 6620180480,
+  "inventorySha256": "c0876b3a80bf1470260e3bc05b33decbde855082227ca52242a69dff9946e722",
+  "rawLocalReportSha256": "cef2676e369f9248f877df90be0695872da6822d158afe94ab4fc74b83960b36",
+  "formatCounts": {
+    "android-boot-magic": 2,
+    "elf32-magic": 10,
+    "elf64-magic": 12,
+    "ext-superblock-magic-at-standard-offset": 3,
+    "unclassified": 23
+  },
+  "deviceContacted": false,
+  "partitionWriteCommandIssued": false,
+  "signatureVerificationPerformed": false
+}

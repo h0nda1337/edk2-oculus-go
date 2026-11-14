@@ -1,5 +1,8 @@
 # Candidate boot flow
 
+For the stock chain, partition ownership, authentication evidence and the
+separate terminal diagnostic, see the [boot-chain audit](BOOT_CHAIN_AUDIT.md).
+
 ```text
 Existing Qualcomm bootloader (unchanged on headset)
   -> temporary Android boot-v0 container, decompressed by existing bootloader
