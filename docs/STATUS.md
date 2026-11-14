@@ -14,7 +14,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | Execution on Oculus Go | UNKNOWN; not tested |
 | GOP/storage/USB/ACPI/Windows | Not implemented in this reconstruction |
 
-The exact same FD passes the early-entry, SEC and DXE tests. No emulator-only
+The original offline FD below passed the early-entry, SEC and DXE tests. No emulator-only
 board addresses replace the production map. QEMU supplies ordinary RAM that
 contains the selected addresses; tests stop after the diagnostic protocol,
 before normal board-driver dispatch. This does not emulate Kryo, secure-world
@@ -45,6 +45,16 @@ revision 1.1, and boot A/B plus aboot A/B readbacks matched the original hashes.
 Battery was 18%, charging by USB. No headset reboot, payload or partition-write
 command was issued. See READONLY_PREFLIGHT.md and its sanitized evidence record.
 The complete FD is not cleared for a physical execution test.
+
+## 2026-11-13 offline recheck (Mexico City)
+
+- Rebuilt normal FD `72f602d2eec7d2bff0117bf8d8370218e47ef22fbd7023ab42b3497af9294e58` passed host, structural, source audit, and normal entry/SEC/DXE tests. The three changed bytes relative to the original FD encode two generated assertion line numbers; the handoff instruction and inner FV match. The normal FD is still not cleared for the headset.
+- The separate opt-in terminal SEC FD `5cd4fc047a44df5f4322fc7634dbcb0a730261d4f94bb881f69382504dc51db0` passed all 12 offline cases again, with the model report byte-identical to the October run. No payload was sent, no physical attempt consumed. See [measurement review](SEC_VISUAL_PHYSICAL_REVIEW.md).
+- The original-slot readback and stock recovery observations from October are historical. A future attended test requires fresh Android preflight and live Fastboot identity/lock checks.
+
+The rebuilt normal validation report is local at `build/validation-20261114-040751/REPORT.json` (UTC directory name), SHA-256 `eb051bca7f6f28926c3f9bea56bda74cdb2fff33bdd7d994fa7327d19a958424`.
+
+## Earlier, separate experiment
 
 The previous experiment accepted one temporary diagnostic image and showed
 only a static logo. It did not prove EDK2 execution. Android was recovered;

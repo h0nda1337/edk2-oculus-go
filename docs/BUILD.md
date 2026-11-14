@@ -41,8 +41,9 @@ This logs 19 driver checks, 8 format cases, 10 early-entry cases, two SEC/DXE
 handoff cases and two real-DXE TrustMeBro cases. The latter execute the normal
 DXE installation, then call real boot-services LocateProtocol and the actual
 GetState implementation. They stop before returning to board-driver dispatch.
-The full SEC/DXE harness pins the FD hash and reviews the handoff callsite;
-it deliberately rejects another binary until its callsite is reviewed.
+The full SEC/DXE harness pins the reviewed FD hashes and handoff callsites;
+it deliberately rejects an unreviewed binary. The matching SEC/DXE symbol
+files must come from the corresponding build.
 Generated test logs/reports remain in `build/validation-<UTC timestamp>/`.
 
 The source auditor rejects compiler inputs outside the project/upstream/
@@ -62,5 +63,7 @@ python tools/android_boot.py --fd build/<successful-run>/OCULUS_GO_DIRECT.fd \
 ```
 
 This only creates a local file. Python/zlib versions are recorded because
-gzip bitstreams may differ across runtimes. No command in this new tree
-executes the image on the headset.
+gzip bitstreams may differ across runtimes. The normal FD remains quarantined.
+A separate opt-in `SEC_VISUAL` diagnostic and one-attempt runner are covered
+by [their own review](SEC_VISUAL_PHYSICAL_REVIEW.md); the runner defaults to
+offline validation and cannot be used for the normal FD.

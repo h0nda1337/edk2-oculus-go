@@ -18,8 +18,11 @@ import uuid
 from emulate_entry import Remote
 from verify_fd import BASE, verify
 
-EXPECTED_FD = 'a4acf898e51a814ad6ed4c84a9dacd8788120ad272c3fa528fb0b7579b698230'
-HANDOFF_ELF_OFFSET = 0x6A34  # Reviewed BLR x24, LoadDxeCoreFromFfsFile inlined.
+REVIEWED_FDS = {
+    'a4acf898e51a814ad6ed4c84a9dacd8788120ad272c3fa528fb0b7579b698230': 0x6A34,
+    # Only two generated DebugAssert line operands changed; callsites unchanged.
+    '72f602d2eec7d2bff0117bf8d8370218e47ef22fbd7023ab42b3497af9294e58': 0x6A34,
+}
 ENTRY_GUID = uuid.UUID('6140ad32-c38e-4296-8d6b-2842463c22c1').bytes_le
 
 
@@ -225,11 +228,12 @@ def main():
     fd = args.fd.resolve()
     data = fd.read_bytes()
     info = verify(data)
-    if hashlib.sha256(data).hexdigest() != EXPECTED_FD:
+    fd_sha = hashlib.sha256(data).hexdigest()
+    if fd_sha not in REVIEWED_FDS:
         raise SystemExit('Review callsites for this different FD first')
     names = symbols(args.sec_elf.resolve())
     bias = int(info['secEntryAddress'], 16) - names['_ModuleEntryPoint']
-    handoff = bias + HANDOFF_ELF_OFFSET
+    handoff = bias + REVIEWED_FDS[fd_sha]  # BLR x24, LoadDxeCoreFromFfsFile inlined.
     if struct.unpack_from('<I', data, handoff - BASE)[0] != 0xD63F0300:
         raise SystemExit('Reviewed BLR x24 callsite mismatch')
     stops = [bias + names[name] for name in
@@ -242,7 +246,7 @@ def main():
     dxe_names = symbols(args.dxe_elf.resolve()) if args.dxe_elf else None
     cases = [run_case(shutil.which('qemu-system-aarch64'), fd, harness, args.output,
                       el, stops, handoff, dxe_names) for el in (1, 2)]
-    report = {'result': 'PASS', 'fdSha256': EXPECTED_FD, 'cases': cases,
+    report = {'result': 'PASS', 'fdSha256': fd_sha, 'cases': cases,
         'physicalExecution': 'UNKNOWN', 'boardHardwareValidation': 'NOT-PERFORMED'}
     (args.output / 'REPORT.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report, indent=2))

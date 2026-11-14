@@ -1,7 +1,7 @@
 """Run the complete offline validation, without ADB/Fastboot or headset access.
 
 Run with Python on Linux/WSL. Logs/results stay in an ignored timestamped
-directory. This checks the pinned first direct FD, not any arbitrary image.
+directory. SEC/DXE validation only accepts FDs pinned by the handoff harness.
 SPDX-License-Identifier: BSD-2-Clause-Patent
 """
 import argparse

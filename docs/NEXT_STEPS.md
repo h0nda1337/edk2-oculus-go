@@ -10,12 +10,13 @@ No reboot or payload. Battery was 18%, charging. See READONLY_PREFLIGHT.md.
 
 1. Notify the owner and END THE TURN before requiring the physical Go. Do
    not issue ADB/Fastboot or assume connection/physical availability.
-2. The initial read-only identity, Android/root state, battery and four-partition
-   integrity check has passed. Refresh only as needed in a future separately
-   confirmed device session; no automatic reboot or payload belongs to it.
-3. Complete a new physical diagnostic review: secure handoff, watchdog,
-   exception visibility, load/scratch ranges and current recovery controls.
-   Full firmware execution remains gated even though the emulator passes.
+2. Refresh read-only identity, Android/root state and four-partition integrity
+   in the next confirmed session. The 2026-10-25 captures are historical, not
+   current preflight evidence. No automatic reboot or payload belongs to this step.
+3. Apply the [separate terminal SEC review](SEC_VISUAL_PHYSICAL_REVIEW.md) only
+   after fresh preflight (at most one hour old), operator presence and live
+   Fastboot checks. No attempt has been made. Handoff, watchdog and scanout
+   are still unknown; the normal FD remains quarantined.
 4. Once entry is demonstrated, add evidence-backed display inheritance/GOP,
    then storage/USB and maintainable ACPI before Windows loader work.
 

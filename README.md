@@ -32,3 +32,7 @@ See `docs/BUILD.md` for the complete offline test command and `docs/STATUS.md`
 for hashes and limits. **Execution on the headset, GOP and Windows boot remain
 unconfirmed.** Before any step requiring the physical headset, work stops and
 the owner is notified. Partition writes remain separately gated.
+
+The opt-in [terminal SEC measurement](docs/SEC_VISUAL_PHYSICAL_REVIEW.md) is a
+separately reviewed, one-attempt candidate. It does not dispatch DXE, has not
+run on the headset, and does not clear the normal FD for device execution.

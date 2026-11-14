@@ -61,5 +61,7 @@ The raw failure is preserved. See `evidence/stock-recovery-session-20261025.json
 `PASS-READONLY` is an integrity/connection observation only. It does not prove
 EDK2 execution, reserve memory, validate inherited display/watchdog state or
 clear any image for a physical boot. The full candidate remains
-NOT-FOR-DEVICE-EXECUTION. Do not perform experimental boots with the recorded
-low battery state; charging alone does not satisfy the other review gates.
+NOT-FOR-DEVICE-EXECUTION. The recorded battery state and original hash matches
+are historical. For the separately reviewed terminal diagnostic, the owner did
+not set a battery percentage threshold; fresh integrity evidence and the other
+review gates remain required.
