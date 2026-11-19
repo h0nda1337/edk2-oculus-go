@@ -41,6 +41,17 @@ python3 tests/sec_stack_qemu.py --fd "$FD" --sec-elf "$elf" --report "$MODEL_REP
 
 `FD` apunta al fichero `OCULUS_GO_DIRECT.fd` de esa compilación. Las rutas de los dos informes deben ser nuevas. El empaquetador del proyecto combina ese FD con el DTB EVT preservado y valida el hash de la imagen de arranque original. La reproducción requiere las copias privadas. El verificador local del ensayo se ejecuta con `python tools/run_sec_stack_once.py`.
 
+## Regresión del arranque normal
+
+El perfil normal recompilado produjo el mismo FD de referencia, SHA-256
+`72f602d2eec7d2bff0117bf8d8370218e47ef22fbd7023ab42b3497af9294e58`.
+En QEMU llegó a DXE y consultó el protocolo TrustMeBro tanto en EL1 como en
+EL2. El SHA-256 del informe de las seis etapas de validación es
+`9924a24077001749bab47b7fa88445ed47c97c64942ae5bd9a473b81e95680cf`.
+Las 44 pruebas Python de host pasaron en Windows, incluida la del bloqueo
+del archivo de imagen durante su lectura. Los informes del perfil anterior
+SEC_MEM (QEMU y análisis estático) también reprodujeron sus hashes originales.
+
 ## Sesión física pendiente
 
 La imagen candidata es `local/OculusGo-SEC-STACK-fcbd07b79d86.img`. Su SHA-256 es `ecc169ddc6ae73c7faec6330411c58a0b50aded590aee5f25fd668477157a554`. El punto de partida es Android en el visor conocido, el operador presente y el cable USB conectado. El procedimiento coteja un preflight reciente y los hashes completos de `aboot_a/b` y `boot_a/b`, identifica el Fastboot original y reserva un único intento antes del envío temporal. El destino de carga es RAM. El ejecutor y sus argumentos se documentan en su ayuda.
