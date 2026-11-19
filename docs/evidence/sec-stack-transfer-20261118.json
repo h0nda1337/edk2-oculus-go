@@ -1,0 +1,37 @@
+{
+  "dateMexicoCity": "2026-11-18",
+  "scope": "terminal-edk2-sec-stack",
+  "revision": "fa0c88bebc5827a611e27075dbe16cc6a13c6076",
+  "reviewSha256": "1ee0816df40b244c0f79130e47539985cd4e832bb9ae77e8b1670cfb43d8b1a1",
+  "preflightStartUtc": "2026-11-19T04:51:57Z",
+  "preflightResult": "PASS-READONLY",
+  "preflightReportSha256": "c22a40afc110d3efa8032789d42aa63ed4544822bdc1f704fae4d386900e2e42",
+  "partitionsMatchedBefore": [
+    "aboot_a",
+    "aboot_b",
+    "boot_a",
+    "boot_b"
+  ],
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferSessionStartUtc": "2026-11-19T04:53:06Z",
+  "transferReportSha256": "50aa2bba99cb436ff98cc9b9286f53f1aa7fe5cf89b95f55f2e05916c369b5e5",
+  "fastbootBootStderrSha256": "f427561be1b73aee613a10ac8d0179c2ba50e6b3c6af170e24ed8f26e15d1572",
+  "imageSha256": "ecc169ddc6ae73c7faec6330411c58a0b50aded590aee5f25fd668477157a554",
+  "fdSha256": "fcbd07b79d863ab39c9d3c8869f3a0c2a82fb9d059ed6a00ed97bfae691f54de",
+  "imageBytes": 376832,
+  "fastbootReport": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "physicalSecStackExecutionAtHostCommandExit": "UNKNOWN",
+  "operatorObservationAtHostCommandExit": "PENDING",
+  "postRecoveryReadbackAtHostCommandExit": "PENDING"
+}
