@@ -5,9 +5,14 @@
 #include "Layout.h"
 #ifdef OCULUS_GO_SEC_DXE
 #include <Trial/DxeLayout.h>
+#define TEXT_RANGE_PARAMS , UINTN TextBase, UINTN TextEnd
+#define TEXT_RANGE_ARGS   , TextBase, TextEnd
+#else
+#define TEXT_RANGE_PARAMS
+#define TEXT_RANGE_ARGS
 #endif
 
-// One root, one L2 and five L3 tables. The second band crosses a 2 MiB
+// One root, one L2 and one L3 per occupied window. The second band crosses a 2 MiB
 // boundary. The table walker uses physical addresses; the pages holding
 // its descriptors are deliberately absent from the CPU's virtual map.
 STATIC CONST UINT32 Windows[] = {0x80000000, 0x80400000, 0x83600000, 0x83a00000, 0x83c00000
@@ -21,7 +26,7 @@ STATIC_ASSERT ((GO_BAND_BYTES + GO_PAGE_BYTES - 1) / GO_PAGE_BYTES == GO_BAND_PA
 
 STATIC
 UINT64
-Descriptor (UINTN Table, UINTN Index, UINTN El, UINTN TextBase, UINTN TextEnd)
+Descriptor (UINTN Table, UINTN Index, UINTN El TEXT_RANGE_PARAMS)
 {
   UINTN  N;
   UINT64 Address;
@@ -41,8 +46,11 @@ Descriptor (UINTN Table, UINTN Index, UINTN El, UINTN TextBase, UINTN TextEnd)
 
   Address = Windows[Table - 2] + Index * GO_PAGE_BYTES;
   Attributes = TT_TYPE_BLOCK_ENTRY_LEVEL3 | TT_AF | TT_SH_INNER_SHAREABLE | TT_ATTR_INDX_MEMORY_NON_CACHEABLE;
-  if (((Address >= GO_CODE_START) && (Address < GO_CODE_END)) ||
-      ((Address >= TextBase) && (Address < TextEnd))) {
+  if (((Address >= GO_CODE_START) && (Address < GO_CODE_END))
+#ifdef OCULUS_GO_SEC_DXE
+      || ((Address >= TextBase) && (Address < TextEnd))
+#endif
+      ) {
     return Address | Attributes | TT_AP_NO_RO | ((El == 4) ? TT_UXN_MASK : 0);
   }
 #ifdef OCULUS_GO_SEC_DXE
@@ -59,28 +67,21 @@ Descriptor (UINTN Table, UINTN Index, UINTN El, UINTN TextBase, UINTN TextEnd)
 }
 
 BOOLEAN
-MmuBuildTables (UINTN El
-#ifdef OCULUS_GO_SEC_DXE
-                , UINTN TextBase, UINTN TextEnd
-#endif
-                )
+MmuBuildTables (UINTN El TEXT_RANGE_PARAMS)
 {
   volatile UINT64 *Words = (volatile UINT64 *)(UINTN)GO_TABLE_BASE;
   UINTN I;
-#ifndef OCULUS_GO_SEC_DXE
-  CONST UINTN TextBase = 0, TextEnd = 0;
-#endif
   for (I = 0; I < GO_TABLE_COUNT * TT_ENTRY_COUNT; ++I) {
     if (Words[I] != MAX_UINT64) {
       return FALSE;
     }
   }
   for (I = 0; I < GO_TABLE_COUNT * TT_ENTRY_COUNT; ++I) {
-    Words[I] = Descriptor (I / TT_ENTRY_COUNT, I % TT_ENTRY_COUNT, El, TextBase, TextEnd);
+    Words[I] = Descriptor (I / TT_ENTRY_COUNT, I % TT_ENTRY_COUNT, El TEXT_RANGE_ARGS);
   }
   __asm__ volatile ("dsb sy" ::: "memory");
   for (I = 0; I < GO_TABLE_COUNT * TT_ENTRY_COUNT; ++I) {
-    if (Words[I] != Descriptor (I / TT_ENTRY_COUNT, I % TT_ENTRY_COUNT, El, TextBase, TextEnd)) {
+    if (Words[I] != Descriptor (I / TT_ENTRY_COUNT, I % TT_ENTRY_COUNT, El TEXT_RANGE_ARGS)) {
       return FALSE;
     }
   }
