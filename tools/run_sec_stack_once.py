@@ -1,17 +1,13 @@
 """Verify the private SEC_STACK artifacts or run their one attended temporary boot.
 SPDX-License-Identifier: BSD-2-Clause-Patent
 """
-import json
 from pathlib import Path
 import re
 import subprocess
-import zlib
 
-from android_boot import DTB_SHA, HEADER, PAGE, verify_container
 from attended_terminal import attended_main, measure_once
 from run_sec_c_once import require
-from run_sec_visual_once import checked_file, sha
-from verify_fd import verify
+from terminal_review import verify_terminal_inputs
 
 ROOT = Path(__file__).resolve().parents[1]
 REVIEW = 'docs/evidence/sec-stack-review-20261118.json'
@@ -57,41 +53,9 @@ def validate_reports(model, static, digest):
 
 
 def reviewed_inputs(root, review):
-    require(review['scope'] == 'terminal-edk2-sec-stack' and review['decision'] == 'ONE-ATTENDED-TEMPORARY-BOOT'
-            and type(review['maxAttempts']) is int and review['maxAttempts'] == 1, 'Wrong review')
-    fd_path, fd = checked_file(root, review['fd'], ('build',))
-    image_path, image = checked_file(root, review['image'], ('local',))
-    require(fd_path.parent.name.startswith('DEBUG-SEC_STACK-') and len(fd) == review['fd']['size']
-            and len(image) == review['image']['size'] and fd[0x3be000:0x3be008] == b'GOSTACK1'
-            and fd[64:PAGE] == b'\xff'*(PAGE-64), 'Unexpected diagnostic layout')
-    info = verify(fd)
-    require(info['secEntryAddress'] == review['entryAddress'], 'Different SEC entry')
-    compressed = image[PAGE:PAGE + HEADER.unpack_from(image)[1]]
-    decoder = zlib.decompressobj(31)
-    require(decoder.decompress(compressed, len(fd)+1) == fd and decoder.eof and sha(decoder.unused_data) == DTB_SHA,
-            'Unexpected FD or Pacific EVT tree')
-    verify_container(image, fd, decoder.unused_data)
-    reports = {}
-    for key, filename in [('model','QEMU.json'), ('staticAudit','STATIC.json'), ('sourceAudit','SOURCES.json')]:
-        path, raw = checked_file(root, review[key], ('build',))
-        require(path == fd_path.parent/filename, f'{key} belongs to a different build')
-        reports[key] = json.loads(raw)
-    validate_reports(reports['model'], reports['staticAudit'], info['sha256'])
-    audit = reports['sourceAudit']
-    require(audit['result'] == 'PASS' and audit['rejected'] == [] and audit['upstreamTreeClean'] is True
-            and audit['upstreamInputsTracked'] is True and
-            audit['edk2'] == json.loads((root/'sources.lock.json').read_bytes())['edk2'], 'Source audit failed')
-    originals = [r for r in audit['files'] if r['origin'] == 'original-project']
-    require({r['file'] for r in originals} == SEC_SOURCES, 'Unexpected platform code in SEC')
-    require({r['file'] for r in review['checkedSourceFiles']} == REQUIRED, 'Reviewed inputs incomplete')
-    for row in [*originals, *review['checkedSourceFiles']]:
-        checked_file(root, row, ('OculusGoPkg','scripts','tests','tools'))
-    _, raw = checked_file(root, review['priorReadback'], ('local',))
-    previous = json.loads((root/PREVIOUS).read_bytes())
-    require(sha(raw) == previous['recovery']['reportSha256'], 'Prior device evidence differs')
-    serial = json.loads(raw)['serial']
-    require(re.fullmatch('[A-Za-z0-9]+', serial), 'Unexpected prior device identity')
-    return image_path, serial
+    return verify_terminal_inputs(root, review, scope='terminal-edk2-sec-stack',
+                                  build_prefix='DEBUG-SEC_STACK-', sec_sources=SEC_SOURCES,
+                                  required=REQUIRED, previous_record=PREVIOUS, validate_reports=validate_reports)
 
 
 def measure(root, image, tool, serial, preflight, report, output):
