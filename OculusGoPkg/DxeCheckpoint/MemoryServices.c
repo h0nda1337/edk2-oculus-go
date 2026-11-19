@@ -6,6 +6,10 @@
 extern EFI_SYSTEM_TABLE   *gDxeCoreST;
 extern EFI_BOOT_SERVICES   mBootServices;
 
+#ifdef OCULUS_GO_DXE_GCD
+#include <Trial/StackLayout.h>
+#endif
+
 STATIC UINTN mFreeBase;
 STATIC UINTN mFreeEnd;
 #define TRIAL_PAGES  2
@@ -18,6 +22,9 @@ TrialMemoryHandoff (EFI_HOB_HANDOFF_INFO_TABLE *Phit)
   UINTN Low = ALIGN_VALUE (Phit->EfiFreeMemoryBottom, EFI_PAGE_SIZE);
   UINTN High = Phit->EfiFreeMemoryTop;
   UINTN Resources = 0;
+#ifdef OCULUS_GO_DXE_GCD
+  UINTN ReservedStacks = 0;
+#endif
   if (Low < GO_DXE_POOL || High > GO_DXE_POOL_END || Low >= High || (High & EFI_PAGE_MASK) ||
       High - Low < 0x20000) {
     return FALSE;
@@ -26,6 +33,16 @@ TrialMemoryHandoff (EFI_HOB_HANDOFF_INFO_TABLE *Phit)
     EFI_HOB_GENERIC_HEADER *H = (VOID *)P;
     if (H->HobType == EFI_HOB_TYPE_RESOURCE_DESCRIPTOR) {
       EFI_HOB_RESOURCE_DESCRIPTOR *R = (VOID *)P;
+#ifdef OCULUS_GO_DXE_GCD
+      if (H->HobLength == sizeof (*R) && R->ResourceType == EFI_RESOURCE_MEMORY_RESERVED &&
+          R->PhysicalStart == GO_DXE_STACK_BASE && R->ResourceLength == GO_TRIAL_STACK_TOP - GO_DXE_STACK_BASE &&
+          R->ResourceAttribute == (EFI_RESOURCE_ATTRIBUTE_PRESENT | EFI_RESOURCE_ATTRIBUTE_INITIALIZED |
+                                   EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE)) {
+        ++ReservedStacks;
+        P += H->HobLength;
+        continue;
+      }
+#endif
       if (H->HobLength != sizeof (*R) || R->ResourceType != EFI_RESOURCE_SYSTEM_MEMORY ||
           R->PhysicalStart != GO_DXE_POOL || R->ResourceLength != GO_DXE_POOL_END - GO_DXE_POOL ||
           R->ResourceAttribute != (EFI_RESOURCE_ATTRIBUTE_PRESENT | EFI_RESOURCE_ATTRIBUTE_INITIALIZED |
@@ -47,6 +64,11 @@ TrialMemoryHandoff (EFI_HOB_HANDOFF_INFO_TABLE *Phit)
     }
     P += H->HobLength;
   }
+#ifdef OCULUS_GO_DXE_GCD
+  if (ReservedStacks != 1) {
+    return FALSE;
+  }
+#endif
   if (Resources != 1) {
     return FALSE;
   }
@@ -147,7 +169,11 @@ ExerciseMemory (VOID *HobStart)
   return KeyAllocated != KeyFreed;
 }
 
-// Link-time hook for this terminal image only. The two runtime pools have been created.
+#ifdef OCULUS_GO_DXE_GCD
+EFI_STATUS __real_CoreInitializeImageServices (VOID *HobStart);
+#endif
+
+// The two runtime pools have been created before this diagnostic hook.
 // DxeMain and the memory services being measured are linked directly from upstream.
 EFI_STATUS
 __wrap_CoreInitializeImageServices (VOID *HobStart)
@@ -155,7 +181,13 @@ __wrap_CoreInitializeImageServices (VOID *HobStart)
   TrialPaint (0xff8000, 0x000000);
   if (ExerciseMemory (HobStart)) {
     TrialPaint (0x0000ff, 0x00ff00);
+#ifdef OCULUS_GO_DXE_GCD
+    if (__real_CoreInitializeImageServices (HobStart) == EFI_SUCCESS) {
+      return EFI_SUCCESS;
+    }
+#else
     __asm__ volatile (".global TrialMemoryComplete\nTrialMemoryComplete: b TrialMemoryComplete");
+#endif
   }
   __asm__ volatile (".global TrialMemoryRejected\nTrialMemoryRejected: b TrialMemoryRejected");
   return EFI_ABORTED;

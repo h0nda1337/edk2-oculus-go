@@ -155,6 +155,14 @@ TrialPrepareDxe (TRIAL_HANDOFF *Out)
 #endif
       EFI_RESOURCE_ATTRIBUTE_INITIALIZED | EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
       GO_DXE_POOL, GO_DXE_POOL_END - GO_DXE_POOL);
+#ifdef OCULUS_GO_DXE_GCD
+  // Image.c retains the module GUID in the original list until DXE dispatch.
+  // Keep its page allocated after GCD copies the list to its new address.
+  BuildMemoryAllocationHob (GO_DXE_POOL, EFI_PAGE_SIZE, EfiBootServicesData);
+  BuildResourceDescriptorHob (EFI_RESOURCE_MEMORY_RESERVED,
+      EFI_RESOURCE_ATTRIBUTE_PRESENT | EFI_RESOURCE_ATTRIBUTE_INITIALIZED | EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
+      GO_STACK_PAGE, GO_STACK_TOP - GO_STACK_PAGE);
+#endif
   BuildStackHob (GO_STACK_PAGE, GO_STACK_TOP - GO_STACK_PAGE);
   BuildCpuHob (32, 0);
   SetBootMode (BOOT_WITH_FULL_CONFIGURATION);

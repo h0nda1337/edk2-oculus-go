@@ -14,7 +14,7 @@
 !include MdePkg/MdeLibs.dsc.inc
 
 [BuildOptions.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem
+!if $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd
   # Keep the PI handoff calls visible in the ELF used by the measurement.
   GCC:*_*_AARCH64_CC_FLAGS = -march=armv8-a -mgeneral-regs-only -fno-jump-tables -fno-lto -fno-stack-protector
   # GCC5's EDK2 link recipe always forwards an option to the GCC linker
@@ -125,10 +125,12 @@
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0
 
 [Components.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd
   OculusGoPkg/SecMmu/SecDxe.inf {
     <BuildOptions>
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeMem
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeGcd
+      GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_SEC_DXE=1 -DOCULUS_GO_DXE_MEMORY=1 -DOCULUS_GO_DXE_GCD=1
+!elseif $(GO_BUILD_FLAVOR) == OculusGoDxeMem
       GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_SEC_DXE=1 -DOCULUS_GO_DXE_MEMORY=1
 !else
       GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_SEC_DXE=1
@@ -137,17 +139,20 @@
   }
   MdeModulePkg/Core/Dxe/DxeMain.inf {
     <LibraryClasses>
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeMem
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeGcd
+      DebugAgentLib|OculusGoPkg/DxeCheckpoint/GcdCheckpoint.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoDxeMem
       DebugAgentLib|OculusGoPkg/DxeCheckpoint/MemoryCheckpoint.inf
 !else
       DebugAgentLib|OculusGoPkg/DxeCheckpoint/DxeCheckpoint.inf
 !endif
     <BuildOptions>
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeMem
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeGcd
+      GCC:*_*_AARCH64_DLINK_FLAGS = -Wl,--wrap=CoreInitializeImageServices,--wrap=CoreInitializeGcdServices
+!elseif $(GO_BUILD_FLAVOR) == OculusGoDxeMem
       GCC:*_*_AARCH64_DLINK_FLAGS = -Wl,--wrap=CoreInitializeImageServices
 !endif
-      # GCC 14 diagnoses Prot in upstream CoreOpenProtocol. This terminal
-      # profile stops before protocol services. Keep the warning visible.
+      # GCC 14 diagnoses Prot in upstream CoreOpenProtocol. Retain its warning.
       GCC:*_*_AARCH64_CC_FLAGS = -Wno-error=maybe-uninitialized
   }
 !elseif $(GO_BUILD_FLAVOR) == OculusGoSecMmu
