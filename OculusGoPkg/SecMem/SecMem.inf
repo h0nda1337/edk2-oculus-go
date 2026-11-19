@@ -1,0 +1,24 @@
+## @file
+# Terminal SEC memory handoff measurement. SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = OculusGoSecMem
+  FILE_GUID      = 0e2e00c7-3926-480d-ad85-46af1a1f2881
+  MODULE_TYPE    = SEC
+  VERSION_STRING = 1.0
+
+[Sources.AARCH64]
+  Entry.S | GCC
+  Fdt.c
+  Hob.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[LibraryClasses]
+  HobLib

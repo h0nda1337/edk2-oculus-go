@@ -31,6 +31,9 @@ ERASE_POLARITY     = 1
 MEMORY_MAPPED      = TRUE
 READ_STATUS        = TRUE
 WRITE_STATUS       = TRUE
+!if $(GO_BUILD_FLAVOR) == OculusGoSecMem
+  INF OculusGoPkg/SecMem/SecMem.inf
+!else
   INF OculusGoPkg/PrePi/PrePi.inf
   FILE FV_IMAGE = 795b7b9c-616a-4a56-a9fa-f9cfec95bd66 {
     SECTION GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF PROCESSING_REQUIRED = TRUE {
@@ -68,5 +71,6 @@ APRIORI DXE {
   INF MdeModulePkg/Core/RuntimeDxe/RuntimeDxe.inf
   INF MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
   INF MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
+!endif
 
 !include ArmVirtPkg/ArmVirtRules.fdf.inc

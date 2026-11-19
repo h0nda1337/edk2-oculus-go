@@ -14,7 +14,16 @@
 !include MdePkg/MdeLibs.dsc.inc
 
 [BuildOptions.common]
+!if $(GO_BUILD_FLAVOR) == OculusGoSecMem
+  # This profile never enables FP/SIMD. Keep the real PI constructor call
+  # separately visible in the linked SEC image for the handoff measurement.
+  GCC:*_*_AARCH64_CC_FLAGS = -march=armv8-a -mgeneral-regs-only -fno-jump-tables -fno-lto -fno-stack-protector
+  # GCC5's EDK2 link recipe always forwards an option to the GCC linker
+  # plugin. Load it at link time; the measurement's C objects are native.
+  GCC:*_*_AARCH64_DLINK2_FLAGS = -flto
+!else
   GCC:*_*_AARCH64_CC_FLAGS = -march=armv8-a -fno-jump-tables
+!endif
 
 [LibraryClasses.common]
   ArmDisassemblerLib|ArmPkg/Library/ArmDisassemblerLib/ArmDisassemblerLib.inf
@@ -117,6 +126,9 @@
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0
 
 [Components.common]
+!if $(GO_BUILD_FLAVOR) == OculusGoSecMem
+  OculusGoPkg/SecMem/SecMem.inf
+!else
 !if $(GO_BUILD_FLAVOR) == OculusGoGopModel
   OculusGoPkg/PrePi/PrePi.inf {
     <BuildOptions>
@@ -150,3 +162,4 @@
   MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
   MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
   OculusGoPkg/Drivers/TrustMeBroDxe/TrustMeBroDxe.inf
+!endif

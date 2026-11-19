@@ -15,6 +15,7 @@ case "$build_mode" in
   SEC_VISUAL) build_flavor=OculusGoSecVisual ;;
   GOP_MODEL) build_flavor=OculusGoGopModel ;;
   SEC_C) build_flavor=OculusGoSecC ;;
+  SEC_MEM) build_flavor=OculusGoSecMem ;;
   *) echo "Unknown build mode: $build_mode" >&2; exit 2 ;;
 esac
 if [[ "$build_mode" != NORMAL ]]; then
