@@ -21,7 +21,7 @@ DATA = {
   0x41,0x52,0x4d,0x64, 0x00,0x00,0x00,0x00
 }
 
-!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem
 0x00001000|0x0007F000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVCOMPACT
@@ -50,7 +50,7 @@ ERASE_POLARITY     = 1
 MEMORY_MAPPED      = TRUE
 READ_STATUS        = TRUE
 WRITE_STATUS       = TRUE
-!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem
   INF OculusGoPkg/SecMmu/SecDxe.inf
   FILE FV_IMAGE = 795b7b9c-616a-4a56-a9fa-f9cfec95bd66 {
     SECTION GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF PROCESSING_REQUIRED = TRUE {

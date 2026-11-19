@@ -32,6 +32,39 @@ Erased (UINTN Base, UINTN End)
   return TRUE;
 }
 
+#ifdef OCULUS_GO_DXE_MEMORY
+STATIC __attribute__((noinline)) BOOLEAN
+TrialVerifyArenaPattern (UINT64 Mask)
+{
+  for (UINTN Address = GO_DXE_POOL; Address < GO_DXE_POOL_END; Address += sizeof (UINT64)) {
+    if (*(volatile UINT64 *)Address != (Address ^ Mask)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+STATIC BOOLEAN
+QualifyArena (VOID)
+{
+  UINT64 Mask = 0xa55ac33c5aa53cc3ULL;
+  for (UINTN Pass = 0; Pass < 2; ++Pass, Mask = ~Mask) {
+    for (UINTN Address = GO_DXE_POOL; Address < GO_DXE_POOL_END; Address += sizeof (UINT64)) {
+      *(volatile UINT64 *)Address = Address ^ Mask;
+    }
+    __asm__ volatile ("dsb sy" ::: "memory");
+    if (!TrialVerifyArenaPattern (Mask)) {
+      return FALSE;
+    }
+  }
+  for (UINTN Address = GO_DXE_POOL; Address < GO_DXE_POOL_END; Address += sizeof (UINT64)) {
+    *(volatile UINT64 *)Address = MAX_UINT64;
+  }
+  __asm__ volatile ("dsb sy" ::: "memory");
+  return Erased (GO_DXE_POOL - EFI_PAGE_SIZE, GO_DXE_POOL_END + EFI_PAGE_SIZE);
+}
+#endif
+
 STATIC BOOLEAN
 CheckPe (UINTN Pe, UINTN End, TRIAL_HANDOFF *Out, UINTN *ExpectedSize)
 {
@@ -105,6 +138,11 @@ TrialPrepareDxe (TRIAL_HANDOFF *Out)
       !Erased (GO_DXE_POOL - EFI_PAGE_SIZE, GO_DXE_POOL_END + EFI_PAGE_SIZE)) {
     return FALSE;
   }
+#ifdef OCULUS_GO_DXE_MEMORY
+  if (!QualifyArena ()) {
+    return FALSE;
+  }
+#endif
   Hob = HobConstructor ((VOID *)GO_DXE_POOL, GO_DXE_POOL_END - GO_DXE_POOL,
                         (VOID *)GO_DXE_POOL, (VOID *)GO_DXE_POOL_END);
   if ((UINTN)Hob != GO_DXE_POOL || EFI_ERROR (PrePeiSetHobList (Hob))) {
@@ -112,6 +150,9 @@ TrialPrepareDxe (TRIAL_HANDOFF *Out)
   }
   ProcessLibraryConstructorList ();
   BuildResourceDescriptorHob (EFI_RESOURCE_SYSTEM_MEMORY, EFI_RESOURCE_ATTRIBUTE_PRESENT |
+#ifdef OCULUS_GO_DXE_MEMORY
+      EFI_RESOURCE_ATTRIBUTE_TESTED |
+#endif
       EFI_RESOURCE_ATTRIBUTE_INITIALIZED | EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
       GO_DXE_POOL, GO_DXE_POOL_END - GO_DXE_POOL);
   BuildStackHob (GO_STACK_PAGE, GO_STACK_TOP - GO_STACK_PAGE);

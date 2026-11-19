@@ -16,6 +16,7 @@ case "$build_mode" in
   GOP_MODEL) build_flavor=OculusGoGopModel ;;
   SEC_C) build_flavor=OculusGoSecC ;;
   SEC_MEM) build_flavor=OculusGoSecMem ;;
+  DXE_MEM) build_flavor=OculusGoDxeMem ;;
   SEC_DXE) build_flavor=OculusGoSecDxe ;;
   SEC_MMU) build_flavor=OculusGoSecMmu ;;
   SEC_STACK) build_flavor=OculusGoSecStack ;;

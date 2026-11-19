@@ -5,6 +5,10 @@
 #include <Guid/MemoryAllocationHob.h>
 #include <Trial/DxeLayout.h>
 
+#ifdef OCULUS_GO_DXE_MEMORY
+BOOLEAN TrialMemoryHandoff (EFI_HOB_HANDOFF_INFO_TABLE *Phit);
+#endif
+
 STATIC BOOLEAN
 CheckHandoff (VOID *Context, UINTN Pc)
 {
@@ -59,8 +63,15 @@ InitializeDebugAgent (UINT32 InitFlag, VOID *Context, DEBUG_AGENT_CONTINUE Funct
   UINTN Pc;
   __asm__ volatile ("adr %0, ." : "=r"(Pc));
   if (InitFlag == DEBUG_AGENT_INIT_DXE_CORE && Function == NULL && CheckHandoff (Context, Pc)) {
+#ifdef OCULUS_GO_DXE_MEMORY
+    if (TrialMemoryHandoff (Context)) {
+      TrialPaint (0x00ff00, 0xff00ff);
+      return;
+    }
+#else
     TrialPaint (0x00ff00, 0xff00ff);
     __asm__ volatile (".global TrialDxeComplete\nTrialDxeComplete: b TrialDxeComplete");
+#endif
   }
   __asm__ volatile (".global TrialDxeRejected\nTrialDxeRejected: b TrialDxeRejected");
 }
