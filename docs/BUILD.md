@@ -67,3 +67,27 @@ gzip bitstreams may differ across runtimes. The normal FD remains quarantined.
 A separate opt-in `SEC_VISUAL` diagnostic and one-attempt runner are covered
 by [their own review](SEC_VISUAL_PHYSICAL_REVIEW.md); the runner defaults to
 offline validation and cannot be used for the normal FD.
+
+## Test the UEFI graphics protocol in QEMU
+
+```powershell
+.\scripts\build-edk2.ps1 -Mode GOP_MODEL -Target DEBUG -Jobs 8
+wsl -d Debian -- python3 tests/gop_model_qemu.py
+```
+
+This profile maps a reserved 1440 × 2560 surface in emulated RAM and dispatches
+the original `InheritedGopDxe` driver after TrustMeBro. UEFI applications can
+find the protocol with `LocateProtocol`. The single `PixelBltOnly` mode
+translates UEFI BLT pixels into a packed 24-bit surface. RGB byte order is a
+test convention. The physical SEC colors are invariant under red/blue swap.
+
+The November 18 build produced FD
+`39cca2b407587ce474e7f2780449acb5e0f840943e2cf77aaff0271adde490ab`.
+Its input audit accepted 7 project files, 434 upstream files and 147 generated
+files (report SHA-256 `64d344fc33e57f12923be48db61b2b7945c09cdea640b9df984f4fe92c98de46`).
+The test made 20 calls at EL1 and 20 at EL2, covering mode queries, mode
+setting, fill, upload, readback, overlapping on-screen copies and invalid
+arguments. The outer guard bytes stayed intact. The local QEMU report SHA-256
+is `bac0686eb46ea805eed644674fdbe0eb1fe7099f3219da415360acf8bb5ffb0c`.
+The headless tests inspect memory. They do not establish that a visor retains
+scanout through physical DXE or that a Windows display driver will bind.

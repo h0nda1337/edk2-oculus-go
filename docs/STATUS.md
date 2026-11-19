@@ -12,7 +12,8 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | Early ARM64 entry in QEMU | PASS: 10 cases, stop before first BL |
 | SEC to DXE in QEMU | PASS: EL1 and EL2, HOBs, memory setup, decompression and loaded DXE entry |
 | Execution on Oculus Go | M2 CONFIRMED in terminal SEC by the operator's visual observation on November 18 |
-| GOP/storage/USB/ACPI/Windows | Not implemented in this reconstruction |
+| UEFI Graphics Output Protocol | `GOP_MODEL` installed and exercised by DXE in QEMU EL1 and EL2. Physical GOP untested |
+| Storage/USB/ACPI/Windows | Pending |
 
 The original offline FD below passed the early-entry, SEC and DXE tests. No emulator-only
 board addresses replace the production map. QEMU supplies ordinary RAM that
