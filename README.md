@@ -47,7 +47,7 @@ completed two 8-byte reads at the proposed HOB and stack addresses.
 
 The Go reached upstream DxeMain in the SEC_DXE trial. The operator saw white, green, purple, green, white after the relocated DXE Core validated the HOB list. [Physical DXE record](docs/evidence/sec-dxe-transfer-20261119.json)
 
-DXE memory services, driver dispatch, physical GOP, Shell and Windows boot remain future milestones. The owner is notified before physical work and separately
+The next candidate exercises DXE memory services in QEMU through the Boot Services table. Four positive boots observed the two allocated pages return to conventional memory. Physical memory services, driver dispatch, GOP, Shell and Windows boot remain future milestones. [DXE_MEM trial](docs/DXE_MEM.md) The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
 
 The planned VR boot menu puts the boot entries, UEFI Shell, settings and

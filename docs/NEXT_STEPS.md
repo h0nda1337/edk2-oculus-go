@@ -1,6 +1,6 @@
 # Next steps
 
-The Go reached the terminal DXE Core checkpoint. Next, model the transition to DXE memory services with a bounded, documented RAM map and add an observable checkpoint after initialization. Driver dispatch, a physical GOP console and Shell follow. [Attended SEC_DXE measurement](evidence/sec-dxe-transfer-20261119.json)
+The Go has reached the SEC_DXE checkpoint. DXE_MEM now exercises the next stage in QEMU. The next attended test is a single temporary boot of the reviewed DXE_MEM image, followed by observation of both bands and a second readback after Android recovery. The final memory-services signal is white, blue, green, blue, white. Later milestones include GCD initialization, driver dispatch and a physical GOP console for Shell. [DXE_MEM procedure](DXE_MEM.md) · [SEC_DXE physical record](evidence/sec-dxe-transfer-20261119.json)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

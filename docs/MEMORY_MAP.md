@@ -94,3 +94,5 @@ stack and both band readbacks. Physical EL remains UNKNOWN. [Detailed map](SEC_M
 | Historical `build/analysis/lk-audit.json`, all 133 instruction words rechecked against ELF | `ee0b422baac9f52eea490a5cec8a5db49e0c6e1eed98cc0485f18722552241d5` |
 
 The terminal SEC_DXE profile reserves its 1.5 MiB PI handoff arena inside the loaded FD. Each boundary has a 4 KiB guard. Its identity mappings distinguish the relocated core text from HOBs, data and stack. See the [exact intervals and ownership evidence](SEC_DXE.md).
+
+For DXE_MEM, SEC qualifies the dedicated 1.5 MiB arena before setting TESTED. In the packaged-image QEMU measurement the real DXE allocator imported the 219 page-aligned free pages between the HOB list and the loaded core. The full arena includes additional bytes occupied by firmware and PrePi allocations. [Observed addresses and returned maps](DXE_MEM.md)

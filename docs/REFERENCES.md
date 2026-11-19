@@ -53,3 +53,14 @@ Pinned EDK2 revision `e7aac7fc137e247edad22f7ee53b9a1fba227397`. The build links
 | [PrePiLib/FwVol.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/EmbeddedPkg/Library/PrePiLib/FwVol.c) and [PrePiLib/PrePiLib.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/EmbeddedPkg/Library/PrePiLib/PrePiLib.c) | Section extraction, FV HOB and PE/COFF load and relocation | CONFIRMED-SOURCE |
 | [DxeCoreEntryPoint.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.c) and [DxeMain.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c) | DXE entry, setup of exception vectors, invocation of DebugAgentLib with the PHIT before memory services | CONFIRMED-SOURCE |
 | [SEC_MMU physical observation](evidence/sec-mmu-transfer-20261118.json) and [current trial](SEC_DXE.md) | Prior MMU/scanout evidence and source of the diagnostic FD layout | Physical evidence for the prior profile only |
+
+### DXE_MEM
+
+Pinned TianoCore EDK2 commit `e7aac7fc137e247edad22f7ee53b9a1fba227397`. These files are compiled or inspected directly in the permitted upstream checkout. The platform resource test, terminal instrumentation and observer are original project code.
+
+| Upstream source at the pinned commit | What it establishes | Confidence |
+| --- | --- | --- |
+| [Gcd/Gcd.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Gcd/Gcd.c) | CoreInitializeMemoryServices calls CoreInitializePool, requires tested RAM and considers the page-aligned free PHIT interval before publishing the first conventional descriptor | CONFIRMED-SOURCE |
+| [DxeMain/DxeMain.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c) | Initializer, runtime table allocations and order of the image-services call; Boot Services function table and its real page and pool operations | CONFIRMED-SOURCE |
+| [Mem/Page.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Mem/Page.c) and [Mem/Pool.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Mem/Pool.c) | Page ownership transitions, memory-map stride/key and pool allocation/free behavior | CONFIRMED-SOURCE |
+| [SEC_DXE on the Go](evidence/sec-dxe-transfer-20261119.json) | Preceding physical checkpoint, tested stack/framebuffer path and original hash comparison | CONFIRMED-DEVICE for SEC_DXE |
