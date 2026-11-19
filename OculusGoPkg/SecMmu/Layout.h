@@ -2,6 +2,9 @@
 #ifndef GO_SEC_MMU_LAYOUT_H
 #define GO_SEC_MMU_LAYOUT_H
 #include <Trial/StackLayout.h>
+#ifdef OCULUS_GO_DXE_DEBUG
+#include <Trial/DebugPage.h>
+#endif
 #define GO_PAGE_BYTES    0x1000
 #define GO_CODE_START    0x80081000
 #ifdef OCULUS_GO_SEC_DXE

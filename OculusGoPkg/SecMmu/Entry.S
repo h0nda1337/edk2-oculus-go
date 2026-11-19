@@ -130,6 +130,17 @@ MmuTranslated:
   ldr x0, =GO_STACK_PAGE
   mov x2, #((GO_STACK_TOP-GO_STACK_PAGE)/4096)
   bl .LidentityRange
+#ifdef OCULUS_GO_DXE_DEBUG
+  ldr x0, =GO_DEBUG_PAGE
+  mov x2, #1
+  bl .LidentityRange
+  ldr x0, =(GO_DEBUG_PAGE - GO_PAGE_BYTES)
+  bl .LtranslateWrite
+  tbz x1, #0, .Lreject
+  ldr x0, =(GO_DEBUG_PAGE + GO_PAGE_BYTES)
+  bl .LtranslateWrite
+  tbz x1, #0, .Lreject
+#endif
   ldr x0, =GO_BAND_ONE
   mov x2, #GO_BAND_PAGES
   bl .LidentityRange

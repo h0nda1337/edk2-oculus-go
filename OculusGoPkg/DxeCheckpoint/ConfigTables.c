@@ -48,6 +48,10 @@ TrialTablesRejected (VOID)
   }
 }
 
+#ifdef OCULUS_GO_DXE_DEBUG
+VOID TrialInitializeDebugPage (VOID);
+#endif
+
 // At this call site DxeMain has installed precisely three different GUIDs.
 // Validate the array bounds before calling the same lookup library as a DXE consumer.
 VOID
@@ -78,6 +82,10 @@ __wrap_CoreInitializeDebugImageInfoTable (VOID)
     TrialTablesRejected ();
   }
   TrialPaint (0x00ff00, 0xff8000);
+#ifdef OCULUS_GO_DXE_DEBUG
+  TrialInitializeDebugPage ();
+#else
   __asm__ volatile (".global TrialTablesComplete\nTrialTablesComplete: b TrialTablesComplete");
   __builtin_unreachable ();
+#endif
 }

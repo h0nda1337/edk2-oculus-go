@@ -55,6 +55,9 @@ Descriptor (UINTN Table, UINTN Index, UINTN El TEXT_RANGE_PARAMS)
   }
 #ifdef OCULUS_GO_SEC_DXE
   if (((Address >= GO_STACK_PAGE) && (Address < GO_STACK_TOP)) ||
+#ifdef OCULUS_GO_DXE_DEBUG
+      (Address == GO_DEBUG_PAGE) ||
+#endif
       ((Address >= GO_DXE_POOL) && (Address < GO_DXE_POOL_END)) ||
 #else
   if ((Address == GO_STACK_PAGE) ||
