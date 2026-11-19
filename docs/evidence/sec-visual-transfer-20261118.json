@@ -1,0 +1,43 @@
+{
+  "dateMexicoCity": "2026-11-18",
+  "preflightStartUtc": "2026-11-19T03:14:33Z",
+  "transferSessionStartUtc": "2026-11-19T03:16:05Z",
+  "revision": "907be1e5fd53001cdf298f9a6b1ae6d1b07a6521",
+  "preflightReportSha256": "95b36a3bd95502e9447aad0b02dec1405cfb152d8ef5272c57ae606efd95f958",
+  "transferReportSha256": "4455c0452e266affa5e0f62a36ba51b297917c28bee4a4647f1f73d3d7fdafe2",
+  "fastbootBootStderrSha256": "473e330fabb2ab57e299c163cead63ff050dacb84a2d63a629df0adcb52600c8",
+  "imageSha256": "07eb55d5ac04c175c5101789672d45e0f584118d7a478898cea7193eefb4be14",
+  "imageBytes": 487424,
+  "preflightResult": "PASS-READONLY",
+  "partitionsMatchedBefore": ["aboot_a", "aboot_b", "boot_a", "boot_b"],
+  "fastbootReport": {"product": "pacific", "slot": "_a", "secure": "yes", "secureBoot": "true", "unlocked": "true", "criticalUnlocked": "false"},
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "observationAtHostCommandExit": "No operator observation yet recorded",
+  "physicalSecExecutionAtHostCommandExit": "UNKNOWN",
+  "postRecoveryReadbackAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedColorsSpanish": ["morado", "verde", "negro", "blanco"],
+    "eyeCountAndBandPositions": "not reported",
+    "physicalMilestone": "M2: terminal SEC framebuffer checkpoint observed on Oculus Go"
+  },
+  "recovery": {
+    "operatorReported": "Returned to Android and reconnected over ADB",
+    "preflightStartUtc": "2026-11-19T03:21:42Z",
+    "reportSha256": "d2aead94319d12f7693208fbd2fbcd42128d85c0f77b0d286412de8fde42a9bb",
+    "result": "PASS-READONLY",
+    "bootCompleted": true,
+    "product": "pacific",
+    "slot": "_a",
+    "sameUnitAsPreflight": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}

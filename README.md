@@ -28,11 +28,13 @@ python scripts/setup-edk2.py
 .\scripts\build-edk2.ps1 -Target DEBUG -Jobs 8
 ```
 
-See `docs/BUILD.md` for the complete offline test command and `docs/STATUS.md`
-for hashes and limits. **Execution on the headset, GOP and Windows boot remain
-unconfirmed.** Before any step requiring the physical headset, work stops and
-the owner is notified. Partition writes remain separately gated.
+**M2 reached on the Oculus Go, November 18, 2026.** The original loader
+reported `Secure boot: true` and temporarily booted the terminal EDK2 SEC
+diagnostic. The owner saw its four colors. Android booted again on slot A
+and all four full `boot` and `aboot` readbacks matched the original backups.
+[Measurement and recovery evidence](docs/evidence/sec-visual-transfer-20261118.json)
 
-The opt-in [terminal SEC measurement](docs/SEC_VISUAL_PHYSICAL_REVIEW.md) is a
-separately reviewed, one-attempt candidate. It does not dispatch DXE, has not
-run on the headset, and does not clear the normal FD for device execution.
+The diagnostic stops before stack setup. DXE, a working GOP protocol and
+Windows boot on the physical unit remain future milestones. The trial is
+consumed. The owner is notified before physical work and separately authorizes
+partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)

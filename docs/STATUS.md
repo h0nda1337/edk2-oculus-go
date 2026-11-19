@@ -11,7 +11,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | Direct-entry image without BootShim | PASS: header/FV/SEC structure; original Android container roundtrip/reproducibility |
 | Early ARM64 entry in QEMU | PASS: 10 cases, stop before first BL |
 | SEC to DXE in QEMU | PASS: EL1 and EL2, HOBs, memory setup, decompression and loaded DXE entry |
-| Execution on Oculus Go | UNKNOWN; not tested |
+| Execution on Oculus Go | M2 CONFIRMED in terminal SEC by the operator's visual observation on November 18 |
 | GOP/storage/USB/ACPI/Windows | Not implemented in this reconstruction |
 
 The original offline FD below passed the early-entry, SEC and DXE tests. No emulator-only
@@ -37,7 +37,7 @@ Source audit covers 66 compiler dependency lists and 67 static archives:
 official EDK2 commit/origin, tracked-file membership and clean tree are also
 checked. No rejected input; optional Brotli code is not present or compiled.
 
-M1 is reached for the new build. **M2 and M3 remain unconfirmed on hardware.**
+M1 was reached for the new build in October. See the November 18 physical result below.
 No ADB/Fastboot command was issued during the completed offline reconstruction.
 In a subsequent owner-confirmed device session on 2026-10-25, the read-only
 preflight passed: Android/root/identity checked, slot A, APQ8096pro ID 312
@@ -56,10 +56,9 @@ The rebuilt normal validation report is local at `build/validation-20261114-0407
 
 ## 2026-11-18 — EDK2 via the original unlocked loader
 
-The next experiment targets a temporary Android boot image with the original
-Qualcomm boot chain in place. Meta documents the unlocked Go's policy for
-`boot.img`. Acceptance of this particular container by LK and physical entry
-into its EDK2 SEC are still **UNKNOWN**. [Meta's Go unlock guide](https://developers.meta.com/vr/blog/unlocking-oculus-go/)
+This experiment used a temporary Android boot image with the original Qualcomm
+boot chain in place. Meta documents the unlocked Go's policy for
+`boot.img`. [Meta's Go unlock guide](https://developers.meta.com/vr/blog/unlocking-oculus-go/)
 
 | Measured on local files | Preserved `boot_a` | Reviewed `SEC_VISUAL` image |
 | --- | --- | --- |
@@ -86,7 +85,23 @@ the same `SCTLR_EL1=0xc50839`. Single-stepping the actual firmware reached
 the MMU rejection branch before any framebuffer store. All nine sentinels and
 the incoming arguments, SP and LR were intact. Run
 `wsl -d Debian -- python3 tests/sec_visual_mmu_el1.py` to repeat this case.
-The visor's actual MMU state at handoff remains **UNKNOWN**.
+The subsequent visual observation implies that the entry guard passed in
+the selected EL. The exact EL and complete SCTLR value were not captured.
+
+### Attended temporary boot, November 18 (Mexico City)
+
+The Android preflight found `pacific`, APQ8096pro revision 1.1, slot
+`_a` and root. Full readbacks of both `aboot` and both `boot` partitions
+matched the preserved originals. The stock loader then reported both
+`secure: yes` and `Secure boot: true`. It returned `OKAY` for Sending
+and Booting the reviewed SEC_VISUAL image. The single attempt was consumed.
+The owner reported purple, green, black and white. Those are the colors drawn
+only after the diagnostic reaches its SEC stores. **M2 is confirmed on this
+Go.** Eye coverage, exact geometry and red/blue byte order were not measured.
+The owner reported returning to Android. ADB then confirmed boot completion
+on the same unit and slot. All 136,314,880 bytes of `boot_a/b` and `aboot_a/b`
+were read again and each SHA-256 matched both the preflight and the preserved
+backup. [Session evidence](evidence/sec-visual-transfer-20261118.json)
 
 ## Earlier, separate experiment
 

@@ -1,5 +1,9 @@
 # One bounded EDK2 SEC measurement: review, not an execution result
 
+**Attempt consumed, November 18.** The stock loader accepted the reviewed
+temporary image. The commands below describe the protocol used for that
+attempt. [Transfer evidence](evidence/sec-visual-transfer-20261118.json)
+
 The October 25 review covers the terminal SEC visual diagnostic. The
 [November 18 host revision](evidence/sec-visual-review-20261118.json) pins the
 same firmware, image, source audit and model reports. The host parser now

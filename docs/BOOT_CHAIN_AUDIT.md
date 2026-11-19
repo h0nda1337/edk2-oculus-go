@@ -81,10 +81,10 @@ no una garantía de conmutación automática.
    concreta: [SEC_VISUAL](SEC_VISUAL_PHYSICAL_REVIEW.md), imagen ya empaquetada y
    revisada, 12 escenarios QEMU, sin escritura permanente. Las dos bandas serían
    evidencia positiva del checkpoint SEC, no de DXE/GOP. Su ausencia no permite
-   separar problemas de entrega, estado de CPU, watchdog o scanout. Todavía no se
-   ha ejecutado en el visor. Requiere aviso y fin de turno antes del acceso físico,
-   operador presente, preflight Android de hasta una hora, comprobación en vivo
-   de identidad/estado Fastboot y un único intento. No autoriza el FD normal.
+   separar problemas de entrega, estado de CPU, watchdog o scanout. El 18 de
+   noviembre el operador vio los cuatro colores en este único intento. Android
+   volvió y coincidieron los cuatro hashes de recuperación.
+   [Resultado físico](evidence/sec-visual-transfer-20261118.json).
 2. **Otro diagnóstico temporal con mejor señal:** sólo tras interpretar el primero
    y revisar de nuevo el canal de observación, el mapa y el binario exacto. No
    retirar guards ni tomar una pérdida de USB como confirmación de ejecución.

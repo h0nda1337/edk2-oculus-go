@@ -1,9 +1,8 @@
 # Original terminal SEC visual diagnostic
 
-Status: offline validation passed; no physical attempt. This design document
-and compilation do not clear device execution. A [separate review](SEC_VISUAL_PHYSICAL_REVIEW.md)
-covers the exact one-attempt diagnostic. The prior diagnostic ledger remains
-consumed, untouched and outside this repository.
+Status: the operator saw the predicted four colors on November 18. Android
+returned and all four post-boot readback hashes matched. The terminal SEC
+attempt is consumed. [Physical evidence](evidence/sec-visual-transfer-20261118.json)
 
 The normal platform remains the default. An explicit DEBUG/SEC_VISUAL build
 enables `PcdSecVisualDiagnostic` and uses `Build/OculusGoSecVisual`, separate

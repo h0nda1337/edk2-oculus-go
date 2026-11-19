@@ -37,4 +37,8 @@ incomplete state prevents installation. No storage is written by it.
 DebugLib is enabled, but SerialPortLib is the upstream null instance. The
 DEBUG message alone does not provide visible output. Display inheritance,
 GOP and an accessible physical debug channel still require implementation.
+On November 18 the separate terminal SEC image took the visual branch after
+the entry guards and the owner saw the four colors on the physical panel.
+Execution on the headset has been established to this point. Stack setup
+and the rest of the normal flow above still require physical evidence.
 The current FV contains no BDS/Windows boot path or board storage/USB driver.

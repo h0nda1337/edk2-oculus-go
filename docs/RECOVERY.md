@@ -1,6 +1,11 @@
 # Recovery boundary
 
-No new experimental firmware test has occurred in this reconstruction. Stock
+After the November 18 temporary SEC test the owner reported Android running
+again. The post-recovery check found the original slot, Android boot complete
+and all four original `aboot` / `boot` hashes. The exact sequence of buttons
+used on this occasion was not recorded. [Session record](evidence/sec-visual-transfer-20261118.json)
+
+Previously, stock
 button recovery was revalidated with the owner on 2026-10-25: Power off from
 Android, physical Power + volume down entry to USB Update Mode, Power off
 from that menu, re-entry and Boot device back to Android. Read-only Android
