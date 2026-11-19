@@ -39,14 +39,18 @@ def verify(data):
         raise ValueError('Firmware volume signature missing')
     fv_length = struct.unpack_from('<Q', data, FV_OFFSET + 32)[0]
     header_length = struct.unpack_from('<H', data, FV_OFFSET + 48)[0]
-    if fv_length != SIZE - FV_OFFSET:
+    fv_end = FV_OFFSET + fv_length
+    if fv_end == 0x3be000:
+        if data[fv_end:] != b'GOSTACK1' + b'\xff' * (SIZE - fv_end - 8):
+            raise ValueError('SEC_STACK guard signature or reserved FD tail differs')
+    elif fv_end != SIZE:
         raise ValueError('Firmware volume length mismatch')
     if header_length < 56 or header_length % 2 or header_length > fv_length:
         raise ValueError('Invalid FV header size')
     if sum(struct.unpack_from(f'<{header_length // 2}H', data, FV_OFFSET)) & 0xFFFF:
         raise ValueError('Firmware volume header checksum mismatch')
     entry = branch_destination(data, FV_OFFSET)
-    if not FV_OFFSET + header_length <= entry < SIZE:
+    if not FV_OFFSET + header_length <= entry < fv_end:
         raise ValueError('SEC entry not within FV contents')
     return {
         'result': 'PASS-STRUCTURAL-ONLY',

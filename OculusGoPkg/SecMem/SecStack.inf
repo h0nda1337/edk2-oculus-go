@@ -1,0 +1,22 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = OculusGoSecStack
+  FILE_GUID      = 72eb789e-a38a-49a1-8410-000194380e4b
+  MODULE_TYPE    = SEC
+  VERSION_STRING = 1.0
+
+[Sources.AARCH64]
+  StackEntry.S | GCC
+  Stack.c
+  Hob.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[LibraryClasses]
+  HobLib

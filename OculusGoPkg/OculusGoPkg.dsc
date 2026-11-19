@@ -14,7 +14,7 @@
 !include MdePkg/MdeLibs.dsc.inc
 
 [BuildOptions.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoSecMem
+!if $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack
   # This profile never enables FP/SIMD. Keep the real PI constructor call
   # separately visible in the linked SEC image for the handoff measurement.
   GCC:*_*_AARCH64_CC_FLAGS = -march=armv8-a -mgeneral-regs-only -fno-jump-tables -fno-lto -fno-stack-protector
@@ -126,7 +126,9 @@
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0
 
 [Components.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoSecMem
+!if $(GO_BUILD_FLAVOR) == OculusGoSecStack
+  OculusGoPkg/SecMem/SecStack.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoSecMem
   OculusGoPkg/SecMem/SecMem.inf
 !else
 !if $(GO_BUILD_FLAVOR) == OculusGoGopModel
