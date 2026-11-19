@@ -43,3 +43,7 @@ in the inherited packed framebuffer, consistent with BGR.
 DXE, a working GOP protocol and Windows boot on the physical unit remain
 future milestones. The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
+
+The planned VR boot menu puts the boot entries, UEFI Shell, settings and
+diagnostics on a floating stereo monitor. The first compositor can be tested
+in software with simulated orientation. [Menu design and dependencies](docs/VR_MENU.md)
