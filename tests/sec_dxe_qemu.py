@@ -24,8 +24,9 @@ def screen(stage):
     data = bytearray(b'\xa5' * (SURFACE_BYTES+2*GUARD))
     if stage == 'untouched':
         return data
-    side = {'hobs':'ff0000','fv':'00ffff','branch':'ffff00','core':'00ff00'}[stage]
-    center = 'ff00ff' if stage == 'core' else '000000'
+    side = {'hobs':'ff0000','fv':'00ffff','branch':'ffff00','core':'00ff00',
+            'services':'0080ff','memory':'ff0000'}[stage]
+    center = {'core':'ff00ff','memory':'00ff00'}.get(stage,'000000')
     row = b''.join(bytes.fromhex(c)*288 for c in ('ffffff',side,center,side,'ffffff'))
     for start,end in band_ranges():
         pos = start - FB_BASE + GUARD
@@ -85,7 +86,7 @@ def hobs(read, fv, target, meta):
     return (*module, addr, free_top-free_low)
 
 
-def exercise(path, fd, fv, sec, core, meta, harness, el, case):
+def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
     load=BASE+(0x100000 if case=='relocated' else 0)
     bias=load-BASE
     sec={k:v+bias for k,v in sec.items()}
@@ -127,10 +128,15 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case):
             addr=POOL+PAGE if case=='dirty-pool' else LIMIT+PAGE-8
             write(addr,b'\x13')
             original[addr-load]=0x13
-        success=case in ('valid','icache','bad-module')
+        success=case in ('valid','icache','bad-module') or (memory and case in memory.CORE_CASES)
+        if memory and (success or case in ('arena-readback','bad-fv')):
+            memory.observe_arena(g,read,write,stop,sec,case)
         runtime={}
         stage='untouched'
-        if case=='bad-fv':
+        if case=='arena-readback':
+            terminal='MmuRejected'
+            stop(sec[terminal],terminal)
+        elif case=='bad-fv':
             stop(sec['DecompressFirstFv'],'decompress')
             check_screen('hobs')
             stop(g.register(30),'decompress return')
@@ -172,6 +178,10 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case):
             a,b=meta['textRva']
             checked=tables(el,base+a,base+b)
             require(read(TABLE,len(checked))==checked,'Incorrect W^X mapping or guards')
+            if memory:
+                original_text=read(base+a,b-a)
+                hob_bytes=struct.unpack('<Q',read(POOL+40,8))[0]-POOL
+                original_hobs=read(POOL,hob_bytes)
             for name in ('CpuDeadLoop','DebugAssert','DefaultExceptionHandler'):
                 if name in core:
                     require(g.command(f'Z1,{base+core[name]:x},4')=='OK','Cannot monitor core '+name)
@@ -181,10 +191,19 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case):
             require(g.register(0)==3 and g.register(1)==POOL and g.register(2)==0,'Wrong callback arguments')
             if case=='bad-module':
                 write(POOL+offset+48,bytes(16))
-            terminal='TrialDxeRejected' if case=='bad-module' else 'TrialDxeComplete'
-            stop(base+core[terminal],terminal)
-            stage='branch' if case=='bad-module' else 'core'
-            runtime={'coreBase':hex(base),'entry':hex(entry),'dxeMain':hex(base+core['DxeMain']),
+            if memory and case!='bad-module':
+                terminal,stage,measurement=memory.observe_services(g,read,write,stop,check_screen,core,base,case)
+            else:
+                terminal='TrialDxeRejected' if case=='bad-module' else 'TrialDxeComplete'
+                stop(base+core[terminal],terminal)
+                stage='branch' if case=='bad-module' else 'core'
+                measurement={}
+            if memory:
+                require(read(fv_base,len(fv))==fv and read(base+a,b-a)==original_text and
+                        read(TABLE,len(checked))==checked,'Core altered firmware, executable text or translations')
+                if case not in ('bad-module','untested-resource'):
+                    require(read(POOL,hob_bytes)==original_hobs,'Core altered the input HOB list')
+            runtime={**measurement,'coreBase':hex(base),'entry':hex(entry),'dxeMain':hex(base+core['DxeMain']),
                      'terminalPc':hex(g.register(32)),'innerFvBase':hex(fv_base),'remainingArenaBytes':free_bytes,
                      'innerFvMatched':True,'pageTablesMatched':True}
         else:
@@ -193,7 +212,7 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case):
         check_screen(stage)
         actual=bytearray(read(load,SIZE))
         spans=((POOL,LIMIT),(TABLE,TABLE+8*PAGE),(STACK,TOP)) if success else (
-            ((POOL,LIMIT),(STACK,TOP)) if case=='bad-fv' else (((STACK,TOP),) if case.startswith('dirty-') else ()))
+            ((POOL,LIMIT),(STACK,TOP)) if case in ('bad-fv','arena-readback') else (((STACK,TOP),) if case.startswith('dirty-') else ()))
         for lo,hi in spans:
             actual[lo-load:hi-load]=original[lo-load:hi-load]
         require(actual==original,'FD or guard outside owned workspace changed')
@@ -204,7 +223,10 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case):
 def main():
     a=arguments()
     fd,fv,pe=(p.read_bytes() for p in (a.fd,a.fv,a.pe))
-    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf)
+    memory=None
+    if a.memory:
+        import dxe_memory_trace as memory
+    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory)
     names=symbols(a.sec_elf)
     bias=int(verify(fd)['secEntryAddress'],16)-names['_ModuleEntryPoint']
     sec={k:v+bias for k,v in names.items()}
@@ -216,10 +238,10 @@ def main():
         subprocess.run(['aarch64-linux-gnu-gcc','-c',ROOT/'tests/entry_harness.S','-o',obj],check=True)
         subprocess.run(['aarch64-linux-gnu-objcopy','-O','binary',obj,harness],check=True)
         for el in (1,2):
-            for case in CASES:
+            for case in ((*CASES,*memory.EXTRA_CASES) if memory else CASES):
                 print(f'EL{el} {case}',flush=True)
-                cases.append(exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case))
-    a.report.write_text(json.dumps({**meta,'result':'PASS-QEMU-SEC-DXE','vectors':vectors,'cases':cases},indent=2)+'\n')
+                cases.append(exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case,memory))
+    a.report.write_text(json.dumps({**meta,'result':'PASS-QEMU-DXE-MEM' if memory else 'PASS-QEMU-SEC-DXE','vectors':vectors,'cases':cases},indent=2)+'\n')
 
 
 if __name__=='__main__':

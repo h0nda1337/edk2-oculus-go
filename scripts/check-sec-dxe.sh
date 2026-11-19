@@ -22,8 +22,13 @@ if not decoder.eof or payload!=fd or digest(decoder.unused_data)!=DTB_SHA:
 verify_container(image,fd,decoder.unused_data)
 (out/'container-extracted.fd').write_bytes(payload)
 PY
-dir=Build/OculusGoSecDxe/DEBUG_GCC5
-args=(--fd "$out/container-extracted.fd" --fv "$dir/FV/FVTRIALDXE.Fv"
+profile=()
+case "$(basename "$out")" in
+  DEBUG-SEC_DXE-*) dir=Build/OculusGoSecDxe/DEBUG_GCC5 ;;
+  DEBUG-DXE_MEM-*) dir=Build/OculusGoDxeMem/DEBUG_GCC5; profile=(--memory) ;;
+  *) echo 'Unknown diagnostic build profile' >&2; exit 2 ;;
+esac
+args=("${profile[@]}" --fd "$out/container-extracted.fd" --fv "$dir/FV/FVTRIALDXE.Fv"
       --pe "$dir/AARCH64/DxeCore.efi" --sec-elf "$dir/AARCH64/OculusGoSecDxe.debug"
       --dxe-elf "$dir/AARCH64/DxeCore.debug")
 trial_reports=$(mktemp -d)

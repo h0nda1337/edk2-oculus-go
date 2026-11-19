@@ -6,6 +6,8 @@ import json
 import lzma
 from pathlib import Path
 import struct
+import re
+import subprocess
 from uuid import UUID
 
 from sec_mem_qemu import BASE, digest, require, symbols, verify
@@ -51,7 +53,7 @@ def unique(items):
     return items[0]
 
 
-def inspect(fd, fv, pe, sec_elf, dxe_elf):
+def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False):
     info = verify(fd)
     outer = list(files(fd[0x1000:0x80000]))
     require([t for t, _, _ in outer if t != 0xf0] == [3,11], 'Unexpected outer executables or FVs')
@@ -90,15 +92,25 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf):
             text.append((rva,align(rva+max(vsize,raw),4096)))
     start,end = unique(text)
     core_names = symbols(dxe_elf)
+    checkpoints = ('TrialDxeRejected','TrialDxeComplete')
+    if memory:
+        checkpoints = ('TrialDxeRejected','TrialMemoryComplete','TrialMemoryRejected',
+                       'CoreInitializeMemoryServices','__wrap_CoreInitializeImageServices',
+                       'CoreAllocatePool','CoreFreePool','CoreAllocatePages','CoreFreePages','CoreGetMemoryMap')
+        assembly = subprocess.check_output(['aarch64-linux-gnu-objdump','-d','--disassemble=DxeMain',dxe_elf],text=True)
+        calls = re.findall(r'\bbl\s+[0-9a-f]+ <([^>]+)>',assembly)
+        order = [calls.index(n) for n in ('InitializeDebugAgent','CoreInitializeMemoryServices',
+                                         '__wrap_CoreInitializeImageServices')]
+        require(order == sorted(order) and 'CoreInitializeImageServices' not in calls, 'Unexpected DxeMain path')
     require(entry == core_names['_ModuleEntryPoint'] and start <= entry < end <= size and
             all(start <= core_names[n] < end for n in
-        ('DxeMain','InitializeDebugAgent','TrialDxeComplete','TrialDxeRejected')), 'Checkpoint outside core text')
+        ('DxeMain','InitializeDebugAgent',*checkpoints)), 'Checkpoint outside core text')
     sec_names = symbols(sec_elf)
     bias = int(info['secEntryAddress'],16)-sec_names['_ModuleEntryPoint']
     branch = bias+sec_names['TrialDxeBranch']-BASE
-    require(fd[branch:branch+4] == bytes.fromhex('00023fd6') and 'TrialDxeComplete' not in sec_names,
+    require(fd[branch:branch+4] == bytes.fromhex('00023fd6') and not any(n in sec_names for n in checkpoints),
             'Missing SEC indirect handoff or duplicated DXE checkpoint')
-    return {'result':'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
+    return {'result':'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
             'peSha256':digest(pe),'secElfSha256':digest(sec_elf.read_bytes()),'coreElfSha256':digest(dxe_elf.read_bytes()),
             'innerFvBytes':len(fv),'peImageBytes':size,'entryRva':entry,'textRva':[start,end],
             'coreGuid':str(CORE),'lzmaBytes':len(data)}
@@ -108,11 +120,12 @@ def arguments():
     parser=argparse.ArgumentParser(description=__doc__)
     for k in ('fd','fv','pe','sec-elf','dxe-elf','report'):
         parser.add_argument('--'+k,type=Path,required=True)
+    parser.add_argument('--memory',action='store_true',help='Audit the DXE memory services profile')
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     a=arguments()
-    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf)
+    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory)
     a.report.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result))
