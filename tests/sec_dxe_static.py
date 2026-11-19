@@ -53,7 +53,9 @@ def unique(items):
     return items[0]
 
 
-def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False, debug_image=False):
+def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False, debug_image=False, driver_pe=None):
+    dispatch = driver_pe is not None
+    debug_image = debug_image or dispatch
     tables = tables or debug_image
     gcd = gcd or tables
     extra = {}
@@ -72,7 +74,16 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
     require(len(decoded) == out_size and unique(sec[4:] for t,sec in sections(decoded) if t == 0x17) == fv,
             'Embedded firmware volume differs from build')
     inner = [(t,g,b) for t,g,b in files(fv) if t != 0xf0]
-    require([(t,g) for t,g,_ in inner] == [(5,CORE)], 'Unexpected DXE FV content')
+    expected = [(5,CORE)]
+    if dispatch:
+        driver_guid = UUID('9b680fce-ad6b-4f3a-b60b-f59899003443')
+        expected.append((7, driver_guid))
+        driver = unique(body for t,g,body in inner if (t,g) == expected[-1])
+        payload = unique(section[4:] for t,section in sections(driver) if t == 0x10)
+        depex = unique(section[4:] for t,section in sections(driver) if t == 0x13)
+        require(payload == driver_pe.read_bytes() and depex == bytes([6,8]), 'Driver PE or TRUE/END DEPEX mismatch')
+        extra.update(driverGuid=str(driver_guid), driverPeSha256=digest(payload))
+    require([(t,g) for t,g,_ in inner] == expected, 'Unexpected DXE FV content')
     require(unique(sec[4:] for t,sec in sections(inner[0][2]) if t == 0x10) == pe, 'Packaged DXE PE mismatch')
     nt, = struct.unpack_from('<I',pe,60)
     pe_offset = fv.find(pe)
@@ -119,7 +130,8 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
             if debug_image:
                 checkpoints = tuple(n for n in checkpoints if n != 'TrialTablesComplete') + (
                     'TrialInitializeDebugPage', '__wrap_CoreNewDebugImageInfoEntry', 'CoreNewDebugImageInfoEntry',
-                    'TrialCheckDebugPage', 'TrialDebugRejected', 'TrialDebugComplete')
+                    'TrialCheckDebugPage', 'TrialDebugRejected')
+                checkpoints += ('CoreDispatcher','__wrap_CoreDispatcher','__wrap_CoreStartImage','TrialDispatchComplete','TrialDispatchRejected') if dispatch else ('TrialDebugComplete',)
                 page = 0x80400000
                 offset = page - BASE
                 require(page % (4 << 20) == 0 and LIMIT < page-4096 and offset+8192 < 0x3be000
@@ -139,6 +151,9 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
                           calls.index('__wrap_CoreInitializeDebugImageInfoTable')])
         if debug_image:
             order.append(calls.index('__wrap_CoreNewDebugImageInfoEntry'))
+        if dispatch:
+            order.extend(calls.index(n) for n in ('CoreInitializeEventServices','FwVolBlockDriverInit',
+                         'FwVolDriverInit','InitializeSectionExtraction','CoreInitializeDispatcher','__wrap_CoreDispatcher'))
         require(order == sorted(order) and 'CoreInitializeImageServices' not in calls, 'Unexpected DxeMain path')
     require(entry == core_names['_ModuleEntryPoint'] and start <= entry < end <= size and
             all(start <= core_names[n] < end for n in
@@ -148,7 +163,7 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
     branch = bias+sec_names['TrialDxeBranch']-BASE
     require(fd[branch:branch+4] == bytes.fromhex('00023fd6') and not any(n in sec_names for n in checkpoints),
             'Missing SEC indirect handoff or duplicated DXE checkpoint')
-    return {**extra,'result':'PASS-STATIC-DXE-DEBUG' if debug_image else 'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
+    return {**extra,'result':'PASS-STATIC-DXE-DISPATCH' if dispatch else 'PASS-STATIC-DXE-DEBUG' if debug_image else 'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
             'peSha256':digest(pe),'secElfSha256':digest(sec_elf.read_bytes()),'coreElfSha256':digest(dxe_elf.read_bytes()),
             'innerFvBytes':len(fv),'peImageBytes':size,'entryRva':entry,'textRva':[start,end],
             'coreGuid':str(CORE),'lzmaBytes':len(data)}
@@ -159,6 +174,7 @@ def arguments():
     for k in ('fd','fv','pe','sec-elf','dxe-elf','report'):
         parser.add_argument('--'+k,type=Path,required=True)
     group = parser.add_mutually_exclusive_group()
+    group.add_argument('--driver-pe',type=Path,help='Verify first DXE dispatch against this DevicePathDxe PE')
     group.add_argument('--debug-image',action='store_true',help='Verify the aligned debugger lookup and DXE Core image record')
     group.add_argument('--tables',action='store_true',help='Audit DXE constructors and configuration tables')
     group.add_argument('--gcd',action='store_true',help='Audit the DXE image services and GCD profile')
@@ -168,6 +184,6 @@ def arguments():
 
 if __name__ == '__main__':
     a=arguments()
-    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image)
+    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe)
     a.report.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result))

@@ -28,12 +28,17 @@ OUTCOMES = {**{k:('TrialDebugComplete','debug-image') for k in POSITIVE},
 
 
 def validate_reports(model, static, digest):
-    validate_table_cases(model, static, digest, 'DXE-DEBUG', {**TABLE_CASES, **OUTCOMES})
+    validate_debug_cases(model, static, digest, 'DXE-DEBUG', {})
+
+
+def validate_debug_cases(model, static, digest, profile, later):
+    outcomes = {**OUTCOMES, **later}
+    validate_table_cases(model, static, digest, profile, {**TABLE_CASES, **outcomes})
     page = 0x80400000
     require(model['debugPage'] == static['debugPage'] == hex(page), 'Unexpected locator address')
     for r in model['cases']:
         case = r['case']
-        if case not in OUTCOMES:
+        if case not in outcomes:
             require('debugPageTouched' not in r, 'Page touched before debugger stage')
             continue
         require(r['debugPageTouched'] is True, 'Unobserved debugger page')

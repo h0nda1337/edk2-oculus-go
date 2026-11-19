@@ -19,7 +19,7 @@ CORE_CASES = tables.CORE_CASES + CONTROLS
 EXTRA_CASES = tables.EXTRA_CASES + CONTROLS
 
 
-def observe_services(g, read, write, stop, screen, core, base, case, constructors):
+def observe_services(g, read, write, stop, screen, core, base, case, constructors, after_debug=None):
     def arrive(name):
         stop(base + core[name], name)
 
@@ -142,6 +142,8 @@ def observe_services(g, read, write, stop, screen, core, base, case, constructor
             write(arr+24*index, bytes(16))
         if case in ('locator-crc','debug-record','debug-guid'):
             return rejected('debug-locator')
+        if after_debug:
+            return after_debug(ev)
         arrive('TrialDebugComplete')
         return 'TrialDebugComplete','debug-image',ev
 

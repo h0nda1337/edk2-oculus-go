@@ -1,6 +1,7 @@
 """Observe the packaged LZMA -> HOB -> relocated upstream DxeMain handoff at EL1 and EL2.
 SPDX-License-Identifier: BSD-2-Clause-Patent
 """
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 from pathlib import Path
@@ -27,10 +28,10 @@ def screen(stage):
     side = {'hobs':'ff0000','fv':'00ffff','branch':'ffff00','core':'00ff00',
             'services':'0080ff','memory':'ff0000','image':'00ffff',
             'relocated-hobs':'0080ff','gcd':'ff00ff','ctors':'ff0000','dxe-table':'ffff00','tables':'00ff00',
-            'debug-locator':'0080ff','debug-image':'0000ff'}[stage]
+            'debug-locator':'0080ff','debug-image':'0000ff','dispatch':'ffff00','start-driver':'00ffff','protocol':'0080ff'}[stage]
     center = {'core':'ff00ff','memory':'00ff00','image':'ff00ff','relocated-hobs':'ffffff','gcd':'ffff00',
               'ctors':'00ffff','dxe-table':'ff0000','tables':'0080ff',
-              'debug-locator':'ffff00','debug-image':'ffff00'}.get(stage,'000000')
+              'debug-locator':'ffff00','debug-image':'ffff00','dispatch':'ff0000','start-driver':'ff0000','protocol':'00ff00'}.get(stage,'000000')
     row = b''.join(bytes.fromhex(c)*288 for c in ('ffffff',side,center,side,'ffffff'))
     for start,end in band_ranges():
         pos = start - FB_BASE + GUARD
@@ -83,7 +84,7 @@ def hobs(read, fv, target, meta):
             break
         offset+=size
     expected = [(0, 0x407 if meta['result'] != 'PASS-STATIC-SEC-DXE' else 0x403, POOL, LIMIT-POOL)]
-    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES','PASS-STATIC-DXE-DEBUG'):
+    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES','PASS-STATIC-DXE-DEBUG','PASS-STATIC-DXE-DISPATCH'):
         expected.append((5, 0x403, STACK, TOP-STACK))
     require(POOL+offset==end and kind==0xffff and module and resources==expected
             and len(found)==2 and found[0]==(0x80081000,0x7f000),'Missing resource, module, or FV HOB')
@@ -184,7 +185,8 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
             require(g.register(0)==POOL,'Wrong HOB pointer in x0')
             offset,base,_,fv_base,free_bytes=hobs(read,fv,entry,meta)
             a,b=meta['textRva']
-            checked=tables(el,base+a,base+b,debug_span)
+            map_spans = debug_span + (((TABLE+7*PAGE,TABLE+8*PAGE),) if 'driverGuid' in meta else ())
+            checked=tables(el,base+a,base+b,map_spans)
             require(read(TABLE,len(checked))==checked,'Incorrect W^X mapping or guards')
             if memory:
                 original_text=read(base+a,b-a)
@@ -201,6 +203,8 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
                 write(POOL+offset+48,bytes(16))
             if memory and case!='bad-module':
                 extra = {'constructors': meta['constructors']} if 'constructors' in meta else {}
+                if 'driverGuid' in meta:
+                    extra.update(driver=meta['driverSymbols'], el=el)
                 terminal,stage,measurement=memory.observe_services(g,read,write,stop,check_screen,core,base,case,**extra)
             else:
                 terminal='TrialDxeRejected' if case=='bad-module' else 'TrialDxeComplete'
@@ -208,6 +212,11 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
                 stage='branch' if case=='bad-module' else 'core'
                 measurement={}
             if memory:
+                if measurement.get('driverText'):
+                    lo, hi = (int(value,16) for value in measurement['driverText'])
+                    require(POOL <= lo < hi <= LIMIT, 'Driver code escaped arena')
+                    for addr in range(lo,hi,PAGE):
+                        struct.pack_into('<Q',checked,7*PAGE+8*((addr-POOL)//PAGE),addr | 0x787 | ((1<<54) if el == 1 else 0))
                 require(read(fv_base,len(fv))==fv and read(base+a,b-a)==original_text and
                         read(TABLE,len(checked))==checked,'Core altered firmware, executable text or translations')
                 if case not in ('bad-module','untested-resource') and not measurement.get('relocatedHobs'):
@@ -236,7 +245,9 @@ def main():
     a=arguments()
     fd,fv,pe=(p.read_bytes() for p in (a.fd,a.fv,a.pe))
     memory=None
-    if a.debug_image:
+    if a.driver_pe:
+        import dxe_dispatch_trace as memory
+    elif a.debug_image:
         import dxe_debug_trace as memory
     elif a.tables:
         import dxe_tables_trace as memory
@@ -244,25 +255,34 @@ def main():
         import dxe_gcd_trace as memory
     elif a.memory:
         import dxe_memory_trace as memory
-    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image)
+    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe)
+    if a.driver_pe:
+        driver_symbols = symbols(a.driver_pe.with_suffix('.debug'))
+        meta['driverSymbols'] = {n:driver_symbols[n] for n in ('_ModuleEntryPoint','DevicePathEntryPoint','GetDevicePathSize')}
     names=symbols(a.sec_elf)
     bias=int(verify(fd)['secEntryAddress'],16)-names['_ModuleEntryPoint']
     sec={k:v+bias for k,v in names.items()}
     core=symbols(a.dxe_elf)
     vectors=check_vectors(fd,{'SecMemVectors':sec['MmuVectors'],'SecMemException':sec['MmuException']})
-    cases=[]
     with tempfile.TemporaryDirectory() as tmp:
         obj,harness=(Path(tmp)/n for n in ('entry.o','entry.bin'))
         subprocess.run(['aarch64-linux-gnu-gcc','-c',ROOT/'tests/entry_harness.S','-o',obj],check=True)
         subprocess.run(['aarch64-linux-gnu-objcopy','-O','binary',obj,harness],check=True)
         scenarios = (*CASES,*memory.EXTRA_CASES) if memory else CASES
-        if a.debug_image:
+        if a.debug_image or a.driver_pe:
             # Run the new stage and its fault controls before the inherited suite.
             scenarios = ('valid',*memory.CONTROLS,*(c for c in scenarios if c != 'valid' and c not in memory.CONTROLS))
-        for el in (1,2):
-            for case in scenarios:
-                print(f'EL{el} {case}',flush=True)
-                cases.append(exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case,memory))
+        def run_one(scenario):
+            el, case = scenario
+            print(f'EL{el} {case}',flush=True)
+            return exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case,memory)
+
+        jobs = int(os.environ.get('DXE_QEMU_JOBS', '1'))
+        require(1 <= jobs <= 8, 'DXE_QEMU_JOBS must be between 1 and 8')
+        # Each guest owns a sparse RAM file and debugger socket. map retains
+        # scenario order so serial and concurrent runs yield identical reports.
+        with ThreadPoolExecutor(max_workers=jobs) as workers:
+            cases = list(workers.map(run_one, ((el,case) for el in (1,2) for case in scenarios)))
     a.report.write_text(json.dumps({**meta,'result':meta['result'].replace('PASS-STATIC-','PASS-QEMU-'),'vectors':vectors,'cases':cases},indent=2)+'\n')
 
 
