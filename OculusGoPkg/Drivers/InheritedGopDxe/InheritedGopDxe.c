@@ -1,6 +1,6 @@
 /** @file
-  Single-mode GOP over packed RGB888 RAM for the GOP_MODEL QEMU build.
-  The model chooses its channel order independently of the visor's panel.
+  Single-mode GOP over packed BGR888 RAM for the GOP_MODEL QEMU build.
+  SEC_C identified byte 0 as blue and byte 2 as red on the inherited surface.
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 #include <PiDxe.h>
@@ -99,9 +99,9 @@ BufferFits (
 STATIC VOID
 WritePixel (UINT8 *Video, CONST EFI_GRAPHICS_OUTPUT_BLT_PIXEL *Pixel)
 {
-  Video[0] = Pixel->Red;
+  Video[0] = Pixel->Blue;
   Video[1] = Pixel->Green;
-  Video[2] = Pixel->Blue;
+  Video[2] = Pixel->Red;
 }
 
 STATIC EFI_STATUS EFIAPI
@@ -146,9 +146,9 @@ Blt (
         Video = ScreenPixel (SourceX, SourceY + Row);
         BufferRow = (EFI_GRAPHICS_OUTPUT_BLT_PIXEL *)((UINT8 *)BltBuffer + (DestinationY + Row) * Delta) + DestinationX;
         for (Col = 0; Col < Width; Col++) {
-          BufferRow[Col].Red      = Video[Col * GO_MODEL_FB_BYTES_PER_PIXEL];
+          BufferRow[Col].Blue     = Video[Col * GO_MODEL_FB_BYTES_PER_PIXEL];
           BufferRow[Col].Green    = Video[Col * GO_MODEL_FB_BYTES_PER_PIXEL + 1];
-          BufferRow[Col].Blue     = Video[Col * GO_MODEL_FB_BYTES_PER_PIXEL + 2];
+          BufferRow[Col].Red      = Video[Col * GO_MODEL_FB_BYTES_PER_PIXEL + 2];
           BufferRow[Col].Reserved = 0;
         }
       }

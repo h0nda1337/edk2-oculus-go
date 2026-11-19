@@ -143,36 +143,57 @@ def exercise(remote, core, interface, caller):
     remote.write(buf, bytes.fromhex('1958c3fe'))  # UEFI BLT pixel = B,G,R,reserved
     call('VideoFill', blt, (interface, buf, 0, 0, 0, WIDTH - 2, HEIGHT - 2, 2, 2, 0))
     for y in (HEIGHT - 2, HEIGHT - 1):
-        require(remote.read(pixel(WIDTH - 3, y), 9) == bytes(3) + bytes.fromhex('c35819') * 2,
-                'Fill pitch, channel order or adjacent pixel mismatch')
+        fill_row = remote.read(pixel(WIDTH - 3, y), 9)
+        require(fill_row == bytes.fromhex('000000 1958c3 1958c3'),
+                f'VideoFill BGR row: expected 0000001958c31958c3, read {fill_row.hex()}')
+
+    # The six markers follow the SEC_C writer's block order. This test uses
+    # individual pixels in QEMU RAM and makes no assumption about panel rotation.
+    marker_blt = bytes.fromhex('ff0000a1 ffffffa2 ff0000a3 0000ffa4 000000a5 0000ffa6')
+    remote.write(buf, marker_blt)
+    call('BufferToVideo-SEC-C-markers', blt, (interface, buf, 2, 0, 0, 33, 51, 6, 1, 0))
+    marker_row = remote.read(pixel(32, 51), 24)
+    require(marker_row == bytes.fromhex('000000 ff0000 ffffff ff0000 0000ff 000000 0000ff 000000'),
+            f'SEC_C markers or neighboring pixels differ: {marker_row.hex()}')
+
+    # Seed a different address directly so the readback is independent of
+    # both write operations. Include pure primaries and an asymmetric color.
+    seed = bytes.fromhex('0000ff 00ff00 ff0000 d46a19')
+    remote.write(pixel(97, 63), seed)
+    remote.write(buf, b'\x5a' * 24)
+    call('VideoToBltBuffer-independent-BGR', blt, (interface, buf, 1, 97, 63, 1, 0, 4, 1, 24))
+    readback = remote.read(buf, 24)
+    require(readback == bytes.fromhex('5a5a5a5a 0000ff00 00ff0000 ff000000 d46a1900 5a5a5a5a'),
+            f'Independent BLT readback B,G,R,reserved or guards differ: {readback.hex()}')
+
     row = bytes.fromhex('030201ff060504ff090807ff')
     remote.write(buf, row)
     call('BufferToVideo-tight-pitch', blt, (interface, buf, 2, 0, 0, 0, 10, 3, 1, 0))
     call('VideoToVideo-horizontal-overlap', blt, (interface, 0, 3, 0, 10, 1, 10, 3, 1, 0))
-    require(remote.read(pixel(0, 10), 12) == bytes.fromhex('010203010203040506070809'),
+    require(remote.read(pixel(0, 10), 12) == bytes.fromhex('030201030201060504090807'),
             'Same-row overlapping copy corrupted source pixels')
 
     # Upload a 3x3 source at nonzero buffer origin, with unaligned byte pitch.
     pitch = 21
     source = bytearray([0xcd] * (pitch * 4))
-    rgb = {}
+    packed = {}
     for y in range(3):
         for x in range(3):
             color = bytes((0x40 + x, 0x70 + y, x + 8 * y))
-            rgb[x, y] = color
+            packed[x, y] = color
             offset = (y + 1) * pitch + (x + 1) * 4
-            source[offset:offset + 4] = color[::-1] + b'\xff'
+            source[offset:offset + 4] = color + b'\xff'
     remote.write(buf, bytes(source))
     call('BltBufferToVideo', blt, (interface, buf, 2, 1, 1, 19, 37, 3, 3, pitch))
     for y in range(3):
-        require(remote.read(pixel(19, 37 + y), 9) == b''.join(rgb[x, y] for x in range(3)),
+        require(remote.read(pixel(19, 37 + y), 9) == b''.join(packed[x, y] for x in range(3)),
                 'BufferToVideo matrix differs')
     # Overlap in both directions, checking destination contents individually.
     for label, src_x, src_y, dst_x, dst_y in (
             ('down-right', 19, 37, 20, 38), ('up-left', 20, 38, 19, 37)):
         call('VideoToVideo-' + label, blt, (interface, 0, 3, src_x, src_y, dst_x, dst_y, 3, 3, 0))
         for y in range(3):
-            require(remote.read(pixel(dst_x, dst_y + y), 9) == b''.join(rgb[x, y] for x in range(3)),
+            require(remote.read(pixel(dst_x, dst_y + y), 9) == b''.join(packed[x, y] for x in range(3)),
                     'Overlapping VideoToVideo corrupted source pixels')
     download = bytearray([0x5a] * (pitch * 4))
     remote.write(buf, bytes(download))
@@ -180,7 +201,7 @@ def exercise(remote, core, interface, caller):
     for y in range(3):
         for x in range(3):
             offset = (y + 1) * pitch + (x + 1) * 4
-            download[offset:offset + 4] = rgb[x, y][::-1] + b'\0'
+            download[offset:offset + 4] = packed[x, y] + b'\0'
     require(remote.read(buf, len(download)) == download, 'Download pixels or buffer guards differ')
     for label, args in (
             ('invalid-operation', (buf, 4, 0, 0, 0, 0, 1, 1, 0)),
@@ -192,7 +213,15 @@ def exercise(remote, core, interface, caller):
         call(label, blt, (interface, *args), INVALID)
     require(remote.read(buf, len(download)) == download and remote.read(FB, 3) == bytes(3),
             'Rejected call changed the buffer or screen origin')
-    return checks
+    return checks, {
+        'fillBltInputHex': '1958c3fe',
+        'fillPackedPixelHex': fill_row[3:6].hex(),
+        'secCMarkerColorsInMemoryOrder': ['blue', 'white', 'blue', 'red', 'black', 'red'],
+        'secCMarkerBltInputHex': marker_blt.hex(),
+        'secCMarkerPackedRowHex': marker_row[3:-3].hex(),
+        'independentPackedSeedHex': seed.hex(),
+        'independentBltReadbackHex': readback[4:-4].hex(),
+    }
 
 
 def run(fd, el, handoff, target_reg, dxe_names):
@@ -244,13 +273,13 @@ def run(fd, el, handoff, target_reg, dxe_names):
                 bp(remote, handoff, False)
                 bp(remote, core_base + dxe_names['DebugAssert'])
                 interface, caller = locate_install(remote, core['CoreInstallMultipleProtocolInterfaces'])
-                checks = exercise(remote, core, interface, caller)
+                checks, color_samples = exercise(remote, core, interface, caller)
                 require(remote.command('Qqemu.PhyMemMode:1') == 'OK', 'Cannot inspect outer RAM guards')
                 require(all(remote.read(a, 16) == b'\x5a' * 16 for a in boundary),
                         'Framebuffer boundary overwritten')
                 return {'el': el, 'result': 'PASS', 'gopInterface': hex(interface),
                         'dxeEntry': hex(target), 'framebufferHob': overlaps[0],
-                        'checks': checks, 'outerGuardsIntact': True}
+                        'checks': checks, 'colorSamples': color_samples, 'outerGuardsIntact': True}
         finally:
             process.terminate()
             try:
@@ -263,8 +292,10 @@ def run(fd, el, handoff, target_reg, dxe_names):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--report', type=Path)
+    parser.add_argument('--build-dir', type=Path, default=ROOT / 'Build/OculusGoGopModel/DEBUG_GCC5',
+                        help='GOP_MODEL build containing FV and matching AARCH64 debug symbols')
     args = parser.parse_args()
-    build = ROOT / 'Build/OculusGoGopModel/DEBUG_GCC5'
+    build = args.build_dir.resolve()
     fd = build / 'FV/OCULUS_GO_DIRECT.fd'
     sec = build / 'AARCH64/OculusGoPkg/PrePi/PrePi/DEBUG/OculusGoSec.dll'
     dxe = build / 'AARCH64/MdeModulePkg/Core/Dxe/DxeMain/DEBUG/DxeCore.dll'
@@ -275,7 +306,7 @@ def main():
     dxe_names = symbols(dxe)
     runs = [run(fd, el, handoff, register, dxe_names) for el in (1, 2)]
     report = {'result': 'PASS-QEMU-GOP', 'fdSha256': info['sha256'], 'cases': runs,
-              'modelPixelOrder': 'packed RGB888', 'physicalGop': 'UNTESTED'}
+              'modelPixelOrder': 'packed BGR888', 'physicalGop': 'UNTESTED'}
     if args.report:
         with args.report.open('x', encoding='utf-8') as out:
             print(json.dumps(report, indent=2), file=out)
