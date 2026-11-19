@@ -1,6 +1,6 @@
 # Next steps
 
-The Go has reached the SEC_DXE checkpoint. DXE_MEM now exercises the next stage in QEMU. The next attended test is a single temporary boot of the reviewed DXE_MEM image, followed by observation of both bands and a second readback after Android recovery. The final memory-services signal is white, blue, green, blue, white. Later milestones include GCD initialization, driver dispatch and a physical GOP console for Shell. [DXE_MEM procedure](DXE_MEM.md) · [SEC_DXE physical record](evidence/sec-dxe-transfer-20261119.json)
+The Go completed DXE_MEM and recovered to Android with matching readbacks. The next offline target is to run the original DXE image services initializer and verify Global Coherency Domain (GCD) initialization in QEMU using only the memory described by the handoff. Driver dispatch, a physical GOP console and Shell follow. [Physical DXE_MEM result](evidence/dxe-mem-transfer-20261119.json) · [Diagnostic scope](DXE_MEM.md)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

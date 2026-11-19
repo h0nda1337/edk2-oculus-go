@@ -1,0 +1,77 @@
+{
+  "dateMexicoCity": "2026-11-19",
+  "scope": "terminal-edk2-dxe-memory-services",
+  "revision": "4f287f457b91541108ef12a671f107754809496d",
+  "reviewSha256": "17b692fcc1461c19851eecec648d49eb8ca797100ecb23451e22f22ff8ec07a2",
+  "preflightStartUtc": "2026-11-19T16:00:06Z",
+  "preflightReportSha256": "13529cf003e00f01e0410829088d306a024fe1997776b89741044dd47a8c0358",
+  "preflightResult": "PASS-READONLY",
+  "partitionsMatchedBefore": [
+    "aboot_a",
+    "aboot_b",
+    "boot_a",
+    "boot_b"
+  ],
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferSessionStartUtc": "2026-11-19T16:01:26.009724Z",
+  "transferReportSha256": "3ad08b487b0f0f612d5e7048f3b3aa8d75678c2cba62ad2d48e54c79bab446cd",
+  "fastbootBootStderrSha256": "2669f1a890135a134349328e75cc34ed6baf98fdb7a25906fcecfa08560bed4f",
+  "imageSha256": "162d9f05bb70a3672ac808aa10bf88a7d6d884f46b0a2f6609da2cb8f429034c",
+  "fdSha256": "e0b4305f90107396030f2aadf5e4b8041cb8bb8602f4cea4588fb728d97dd712",
+  "imageBytes": 462848,
+  "fastbootReport": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "physicalDxeMemExecutionAtHostCommandExit": "UNKNOWN",
+  "operatorObservationAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "blanco, azul, verde, azul, blanco",
+    "centerAsReported": "verde",
+    "matchesReviewedGreenCenterPattern": true,
+    "eyeCoverage": "UNKNOWN",
+    "earlierPatternsReported": false
+  },
+  "recovery": {
+    "operatorReportedSpanish": "Android arrancó y reconecté el USB",
+    "preflightStartUtc": "2026-11-19T16:03:44Z",
+    "reportSha256": "6bd32ccb791db770be1f2fae69d1eef71661dcf328c5114d20ea25fcc9630551",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "product": "pacific",
+    "slot": "_a",
+    "bootCompleted": true,
+    "root": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  },
+  "physicalFindings": {
+    "earlyDxeMemoryServices": "CONFIRMED-DEVICE",
+    "evidence": "Operator reported the successful five-color checkpoint drawn after ExerciseMemory returned true.",
+    "source": "OculusGoPkg/DxeCheckpoint/MemoryServices.c",
+    "checkpoint": "TrialMemoryComplete",
+    "allocatedPages": 2,
+    "poolBytes": 257,
+    "totalBytesWrittenAndRead": 8449,
+    "twoBoundedMemoryMapsValidated": true,
+    "poolAndPagesFreed": true,
+    "freedPagesReportedAs": "EfiConventionalMemory",
+    "mapKeyChanged": true,
+    "physicalAllocationAddressesAndMapKeyValues": "UNKNOWN",
+    "physicalExceptionLevel": "UNKNOWN",
+    "imageServicesGcdDriverDispatchGopShell": "UNTESTED"
+  }
+}

@@ -1,6 +1,12 @@
 # DXE_MEM — servicios de memoria en DXE Core
 
-Prueba temporal para Oculus Go. SEC_DXE ya demostró la entrada física en DxeMain y la salida al framebuffer. DXE_MEM continúa por el inicializador de memoria de EDK2 y se detiene antes de inicializar los servicios de imagen. La ejecución de DXE_MEM en el visor está pendiente. [Prueba física anterior](evidence/sec-dxe-transfer-20261119.json)
+Prueba temporal para Oculus Go. SEC_DXE ya demostró la entrada física en DxeMain y la salida al framebuffer. DXE_MEM continúa por el inicializador de memoria de EDK2 y se detiene antes de inicializar los servicios de imagen. [Prueba física anterior](evidence/sec-dxe-transfer-20261119.json)
+
+## Resultado en el Oculus Go
+
+El 19 de noviembre de 2026, el operador observó «blanco, azul, verde, azul, blanco» tras el arranque temporal. El código sólo dibuja el centro verde cuando ha escrito y releído 8 449 bytes, liberado el pool y las dos páginas, y comprobado en el segundo mapa que las páginas volvieron a memoria convencional con una clave distinta. La señal permite verificar esas condiciones. Los valores numéricos de las claves y las direcciones de las asignaciones en el visor siguen siendo desconocidos. [Código del punto de control](../OculusGoPkg/DxeCheckpoint/MemoryServices.c)
+
+El cargador original indicó `Secure boot: true`. El operador volvió a Android y ADB confirmó el arranque completo en el slot A. Los SHA-256 de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` coincidieron con la lectura previa y los respaldos originales, sobre 130 MiB leídos en cada comprobación. [Registro del arranque y la recuperación](evidence/dxe-mem-transfer-20261119.json)
 
 ## Resultado en QEMU
 
