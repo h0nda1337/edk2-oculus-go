@@ -96,3 +96,15 @@ Pinned TianoCore EDK2 commit `e7aac7fc137e247edad22f7ee53b9a1fba227397`. These f
 | TianoCore EDK2 `e7aac7fc137e247edad22f7ee53b9a1fba227397` | [DebugImageInfo.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Misc/DebugImageInfo.c), [DebugImageInfoTable.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Guid/DebugImageInfoTable.h). Solicitud de 1.025 páginas, GUID, cabecera, indicador de actualización y registro de la imagen. | CONFIRMED-SOURCE |
 | Misma revisión | [DxeMain.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c), [Gcd.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Gcd/Gcd.c), [Page.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Mem/Page.c), [CheckSum.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Library/BaseLib/CheckSum.c). Orden de inicialización y servicios originales para admitir, asignar y verificar la página. Código enlazado sin cambios, bajo BSD-2-Clause-Patent. | CONFIRMED-SOURCE |
 | OculusGo_EDK2_UEFI, DXE_TABLES | [Registro de la prueba](evidence/dxe-tables-transfer-20261119.json) y [mapa de memoria](MEMORY_MAP.md). Origen del FD y punto de partida en el visor. La página de depuración es una decisión del nuevo diseño. | CONFIRMED-DEVICE para DXE_TABLES |
+
+### Renegade Windows driver packages
+
+| Source and revision | File / contribution | Confidence |
+| --- | --- | --- |
+| edk2-porting/WOA-Drivers, `524346372da2091e905164841317f35c35947a82` | [components](https://github.com/edk2-porting/WOA-Drivers/tree/524346372da2091e905164841317f35c35947a82/components) groups the packages under AnySoC, MSM8998 and SDM845. | CONFIRMED-SOURCE for this revision |
+| Same revision, Qualcomm INF | [QcXhciFilter8998.inf_](https://github.com/edk2-porting/WOA-Drivers/blob/524346372da2091e905164841317f35c35947a82/components/MSM8998/Platform/minimal/USB/XhciFilter/QcXhciFilter8998.inf_) declares an NTARM64 host filter for QCOM2430, includes usbxhci.inf and registers a lower filter. | CONFIRMED-SOURCE, Pacific compatibility UNKNOWN |
+| Same revision, Qualcomm INF | [qcusbc8998.inf_](https://github.com/edk2-porting/WOA-Drivers/blob/524346372da2091e905164841317f35c35947a82/components/MSM8998/Platform/minimal/USB/USBC/qcusbc8998.inf_) declares an NTARM64 USB Type-C driver for QCOM00D5. | CONFIRMED-SOURCE, Pacific compatibility UNKNOWN |
+| Microsoft Learn, online documentation | [Hardware IDs](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hardware-ids) describes how the enumerator and INF model entries participate in Plug and Play matching. | CONFIRMED-DOCUMENTATION |
+
+Both INF files carry Qualcomm copyright notices. This review records metadata
+only. Any binary distribution requires review of the individual package terms.

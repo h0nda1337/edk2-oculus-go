@@ -14,3 +14,16 @@
 No binary driver is uploaded or installed. A Windows driver candidate must
 match the real block/interface and licensing terms; another Snapdragon device
 name alone does not establish compatibility.
+
+### Windows PE ARM64 candidates from Renegade
+
+| Hardware / mode | Windows package examined | Assessment for Pacific EVT |
+| --- | --- | --- |
+| USB host | MSM8998 `QcXhciFilter8998`, ARM64, model `ACPI\QCOM2430` | UNKNOWN. This is a lower filter on the Microsoft xHCI stack. Compare the controller revision, PHY, ACPI resources and power dependencies before considering a test. |
+| USB Type-C controller | MSM8998 `qcusbc8998`, ARM64, model `ACPI\QCOM00D5` | No matching controller established. This package addresses a different function from the host filter. |
+| Internal UFS and Adreno 530 | No package verified for either block on APQ8096pro | UNKNOWN. Keep UFS identification separate from Windows driver compatibility. Continue with inherited GOP for the initial display. |
+
+The examined component tree contains AnySoC, MSM8998 and SDM845 groups.
+These findings concern Windows Plug and Play after firmware handoff. The
+UEFI Shell uses firmware protocols. Package provenance and the exact INF
+files are listed in [the reference register](REFERENCES.md#renegade-windows-driver-packages).
