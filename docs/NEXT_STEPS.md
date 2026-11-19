@@ -1,6 +1,6 @@
 # Next steps
 
-The Go reached the final DXE_GCD checkpoint. The next offline target is to run the DXE library constructors and verify publication of the HOB list and DXE Services table through the EFI System Table. Firmware-volume driver dispatch and a GOP console for Shell follow. [Physical DXE_GCD record](evidence/dxe-gcd-transfer-20261119.json) · [Diagnostic scope](DXE_GCD.md)
+DXE_TABLES passed in QEMU at EL1 and EL2. The next measurement requires an attended temporary boot of the reviewed image and observation of its two framebuffer bands. The next upstream DXE initializer requests more contiguous RAM than the current arena provides. Resolve ownership and alignment before driver dispatch and the GOP text console. [Candidate and evidence](DXE_TABLES.md) · [Last physical checkpoint](evidence/dxe-gcd-transfer-20261119.json)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

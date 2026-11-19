@@ -75,3 +75,15 @@ Pinned TianoCore EDK2 commit `e7aac7fc137e247edad22f7ee53b9a1fba227397`. These f
 | UEFI Forum, UEFI 2.10 | [§9.1 EFI Loaded Image Protocol](https://uefi.org/specs/UEFI/2.10/09_Protocols_EFI_Loaded_Image.html) | Protocol identity, image address, size and memory types | CONFIRMED-SPEC |
 | UEFI Forum, PI 1.8 Errata A, volume II | [§7.2 GCD services](https://uefi.org/specs/PI/1.8A/V2_Services_DXE_Services.html) | GCD address maps and resource types | CONFIRMED-SPEC |
 | OculusGo_EDK2_UEFI, DXE_MEM | [Physical trial](evidence/dxe-mem-transfer-20261119.json) | Memory services in the bounded arena | CONFIRMED-DEVICE for DXE_MEM |
+
+### DXE_TABLES
+
+| Fuente y revisión | Archivo | Aportación | Confianza |
+| --- | --- | --- | --- |
+| UEFI Forum, UEFI 2.10 §4.6 | [EFI Configuration Table](https://uefi.org/specs/UEFI/2.10/04_EFI_System_Table.html#efi-configuration-table-properties-table) | Formato de las entradas y unicidad del GUID | CONFIRMED-SPEC |
+| UEFI Forum, PI 1.8A, vol. II §7.2 | [Servicios GCD](https://uefi.org/specs/PI/1.8A/V2_Services_DXE_Services.html) | Consulta de un recurso por dirección, longitud, tipo y propietario | CONFIRMED-SPEC |
+| TianoCore EDK2 `e7aac7fc137e247edad22f7ee53b9a1fba227397` | [DxeMain.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c), [InstallConfigurationTable.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Misc/InstallConfigurationTable.c) | Orden de constructores y publicaciones, crecimiento de la tabla y estado inicial del servicio CRC32 | CONFIRMED-SOURCE |
+| Misma revisión de TianoCore | [UefiLib.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Library/UefiLib/UefiLib.c), [DxeExtractGuidedSectionLib.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Library/DxeExtractGuidedSectionLib/DxeExtractGuidedSectionLib.c) | Consulta por GUID y asignaciones de los manejadores de secciones guiadas | CONFIRMED-SOURCE |
+| Misma revisión de TianoCore | [MdePkg.dec](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/MdePkg.dec), [MdeModulePkg.dec](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/MdeModulePkg.dec) | Valores de los tres GUID que el observador decodifica de la RAM del invitado | CONFIRMED-SOURCE |
+| Misma revisión de TianoCore | [DebugImageInfo.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Misc/DebugImageInfo.c) | El siguiente inicializador pide 1.025 páginas contiguas para obtener una estructura alineada a 4 MiB | CONFIRMED-SOURCE |
+| OculusGo_EDK2_UEFI | [Prueba física anterior](evidence/dxe-gcd-transfer-20261119.json) | El visor alcanzó el retorno de los servicios de imagen y GCD con la arena de 1,5 MiB y la pila reservada | CONFIRMED-DEVICE para DXE_GCD |

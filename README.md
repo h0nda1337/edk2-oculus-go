@@ -51,6 +51,8 @@ DXE_MEM reached its green-center checkpoint on the Go. Upstream DXE Boot Service
 
 The Go completed `DXE_GCD`. The operator saw a light-blue center between purple bands and white ends. DXE Core looked up its Loaded Image protocol, verified the relocated HOB list and its original GUID page, and confirmed ownership of the 1.5 MiB arena and reserved 64 KiB stack in the GCD memory map. [Physical record](docs/evidence/dxe-gcd-transfer-20261119.json) · [Checkpoint definitions](docs/DXE_GCD.md)
 
+`DXE_TABLES` passed 52 model cases at EL1 and EL2. DXE Core ran its five library constructors, published the migrated HOB list and DXE Services, and used the published services to inspect the active stack. An attended temporary boot of this candidate is pending. [Results and image review](docs/DXE_TABLES.md)
+
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
 
