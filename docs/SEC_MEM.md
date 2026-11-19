@@ -108,7 +108,11 @@ python3 tests/sec_mem_static.py --fd "$EXTRACTED_FD" --sec-elf "$SEC_ELF"
 python3 tests/sec_mem_qemu.py --fd "$EXTRACTED_FD" --sec-elf "$SEC_ELF" --runtime-fdt "$RUNTIME_DTB"
 ```
 
-## Sesión física posterior
+## Sesión física del 18 de noviembre
+
+El Fastboot original aceptó el envío y el arranque temporal después de
+verificar los cuatro hashes desde Android. El intento quedó consumido.
+[Registro del ensayo](evidence/sec-mem-transfer-20261118.json)
 
 Con el propietario presente, comprobar primero por ADB el mismo equipo, Android
 arrancado en el slot A y los cuatro hashes completos de `boot_a/b` y
