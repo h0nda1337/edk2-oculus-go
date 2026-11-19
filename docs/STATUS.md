@@ -54,6 +54,40 @@ The complete FD is not cleared for a physical execution test.
 
 The rebuilt normal validation report is local at `build/validation-20261114-040751/REPORT.json` (UTC directory name), SHA-256 `eb051bca7f6f28926c3f9bea56bda74cdb2fff33bdd7d994fa7327d19a958424`.
 
+## 2026-11-18 — EDK2 via the original unlocked loader
+
+The next experiment targets a temporary Android boot image with the original
+Qualcomm boot chain in place. Meta documents the unlocked Go's policy for
+`boot.img`. Acceptance of this particular container by LK and physical entry
+into its EDK2 SEC are still **UNKNOWN**. [Meta's Go unlock guide](https://developers.meta.com/vr/blog/unlocking-oculus-go/)
+
+| Measured on local files | Preserved `boot_a` | Reviewed `SEC_VISUAL` image |
+| --- | --- | --- |
+| Android format and page size | v0, 4096 bytes | v0, 4096 bytes |
+| ARM64 text offset and flags | `0x80000`, flags 0 | `0x80000`, flags 0 |
+| Compressed / expanded payload | 9,035,401 / 21,396,992 bytes (Linux) | 114,499 / 4,194,304 bytes (EDK2 FD) |
+| Appended device trees | CNC and EVT | Exact stock EVT, 365,129 bytes |
+| Ramdisk | 9,217,382 bytes | Empty |
+
+The complete candidate SHA-256 is `07eb55d5ac04c175c5101789672d45e0f584118d7a478898cea7193eefb4be14`.
+We extracted the FD from those delivery bytes, verified its hash and the EVT
+hash against the existing review, and ran all 12 EL1/EL2 visual-model cases
+on the extracted FD. The eight accepted entries produced both complete bands
+in emulated RAM. Four other entries rejected before drawing. The resulting
+`build/packaged-visual-20261119T030249Z/model/REPORT.json` has SHA-256
+`baa417b05343eb8b89066c5dbf1c6d9615ecf62b19e47e83160890ea22ceb000`.
+QEMU started at the simulated handoff after unpacking. These tests exercise
+neither Qualcomm authentication nor the physical panel. The [attended test](SEC_VISUAL_PHYSICAL_REVIEW.md)
+is the first opportunity to observe those bands in the visor.
+
+An additional QEMU/TCG test installed identity page tables at EL1 and enabled
+stage-1 translation before entering the FD header. The harness and EDK2 read
+the same `SCTLR_EL1=0xc50839`. Single-stepping the actual firmware reached
+the MMU rejection branch before any framebuffer store. All nine sentinels and
+the incoming arguments, SP and LR were intact. Run
+`wsl -d Debian -- python3 tests/sec_visual_mmu_el1.py` to repeat this case.
+The visor's actual MMU state at handoff remains **UNKNOWN**.
+
 ## Earlier, separate experiment
 
 The previous experiment accepted one temporary diagnostic image and showed
