@@ -1,0 +1,196 @@
+{
+  "scope": "terminal-edk2-sec-stack",
+  "decision": "ONE-ATTENDED-TEMPORARY-BOOT",
+  "maxAttempts": 1,
+  "dateMexicoCity": "2026-11-18",
+  "physicalExecution": "UNKNOWN",
+  "procedure": "docs/SEC_STACK.md",
+  "platformRevision": "52700ed",
+  "verificationRevision": "9be7482",
+  "transportRevision": "bb42c47",
+  "entryAddress": "0x80081800",
+  "fd": {
+    "file": "build/DEBUG-SEC_STACK-20261119-043833/OCULUS_GO_DIRECT.fd",
+    "size": 4194304,
+    "sha256": "fcbd07b79d863ab39c9d3c8869f3a0c2a82fb9d059ed6a00ed97bfae691f54de"
+  },
+  "image": {
+    "file": "local/OculusGo-SEC-STACK-fcbd07b79d86.img",
+    "size": 376832,
+    "sha256": "ecc169ddc6ae73c7faec6330411c58a0b50aded590aee5f25fd668477157a554"
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-SEC_STACK-20261119-043833/SOURCES.json",
+    "size": 32208,
+    "sha256": "c0b672279e984c4834002689425497993a106d401b2bd9af7cca3ff425c6bc73"
+  },
+  "model": {
+    "file": "build/DEBUG-SEC_STACK-20261119-043833/QEMU.json",
+    "size": 8267,
+    "sha256": "3bf1d2670a9a4292b2e8d83266346910a42c1929d1f15cc89ba0046b9d2050a5"
+  },
+  "staticAudit": {
+    "file": "build/DEBUG-SEC_STACK-20261119-043833/STATIC.json",
+    "size": 862,
+    "sha256": "3b5d227f478233e204b1f066eeedefa92d164752f9e223fc9ac7e5f7fbb041ea"
+  },
+  "priorReadback": {
+    "file": "local/readonly-preflight-20261119-043019/REPORT.json",
+    "size": 7739,
+    "sha256": "02455e2eacee2fb4b6a3d9ef1f5ec20ceede165d2ebb96477d1733c07a36f9de"
+  },
+  "findings": {
+    "scope": "Host and QEMU only",
+    "range": [
+      "0x8043f000",
+      "0x8047f000"
+    ],
+    "bytesPerPattern": 262144,
+    "successfulCases": 2,
+    "rejectionCases": 23,
+    "spAtHobConstructor": "0x8047df10",
+    "linkedTextBytes": 4592,
+    "reachableInstructions": 290,
+    "vectorSlots": 16,
+    "extractedFdMatchedBuild": true,
+    "reencodedContainerMatched": true,
+    "repeatedModelAndStaticReportsByteIdentical": true
+  },
+  "checkedSourceFiles": [
+    {
+      "file": "OculusGoPkg/OculusGoPkg.dsc",
+      "size": 8974,
+      "sha256": "8d9ba6edabdcfd30d4d0dab13dbf066745c94da02b334d7178ecacca72e65091"
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.fdf",
+      "size": 3007,
+      "sha256": "2d6c5249aa9938b86a98ced8e299ef8f281115690d9fa74f2bebe44c0922a0ef"
+    },
+    {
+      "file": "OculusGoPkg/SecMem/Hob.c",
+      "size": 1879,
+      "sha256": "bda34cc90f128af26c1575114bfa55b2c018c7e895360861fdb0677adbd3a006"
+    },
+    {
+      "file": "OculusGoPkg/SecMem/SecStack.inf",
+      "size": 455,
+      "sha256": "0fed488203f3edb6a3e9c7cceaac6266b9b5d50d9bd6ebf56b617ec52e73910a"
+    },
+    {
+      "file": "OculusGoPkg/SecMem/Stack.c",
+      "size": 768,
+      "sha256": "e5d463ebaba8b8b6550bd2fe0cdc80eb8c094b10184cc47eb11ffc511c4adf4b"
+    },
+    {
+      "file": "OculusGoPkg/SecMem/StackEntry.S",
+      "size": 4211,
+      "sha256": "ab3743c5943d9dd54b5b61b2da79793313238acac137ffe2fd6fd8457f351c0c"
+    },
+    {
+      "file": "scripts/build-edk2.ps1",
+      "size": 800,
+      "sha256": "2800e1c38fe556ff3e2612278d59c0a3b5083ef1091659124e026ee48c6cc0d2"
+    },
+    {
+      "file": "scripts/build.sh",
+      "size": 3621,
+      "sha256": "ab6eb8892bc511f363ba1a04608c3af31e28d758f8784f0dc09fc6fca1b56ef0"
+    },
+    {
+      "file": "tests/entry_harness.S",
+      "size": 464,
+      "sha256": "1ab869ad8e6c554adbea895205d71f502e8e22c8e15f516686e767cac6c85c8a"
+    },
+    {
+      "file": "tests/sec_c_qemu.py",
+      "size": 7879,
+      "sha256": "e7ce7f305392f09732c1fc0a90db4313779278bb026cf90617f1ce7373d39e38"
+    },
+    {
+      "file": "tests/sec_mem_qemu.py",
+      "size": 16491,
+      "sha256": "5896704792bf311272c33c028299a248aa19354d427e2fc5baf338131e346c68"
+    },
+    {
+      "file": "tests/sec_mem_static.py",
+      "size": 19022,
+      "sha256": "31449e9ce05845ae1daef0fd08e880b417ebb0f07f85c7cca119ccab88958ace"
+    },
+    {
+      "file": "tests/sec_stack_qemu.py",
+      "size": 10882,
+      "sha256": "52721b97ba79c5dc3279532985184b0f7ca52ba46eb37cb4b86e4d63727d7abe"
+    },
+    {
+      "file": "tests/sec_stack_static.py",
+      "size": 4633,
+      "sha256": "f5828960d545c18fd9a6031034d50589a386b48f7fd06d55c5796b5657f419fb"
+    },
+    {
+      "file": "tests/sec_visual_mmu_el1.S",
+      "size": 950,
+      "sha256": "9799f0bbf0025493e85472646ae4bd4c257af3251cda0056e2a4bb2c04d7b124"
+    },
+    {
+      "file": "tools/android_boot.py",
+      "size": 4968,
+      "sha256": "5ee66042724df6eee47c394cb74e609224893861b75496fc479d193fd1e8e90f"
+    },
+    {
+      "file": "tools/attended_terminal.py",
+      "size": 4608,
+      "sha256": "7750ccf180778102e560a5924c91a94c014d79b344447a7fe346bd29d616c067"
+    },
+    {
+      "file": "tools/audit_build_sources.py",
+      "size": 4559,
+      "sha256": "9929fe3ee89953ac0ff1ff8cc22b5e80722801735650ae409d9a6c5388f4a32a"
+    },
+    {
+      "file": "tools/collect_readonly_preflight.py",
+      "size": 8495,
+      "sha256": "bf5a42f15ce19888199e12e4e1a73a7f92a0f7c0adf115cf86c7ef6aec165d89"
+    },
+    {
+      "file": "tools/emulate_entry.py",
+      "size": 8358,
+      "sha256": "ee1576486a57a92fd0155481b2d7ed957badda779538be8df2bf284dadb5489f"
+    },
+    {
+      "file": "tools/emulate_sec_handoff.py",
+      "size": 13021,
+      "sha256": "6a757be8988629c8f537fdd644089a5631ad6347c055b7ce14173affc12a1ee2"
+    },
+    {
+      "file": "tools/inspect_fastboot.py",
+      "size": 5150,
+      "sha256": "386c1a286153cc98e03d4c39d31309ae07245bfe1a4df26c3bca8ee22f582c58"
+    },
+    {
+      "file": "tools/run_sec_c_once.py",
+      "size": 11681,
+      "sha256": "f55dddfec47f0ed83ee3524c95790353bd9f7e0932ba06611b4a892c022fe4bc"
+    },
+    {
+      "file": "tools/run_sec_stack_once.py",
+      "size": 6389,
+      "sha256": "746c8417d7c08d62539df553e706ec0952db71217a6cad6c02b14c0988e16376"
+    },
+    {
+      "file": "tools/run_sec_visual_once.py",
+      "size": 10548,
+      "sha256": "626f21bd4b6ea88666227f428c1b9429e7e8eb10b568850adc433d7f16bcd82c"
+    },
+    {
+      "file": "tools/verify_fd.py",
+      "size": 3025,
+      "sha256": "922e72e2db14371043e103d7f2e6d7673f51dfedcd287265e5422993be4eb39c"
+    },
+    {
+      "file": "tools/verify_sec_visual_data.py",
+      "size": 4628,
+      "sha256": "a23638b02c175399adf499c5abf6af8c9a7eaec71facb554f57b7ee3b727c7d8"
+    }
+  ]
+}

@@ -70,6 +70,12 @@ and construct its HOB list at `0x94000000`. The availability of the full
 64 MiB for allocation, write access, DMA activity and scanout after MMU
 setup remain unknown. [Physical SEC memory record](evidence/sec-mem-transfer-20261118.json)
 
+The separate SEC_STACK profile reserves `[0x8043f000, 0x8047f000)` as its
+256 KiB stack with 4 KiB guards immediately below and above. The bounds
+are a choice in the FD layout. Two full-span patterns, the 96-byte entry
+record and nested C/PI calls passed in the model. Physical access is UNKNOWN.
+[Footprint, origins and checks](SEC_STACK.md)
+
 | Local evidence checked | SHA-256 |
 | --- | --- |
 | Selected stock EVT DTB | `70ae171c99befc564acec661f3afc4365a831ebd1d6e01ca0e53035a4d8b1f35` |

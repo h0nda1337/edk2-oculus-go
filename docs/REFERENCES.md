@@ -15,6 +15,7 @@
 | [SEC memory physical record](evidence/sec-mem-transfer-20261118.json) | SEC_MEM image SHA-256 `cdcc745e718ed53cb6542f20e4a438d445dc5a1b853ea878a2ce7ef39c848138` | Owner saw all five marker colors in order on the Go after the private PHIT check and the two loads | CONFIRMED-DEVICE for that SEC path. High RAM ownership and normal DXE remain unmeasured |
 | https://github.com/facebookincubator/oculus-linux-kernel | `9475755c1a328a7b873721897ef339a8ad35c86a`, `Documentation/arm64/booting.txt` | Image header fields, EL1/EL2 entry, MMU off, instruction cache may be enabled | Official Go kernel documentation |
 | Owner GitHub | Authenticated login `h0nda1337`, 2026-10-22 | Establish permitted repository owner | CONFIRMED via connector and local CLI |
+| [Guarded stack measurement](SEC_STACK.md) | Project revision `52700ed`, `OculusGoPkg/OculusGoPkg.fdf`, `SecMem/StackEntry.S`, `SecMem/Stack.c` and `SecMem/Hob.c`; same pinned upstream PI constructor as SEC_MEM | FD-tail reservation, two address-dependent patterns, real PrePi record and nested C calls | CONFIRMED in final FD and QEMU. Physical result UNKNOWN |
 | Own device capture | Original `aboot_a`, SHA-256 `6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74` | ARM64 destination and FDT destination; evidence only, binary not linked/uploaded | Static binary evidence |
 | Own device capture | Runtime DT and `/proc/iomem`, captured 2026-08-24 | RAM, reserved regions, GIC and timer | CONFIRMED-DEVICE for capture; new handoff state UNKNOWN |
 
