@@ -25,10 +25,14 @@ OUTCOMES = {
 
 
 def validate_reports(model, static, digest):
-    validate_memory_cases(model, static, digest, 'DXE-GCD', OUTCOMES)
+    validate_gcd_cases(model, static, digest, 'DXE-GCD', OUTCOMES)
+
+
+def validate_gcd_cases(model, static, digest, profile, outcomes):
+    validate_memory_cases(model, static, digest, profile, outcomes)
     for row in model['cases']:
         case = row['case']
-        if case not in OUTCOMES:
+        if case not in outcomes:
             continue
         low, high = (int(x,16) for x in row['freeWindow'])
         base, size = int(row['coreBase'],16), static['peImageBytes']

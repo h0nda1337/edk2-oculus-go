@@ -17,7 +17,7 @@ LOADED_IMAGE = UUID('5b1b31a1-9562-11d2-8e3f-00a0c969723b')
 DESCRIPTOR = struct.Struct('<QQQQI4xQQ')
 
 
-def observe_services(g, read, write, stop, screen, core, base, case):
+def observe_services(g, read, write, stop, screen, core, base, case, after_gcd=None):
     def word(address):
         return struct.unpack('<Q', read(address, 8))[0]
 
@@ -133,7 +133,10 @@ def observe_services(g, read, write, stop, screen, core, base, case):
         require(g.register(0) == address, 'Wrong GCD map released')
         stop(g.register(30), 'GCD map released')
         require(g.register(0) == 0, 'Failed to free GCD map')
+        evidence['gcdMapFreed'] = True
+        if after_gcd:
+            return after_gcd(evidence)
         arrive('TrialGcdComplete')
-        return 'TrialGcdComplete','gcd',{**evidence,'gcdMapFreed':True}
+        return 'TrialGcdComplete','gcd',evidence
 
     return memory.observe_services(g, read, write, stop, screen, core, base, case, check_gcd)

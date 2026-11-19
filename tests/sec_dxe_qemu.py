@@ -26,8 +26,9 @@ def screen(stage):
         return data
     side = {'hobs':'ff0000','fv':'00ffff','branch':'ffff00','core':'00ff00',
             'services':'0080ff','memory':'ff0000','image':'00ffff',
-            'relocated-hobs':'0080ff','gcd':'ff00ff'}[stage]
-    center = {'core':'ff00ff','memory':'00ff00','image':'ff00ff','relocated-hobs':'ffffff','gcd':'ffff00'}.get(stage,'000000')
+            'relocated-hobs':'0080ff','gcd':'ff00ff','ctors':'ff0000','dxe-table':'ffff00','tables':'00ff00'}[stage]
+    center = {'core':'ff00ff','memory':'00ff00','image':'ff00ff','relocated-hobs':'ffffff','gcd':'ffff00',
+              'ctors':'00ffff','dxe-table':'ff0000','tables':'0080ff'}.get(stage,'000000')
     row = b''.join(bytes.fromhex(c)*288 for c in ('ffffff',side,center,side,'ffffff'))
     for start,end in band_ranges():
         pos = start - FB_BASE + GUARD
@@ -80,7 +81,7 @@ def hobs(read, fv, target, meta):
             break
         offset+=size
     expected = [(0, 0x407 if meta['result'] != 'PASS-STATIC-SEC-DXE' else 0x403, POOL, LIMIT-POOL)]
-    if meta['result'] == 'PASS-STATIC-DXE-GCD':
+    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES'):
         expected.append((5, 0x403, STACK, TOP-STACK))
     require(POOL+offset==end and kind==0xffff and module and resources==expected
             and len(found)==2 and found[0]==(0x80081000,0x7f000),'Missing resource, module, or FV HOB')
@@ -196,7 +197,8 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
             if case=='bad-module':
                 write(POOL+offset+48,bytes(16))
             if memory and case!='bad-module':
-                terminal,stage,measurement=memory.observe_services(g,read,write,stop,check_screen,core,base,case)
+                extra = {'constructors': meta['constructors']} if 'constructors' in meta else {}
+                terminal,stage,measurement=memory.observe_services(g,read,write,stop,check_screen,core,base,case,**extra)
             else:
                 terminal='TrialDxeRejected' if case=='bad-module' else 'TrialDxeComplete'
                 stop(base+core[terminal],terminal)
@@ -229,11 +231,13 @@ def main():
     a=arguments()
     fd,fv,pe=(p.read_bytes() for p in (a.fd,a.fv,a.pe))
     memory=None
-    if a.gcd:
+    if a.tables:
+        import dxe_tables_trace as memory
+    elif a.gcd:
         import dxe_gcd_trace as memory
     elif a.memory:
         import dxe_memory_trace as memory
-    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd)
+    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables)
     names=symbols(a.sec_elf)
     bias=int(verify(fd)['secEntryAddress'],16)-names['_ModuleEntryPoint']
     sec={k:v+bias for k,v in names.items()}
@@ -248,7 +252,7 @@ def main():
             for case in ((*CASES,*memory.EXTRA_CASES) if memory else CASES):
                 print(f'EL{el} {case}',flush=True)
                 cases.append(exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case,memory))
-    a.report.write_text(json.dumps({**meta,'result':'PASS-QEMU-DXE-GCD' if a.gcd else 'PASS-QEMU-DXE-MEM' if memory else 'PASS-QEMU-SEC-DXE','vectors':vectors,'cases':cases},indent=2)+'\n')
+    a.report.write_text(json.dumps({**meta,'result':meta['result'].replace('PASS-STATIC-','PASS-QEMU-'),'vectors':vectors,'cases':cases},indent=2)+'\n')
 
 
 if __name__=='__main__':

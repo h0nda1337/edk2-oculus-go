@@ -25,6 +25,7 @@ PY
 profile=()
 case "$(basename "$out")" in
   DEBUG-SEC_DXE-*) dir=Build/OculusGoSecDxe/DEBUG_GCC5 ;;
+  DEBUG-DXE_TABLES-*) dir=Build/OculusGoDxeTables/DEBUG_GCC5; profile=(--tables) ;;
   DEBUG-DXE_GCD-*) dir=Build/OculusGoDxeGcd/DEBUG_GCC5; profile=(--gcd) ;;
   DEBUG-DXE_MEM-*) dir=Build/OculusGoDxeMem/DEBUG_GCC5; profile=(--memory) ;;
   *) echo 'Unknown diagnostic build profile' >&2; exit 2 ;;

@@ -53,7 +53,9 @@ def unique(items):
     return items[0]
 
 
-def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False):
+def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False):
+    gcd = gcd or tables
+    extra = {}
     info = verify(fd)
     outer = list(files(fd[0x1000:0x80000]))
     require([t for t, _, _ in outer if t != 0xf0] == [3,11], 'Unexpected outer executables or FVs')
@@ -101,12 +103,29 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False):
             checkpoints = tuple(n for n in checkpoints if n != 'TrialMemoryComplete') + (
                 'CoreInitializeImageServices','CoreInitializeGcdServices','__wrap_CoreInitializeGcdServices',
                 'TrialGcdRejected','TrialGcdComplete','TrialCheckGcdMap','CoreGetMemorySpaceMap')
+        if tables:
+            checkpoints = tuple(n for n in checkpoints if n != 'TrialGcdComplete') + (
+                '__wrap_ProcessLibraryConstructorList','__wrap_CoreInitializeDebugImageInfoTable',
+                'TrialConstructorsRejected','TrialTablesRejected','TrialTablesComplete')
+            listing = subprocess.check_output(['aarch64-linux-gnu-objdump','-d',
+                '--disassemble=ProcessLibraryConstructorList',dxe_elf],text=True)
+            ctors = re.findall(r'\bbl\s+[0-9a-f]+ <(\w+Constructor)>',listing)
+            require(len(ctors) == 5 and set(ctors) == {
+                'BaseDebugLibSerialPortConstructor','UefiRuntimeServicesTableLibConstructor',
+                'UefiBootServicesTableLibConstructor','UefiLibConstructor',
+                'DxeExtractGuidedSectionLibConstructor'}, 'Unexpected linked constructor list')
+            extra['constructors'] = ctors
         assembly = subprocess.check_output(['aarch64-linux-gnu-objdump','-d','--disassemble=DxeMain',dxe_elf],text=True)
         calls = re.findall(r'\bbl\s+[0-9a-f]+ <([^>]+)>',assembly)
         order = [calls.index(n) for n in ('InitializeDebugAgent','CoreInitializeMemoryServices',
                                          '__wrap_CoreInitializeImageServices')]
         if gcd:
             order.append(calls.index('__wrap_CoreInitializeGcdServices'))
+        if tables:
+            installs = [i for i, name in enumerate(calls) if name == 'CoreInstallConfigurationTable']
+            require(len(installs) >= 3, 'Missing configuration table calls')
+            order.extend([calls.index('__wrap_ProcessLibraryConstructorList'),*installs[:3],
+                          calls.index('__wrap_CoreInitializeDebugImageInfoTable')])
         require(order == sorted(order) and 'CoreInitializeImageServices' not in calls, 'Unexpected DxeMain path')
     require(entry == core_names['_ModuleEntryPoint'] and start <= entry < end <= size and
             all(start <= core_names[n] < end for n in
@@ -116,7 +135,7 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False):
     branch = bias+sec_names['TrialDxeBranch']-BASE
     require(fd[branch:branch+4] == bytes.fromhex('00023fd6') and not any(n in sec_names for n in checkpoints),
             'Missing SEC indirect handoff or duplicated DXE checkpoint')
-    return {'result':'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
+    return {**extra,'result':'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
             'peSha256':digest(pe),'secElfSha256':digest(sec_elf.read_bytes()),'coreElfSha256':digest(dxe_elf.read_bytes()),
             'innerFvBytes':len(fv),'peImageBytes':size,'entryRva':entry,'textRva':[start,end],
             'coreGuid':str(CORE),'lzmaBytes':len(data)}
@@ -127,6 +146,7 @@ def arguments():
     for k in ('fd','fv','pe','sec-elf','dxe-elf','report'):
         parser.add_argument('--'+k,type=Path,required=True)
     group = parser.add_mutually_exclusive_group()
+    group.add_argument('--tables',action='store_true',help='Audit DXE constructors and configuration tables')
     group.add_argument('--gcd',action='store_true',help='Audit the DXE image services and GCD profile')
     group.add_argument('--memory',action='store_true',help='Audit the DXE memory services profile')
     return parser.parse_args()
@@ -134,6 +154,6 @@ def arguments():
 
 if __name__ == '__main__':
     a=arguments()
-    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd)
+    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables)
     a.report.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result))
