@@ -46,7 +46,7 @@ a stack inside the loaded image.
 In the later `SEC_MEM` trial, the five-color checkpoint showed that SEC
 accepted the delivered device tree, constructed and verified a private PHIT
 and end marker in the image, then completed two loads from the proposed
-HOB and stack addresses. Use of the normal high-RAM stack and entry into DXE remain untested on the Go.
+HOB and stack addresses. Use of the normal high-RAM stack remains untested on the Go. SEC_DXE subsequently reached upstream DxeMain using memory inside the loaded image. [Physical DXE trial](evidence/sec-dxe-transfer-20261119.json)
 The separate terminal SEC_MMU trial subsequently enabled translation and
 repainted the observed red center after both full framebuffer readbacks.
 [Physical MMU trial](evidence/sec-mmu-transfer-20261118.json)

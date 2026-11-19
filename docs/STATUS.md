@@ -17,7 +17,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | UEFI Graphics Output Protocol | Packed BGR in `GOP_MODEL` passed 22 calls each in QEMU EL1 and EL2. Physical GOP untested. [Raw color samples and control](evidence/gop-bgr-qemu-20261118.json) |
 | Storage/USB/ACPI/Windows | Pending |
 | SEC stage-1 translation and scanout | SEC_MMU passed 29 QEMU cases across EL1 and EL2. CONFIRMED on the Go. The operator saw the sealed red center after the translated stack witness and full framebuffer readbacks. [Physical record](evidence/sec-mmu-transfer-20261118.json) |
-| HOB arena and compressed DXE FV inside the FD | SEC_DXE passed 18 packaged-image QEMU cases. Four reached the terminal checkpoint inside upstream DXE Core across EL1 and EL2. Physical result UNKNOWN. [Image review](evidence/sec-dxe-review-20261118.json) · [Trace results](evidence/sec-dxe-qemu-20261118.json) |
+| HOB arena and compressed DXE FV inside the FD | SEC_DXE passed 18 packaged-image QEMU cases. Four reached the terminal checkpoint inside upstream DXE Core across EL1 and EL2. CONFIRMED on the Go. The operator saw the five-block signal with green sides and a purple center from inside upstream DXE Core after the HOB checks. [Attended trial](evidence/sec-dxe-transfer-20261119.json) · [Image review](evidence/sec-dxe-review-20261118.json) · [Trace results](evidence/sec-dxe-qemu-20261118.json) |
 | Guarded 256 KiB stack inside the FD | CONFIRMED on the Go. The operator saw the five-color checkpoint after both full-span patterns, nested C calls, PI handoff validation and final guard checks. [Physical record](evidence/sec-stack-transfer-20261118.json) |
 
 The original offline FD below passed the early-entry, SEC and DXE tests. No emulator-only

@@ -33,8 +33,7 @@ been exercised through DXE in QEMU. [Test scope](STATUS.md)
 
 The operator saw the SEC pattern on November 18. The firmware targets two
 bands, but their exact positions in the visor and coverage of each eye
-were not measured. Scanout through DXE, DMA quiescence, watchdog
-behavior and the allocator's high-RAM pool still require evidence.
+were not measured. The November 19 SEC_DXE observation confirms scanout at the early DxeMain checkpoint. DMA quiescence, watchdog behavior and ownership of the high-RAM pool still require evidence. [DXE trial](evidence/sec-dxe-transfer-20261119.json)
 
 ## High RAM at the SEC handoff, reviewed November 18
 
@@ -74,7 +73,7 @@ The separate SEC_STACK profile reserves `[0x8043f000, 0x8047f000)` as its
 256 KiB stack with 4 KiB guards immediately below and above. The bounds
 are a choice in the FD layout. Two full-span patterns, the 96-byte entry
 record and nested C/PI calls reached their visual checkpoint on the Go.
-SEC_MMU subsequently verified its one-page translated stack and witnessed a write/read there. Stability through DXE is UNKNOWN.
+SEC_MMU subsequently verified its one-page translated stack and witnessed a write/read there. SEC_DXE subsequently used its 64 KiB in-FD stack through the early DXE checkpoint. Longer-lived use remains untested.
 [Footprint, origins and checks](SEC_STACK.md)
 
 The separate terminal SEC_MMU image builds seven 4 KiB translation tables

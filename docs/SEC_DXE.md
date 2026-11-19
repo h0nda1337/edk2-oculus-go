@@ -1,6 +1,6 @@
 # SEC_DXE — entrada en DXE Core
 
-Esta imagen de diagnóstico comprueba si el cargador original entrega suficiente RAM dentro del FD para construir el handoff PI, descomprimir un volumen con LZMA y ejecutar el DXE Core de EDK2. Las tres operaciones se realizan sobre la misma imagen que viajará dentro del contenedor de arranque Android. El estado físico de esta prueba es **UNKNOWN** hasta que se observe la señal en el visor.
+Esta imagen de diagnóstico comprueba si el cargador original entrega suficiente RAM dentro del FD para construir el handoff PI, descomprimir un volumen con LZMA y ejecutar el DXE Core de EDK2. El 19 de noviembre el propietario observó «blanco, verde, morado, verde, blanco» en el Oculus Go. El patrón confirma la entrada física en DxeMain, la validación de los HOB y la escritura del framebuffer desde el DXE Core relocalizado. El nivel de excepción físico y la cobertura por ojo siguen sin determinar. [Registro del visor](evidence/sec-dxe-transfer-20261119.json)
 
 ## Resultado en el PC
 
@@ -61,4 +61,4 @@ Desde el proyecto, en Debian/WSL, compilar con `bash scripts/build.sh DEBUG 12 S
 
 Con GCC 14, el compilador avisa que `Prot` puede estar sin inicializar en `CoreOpenProtocol` del EDK2 fijado. El ajuste de compilación conserva ese aviso en el DXE Core de diagnóstico. El punto terminal precede al uso de servicios de protocolo. El enlazador también puede marcar un segmento del ELF auxiliar como RWX. Las comprobaciones del candidato inspeccionan las secciones del PE entregado y todos los descriptores de traducción activos después de habilitar la MMU.
 
-La revisión vincula por SHA-256 los artefactos, informes y fuentes. La comprobación predeterminada en Windows es `python tools/run_sec_dxe_once.py`. La medición física requiere otra sesión con el visor a mano, identificación de la misma unidad, hashes actuales de las cuatro particiones de control y el menú original de recuperación. El transporte autorizado es un único arranque temporal. Tras observar el visor se sale mediante el procedimiento físico ya comprobado y se cotejan de nuevo los cuatro hashes. Véanse [recuperación](RECOVERY.md) y [registro físico de SEC_MMU](evidence/sec-mmu-transfer-20261118.json).
+La revisión vincula por SHA-256 los artefactos, informes y fuentes. La comprobación predeterminada en Windows es `python tools/run_sec_dxe_once.py`. El único intento temporal de esta revisión se consumió el 19 de noviembre con el visor a mano, tras identificar la misma unidad y cotejar las cuatro particiones de control. Tras observar el visor se sale mediante el procedimiento físico ya comprobado y se cotejan de nuevo los cuatro hashes. Véanse [recuperación](RECOVERY.md) y [registro físico de SEC_MMU](evidence/sec-mmu-transfer-20261118.json).

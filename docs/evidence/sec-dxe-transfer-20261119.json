@@ -1,0 +1,56 @@
+{
+  "dateMexicoCity": "2026-11-19",
+  "scope": "terminal-edk2-sec-dxe",
+  "revision": "2ff8eb30ef2c6bc5abb23dd60d43fae93856440f",
+  "reviewSha256": "540f4425af7fa4118bde93aff4a835a0d9904a307a4cd966ac5a330f07531c78",
+  "preflightStartUtc": "2026-11-19T06:02:13Z",
+  "preflightReportSha256": "f93ceca53cc52a4c9488ccec9627394ed54abc2de6eda9a16e4abf297c0f908d",
+  "preflightResult": "PASS-READONLY",
+  "partitionsMatchedBefore": [
+    "aboot_a",
+    "aboot_b",
+    "boot_a",
+    "boot_b"
+  ],
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferSessionStartUtc": "2026-11-19T06:03:20.057587Z",
+  "transferReportSha256": "62338cf11060ffca82831eeda00d72d3540b8df1467e861f5ce8ac25ec8ebde7",
+  "fastbootBootStderrSha256": "c8ab7a2ae0456a1fe2f1a5bd450a9cb9ce9fee7833686c8d67c2eef0d98a5e37",
+  "imageSha256": "1f4a7ebd46d9f3d2079d771b3b442c64d2a33fa001fc765814cd852ce7bcbe4a",
+  "fdSha256": "565c5a57dfca2d69e68ce8967e7d5908a9081c2af36f502fe3105a2e175a5bdb",
+  "imageBytes": 462848,
+  "fastbootReport": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "physicalSecDxeExecutionAtHostCommandExit": "UNKNOWN",
+  "operatorObservationAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "blanco, verde, morado, verde, blanco",
+    "centerAsReported": "morado",
+    "matchesReviewedMagentaCenterPattern": true,
+    "eyeCoverage": "UNKNOWN",
+    "earlierPatternsReported": false
+  },
+  "recovery": {
+    "status": "PENDING"
+  },
+  "physicalFindings": {
+    "upstreamDxeMainReached": "CONFIRMED-DEVICE",
+    "checkpoint": "InitializeDebugAgent(DEBUG_AGENT_INIT_DXE_CORE) in the relocated upstream DXE Core",
+    "handoffValidatedByCore": true,
+    "fvDecompressedAndCoreLoaded": true,
+    "framebufferOutputFromDxeCore": "CONFIRMED-DEVICE",
+    "physicalExceptionLevel": "UNKNOWN",
+    "physicalFreeBytesOrRelocationAddressesIndependentlyMeasured": false,
+    "dxeMemoryServicesDriverDispatchGopShell": "UNTESTED"
+  }
+}

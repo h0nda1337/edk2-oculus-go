@@ -45,10 +45,9 @@ and checked the initial PI handoff table within the firmware image and
 completed two 8-byte reads at the proposed HOB and stack addresses.
 [Physical memory trial](docs/evidence/sec-mem-transfer-20261118.json)
 
-The [attended SEC_DXE candidate](docs/SEC_DXE.md) reached upstream DxeMain inside the loaded-FD arena in QEMU EL1 and EL2.
+The Go reached upstream DxeMain in the SEC_DXE trial. The operator saw white, green, purple, green, white after the relocated DXE Core validated the HOB list. [Physical DXE record](docs/evidence/sec-dxe-transfer-20261119.json)
 
-DXE, a working GOP protocol and Windows boot on the physical unit remain
-future milestones. The owner is notified before physical work and separately
+DXE memory services, driver dispatch, physical GOP, Shell and Windows boot remain future milestones. The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
 
 The planned VR boot menu puts the boot entries, UEFI Shell, settings and

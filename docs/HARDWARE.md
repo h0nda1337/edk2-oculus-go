@@ -13,7 +13,7 @@
 | Storage | UFS, LUN devices sda through sdf | CONFIRMED-DEVICE |
 | PSCI | 1.0, SMC conduit | CONFIRMED-DEVICE DT/log; no new physical call made |
 | Incoming payload EL, MMU/cache, timer access | Not measured for this implementation | UNKNOWN |
-| Inherited display at SEC | The owner saw both marker groups. Blue flanked white and red flanked black in the packed framebuffer, consistent with BGR. | CONFIRMED-DEVICE for byte 0 (blue) and byte 2 (red). Panel scan direction and scanout through DXE remain UNKNOWN. [Physical record](evidence/sec-c-transfer-20261118.json) |
+| Inherited display at SEC | The owner saw both marker groups. Blue flanked white and red flanked black in the packed framebuffer, consistent with BGR. | CONFIRMED-DEVICE for byte 0 (blue) and byte 2 (red). Panel scan direction remains UNKNOWN. The later SEC_DXE test confirmed output from early DXE Core. [DXE observation](evidence/sec-dxe-transfer-20261119.json) [Physical record](evidence/sec-c-transfer-20261118.json) |
 | Watchdog state at SEC | Not measured | UNKNOWN |
 
 Captures were made during the preceding project, initially 2026-08-24. The

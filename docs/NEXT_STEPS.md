@@ -1,6 +1,6 @@
 # Next steps
 
-The next attended measurement is [SEC_DXE](SEC_DXE.md). The operator should have the headset running stock Android with USB attached and be able to look at the display. Start with the four read-only baseline hashes. One temporary boot is available for this exact review. Record the last sustained color sequence, recover stock Android and repeat the four hashes. Only the green sides with the magenta center identify execution of the validated DXE callback.
+The Go reached the terminal DXE Core checkpoint. Next, model the transition to DXE memory services with a bounded, documented RAM map and add an observable checkpoint after initialization. Driver dispatch, a physical GOP console and Shell follow. [Attended SEC_DXE measurement](evidence/sec-dxe-transfer-20261119.json)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android
@@ -24,7 +24,7 @@ hashes matched the originals after the trial. The `SEC_C` attempt is consumed.
    the five-color checkpoint. [Physical record](evidence/sec-stack-transfer-20261118.json)
 2. SEC_MMU reached the red-center checkpoint with stage-1 translation active
    on the Go. The bounded in-FD workspace and compressed volume passed the SEC_DXE model.
-   Measure the prepared handoff on the Go before enabling DXE memory services or driver dispatch.
+   The physical SEC_DXE observation subsequently confirmed the handoff into DxeMain.
    [Attended MMU trial](evidence/sec-mmu-transfer-20261118.json)
 3. The optional floating monitor can be prototyped offline over the BGR model
    with simulated orientation. [UEFI VR menu design](VR_MENU.md)
