@@ -1,6 +1,6 @@
 # Next steps
 
-DXE_DEBUG initialized the debugger locator and first image record in QEMU using one aligned, qualified page inside the existing FD. The next checkpoint requires the headset for a temporary boot of the reviewed candidate. Event services are the next upstream DXE initialization step toward dispatching drivers and connecting the Shell console. [Candidate and QEMU results](DXE_DEBUG.md) · [Last physical checkpoint](evidence/dxe-tables-transfer-20261119.json)
+DXE_DEBUG reached its terminal checkpoint on the Go with Secure Boot active. The next offline target is to initialize and exercise DXE event services before firmware-volume driver dispatch and the Shell console. [Physical record](evidence/dxe-debug-transfer-20261119.json) · [Image and QEMU results](DXE_DEBUG.md)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

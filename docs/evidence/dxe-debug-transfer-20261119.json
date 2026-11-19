@@ -1,0 +1,81 @@
+{
+  "dateMexicoCity": "2026-11-19",
+  "scope": "terminal-edk2-dxe-debug-image",
+  "revision": "bb7c88422273432540d99344eac014ad64c45f76",
+  "reviewSha256": "7e49a63fe2d748bb5b8a381827f21c93be2a2b9b900f0a12a925aeb7416f62b6",
+  "preflightStartUtc": "2026-11-19T19:22:13Z",
+  "preflightReportSha256": "50dfd83b169026b0a2576e15f67d14a4596c0fdc8e4e1edbe1da19ba8031c5f7",
+  "preflightResult": "PASS-READONLY",
+  "partitionsMatchedBefore": [
+    "aboot_a",
+    "aboot_b",
+    "boot_a",
+    "boot_b"
+  ],
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferSessionStartUtc": "2026-11-19T19:23:19.696191Z",
+  "transferReportSha256": "4f88061fa5274c3dfa872877898b32e1fc3bd6d4f24a96a1ff2589e2e622c710",
+  "fastbootBootStderrSha256": "bf5318bf69dfb71b765db16b9e867531e0b15f1b8b387820a3313e5306d4edce",
+  "imageSha256": "bdb706210e8a1dfa6e4160ff05f10f4f9fd10dd2bed087a8ea74f0313216fc4b",
+  "fdSha256": "a71bf9c6f72fbe60c44d23eff98920528472a33e5a45817aae8999360923557a",
+  "imageBytes": 466944,
+  "fastbootReport": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "physicalDxeDebugExecutionAtHostCommandExit": "UNKNOWN",
+  "operatorObservationAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "blanco, rojo, celeste, rojo, blanco",
+    "centerAsReported": "celeste",
+    "matchesRedSidesCyanCenter": true,
+    "eyeCoverage": "UNKNOWN",
+    "earlierPatternsReported": false
+  },
+  "physicalFindings": {
+    "result": "CONFIRMED-DEVICE",
+    "source": "OculusGoPkg/DxeCheckpoint/DebugImage.c",
+    "checkpoint": "TrialPaint immediately before TrialDebugComplete",
+    "locatorPageChecked": "0x80400000",
+    "qualifiedPageBytes": 4096,
+    "allocatedPagesChecked": 1,
+    "allocationTypeChecked": "EfiBootServicesData",
+    "gcdOwnerMatchedCoreImage": true,
+    "locatorSignatureAndSystemTableAddressMatched": true,
+    "locatorCrc32RecomputedAndMatched": true,
+    "configurationTableEntriesChecked": 4,
+    "debugInformationGuidLookupMatchedCoreHeader": true,
+    "debugImageCountChecked": 1,
+    "updateCompleteAndModifiedFlagChecked": true,
+    "normalImageHandleAndLoadedImageProtocolMatchedCore": true,
+    "numericCrcAndDynamicPointersIndependentlyCapturedOnDevice": false,
+    "physicalExceptionLevel": "UNKNOWN",
+    "eventServicesDriverDispatchAndShell": "UNTESTED"
+  },
+  "recovery": {
+    "operatorReportedSpanish": "Android arrancó y reconecté el USB",
+    "preflightStartUtc": "2026-11-19T19:25:18Z",
+    "reportSha256": "4038fe36fc98a549b6b9393e25fd0dbe100214bfe0411c138058e3460172cb30",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "root": true,
+    "product": "pacific",
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}

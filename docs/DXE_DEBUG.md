@@ -34,7 +34,13 @@ El FD de 4.194.304 bytes se extrajo del contenedor Android y se ejecutó en QEMU
 
 La repetición desde un directorio independiente reprodujo byte por byte el FD extraído y los informes estático y de QEMU. DXE_TABLES reprodujo sus 52 casos anteriores. En Windows pasaron 73 pruebas Python. En Debian pasaron las 72 aplicables y los 19 controles de TrustMeBro. La auditoría de fuentes aceptó las 12 entradas de código de plataforma y el árbol fijado de TianoCore. GCC mantuvo la advertencia de upstream sobre `Prot` en `CoreOpenProtocol` y el enlazador avisó de segmentos RWX en los ELF auxiliares. El observador cotejó las traducciones activas, el texto relocalizado y las guardas del FD.
 
-La ejecución de **DXE_DEBUG en el Oculus Go está pendiente**. La prueba contempla la descripción del patrón por el operador y el cotejo de las particiones al volver a Android. La siguiente llamada de inicialización relevante en `DxeMain` es `CoreInitializeEventServices`. [Revisión de la imagen](evidence/dxe-debug-review-20261119.json) · [Último resultado físico](evidence/dxe-tables-transfer-20261119.json)
+## Resultado en el Oculus Go
+
+El 19 de noviembre de 2026, Fastboot informó que Secure Boot estaba activo y aceptó el arranque temporal. El operador observó «blanco, rojo, celeste, rojo, blanco». El centro celeste entre franjas rojas corresponde a la señal final. Para pintarla, el firmware tuvo que asignar la página de 4 KiB en `0x80400000`, comprobar la propiedad de la página, recalcular el CRC32 del localizador y encontrar por GUID la tabla de depuración con un registro completo de DXE Core. El handle y el protocolo de imagen cargada coincidieron con los del núcleo. El valor numérico del CRC, los punteros dinámicos y el nivel de excepción del visor siguen sin medirse directamente. [Registro físico](evidence/dxe-debug-transfer-20261119.json) · [Revisión de la imagen](evidence/dxe-debug-review-20261119.json)
+
+Android volvió a arrancar en el slot A. La lectura posterior de 130 MiB confirmó que los SHA-256 de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` coincidían con la lectura previa y con los cuatro respaldos originales. [Cotejo posterior](evidence/dxe-debug-transfer-20261119.json)
+
+La siguiente llamada de inicialización relevante en `DxeMain` es `CoreInitializeEventServices`.
 
 ## Reproducción
 
@@ -49,4 +55,4 @@ bash scripts/check-sec-dxe.sh "$run" "$img"
 
 El observador lee la RAM del invitado y recorre la cadena desde la página alineada hasta la imagen cargada. Calcula el CRC32 con zlib, independiente de `BaseLib`. Los controles alteran el último byte inicial, la segunda lectura de prueba, el tamaño solicitado al asignador, el tipo de página EFI, el CRC, el handle de la imagen o el cuarto GUID. Cada control se ejecuta exclusivamente en QEMU. [Observador](../tests/dxe_debug_trace.py)
 
-La comprobación local con `python tools/run_dxe_debug_once.py` coteja la imagen con la revisión y con la identificación archivada del visor. El ensayo físico requiere al operador presente para describir el patrón, volver a Android y comparar las cuatro particiones de arranque con sus hashes originales. [Recuperación](RECOVERY.md)
+La comprobación local con `python tools/run_dxe_debug_once.py` coteja la imagen con la revisión y con la identificación archivada del visor. El único arranque temporal de esta revisión ya se consumió en la prueba atendida. [Recuperación](RECOVERY.md)

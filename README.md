@@ -53,7 +53,7 @@ The Go completed `DXE_GCD`. The operator saw a light-blue center between purple 
 
 `DXE_TABLES` passed 52 model cases at EL1 and EL2. DXE Core ran its five library constructors, published the migrated HOB list and DXE Services, and used the published services to inspect the active stack. The Go reached the same terminal checkpoint during an attended RAM boot with Secure Boot active. [Physical record](docs/evidence/dxe-tables-transfer-20261119.json) [Results and image review](docs/DXE_TABLES.md)
 
-`DXE_DEBUG` uses one aligned page inside the loaded FD for the debugger locator. QEMU followed its CRC-checked system table pointer to the registered DXE Core image in EL1 and EL2. Physical validation is pending. [QEMU evidence and scope](docs/DXE_DEBUG.md)
+`DXE_DEBUG` uses one aligned page inside the loaded FD for the debugger locator. QEMU followed its CRC-checked system table pointer to the registered DXE Core image in EL1 and EL2. The operator observed the terminal red bands and cyan center on the Go during a RAM boot with Secure Boot active. [Physical record](docs/evidence/dxe-debug-transfer-20261119.json) · [QEMU evidence and scope](docs/DXE_DEBUG.md)
 
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
