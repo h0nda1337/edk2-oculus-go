@@ -17,7 +17,7 @@ Los seis controles de error alteran en el emulador el puntero de Boot Services g
 
 ## Resultado en QEMU y estado físico
 
-El 19 de noviembre de 2026, QEMU 10.0.13 completó 52 casos en EL1 y EL2 sobre el FD extraído de la imagen. Seis llegaron a la señal final, incluidos dos con las entradas reordenadas. Los otros 46 alcanzaron el rechazo previsto. Una segunda ejecución independiente reprodujo byte por byte el FD extraído y los informes estático y de QEMU. La prueba física de esta imagen sigue **pendiente**. [Resultados por caso](evidence/dxe-tables-qemu-20261119.json) · [Revisión de la imagen](evidence/dxe-tables-review-20261119.json)
+El 19 de noviembre de 2026, QEMU 10.0.13 completó 52 casos en EL1 y EL2 sobre el FD extraído de la imagen. Seis llegaron a la señal final, incluidos dos con las entradas reordenadas. Los otros 46 alcanzaron el rechazo previsto. Una segunda ejecución independiente reprodujo byte por byte el FD extraído y los informes estático y de QEMU. [Resultados por caso](evidence/dxe-tables-qemu-20261119.json) · [Revisión de la imagen](evidence/dxe-tables-review-20261119.json)
 
 | Medición en los seis casos positivos | Resultado |
 | --- | --- |
@@ -33,6 +33,12 @@ Los constructores corresponden a depuración por serial, servicios de ejecución
 
 También se reprodujeron los 38 casos de la imagen anterior DXE_GCD con informes idénticos a los archivados. En Windows pasaron las 67 pruebas Python. En Debian pasaron las 66 aplicables y los 19 controles de TrustMeBro. La prueba de bloqueo de archivos depende de Windows.
 
+## Resultado en el Oculus Go
+
+El 19 de noviembre de 2026 el operador describió «blanco, verde, naranja, verde, blanco» tras un arranque temporal de la imagen revisada. Fastboot informó que Secure Boot estaba activo. El centro naranja entre franjas verdes corresponde al último punto de comprobación. En el visor, la lista de constructores regresó y el código localizó las tres entradas por GUID. Los servicios DXE devolvieron el descriptor de la pila reservada de 64 KiB y la copia migrada de los HOB coincidió con los bytes originales. Los retornos individuales de los constructores y los valores numéricos de los punteros se observaron en QEMU. [Registro físico](evidence/dxe-tables-transfer-20261119.json)
+
+Android volvió a arrancar en el slot A. En la primera consulta el visor todavía no aparecía autorizado en ADB. Una vez disponible, la lectura completa de 130 MiB confirmó que los SHA-256 de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` coincidían con la lectura previa y con los respaldos originales. [Cotejo posterior](evidence/dxe-tables-transfer-20261119.json)
+
 ## Reproducción y prueba atendida
 
 Desde la raíz del repositorio en Debian/WSL, usa los respaldos locales verificados de boot y del DTB Pacific EVT. Asigna a `run` el directorio de salida que imprima la compilación y a `img` una ruta nueva bajo `local/`.
@@ -43,7 +49,7 @@ python3 tools/android_boot.py --fd "$run/OCULUS_GO_DIRECT.fd" --stock-boot "$boo
 bash scripts/check-sec-dxe.sh "$run" "$img"
 ```
 
-El comando `python tools/run_dxe_tables_once.py` valida en el PC los archivos de la revisión congelada. La prueba física requiere una sesión posterior con el operador presente. Se cotejan los hashes de las cuatro particiones desde Android, se identifica el visor en Fastboot y se envía la imagen por arranque temporal. El operador describe el patrón antes de volver a Android para el cotejo posterior. El intento queda registrado en un archivo local exclusivo de DXE_TABLES. [Recuperación](RECOVERY.md)
+El comando `python tools/run_dxe_tables_once.py` valida en el PC los archivos de la revisión congelada. El intento registrado de DXE_TABLES ya se consumió durante la prueba atendida. Se cotejan los hashes de las cuatro particiones desde Android, se identifica el visor en Fastboot y se envía la imagen por arranque temporal. El operador describe el patrón antes de volver a Android para el cotejo posterior. El intento queda registrado en un archivo local exclusivo de DXE_TABLES. [Recuperación](RECOVERY.md)
 
 ## Siguiente tramo hacia la Shell
 
