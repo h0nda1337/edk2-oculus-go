@@ -21,7 +21,7 @@ DATA = {
   0x41,0x52,0x4d,0x64, 0x00,0x00,0x00,0x00
 }
 
-!if $(GO_BUILD_FLAVOR) == OculusGoSecStack
+!if $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu
 0x00001000|0x003BD000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVCOMPACT
@@ -41,7 +41,9 @@ ERASE_POLARITY     = 1
 MEMORY_MAPPED      = TRUE
 READ_STATUS        = TRUE
 WRITE_STATUS       = TRUE
-!if $(GO_BUILD_FLAVOR) == OculusGoSecStack
+!if $(GO_BUILD_FLAVOR) == OculusGoSecMmu
+  INF OculusGoPkg/SecMmu/SecMmu.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoSecStack
   INF OculusGoPkg/SecMem/SecStack.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoSecMem
   INF OculusGoPkg/SecMem/SecMem.inf

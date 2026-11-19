@@ -1,0 +1,20 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = OculusGoSecMmu
+  FILE_GUID      = 0310149d-9c1f-4576-8da1-0a742cd88769
+  MODULE_TYPE    = SEC
+  VERSION_STRING = 1.0
+
+[Sources.AARCH64]
+  Entry.S | GCC
+  Tables.c
+  Signal.c
+  Layout.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  OculusGoPkg/OculusGoPkg.dec
