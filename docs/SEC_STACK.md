@@ -1,6 +1,6 @@
 # SEC_STACK en el Oculus Go
 
-**Preparado en el PC. Validación física pendiente.** La pregunta del ensayo es si la CPU puede usar como pila una región de 256 KiB de la propia imagen temporal al entrar en SEC. En SEC_MEM el visor ya ejecutó C, construyó una tabla de entrega PI (PHIT) dentro de la imagen y leyó una palabra de 64 bits en cada una de dos direcciones altas. La propiedad y estabilidad de la RAM alta siguen abiertas. [Resultado físico anterior](evidence/sec-mem-transfer-20261118.json)
+**Confirmado en el Oculus Go.** SEC escribió y releyó dos patrones en los 256 KiB reservados dentro de la imagen y usó esa región como pila durante las llamadas a C. [Registro del ensayo](evidence/sec-stack-transfer-20261118.json) En SEC_MEM el visor ya ejecutó C, construyó una tabla de entrega PI (PHIT) dentro de la imagen y leyó una palabra de 64 bits en cada una de dos direcciones altas. La propiedad y estabilidad de la RAM alta siguen abiertas. [Resultado físico anterior](evidence/sec-mem-transfer-20261118.json)
 
 ## Memoria que toca el ensayo
 
@@ -52,10 +52,10 @@ Las 44 pruebas Python de host pasaron en Windows, incluida la del bloqueo
 del archivo de imagen durante su lectura. Los informes del perfil anterior
 SEC_MEM (QEMU y análisis estático) también reprodujeron sus hashes originales.
 
-## Sesión física pendiente
+## Sesión física del 18 de noviembre
 
-La imagen candidata es `local/OculusGo-SEC-STACK-fcbd07b79d86.img`. Su SHA-256 es `ecc169ddc6ae73c7faec6330411c58a0b50aded590aee5f25fd668477157a554`. El punto de partida es Android en el visor conocido, el operador presente y el cable USB conectado. El procedimiento coteja un preflight reciente y los hashes completos de `aboot_a/b` y `boot_a/b`, identifica el Fastboot original y reserva un único intento antes del envío temporal. El destino de carga es RAM. El ejecutor y sus argumentos se documentan en su ayuda.
+Android arrancó en el slot A y los 130 MiB de las cuatro particiones de arranque coincidieron con los originales antes del ensayo. El Fastboot original comunicó `Secure boot: true` y aceptó el arranque temporal de la imagen revisada. El propietario observó «verde, morado, blanco, morado, verde». La cobertura por ojo quedó sin especificar. El único intento quedó consumido. [Registro del ensayo](evidence/sec-stack-transfer-20261118.json)
 
-Si aparece la señal, registrar primero las palabras del operador y qué se ve en cada ojo. Si continúa el logo, hay pantalla negra o se reinicia, registrar exactamente ese resultado. Esas observaciones por sí solas no permiten localizar la instrucción de parada. Tras apagar y volver a Android por la ruta ya verificada, comparar los cuatro hashes con los previos y los originales. [Recuperación comprobada](RECOVERY.md)
+Después del ensayo, el propietario volvió a Android y reconectó USB. ADB verificó el arranque completo en el mismo visor y slot A. Los hashes de las lecturas completas de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` coincidieron con los de antes del arranque temporal y con los originales.
 
-Si la prueba física pasa, el siguiente paso hacia la Shell es establecer espacio de trabajo para las tablas de páginas y los HOB del arranque normal, y conservar el framebuffer durante el cambio de MMU. Después se podrá comprobar la entrada a DXE, conectar la consola de texto a GOP y cargar la Shell desde el volumen de firmware.
+El siguiente paso hacia la Shell es establecer espacio de trabajo para las tablas de páginas y los HOB del arranque normal, y conservar el framebuffer durante el cambio de MMU. Después se podrá comprobar la entrada a DXE, conectar la consola de texto a GOP y cargar la Shell desde el volumen de firmware.

@@ -17,10 +17,9 @@ hashes matched the originals after the trial. The `SEC_C` attempt is consumed.
    normal stack and allocator, establish which RAM the firmware can own
    and write at handoff. The two completed loads cover 8 bytes each.
    [Trial record](evidence/sec-mem-transfer-20261118.json) · [Memory evidence](MEMORY_MAP.md)
-   The next image reserves a guarded 256 KiB stack in the loaded FD.
-   Its positive and fault paths passed QEMU. The pending measurement is the
-   temporary, attended SEC_STACK boot and subsequent Android readback.
-   [Procedure and expected observation](SEC_STACK.md)
+   SEC_STACK subsequently verified two full-span patterns and nested C calls
+   on a guarded 256 KiB stack inside the loaded image. The owner reported
+   the five-color checkpoint. [Physical record](evidence/sec-stack-transfer-20261118.json)
 2. Establish a bounded allocator for page tables, HOBs and DXE workspace.
    Verify scanout through MMU setup and DXE before trying the GOP on the
    visor. Storage, USB and the required ACPI tables precede Windows Boot Manager.

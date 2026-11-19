@@ -73,7 +73,8 @@ setup remain unknown. [Physical SEC memory record](evidence/sec-mem-transfer-202
 The separate SEC_STACK profile reserves `[0x8043f000, 0x8047f000)` as its
 256 KiB stack with 4 KiB guards immediately below and above. The bounds
 are a choice in the FD layout. Two full-span patterns, the 96-byte entry
-record and nested C/PI calls passed in the model. Physical access is UNKNOWN.
+record and nested C/PI calls reached their visual checkpoint on the Go.
+Stability through MMU setup and DXE is UNKNOWN.
 [Footprint, origins and checks](SEC_STACK.md)
 
 | Local evidence checked | SHA-256 |
