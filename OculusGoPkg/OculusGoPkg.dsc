@@ -117,7 +117,15 @@
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0
 
 [Components.common]
+!if $(GO_BUILD_FLAVOR) == OculusGoGopModel
+  OculusGoPkg/PrePi/PrePi.inf {
+    <BuildOptions>
+      GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_GOP_MODEL=1
+  }
+  OculusGoPkg/Drivers/InheritedGopDxe/InheritedGopDxe.inf
+!else
   OculusGoPkg/PrePi/PrePi.inf
+!endif
   MdeModulePkg/Core/Dxe/DxeMain.inf {
     <LibraryClasses>
       NULL|MdeModulePkg/Library/DxeCrc32GuidedSectionExtractLib/DxeCrc32GuidedSectionExtractLib.inf

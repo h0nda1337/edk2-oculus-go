@@ -6,6 +6,14 @@
 #include <Library/ArmMmuLib.h>
 #include <Library/HobLib.h>
 #include <Library/PcdLib.h>
+#if defined (OCULUS_GO_GOP_MODEL)
+#include <Model/Framebuffer.h>
+#define GO_MODEL_EXTRA_REGIONS  1
+STATIC_ASSERT ((GO_MODEL_FB_BASE & EFI_PAGE_MASK) == 0, "Unaligned model surface base");
+STATIC_ASSERT ((GO_MODEL_FB_SIZE & EFI_PAGE_MASK) == 0, "Unaligned model surface size");
+#else
+#define GO_MODEL_EXTRA_REGIONS  0
+#endif
 
 #define RAM_ATTRIBUTES (EFI_RESOURCE_ATTRIBUTE_PRESENT | \
   EFI_RESOURCE_ATTRIBUTE_INITIALIZED | EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE | \
@@ -15,12 +23,12 @@
 EFI_STATUS
 OculusGoInitializeMemory (VOID)
 {
-  ARM_MEMORY_REGION_DESCRIPTOR  Map[5];
+  ARM_MEMORY_REGION_DESCRIPTOR  Map[5 + GO_MODEL_EXTRA_REGIONS];
   VOID                         *Tables;
   UINTN                         TableSize;
   RETURN_STATUS                 Result;
 
-  // Deliberately do not expose the low splash area, FDT or secure carve-outs.
+  // Only the FD and the selected high RAM window are EFI system memory.
   BuildResourceDescriptorHob (EFI_RESOURCE_SYSTEM_MEMORY, RAM_ATTRIBUTES,
     FixedPcdGet64 (PcdSystemMemoryBase), FixedPcdGet64 (PcdSystemMemorySize));
   BuildResourceDescriptorHob (EFI_RESOURCE_SYSTEM_MEMORY, RAM_ATTRIBUTES,
@@ -42,7 +50,18 @@ OculusGoInitializeMemory (VOID)
   Map[3] = (ARM_MEMORY_REGION_DESCRIPTOR) {
     0x09C00000, 0x09C00000, 0x100000, ARM_MEMORY_REGION_ATTRIBUTE_DEVICE
   };
-  Map[4] = (ARM_MEMORY_REGION_DESCRIPTOR) { 0, 0, 0, 0 };
+#if defined (OCULUS_GO_GOP_MODEL)
+  // Only the QEMU graphics profile maps the surface. Keep it out of DXE's
+  // general-purpose page allocator even though QEMU backs it with RAM.
+  BuildResourceDescriptorHob (EFI_RESOURCE_MEMORY_RESERVED,
+    EFI_RESOURCE_ATTRIBUTE_PRESENT | EFI_RESOURCE_ATTRIBUTE_INITIALIZED |
+    EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE, GO_MODEL_FB_BASE, GO_MODEL_FB_SIZE);
+  Map[4] = (ARM_MEMORY_REGION_DESCRIPTOR) {
+    GO_MODEL_FB_BASE, GO_MODEL_FB_BASE, GO_MODEL_FB_SIZE,
+    ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED
+  };
+#endif
+  Map[4 + GO_MODEL_EXTRA_REGIONS] = (ARM_MEMORY_REGION_DESCRIPTOR) { 0, 0, 0, 0 };
   Result = ArmConfigureMmu (Map, &Tables, &TableSize);
   return RETURN_ERROR (Result) ? EFI_DEVICE_ERROR : EFI_SUCCESS;
 }

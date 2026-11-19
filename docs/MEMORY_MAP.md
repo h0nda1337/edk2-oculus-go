@@ -17,10 +17,13 @@ records data, not imported implementation. No new physical capture was made.
 | GIC redistributors `0x09c00000`, size `0x100000` | Runtime DT, stride `0x40000` | CONFIRMED-DEVICE address; initialization untested |
 | Generic timer 19.2 MHz; GSIV 29/30/27/26 | Runtime DT and kernel | CONFIRMED-DEVICE; inherited EL access UNKNOWN |
 
-All ends above are exclusive. No low RAM except the occupied FD is exposed
-to the UEFI allocator. Splash `0x83400000..0x85800000`, secure carve-outs
-`0x85800000..0x91700000`, and ramoops `0x9ff00000..0xa0000000` remain outside
-the map. FDT at the observed `0x82000000` is recorded as a pointer, not read.
+All ends above are exclusive. The occupied FD is reserved. The normal
+memory map excludes splash `0x83400000..0x85800000`, secure carve-outs
+`0x85800000..0x91700000` and ramoops `0x9ff00000..0xa0000000`. Only the
+`GOP_MODEL` emulation profile maps the 24-bit surface
+`0x83401000..0x83e8d000` as normal non-cacheable memory and publishes a
+reserved-memory resource HOB for it. It leaves the surrounding reservation
+outside the map. FDT at the observed `0x82000000` is recorded as a pointer.
 The pool is allocator memory, not a platform memory-size probe.
 
 The new image has no firmware relocation/copy stage. Removal of that stage
@@ -29,5 +32,6 @@ The C code records a HOB snapshot of initial x0-x3 before any C/library call;
 there is no external fixed checkpoint page. Exception vectors live inside
 the occupied SEC image and do not consume another physical region.
 
-Watchdog, secure monitor delivery, DMA quiescence and continued scanout remain
-UNKNOWN. A build success cannot establish any of these physical conditions.
+The November 18 physical SEC pattern establishes visible scanout for the two
+written bands during that trial. Scanout after MMU setup, DMA quiescence,
+watchdog behavior and the allocator's high-RAM pool still require evidence.

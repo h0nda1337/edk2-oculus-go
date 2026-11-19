@@ -8,13 +8,17 @@ jobs=${2:-4}
 build_mode=${3:-NORMAL}
 [[ "$build_target" == DEBUG || "$build_target" == RELEASE ]] || exit 2
 [[ "$jobs" =~ ^[1-9][0-9]*$ ]] || exit 2
-[[ "$build_mode" == NORMAL || "$build_mode" == SEC_VISUAL ]] || exit 2
+[[ "$build_mode" == NORMAL || "$build_mode" == SEC_VISUAL || "$build_mode" == GOP_MODEL ]] || exit 2
 build_flavor=OculusGo
 build_arguments=()
 if [[ "$build_mode" == SEC_VISUAL ]]; then
   [[ "$build_target" == DEBUG ]] || { echo 'SEC_VISUAL requires DEBUG' >&2; exit 2; }
   build_flavor=OculusGoSecVisual
   build_arguments=(-D GO_BUILD_FLAVOR=OculusGoSecVisual --pcd gOculusGoPkgTokenSpaceGuid.PcdSecVisualDiagnostic=TRUE)
+elif [[ "$build_mode" == GOP_MODEL ]]; then
+  [[ "$build_target" == DEBUG ]] || { echo 'GOP_MODEL requires DEBUG' >&2; exit 2; }
+  build_flavor=OculusGoGopModel
+  build_arguments=(-D GO_BUILD_FLAVOR=OculusGoGopModel)
 fi
 export WORKSPACE="$project_root"
 export PACKAGES_PATH="$project_root/edk2:$project_root"

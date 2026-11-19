@@ -1,0 +1,22 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = InheritedGopDxe
+  FILE_GUID      = 8cd15dc8-f091-4917-b779-342c1e0aa2de
+  MODULE_TYPE    = DXE_DRIVER
+  VERSION_STRING = 1.0
+  ENTRY_POINT    = InheritedGopDxeEntry
+[Sources]
+  InheritedGopDxe.c
+[Packages]
+  MdePkg/MdePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+[LibraryClasses]
+  BaseMemoryLib
+  MemoryAllocationLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+[Protocols]
+  gEfiGraphicsOutputProtocolGuid
+[Depex]
+  TRUE
