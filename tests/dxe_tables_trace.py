@@ -18,7 +18,7 @@ CORE_CASES = gcd.CORE_CASES + CONTROLS + ('table-order',)
 EXTRA_CASES = gcd.EXTRA_CASES + CONTROLS + ('table-order',)
 
 
-def observe_services(g, read, write, stop, screen, core, base, case, constructors):
+def observe_services(g, read, write, stop, screen, core, base, case, constructors, after_tables=None):
     def arrive(name):
         stop(base+core[name], name)
 
@@ -113,9 +113,11 @@ def observe_services(g, read, write, stop, screen, core, base, case, constructor
         if case in ('hob-source','hob-content','duplicate-guid'):
             arrive('TrialTablesRejected')
             return 'TrialTablesRejected','dxe-table',evidence
-        arrive('TrialTablesComplete')
+        arrive('TrialInitializeDebugPage' if after_tables else 'TrialTablesComplete')
         require(entries(3) == targets, 'Final array changed unexpectedly')
         evidence['tableLookupOrderIndependentControl'] = case == 'table-order'
+        if after_tables:
+            return after_tables(evidence)
         return 'TrialTablesComplete','tables',evidence
 
     return gcd.observe_services(g,read,write,stop,screen,core,base,case,after_gcd=check)

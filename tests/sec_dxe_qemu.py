@@ -26,9 +26,11 @@ def screen(stage):
         return data
     side = {'hobs':'ff0000','fv':'00ffff','branch':'ffff00','core':'00ff00',
             'services':'0080ff','memory':'ff0000','image':'00ffff',
-            'relocated-hobs':'0080ff','gcd':'ff00ff','ctors':'ff0000','dxe-table':'ffff00','tables':'00ff00'}[stage]
+            'relocated-hobs':'0080ff','gcd':'ff00ff','ctors':'ff0000','dxe-table':'ffff00','tables':'00ff00',
+            'debug-locator':'0080ff','debug-image':'0000ff'}[stage]
     center = {'core':'ff00ff','memory':'00ff00','image':'ff00ff','relocated-hobs':'ffffff','gcd':'ffff00',
-              'ctors':'00ffff','dxe-table':'ff0000','tables':'0080ff'}.get(stage,'000000')
+              'ctors':'00ffff','dxe-table':'ff0000','tables':'0080ff',
+              'debug-locator':'ffff00','debug-image':'ffff00'}.get(stage,'000000')
     row = b''.join(bytes.fromhex(c)*288 for c in ('ffffff',side,center,side,'ffffff'))
     for start,end in band_ranges():
         pos = start - FB_BASE + GUARD
@@ -36,7 +38,7 @@ def screen(stage):
     return data
 
 
-def tables(el, text_start, text_end):
+def tables(el, text_start, text_end, debug_span=()):
     windows = (*WINDOWS,POOL)
     buf = bytearray(8*PAGE)
     def put(off,val):
@@ -46,7 +48,7 @@ def tables(el, text_start, text_end):
         put(PAGE+((va>>21)&511)*8,TABLE+(i+2)*PAGE+3)
     rx = 0x787 | ((1<<54) if el == 1 else 0)
     rw = 0x707 | (1<<54) | ((1<<53) if el == 1 else 0)
-    for lo,hi in ((0x80081000,0x80100000),(POOL,LIMIT),(STACK,TOP),*band_ranges()):
+    for lo,hi in ((0x80081000,0x80100000),(POOL,LIMIT),(STACK,TOP),*debug_span,*band_ranges()):
         for va in range(lo,hi,PAGE):
             off=(windows.index(va & ~0x1fffff)+2)*PAGE+((va>>12)&511)*8
             put(off,va | (rx if va < 0x80100000 or text_start <= va < text_end else rw))
@@ -81,7 +83,7 @@ def hobs(read, fv, target, meta):
             break
         offset+=size
     expected = [(0, 0x407 if meta['result'] != 'PASS-STATIC-SEC-DXE' else 0x403, POOL, LIMIT-POOL)]
-    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES'):
+    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES','PASS-STATIC-DXE-DEBUG'):
         expected.append((5, 0x403, STACK, TOP-STACK))
     require(POOL+offset==end and kind==0xffff and module and resources==expected
             and len(found)==2 and found[0]==(0x80081000,0x7f000),'Missing resource, module, or FV HOB')
@@ -95,6 +97,7 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
     load=BASE+(0x100000 if case=='relocated' else 0)
     bias=load-BASE
     sec={k:v+bias for k,v in sec.items()}
+    debug_span = ((int(meta["debugPage"],16),int(meta["debugPage"],16)+PAGE),) if "debugPage" in meta else ()
     original=bytearray(fd)
     with guest(path,harness,el,load) as (g,ram):
         g.stream.settimeout(30)
@@ -124,7 +127,7 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
         g.set_register(32,0x41000000+(64 if el==2 else 0))
         stop(load,'firmware entry')
         previous=RAM_START
-        for begin,end in sorted(((POOL,LIMIT),(TABLE,TABLE+8*PAGE),(STACK,TOP),*band_ranges())):
+        for begin,end in sorted(((POOL,LIMIT),(TABLE,TABLE+8*PAGE),(STACK,TOP),*debug_span,*band_ranges())):
             watch(g,2,previous,begin)
             previous=end
         watch(g,2,previous,RAM_START+(2<<30))
@@ -181,7 +184,7 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
             require(g.register(0)==POOL,'Wrong HOB pointer in x0')
             offset,base,_,fv_base,free_bytes=hobs(read,fv,entry,meta)
             a,b=meta['textRva']
-            checked=tables(el,base+a,base+b)
+            checked=tables(el,base+a,base+b,debug_span)
             require(read(TABLE,len(checked))==checked,'Incorrect W^X mapping or guards')
             if memory:
                 original_text=read(base+a,b-a)
@@ -220,6 +223,8 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
         actual=bytearray(read(load,SIZE))
         spans=((POOL,LIMIT),(TABLE,TABLE+8*PAGE),(STACK,TOP)) if success else (
             ((POOL,LIMIT),(STACK,TOP)) if case in ('bad-fv','arena-readback') else (((STACK,TOP),) if case.startswith('dirty-') else ()))
+        if runtime.get("debugPageTouched"):
+            spans += debug_span
         for lo,hi in spans:
             actual[lo-load:hi-load]=original[lo-load:hi-load]
         require(actual==original,'FD or guard outside owned workspace changed')
@@ -231,13 +236,15 @@ def main():
     a=arguments()
     fd,fv,pe=(p.read_bytes() for p in (a.fd,a.fv,a.pe))
     memory=None
-    if a.tables:
+    if a.debug_image:
+        import dxe_debug_trace as memory
+    elif a.tables:
         import dxe_tables_trace as memory
     elif a.gcd:
         import dxe_gcd_trace as memory
     elif a.memory:
         import dxe_memory_trace as memory
-    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables)
+    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image)
     names=symbols(a.sec_elf)
     bias=int(verify(fd)['secEntryAddress'],16)-names['_ModuleEntryPoint']
     sec={k:v+bias for k,v in names.items()}
@@ -248,8 +255,12 @@ def main():
         obj,harness=(Path(tmp)/n for n in ('entry.o','entry.bin'))
         subprocess.run(['aarch64-linux-gnu-gcc','-c',ROOT/'tests/entry_harness.S','-o',obj],check=True)
         subprocess.run(['aarch64-linux-gnu-objcopy','-O','binary',obj,harness],check=True)
+        scenarios = (*CASES,*memory.EXTRA_CASES) if memory else CASES
+        if a.debug_image:
+            # Run the new stage and its fault controls before the inherited suite.
+            scenarios = ('valid',*memory.CONTROLS,*(c for c in scenarios if c != 'valid' and c not in memory.CONTROLS))
         for el in (1,2):
-            for case in ((*CASES,*memory.EXTRA_CASES) if memory else CASES):
+            for case in scenarios:
                 print(f'EL{el} {case}',flush=True)
                 cases.append(exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case,memory))
     a.report.write_text(json.dumps({**meta,'result':meta['result'].replace('PASS-STATIC-','PASS-QEMU-'),'vectors':vectors,'cases':cases},indent=2)+'\n')

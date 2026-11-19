@@ -30,13 +30,17 @@ TABLE_CASES = {
 
 
 def validate_reports(model, static, digest):
-    validate_gcd_cases(model, static, digest, 'DXE-TABLES', {**GCD_OUTCOMES, **TABLE_CASES})
+    validate_table_cases(model, static, digest, 'DXE-TABLES', TABLE_CASES)
+
+
+def validate_table_cases(model, static, digest, profile, table_cases):
+    validate_gcd_cases(model, static, digest, profile, {**GCD_OUTCOMES, **table_cases})
     ctors = static['constructors']
     require(len(ctors) == len(CTORS) and set(ctors) == CTORS and model['constructors'] == ctors,
             'Unexpected constructors in the linked core')
     for row in model['cases']:
         case = row['case']
-        if case not in TABLE_CASES:
+        if case not in table_cases:
             continue
         statuses = row['constructorStatuses']
         require(list(statuses) == ctors and all(type(s) is int and s == 0 for s in statuses.values())
@@ -55,7 +59,7 @@ def validate_reports(model, static, digest):
         if case in ('config-count','dxe-pointer'):
             continue
         require(row['queryThroughPublishedServices'] is True, 'Missing GCD query via EFI System Table')
-        if row['terminal'] == 'TrialTablesComplete':
+        if case in ('valid','icache','table-order'):
             require(row['tableLookupOrderIndependentControl'] is (case == 'table-order'),
                     'Wrong reordered-entry observation')
 

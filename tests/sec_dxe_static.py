@@ -53,7 +53,8 @@ def unique(items):
     return items[0]
 
 
-def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False):
+def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False, debug_image=False):
+    tables = tables or debug_image
     gcd = gcd or tables
     extra = {}
     info = verify(fd)
@@ -115,6 +116,16 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False)
                 'UefiBootServicesTableLibConstructor','UefiLibConstructor',
                 'DxeExtractGuidedSectionLibConstructor'}, 'Unexpected linked constructor list')
             extra['constructors'] = ctors
+            if debug_image:
+                checkpoints = tuple(n for n in checkpoints if n != 'TrialTablesComplete') + (
+                    'TrialInitializeDebugPage', '__wrap_CoreNewDebugImageInfoEntry', 'CoreNewDebugImageInfoEntry',
+                    'TrialCheckDebugPage', 'TrialDebugRejected', 'TrialDebugComplete')
+                page = 0x80400000
+                offset = page - BASE
+                require(page % (4 << 20) == 0 and LIMIT < page-4096 and offset+8192 < 0x3be000
+                        and fd[offset-4096:offset+8192] == bytes([255])*12288,
+                        'Aligned debugger page or adjacent guards outside erased FD space')
+                extra['debugPage'] = hex(page)
         assembly = subprocess.check_output(['aarch64-linux-gnu-objdump','-d','--disassemble=DxeMain',dxe_elf],text=True)
         calls = re.findall(r'\bbl\s+[0-9a-f]+ <([^>]+)>',assembly)
         order = [calls.index(n) for n in ('InitializeDebugAgent','CoreInitializeMemoryServices',
@@ -126,6 +137,8 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False)
             require(len(installs) >= 3, 'Missing configuration table calls')
             order.extend([calls.index('__wrap_ProcessLibraryConstructorList'),*installs[:3],
                           calls.index('__wrap_CoreInitializeDebugImageInfoTable')])
+        if debug_image:
+            order.append(calls.index('__wrap_CoreNewDebugImageInfoEntry'))
         require(order == sorted(order) and 'CoreInitializeImageServices' not in calls, 'Unexpected DxeMain path')
     require(entry == core_names['_ModuleEntryPoint'] and start <= entry < end <= size and
             all(start <= core_names[n] < end for n in
@@ -135,7 +148,7 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False)
     branch = bias+sec_names['TrialDxeBranch']-BASE
     require(fd[branch:branch+4] == bytes.fromhex('00023fd6') and not any(n in sec_names for n in checkpoints),
             'Missing SEC indirect handoff or duplicated DXE checkpoint')
-    return {**extra,'result':'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
+    return {**extra,'result':'PASS-STATIC-DXE-DEBUG' if debug_image else 'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
             'peSha256':digest(pe),'secElfSha256':digest(sec_elf.read_bytes()),'coreElfSha256':digest(dxe_elf.read_bytes()),
             'innerFvBytes':len(fv),'peImageBytes':size,'entryRva':entry,'textRva':[start,end],
             'coreGuid':str(CORE),'lzmaBytes':len(data)}
@@ -146,6 +159,7 @@ def arguments():
     for k in ('fd','fv','pe','sec-elf','dxe-elf','report'):
         parser.add_argument('--'+k,type=Path,required=True)
     group = parser.add_mutually_exclusive_group()
+    group.add_argument('--debug-image',action='store_true',help='Verify the aligned debugger lookup and DXE Core image record')
     group.add_argument('--tables',action='store_true',help='Audit DXE constructors and configuration tables')
     group.add_argument('--gcd',action='store_true',help='Audit the DXE image services and GCD profile')
     group.add_argument('--memory',action='store_true',help='Audit the DXE memory services profile')
@@ -154,6 +168,6 @@ def arguments():
 
 if __name__ == '__main__':
     a=arguments()
-    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables)
+    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image)
     a.report.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result))

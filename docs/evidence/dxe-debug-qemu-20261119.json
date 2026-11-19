@@ -1,0 +1,4400 @@
+{
+  "constructors": [
+    "BaseDebugLibSerialPortConstructor",
+    "UefiRuntimeServicesTableLibConstructor",
+    "UefiBootServicesTableLibConstructor",
+    "UefiLibConstructor",
+    "DxeExtractGuidedSectionLibConstructor"
+  ],
+  "debugPage": "0x80400000",
+  "result": "PASS-QEMU-DXE-DEBUG",
+  "fdSha256": "a71bf9c6f72fbe60c44d23eff98920528472a33e5a45817aae8999360923557a",
+  "innerFvSha256": "82d810524275bd25118fbbcb65c34b5e9e45e993b6de0b4a49655a6ff85b9566",
+  "peSha256": "28edd26fb3f5acf6b8e65931ea9251206ea665a168e3183ab28b45a1d588303a",
+  "secElfSha256": "720c39a2caa1afa806b92717b327d7db88279b60ed421302ff98ef88823cd85b",
+  "coreElfSha256": "ca21e56c30c8a03e456ef0b838935ee6d4fd2f7fe263ac63bd4e290845d2a80a",
+  "innerFvBytes": 200832,
+  "peImageBytes": 200704,
+  "entryRva": 4096,
+  "textRva": [
+    4096,
+    176128
+  ],
+  "coreGuid": "d6a2cb7f-6a18-4e2f-b43b-9920a733700a",
+  "lzmaBytes": 68260,
+  "vectors": {
+    "address": "0x80082000",
+    "handler": "0x80081a5c",
+    "slotsVerified": 16
+  },
+  "cases": [
+    {
+      "el": 1,
+      "case": "valid",
+      "terminal": "TrialDebugComplete",
+      "lastPattern": "debug-image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9874",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "locator-dirty",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "tables",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "locator-readback",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "tables",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "oversize",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "tables",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "oversizeRequest": {
+        "pages": 1025,
+        "status": "EFI_OUT_OF_RESOURCES"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "locator-efi-type",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "tables",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "locator-crc",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "debug-locator",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "debug-record",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "debug-locator",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "debug-guid",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "debug-locator",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "icache",
+      "terminal": "TrialDebugComplete",
+      "lastPattern": "debug-image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9874",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "dcache",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 1,
+      "case": "wrong-x0",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 1,
+      "case": "relocated",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 1,
+      "case": "dirty-pool",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 1,
+      "case": "dirty-guard",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 1,
+      "case": "bad-fv",
+      "terminal": "MmuRejected",
+      "lastPattern": "hobs",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 1,
+      "case": "bad-module",
+      "terminal": "TrialDxeRejected",
+      "lastPattern": "branch",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f81ec",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "arena-readback",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 1,
+      "case": "untested-resource",
+      "terminal": "TrialDxeRejected",
+      "lastPattern": "branch",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "resourceRejectedBeforeInit": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f81ec",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "page-witness",
+      "terminal": "TrialMemoryRejected",
+      "lastPattern": "services",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f89cc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "pool-witness",
+      "terminal": "TrialMemoryRejected",
+      "lastPattern": "services",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f89cc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "map-type",
+      "terminal": "TrialMemoryRejected",
+      "lastPattern": "services",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "alteredDescriptorRejected": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f89cc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "image-metadata",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "memory",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "hob-copy",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "gcd-owner",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "relocated-hobs",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "stack-type",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "relocated-hobs",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "hob-page-type",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "ctor-cache",
+      "terminal": "TrialConstructorsRejected",
+      "lastPattern": "gcd",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f90f8",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "config-count",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "ctors",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "dxe-pointer",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "ctors",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "hob-source",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "dxe-table",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "hob-content",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "dxe-table",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "duplicate-guid",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "dxe-table",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 1,
+      "case": "table-order",
+      "terminal": "TrialDebugComplete",
+      "lastPattern": "debug-image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": true,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9874",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "valid",
+      "terminal": "TrialDebugComplete",
+      "lastPattern": "debug-image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9874",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "locator-dirty",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "tables",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "locator-readback",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "tables",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "oversize",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "tables",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "oversizeRequest": {
+        "pages": 1025,
+        "status": "EFI_OUT_OF_RESOURCES"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "locator-efi-type",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "tables",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "locator-crc",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "debug-locator",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "debug-record",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "debug-locator",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "debug-guid",
+      "terminal": "TrialDebugRejected",
+      "lastPattern": "debug-locator",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f92dc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "icache",
+      "terminal": "TrialDebugComplete",
+      "lastPattern": "debug-image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": false,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9874",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "dcache",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 2,
+      "case": "wrong-x0",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 2,
+      "case": "relocated",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 2,
+      "case": "dirty-pool",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 2,
+      "case": "dirty-guard",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 2,
+      "case": "bad-fv",
+      "terminal": "MmuRejected",
+      "lastPattern": "hobs",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 2,
+      "case": "bad-module",
+      "terminal": "TrialDxeRejected",
+      "lastPattern": "branch",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f81ec",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "arena-readback",
+      "terminal": "MmuRejected",
+      "lastPattern": "untouched",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0
+    },
+    {
+      "el": 2,
+      "case": "untested-resource",
+      "terminal": "TrialDxeRejected",
+      "lastPattern": "branch",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "resourceRejectedBeforeInit": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f81ec",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "page-witness",
+      "terminal": "TrialMemoryRejected",
+      "lastPattern": "services",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f89cc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "pool-witness",
+      "terminal": "TrialMemoryRejected",
+      "lastPattern": "services",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f89cc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "map-type",
+      "terminal": "TrialMemoryRejected",
+      "lastPattern": "services",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "alteredDescriptorRejected": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f89cc",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "image-metadata",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "memory",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "hob-copy",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "gcd-owner",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "relocated-hobs",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "stack-type",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "relocated-hobs",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "hob-page-type",
+      "terminal": "TrialGcdRejected",
+      "lastPattern": "image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f8d64",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "ctor-cache",
+      "terminal": "TrialConstructorsRejected",
+      "lastPattern": "gcd",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f90f8",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "config-count",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "ctors",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "dxe-pointer",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "ctors",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "hob-source",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "dxe-table",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "hob-content",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "dxe-table",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "duplicate-guid",
+      "terminal": "TrialTablesRejected",
+      "lastPattern": "dxe-table",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9014",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    },
+    {
+      "el": 2,
+      "case": "table-order",
+      "terminal": "TrialDebugComplete",
+      "lastPattern": "debug-image",
+      "fullScreenAndGuardsMatched": true,
+      "unexpectedGuestRamWrites": 0,
+      "highPoolAccesses": 0,
+      "initReturnedSuccess": true,
+      "freeWindow": [
+        "0x80201000",
+        "0x802d9000"
+      ],
+      "pages": "0x802d6000",
+      "pool": "0x802d5018",
+      "systemTable": "0x802c0018",
+      "runtimeTable": "0x802cff18",
+      "witnessBytes": 8449,
+      "mapKeys": [
+        5,
+        7
+      ],
+      "mapDescriptorCounts": [
+        6,
+        4
+      ],
+      "loaderPagesReturnedToConventional": true,
+      "freePoolSuccess": true,
+      "imageInitSuccess": true,
+      "loadedImageProtocol": "0x80304430",
+      "imageHandle": "0x802d7f98",
+      "loadedImageBytes": 200704,
+      "gcdInitSuccess": true,
+      "relocatedHobs": "0x802d6018",
+      "hobBytesCompared": 1232,
+      "coreFileGuidPointsIntoOriginalHobs": true,
+      "originalHobPageType": "EfiBootServicesData",
+      "gcdRanges": [
+        [
+          "0x0",
+          "0x80200000",
+          0
+        ],
+        [
+          "0x80200000",
+          "0x80380000",
+          2
+        ],
+        [
+          "0x80380000",
+          "0x8046f000",
+          0
+        ],
+        [
+          "0x8046f000",
+          "0x8047f000",
+          1
+        ],
+        [
+          "0x8047f000",
+          "0x100000000",
+          0
+        ]
+      ],
+      "systemMemoryBytes": 1572864,
+      "reservedStackBytes": 65536,
+      "gcdMapFreed": true,
+      "constructorStatuses": {
+        "BaseDebugLibSerialPortConstructor": 0,
+        "UefiRuntimeServicesTableLibConstructor": 0,
+        "UefiBootServicesTableLibConstructor": 0,
+        "UefiLibConstructor": 0,
+        "DxeExtractGuidedSectionLibConstructor": 0
+      },
+      "libraryCachesVerified": true,
+      "configurationTable": "0x802cfb18",
+      "installedByGuid": {
+        "05ad34ba-6f02-4214-952e-4da0398e2bb9": "0x80304180",
+        "7739f24c-93d7-11d4-9a3a-0090273fc14d": "0x802d6018",
+        "4c19049f-4137-4dd3-9c10-8b97a83ffdfa": "0x80304920"
+      },
+      "entryCountsAfterInstall": [
+        1,
+        2,
+        3
+      ],
+      "dxeServices": "0x80304180",
+      "earlySystemTableCrc": 0,
+      "queryThroughPublishedServices": true,
+      "tableLookupOrderIndependentControl": true,
+      "debugPageTouched": true,
+      "qualifiedBytes": 4096,
+      "allocation": {
+        "base": "0x80400000",
+        "pages": 1,
+        "type": "EfiBootServicesData"
+      },
+      "gcdAndEfiOwnershipVerified": true,
+      "debugLocator": {
+        "address": "0x80400000",
+        "systemTable": "0x802c0018",
+        "crc32": "a262ac63"
+      },
+      "debugImage": {
+        "guid": "49152e77-1ada-4764-b7a2-7afefed95e8b",
+        "header": "0x80305510",
+        "table": "0x802d4018",
+        "record": "0x802d7998",
+        "entries": 1,
+        "updateStatus": 2,
+        "loadedImage": "0x80304430",
+        "handle": "0x802d7f98",
+        "imageBase": "0x802d9000"
+      },
+      "coreBase": "0x802d9000",
+      "entry": "0x802da000",
+      "dxeMain": "0x802da39c",
+      "terminalPc": "0x802f9874",
+      "innerFvBase": "0x8030a000",
+      "remainingArenaBytes": 887600,
+      "innerFvMatched": true,
+      "pageTablesMatched": true
+    }
+  ]
+}
