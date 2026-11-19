@@ -1,6 +1,6 @@
 # Next steps
 
-The Go completed DXE_MEM and recovered to Android with matching readbacks. The next offline target is to run the original DXE image services initializer and verify Global Coherency Domain (GCD) initialization in QEMU using only the memory described by the handoff. Driver dispatch, a physical GOP console and Shell follow. [Physical DXE_MEM result](evidence/dxe-mem-transfer-20261119.json) · [Diagnostic scope](DXE_MEM.md)
+The Go completed DXE_MEM and recovered to Android with matching readbacks. The next physical target is the reviewed DXE_GCD image, with separate checkpoints for image registration, HOB migration and GCD memory-map validation. After confirmation, the next bring-up work is DXE library construction, publication of the HOB and DXE services configuration tables, then firmware-volume driver dispatch and a GOP console for Shell. [DXE_GCD procedure](DXE_GCD.md) [Physical DXE_MEM result](evidence/dxe-mem-transfer-20261119.json) · [Diagnostic scope](DXE_MEM.md)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

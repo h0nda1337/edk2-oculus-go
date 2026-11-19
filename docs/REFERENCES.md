@@ -64,3 +64,14 @@ Pinned TianoCore EDK2 commit `e7aac7fc137e247edad22f7ee53b9a1fba227397`. These f
 | [DxeMain/DxeMain.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c) | Initializer, runtime table allocations and order of the image-services call; Boot Services function table and its real page and pool operations | CONFIRMED-SOURCE |
 | [Mem/Page.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Mem/Page.c) and [Mem/Pool.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Mem/Pool.c) | Page ownership transitions, memory-map stride/key and pool allocation/free behavior | CONFIRMED-SOURCE |
 | [SEC_DXE on the Go](evidence/sec-dxe-transfer-20261119.json) | Preceding physical checkpoint, tested stack/framebuffer path and original hash comparison | CONFIRMED-DEVICE for SEC_DXE |
+
+### DXE_GCD
+
+| Source and revision | File or section | Contribution | Confidence |
+| --- | --- | --- | --- |
+| TianoCore EDK2 `e7aac7fc137e247edad22f7ee53b9a1fba227397` | [Image/Image.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Image/Image.c) | Core image handle and Loaded Image registration before GCD | CONFIRMED-SOURCE |
+| Same upstream revision | [Gcd/Gcd.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Gcd/Gcd.c) and [DxeMain.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c) | Order of initialization, resource ownership and HOB migration | CONFIRMED-SOURCE |
+| Same upstream revision | [Dispatcher/Dispatcher.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Dispatcher/Dispatcher.c#L1306) | The dispatcher reads the core file GUID saved by Image.c from the original HOB page | CONFIRMED-SOURCE |
+| UEFI Forum, UEFI 2.10 | [§9.1 EFI Loaded Image Protocol](https://uefi.org/specs/UEFI/2.10/09_Protocols_EFI_Loaded_Image.html) | Protocol identity, image address, size and memory types | CONFIRMED-SPEC |
+| UEFI Forum, PI 1.8 Errata A, volume II | [§7.2 GCD services](https://uefi.org/specs/PI/1.8A/V2_Services_DXE_Services.html) | GCD address maps and resource types | CONFIRMED-SPEC |
+| OculusGo_EDK2_UEFI, DXE_MEM | [Physical trial](evidence/dxe-mem-transfer-20261119.json) | Memory services in the bounded arena | CONFIRMED-DEVICE for DXE_MEM |
