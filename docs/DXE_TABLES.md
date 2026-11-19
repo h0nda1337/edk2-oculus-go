@@ -54,3 +54,5 @@ El comando `python tools/run_dxe_tables_once.py` valida en el PC los archivos de
 ## Siguiente tramo hacia la Shell
 
 El diagnóstico se detiene justo antes de `CoreInitializeDebugImageInfoTable`. En la revisión fijada, ese inicializador solicita 1.025 páginas contiguas para seleccionar una página alineada a 4 MiB. La arena publicada tiene 384 páginas y ocupa el intervalo semiabierto `0x80200000–0x80380000`. Dentro de ese intervalo tampoco hay una dirección múltiplo de 4 MiB. Para conservar el inicializador original hay que demostrar una región libre suficiente. Un asignador más pequeño también requeriría demostrar que DXE puede ser propietario de una página en una dirección alineada. Más adelante habrá que despachar drivers desde el volumen y conectar una consola de texto al GOP para presentar la Shell. [Asignador de la tabla de depuración](REFERENCES.md#dxe_tables)
+
+El perfil posterior DXE_DEBUG utiliza la página alineada del propio FD en `0x80400000`. La incorpora al GCD después de cualificarla y mantiene los registros de imágenes en el pool de DXE. [Implementación y pruebas de DXE_DEBUG](DXE_DEBUG.md)

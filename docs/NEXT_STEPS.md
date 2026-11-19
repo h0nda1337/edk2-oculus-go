@@ -1,6 +1,6 @@
 # Next steps
 
-DXE_TABLES reached its terminal checkpoint on the Go after passing in QEMU at EL1 and EL2. The next upstream DXE initializer requests more contiguous RAM than the current arena provides. Resolve ownership and alignment before driver dispatch and the GOP text console. [Candidate and evidence](DXE_TABLES.md) · [Last physical checkpoint](evidence/dxe-tables-transfer-20261119.json)
+DXE_DEBUG initialized the debugger locator and first image record in QEMU using one aligned, qualified page inside the existing FD. The next checkpoint requires the headset for a temporary boot of the reviewed candidate. Event services are the next upstream DXE initialization step toward dispatching drivers and connecting the Shell console. [Candidate and QEMU results](DXE_DEBUG.md) · [Last physical checkpoint](evidence/dxe-tables-transfer-20261119.json)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android
