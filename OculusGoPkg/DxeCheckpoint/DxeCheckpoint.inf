@@ -1,0 +1,21 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = OculusGoDxeCheckpoint
+  FILE_GUID = 13b3fa3e-5e88-4521-9976-715fa8291d07
+  MODULE_TYPE = BASE
+  LIBRARY_CLASS = DebugAgentLib|DXE_CORE
+
+[Sources]
+  Checkpoint.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[LibraryClasses]
+  BaseMemoryLib
+
+[Guids]
+  gEfiHobMemoryAllocModuleGuid

@@ -40,7 +40,12 @@ def verify(data):
     fv_length = struct.unpack_from('<Q', data, FV_OFFSET + 32)[0]
     header_length = struct.unpack_from('<H', data, FV_OFFSET + 48)[0]
     fv_end = FV_OFFSET + fv_length
-    if fv_end == 0x3be000:
+    if fv_end == 0x80000:
+        guard = 0x3be000
+        if (data[fv_end:guard] != b'GODXEFD1' + b'\xff' * (guard-fv_end-8) or
+                data[guard:] != b'GOSTACK1' + b'\xff' * (SIZE-guard-8)):
+            raise ValueError('SEC_DXE writable workspace or guard signature differs')
+    elif fv_end == 0x3be000:
         if data[fv_end:] != b'GOSTACK1' + b'\xff' * (SIZE - fv_end - 8):
             raise ValueError('SEC_STACK guard signature or reserved FD tail differs')
     elif fv_end != SIZE:

@@ -2,7 +2,7 @@
 param(
     [ValidateSet('DEBUG', 'RELEASE')][string]$Target = 'DEBUG',
     [ValidateRange(1,128)][int]$Jobs = 4,
-    [ValidateSet('NORMAL', 'SEC_VISUAL', 'GOP_MODEL', 'SEC_C', 'SEC_MEM', 'SEC_STACK', 'SEC_MMU')][string]$Mode = 'NORMAL',
+    [ValidateSet('NORMAL', 'SEC_VISUAL', 'GOP_MODEL', 'SEC_C', 'SEC_MEM', 'SEC_STACK', 'SEC_MMU', 'SEC_DXE')][string]$Mode = 'NORMAL',
     [string]$Distribution = 'Debian'
 )
 Set-StrictMode -Version Latest

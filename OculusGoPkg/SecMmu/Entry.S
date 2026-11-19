@@ -62,12 +62,24 @@ _ModuleEntryPoint:
   cmp x15, x16
   b.lo .LstackPristine
   mov sp, x16
+#ifdef OCULUS_GO_SEC_DXE
+  // Reserve the handoff on our known stack across the change of translation.
+  sub sp, sp, #32
+  mov x20, sp
+  bl ArmEnableVFP
+  mov x0, x20
+  bl TrialPrepareDxe
+  cbz w0, .Lreject
+  ldp x1, x2, [x20]
+#endif
   mov x0, x19
   bl MmuBuildTables
   cbz w0, .Lreject
+#ifndef OCULUS_GO_SEC_DXE
   mov w0, #0
   mov w1, #0
   bl MmuSignal
+#endif
   dsb sy
 .global MmuBeforeEnable
 MmuBeforeEnable:
@@ -116,7 +128,7 @@ MmuTranslated:
   bl .LtranslateWrite
   tbz x1, #0, .Lreject
   ldr x0, =GO_STACK_PAGE
-  mov x2, #1
+  mov x2, #((GO_STACK_TOP-GO_STACK_PAGE)/4096)
   bl .LidentityRange
   ldr x0, =GO_BAND_ONE
   mov x2, #GO_BAND_PAGES
@@ -130,6 +142,14 @@ MmuTranslated:
   ldr x4, [sp], #16
   cmp x3, x4
   b.ne MmuRejected
+#ifdef OCULUS_GO_SEC_DXE
+  bl TrialPreBranch
+  ldp x16, x0, [x20, #16]
+.global TrialDxeBranch
+TrialDxeBranch:
+  blr x16
+  b MmuRejected
+#else
   mov w0, #0
   mov w1, #1
   bl MmuSignal                            // Read entire monochrome pattern back through the MMU.
@@ -153,6 +173,7 @@ MmuSeal:
 .global MmuComplete
 MmuComplete:
   b MmuComplete
+#endif
 
 .LidentityRange:
   mov x17, x30

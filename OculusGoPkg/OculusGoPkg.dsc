@@ -14,9 +14,8 @@
 !include MdePkg/MdeLibs.dsc.inc
 
 [BuildOptions.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu
-  # This profile never enables FP/SIMD. Keep the real PI constructor call
-  # separately visible in the linked SEC image for the handoff measurement.
+!if $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoSecDxe
+  # Keep the PI handoff calls visible in the ELF used by the measurement.
   GCC:*_*_AARCH64_CC_FLAGS = -march=armv8-a -mgeneral-regs-only -fno-jump-tables -fno-lto -fno-stack-protector
   # GCC5's EDK2 link recipe always forwards an option to the GCC linker
   # plugin. Load it at link time; the measurement's C objects are native.
@@ -126,7 +125,21 @@
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0
 
 [Components.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoSecMmu
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe
+  OculusGoPkg/SecMmu/SecDxe.inf {
+    <BuildOptions>
+      GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_SEC_DXE=1
+      GCC:*_*_AARCH64_PP_FLAGS = -DOCULUS_GO_SEC_DXE=1
+  }
+  MdeModulePkg/Core/Dxe/DxeMain.inf {
+    <LibraryClasses>
+      DebugAgentLib|OculusGoPkg/DxeCheckpoint/DxeCheckpoint.inf
+    <BuildOptions>
+      # GCC 14 diagnoses Prot in upstream CoreOpenProtocol. This terminal
+      # profile stops before protocol services. Keep the warning visible.
+      GCC:*_*_AARCH64_CC_FLAGS = -Wno-error=maybe-uninitialized
+  }
+!elseif $(GO_BUILD_FLAVOR) == OculusGoSecMmu
   OculusGoPkg/SecMmu/SecMmu.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoSecStack
   OculusGoPkg/SecMem/SecStack.inf

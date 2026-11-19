@@ -21,7 +21,16 @@ DATA = {
   0x41,0x52,0x4d,0x64, 0x00,0x00,0x00,0x00
 }
 
-!if $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe
+0x00001000|0x0007F000
+gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
+FV = FVCOMPACT
+
+0x00080000|0x0033E000
+DATA = { 0x47,0x4f,0x44,0x58,0x45,0x46,0x44,0x31 }
+0x003BE000|0x00042000
+DATA = { 0x47,0x4f,0x53,0x54,0x41,0x43,0x4b,0x31 }
+!elseif $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu
 0x00001000|0x003BD000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVCOMPACT
@@ -41,7 +50,24 @@ ERASE_POLARITY     = 1
 MEMORY_MAPPED      = TRUE
 READ_STATUS        = TRUE
 WRITE_STATUS       = TRUE
-!if $(GO_BUILD_FLAVOR) == OculusGoSecMmu
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe
+  INF OculusGoPkg/SecMmu/SecDxe.inf
+  FILE FV_IMAGE = 795b7b9c-616a-4a56-a9fa-f9cfec95bd66 {
+    SECTION GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF PROCESSING_REQUIRED = TRUE {
+      SECTION FV_IMAGE = FVTRIALDXE
+    }
+  }
+
+[FV.FVTRIALDXE]
+BlockSize = 0x40
+NumBlocks = 0
+FvAlignment = 8
+ERASE_POLARITY = 1
+MEMORY_MAPPED = TRUE
+READ_STATUS = TRUE
+WRITE_STATUS = TRUE
+  INF RuleOverride = ALIGNED_DXE MdeModulePkg/Core/Dxe/DxeMain.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoSecMmu
   INF OculusGoPkg/SecMmu/SecMmu.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoSecStack
   INF OculusGoPkg/SecMem/SecStack.inf
@@ -88,3 +114,10 @@ APRIORI DXE {
 !endif
 
 !include ArmVirtPkg/ArmVirtRules.fdf.inc
+
+# SEC parses PE32+ while stage-1 is off. Require natural 64-bit alignment.
+[Rule.Common.DXE_CORE.ALIGNED_DXE]
+  FILE DXE_CORE = $(NAMED_GUID) {
+    PE32 PE32 Align = 8 $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI STRING="$(MODULE_NAME)" Optional
+  }

@@ -1,0 +1,35 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = OculusGoSecDxe
+  FILE_GUID = 4665b522-6abf-4c36-ae47-b10a48faa14f
+  MODULE_TYPE = SEC
+  VERSION_STRING = 1.0
+
+[Sources.AARCH64]
+  Entry.S | GCC
+  Tables.c
+  DxeHandoff.c
+  Layout.h
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[LibraryClasses]
+  ArmLib
+  BaseLib
+  BaseMemoryLib
+  ExtractGuidedSectionLib
+  HobLib
+  LzmaDecompressLib
+  MemoryAllocationLib
+  PrePiHobListPointerLib
+  PrePiLib
+
+[FixedPcd]
+  gArmTokenSpaceGuid.PcdFvBaseAddress
+  gArmTokenSpaceGuid.PcdFvSize
