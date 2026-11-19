@@ -108,3 +108,13 @@ Pinned TianoCore EDK2 commit `e7aac7fc137e247edad22f7ee53b9a1fba227397`. These f
 
 Both INF files carry Qualcomm copyright notices. This review records metadata
 only. Any binary distribution requires review of the individual package terms.
+
+### DXE_DISPATCH
+
+| Fuente fijada de TianoCore | Aportación | Confianza |
+| --- | --- | --- |
+| [DxeMain.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c) y [Event.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Event/Event.c) | Orden de los servicios de eventos, publicación de volúmenes, extracción de secciones y entrada al despachador. | CONFIRMED-SOURCE |
+| [Dispatcher.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Dispatcher/Dispatcher.c) y [Dependency.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Dispatcher/Dependency.c) | Descubrimiento por notificación de FV2, evaluación de DEPEX y llamadas del despachador a CoreLoadImage y CoreStartImage. | CONFIRMED-SOURCE |
+| [Image.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Image/Image.c) | Carga y relocalización PE/COFF, mantenimiento de caché y llamada al punto de entrada de la imagen. | CONFIRMED-SOURCE |
+| [DevicePathDxe.inf](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf) y [DevicePath.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/DevicePathDxe/DevicePath.c) | GUID del archivo, DEPEX y publicación de EFI_DEVICE_PATH_UTILITIES_PROTOCOL. Código de TianoCore sin cambios, BSD-2-Clause-Patent. | CONFIRMED-SOURCE |
+| [AArch64Mmu.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/ArmPkg/Include/Chipset/AArch64Mmu.h) | Bits de permiso y atributos de la traducción. La ubicación de la tabla L3 y de las páginas de código procede del diseño del FD y del PE relocalizado. | CONFIRMED-SOURCE |

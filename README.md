@@ -55,6 +55,12 @@ The Go completed `DXE_GCD`. The operator saw a light-blue center between purple 
 
 `DXE_DEBUG` uses one aligned page inside the loaded FD for the debugger locator. QEMU followed its CRC-checked system table pointer to the registered DXE Core image in EL1 and EL2. The operator observed the terminal red bands and cyan center on the Go during a RAM boot with Secure Boot active. [Physical record](docs/evidence/dxe-debug-transfer-20261119.json) · [QEMU evidence and scope](docs/DXE_DEBUG.md)
 
+`DXE_DISPATCH` continued past this checkpoint in QEMU at EL1 and EL2. The
+dispatcher scheduled upstream DevicePathDxe from the firmware volume. Its
+published Device Path Utilities protocol answered a call from DXE Core.
+The same temporary image awaits its first test on the Go.
+[Results and visual checkpoints](docs/DXE_DISPATCH.md)
+
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
 

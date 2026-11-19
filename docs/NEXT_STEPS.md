@@ -1,6 +1,6 @@
 # Next steps
 
-DXE_DEBUG reached its terminal checkpoint on the Go with Secure Boot active. The next offline target is to initialize and exercise DXE event services before firmware-volume driver dispatch and the Shell console. [Physical record](evidence/dxe-debug-transfer-20261119.json) · [Image and QEMU results](DXE_DEBUG.md)
+DXE_DISPATCH passed the QEMU EL1/EL2 trials. The next physical observation is the temporary image's white/orange/green/orange/white pattern after DevicePathDxe has returned a working protocol. DXE_DEBUG remains the latest checkpoint observed on the Go. After physical confirmation, integrate inherited GOP into FV dispatch and connect a UEFI text console on the way to the Shell. [Dispatch trial](DXE_DISPATCH.md) · [Previous physical record](evidence/dxe-debug-transfer-20261119.json)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android
