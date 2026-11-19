@@ -13,7 +13,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | SEC to DXE in QEMU | PASS: EL1 and EL2, HOBs, memory setup, decompression and loaded DXE entry |
 | Execution on Oculus Go | M2 CONFIRMED in terminal SEC by the operator's visual observation on November 18 |
 | SEC private stack and C color checkpoint | CONFIRMED on the Go. After the stack witness check, C drew the observed blue–white–blue and red–black–red groups. Byte 0 is blue and byte 2 is red in the inherited framebuffer. Return from C is verified only in QEMU. [Physical record](evidence/sec-c-transfer-20261118.json) |
-| PI memory handoff diagnostic | `SEC_MEM` constructs and validates a PHIT in the FD and samples the proposed HOB and stack addresses read-only. The packaged FD passed 23 QEMU cases. Physical result UNKNOWN. [Test and signal](SEC_MEM.md) |
+| PI memory handoff diagnostic | CONFIRMED on the Go. The owner saw “celeste, amarillo, blanco, amarillo, celeste” after SEC validated the PHIT in the loaded image and completed both 64-bit loads. The packaged FD also passed 23 QEMU cases. [Physical record](evidence/sec-mem-transfer-20261118.json) |
 | UEFI Graphics Output Protocol | Packed BGR in `GOP_MODEL` passed 22 calls each in QEMU EL1 and EL2. Physical GOP untested. [Raw color samples and control](evidence/gop-bgr-qemu-20261118.json) |
 | Storage/USB/ACPI/Windows | Pending |
 

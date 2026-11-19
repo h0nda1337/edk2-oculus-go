@@ -12,9 +12,10 @@ the stack witness check. Android returned on slot A and all four partition
 hashes matched the originals after the trial. The `SEC_C` attempt is consumed.
 [Physical record](evidence/sec-c-transfer-20261118.json) · [BGR test results](evidence/gop-bgr-qemu-20261118.json)
 
-1. The one attended `SEC_MEM` transfer was accepted. Record the owner's
-   observation and the four post-recovery hashes for this attempt.
-   Availability of the proposed 64 MiB for allocation remains unknown.
+1. The five-color `SEC_MEM` checkpoint was observed on the Go. Android
+   recovered on slot A and all four hashes matched. Before enabling the
+   normal stack and allocator, establish which RAM the firmware can own
+   and write at handoff. The two completed loads cover 8 bytes each.
    [Trial record](evidence/sec-mem-transfer-20261118.json) · [Memory evidence](MEMORY_MAP.md)
 2. Verify scanout through MMU setup and DXE before trying the GOP on the
    visor. Storage, USB and the required ACPI tables precede Windows Boot Manager.

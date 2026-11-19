@@ -40,6 +40,11 @@ red on both sides of black. This identifies byte 0 as blue and byte 2 as red
 in the inherited packed framebuffer, consistent with BGR.
 [Physical SEC C observation](docs/evidence/sec-c-transfer-20261118.json)
 
+On the same Go, the five-color `SEC_MEM` signal confirmed that SEC constructed
+and checked the initial PI handoff table within the firmware image and
+completed two 8-byte reads at the proposed HOB and stack addresses.
+[Physical memory trial](docs/evidence/sec-mem-transfer-20261118.json)
+
 DXE, a working GOP protocol and Windows boot on the physical unit remain
 future milestones. The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)

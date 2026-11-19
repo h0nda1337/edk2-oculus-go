@@ -61,11 +61,14 @@ gzip output at `[0x91e78000, 0x92278000)`. The calculation starts gzip
 output one 4 KiB page beyond the page-rounded input. These modeled spans
 miss the pool. The QEMU GOP profile loads the FD directly and never runs LK.
 
-**UNKNOWN on the Go:** ownership of the high pool when SEC starts, DMA
-activity, and allocator and scanout behavior after enabling the MMU. SEC_C
-verified its in-image stack. The normal build's first stores instead occupy
-`[0x97ffffa0, 0x98000000)`, before HOB construction at `0x94000000`.
-[Physical SEC_C record](evidence/sec-c-transfer-20261118.json)
+The `SEC_MEM` pattern confirmed that the CPU completed one 8-byte load at
+`0x94000000` and another at `0x97ffffa0` in its inherited memory view.
+The code discarded both values. It constructed and checked the PHIT and
+end marker inside the loaded image at `[0x80080200, 0x80080240)`.
+The normal build would write the stack record at `[0x97ffffa0, 0x98000000)`
+and construct its HOB list at `0x94000000`. The availability of the full
+64 MiB for allocation, write access, DMA activity and scanout after MMU
+setup remain unknown. [Physical SEC memory record](evidence/sec-mem-transfer-20261118.json)
 
 | Local evidence checked | SHA-256 |
 | --- | --- |

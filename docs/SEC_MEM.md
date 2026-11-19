@@ -110,29 +110,25 @@ python3 tests/sec_mem_qemu.py --fd "$EXTRACTED_FD" --sec-elf "$SEC_ELF" --runtim
 
 ## Sesión física del 18 de noviembre
 
-El Fastboot original aceptó el envío y el arranque temporal después de
-verificar los cuatro hashes desde Android. El intento quedó consumido.
+Android arrancó en el slot A del visor conocido y los cuatro hashes completos
+coincidieron con los originales. El Fastboot original reportó `secure: yes`
+y `Secure boot: true` y aceptó el envío y el arranque temporal. El
+propietario observó «celeste, amarillo, blanco, amarillo, celeste». El patrón
+confirma que SEC validó el DTB entregado, comprobó la PHIT privada y su
+terminador y completó las dos lecturas de 8 bytes en la vista de memoria
+del procesador. La disponibilidad del espacio de 64 MiB para escritura y
+la entrada a DXE en hardware siguen pendientes.
 [Registro del ensayo](evidence/sec-mem-transfer-20261118.json)
 
-Con el propietario presente, comprobar primero por ADB el mismo equipo, Android
-arrancado en el slot A y los cuatro hashes completos de `boot_a/b` y
-`aboot_a/b`. En el Fastboot original se verifican el producto y los estados
-de bloqueo antes de un único `fastboot boot` a RAM. Esta prueba termina
-intencionadamente en un bucle. El visor puede conservar el logo o perder USB
-hasta el apagado manual. Tras unos 15 segundos se registra lo que se ve.
-
-El ejecutor `python tools/run_sec_mem_once.py` valida por defecto sólo los
-archivos del PC. En una futura sesión con el visor, el modo `--execute`
-requiere además `--operator-present`, el ejecutable de Fastboot revisado, el
-número de serie local y un informe de integridad de Android de menos de
-una hora. Reserva el único intento antes de emitir este comando equivalente:
+El ejecutor consumió el único intento antes del envío. El comando equivalente
+que se ejecutó fue:
 
 ```powershell
 fastboot -s <serie-local-verificada> boot local/OculusGo-SEC-MEM-c15da640f829.img
 ```
 
-Para recuperar, desconectar USB y mantener sólo Power. Soltar al apagarse o
-al llegar a 20 segundos. Desde apagado, Power y volumen menos llevan a
-**USB Update Mode**. Elegir únicamente **Boot device**, volver a Android,
-reconectar USB y cotejar los cuatro hashes. Si falla el apagado o el menú,
-detener la prueba y registrar el estado. [Recuperación anterior comprobada](evidence/sec-c-transfer-20261118.json)
+El propietario confirmó el regreso a Android y reconectó USB. ADB comprobó
+el arranque completo en el mismo visor y slot A. La segunda lectura íntegra
+de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` cubrió 130 MiB. Cada SHA-256
+coincidió con el de antes del ensayo y con la copia original.
+[Hashes y observación de esta sesión](evidence/sec-mem-transfer-20261118.json)
