@@ -33,7 +33,7 @@ been exercised through DXE in QEMU. [Test scope](STATUS.md)
 
 The operator saw the SEC pattern on November 18. The firmware targets two
 bands, but their exact positions in the visor and coverage of each eye
-were not measured. Scanout after MMU setup, DMA quiescence, watchdog
+were not measured. Scanout through DXE, DMA quiescence, watchdog
 behavior and the allocator's high-RAM pool still require evidence.
 
 ## High RAM at the SEC handoff, reviewed November 18
@@ -67,14 +67,14 @@ The code discarded both values. It constructed and checked the PHIT and
 end marker inside the loaded image at `[0x80080200, 0x80080240)`.
 The normal build would write the stack record at `[0x97ffffa0, 0x98000000)`
 and construct its HOB list at `0x94000000`. The availability of the full
-64 MiB for allocation, write access, DMA activity and scanout after MMU
-setup remain unknown. [Physical SEC memory record](evidence/sec-mem-transfer-20261118.json)
+64 MiB for allocation, write access, DMA activity and scanout through normal DXE
+remain unknown. [Physical SEC memory record](evidence/sec-mem-transfer-20261118.json)
 
 The separate SEC_STACK profile reserves `[0x8043f000, 0x8047f000)` as its
 256 KiB stack with 4 KiB guards immediately below and above. The bounds
 are a choice in the FD layout. Two full-span patterns, the 96-byte entry
 record and nested C/PI calls reached their visual checkpoint on the Go.
-Stability through MMU setup and DXE is UNKNOWN.
+SEC_MMU subsequently verified its one-page translated stack and witnessed a write/read there. Stability through DXE is UNKNOWN.
 [Footprint, origins and checks](SEC_STACK.md)
 
 The separate terminal SEC_MMU image builds seven 4 KiB translation tables
@@ -82,7 +82,8 @@ at `[0x8043f000, 0x80446000)` and uses `[0x8047e000, 0x8047f000)` for its
 stack. It maps four code pages, the stack page and 68 pages covering the
 two scanout bands plus their final page tails. The walker uses the tables
 physically. All 3,584 descriptor words and both scanout bands were checked
-in QEMU. Physical translation and scanout are UNKNOWN. [Detailed map](SEC_MMU.md)
+in QEMU. On the Go the operator saw the red center after validating the translated
+stack and both band readbacks. Physical EL remains UNKNOWN. [Detailed map](SEC_MMU.md)
 
 | Local evidence checked | SHA-256 |
 | --- | --- |

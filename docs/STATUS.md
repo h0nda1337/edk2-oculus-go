@@ -16,7 +16,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | PI memory handoff diagnostic | CONFIRMED on the Go. The owner saw “celeste, amarillo, blanco, amarillo, celeste” after SEC validated the PHIT in the loaded image and completed both 64-bit loads. The packaged FD also passed 23 QEMU cases. [Physical record](evidence/sec-mem-transfer-20261118.json) |
 | UEFI Graphics Output Protocol | Packed BGR in `GOP_MODEL` passed 22 calls each in QEMU EL1 and EL2. Physical GOP untested. [Raw color samples and control](evidence/gop-bgr-qemu-20261118.json) |
 | Storage/USB/ACPI/Windows | Pending |
-| SEC stage-1 translation and scanout | SEC_MMU passed 29 QEMU cases across EL1 and EL2. The red center follows translated framebuffer readback. Awaiting the physical checkpoint. [Trial and image](SEC_MMU.md) |
+| SEC stage-1 translation and scanout | SEC_MMU passed 29 QEMU cases across EL1 and EL2. CONFIRMED on the Go. The operator saw the sealed red center after the translated stack witness and full framebuffer readbacks. [Physical record](evidence/sec-mmu-transfer-20261118.json) |
 | Guarded 256 KiB stack inside the FD | CONFIRMED on the Go. The operator saw the five-color checkpoint after both full-span patterns, nested C calls, PI handoff validation and final guard checks. [Physical record](evidence/sec-stack-transfer-20261118.json) |
 
 The original offline FD below passed the early-entry, SEC and DXE tests. No emulator-only

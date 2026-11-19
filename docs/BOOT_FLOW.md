@@ -46,8 +46,10 @@ a stack inside the loaded image.
 In the later `SEC_MEM` trial, the five-color checkpoint showed that SEC
 accepted the delivered device tree, constructed and verified a private PHIT
 and end marker in the image, then completed two loads from the proposed
-HOB and stack addresses. Use of the normal high-RAM stack, MMU setup
-and entry into DXE remain untested on the Go.
+HOB and stack addresses. Use of the normal high-RAM stack and entry into DXE remain untested on the Go.
+The separate terminal SEC_MMU trial subsequently enabled translation and
+repainted the observed red center after both full framebuffer readbacks.
+[Physical MMU trial](evidence/sec-mmu-transfer-20261118.json)
 [SEC memory trial](evidence/sec-mem-transfer-20261118.json)
 
 The current FV contains no BDS/Windows boot path or board storage/USB driver.

@@ -20,11 +20,9 @@ hashes matched the originals after the trial. The `SEC_C` attempt is consumed.
    SEC_STACK subsequently verified two full-span patterns and nested C calls
    on a guarded 256 KiB stack inside the loaded image. The owner reported
    the five-color checkpoint. [Physical record](evidence/sec-stack-transfer-20261118.json)
-2. Run the reviewed SEC_MMU trial on the visor. Its page tables fit inside
-   the proven SEC_STACK region. A red center after translation distinguishes
-   it from the initial monochrome signal. [Attended trial](SEC_MMU.md)
-   Establish a bounded allocator for HOBs and the DXE workspace.
-   Verify scanout through MMU setup and DXE before trying the GOP on the
-   visor. Storage, USB and the required ACPI tables precede Windows Boot Manager.
+2. SEC_MMU reached the red-center checkpoint with stage-1 translation active
+   on the Go. Establish a bounded workspace for HOBs and firmware volume
+   decompression, then measure the handoff to DXE and scanout in that phase.
+   [Attended MMU trial](evidence/sec-mmu-transfer-20261118.json)
 3. The optional floating monitor can be prototyped offline over the BGR model
    with simulated orientation. [UEFI VR menu design](VR_MENU.md)

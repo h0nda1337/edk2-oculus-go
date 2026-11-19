@@ -1,6 +1,6 @@
 # SEC_MMU en el Oculus Go
 
-**Imagen preparada y probada en QEMU. La observación en el visor está pendiente.** El ensayo mide si SEC puede activar la traducción de direcciones y seguir dibujando en el framebuffer que dejó el cargador. El perfil es terminal. DXE y la Shell corresponden a etapas posteriores.
+**Confirmado en el Oculus Go.** El propietario observó el centro rojo con la MMU activa. [Registro del ensayo](evidence/sec-mmu-transfer-20261118.json) El ensayo mide si SEC puede activar la traducción de direcciones y seguir dibujando en el framebuffer que dejó el cargador. El perfil es terminal. DXE y la Shell corresponden a etapas posteriores.
 
 El punto de partida físico es el ensayo SEC_STACK. En el mismo Go se comprobaron dos escrituras y lecturas completas de los 256 KiB reservados dentro de la imagen, las llamadas C y la recuperación a Android. El orden BGR y las dos franjas proceden de las pruebas anteriores. [Pila comprobada](evidence/sec-stack-transfer-20261118.json) · [Framebuffer medido](evidence/sec-c-transfer-20261118.json)
 
@@ -48,8 +48,10 @@ python3 tests/sec_mmu_qemu.py --fd "$FD" --sec-elf "$elf" --report "$MODEL_REPOR
 
 La compilación normal reprodujo su FD de referencia, SHA-256 `72f602d2eec7d2bff0117bf8d8370218e47ef22fbd7023ab42b3497af9294e58`. Las seis comprobaciones de regresión pasaron, incluida la llegada a DXE y la consulta de TrustMeBro en QEMU en EL1 y EL2. El SHA-256 del informe local es `8d9d1d04ee9d3a4f7125408a96f0cdfd8d36792207562f2f312ed6b88695abc9`. Las 47 pruebas Python de host pasaron en Windows.
 
-## Prueba física pendiente
+## Prueba física del 18 de noviembre
 
-El punto de partida es Android arrancado, el operador presente y USB conectado. La verificación local se ejecuta con `python tools/run_sec_mmu_once.py`. El ejecutor revisa la imagen y la evidencia, y en una sesión física comprueba el mismo visor, un cotejo reciente de las cuatro particiones y las banderas del Fastboot original. Reserva un solo intento antes de enviar el arranque temporal a RAM. Tras la observación se vuelve a Android por la ruta comprobada y se cotejan de nuevo los cuatro hashes. [Recuperación](RECOVERY.md)
+Android arrancó en el slot A. Antes de la prueba, los hashes de los 130 MiB de las cuatro particiones de arranque coincidieron con los originales. El cargador comunicó `Secure boot: true` y aceptó el envío y el arranque temporal. El propietario observó «azul, amarillo, rojo, amarillo, azul». La cadena de comprobaciones anterior a la escritura del centro rojo confirma que la traducción estaba activa, la pila traducida admitió la escritura testigo y SEC cotejó por completo las dos franjas tanto en monocromo como en color. El nivel de excepción físico, la cobertura por ojo y la visibilidad de las fases intermedias quedaron sin determinar. [Registro y hashes](evidence/sec-mmu-transfer-20261118.json)
 
-Si se observa el centro rojo, la siguiente cuestión para DXE será proporcionar memoria acotada para los HOB y descomprimir el volumen de firmware. Este ensayo deja abierta la disponibilidad del asignador alto y el funcionamiento de GOP en el visor.
+Después de la prueba, el propietario volvió a Android y reconectó USB. ADB verificó el arranque completo del mismo visor en el slot A. Las segundas lecturas de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` coincidieron íntegramente con los hashes previos y los de los respaldos originales.
+
+El siguiente paso hacia DXE es proporcionar memoria acotada para los HOB y para descomprimir el volumen de firmware. El GOP físico y la Shell siguen pendientes.

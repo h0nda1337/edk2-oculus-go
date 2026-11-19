@@ -33,5 +33,44 @@
   "partitionWriteCommandIssued": false,
   "physicalSecMmuExecutionAtHostCommandExit": "UNKNOWN",
   "operatorObservationAtHostCommandExit": "PENDING",
-  "postRecoveryReadbackAtHostCommandExit": "PENDING"
+  "postRecoveryReadbackAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "azul, amarillo, rojo, amarillo, azul",
+    "center": "rojo",
+    "matchesReviewedSealedPattern": true,
+    "eyeCoverage": "UNKNOWN",
+    "earlierPatternsReported": false
+  },
+  "physicalFindings": {
+    "stage1MmuAndVisibleFramebuffer": "CONFIRMED on this unit by red-center checkpoint",
+    "dataCacheEnabled": false,
+    "physicalExceptionLevel": "UNKNOWN",
+    "verifiedScanoutPages": 68,
+    "translatedStackWitness": "PASS",
+    "upperStackGuardTranslationFault": "PASS",
+    "fullReadbackBytesPerPattern": 276480,
+    "verifiedBeforeRedCenter": [
+      "monochrome",
+      "color with black center"
+    ],
+    "highPoolAvailability": "UNKNOWN",
+    "physicalDxeAndGop": "UNTESTED"
+  },
+  "recovery": {
+    "operatorReportedSpanish": "Android arrancó y reconecté USB",
+    "preflightStartUtc": "2026-11-19T05:18:15Z",
+    "reportSha256": "22190af547c58a48654926609a97fe2cda9cc590aff8d3d546ba8c190824cc4e",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "product": "pacific",
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
 }
