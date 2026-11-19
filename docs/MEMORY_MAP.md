@@ -93,3 +93,5 @@ stack and both band readbacks. Physical EL remains UNKNOWN. [Detailed map](SEC_M
 | Android `dmesg.txt`, same capture | `5ac886825ffbdaf76cd4f07ec8b3965bb82920df30d26e801ffa907e068621f1` |
 | Preserved `aboot_a` ELF | `6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74` |
 | Historical `build/analysis/lk-audit.json`, all 133 instruction words rechecked against ELF | `ee0b422baac9f52eea490a5cec8a5db49e0c6e1eed98cc0485f18722552241d5` |
+
+The terminal SEC_DXE profile reserves its 1.5 MiB PI handoff arena inside the loaded FD. Each boundary has a 4 KiB guard. Its identity mappings distinguish the relocated core text from HOBs, data and stack. See the [exact intervals and ownership evidence](SEC_DXE.md).

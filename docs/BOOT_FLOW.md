@@ -53,3 +53,5 @@ repainted the observed red center after both full framebuffer readbacks.
 [SEC memory trial](evidence/sec-mem-transfer-20261118.json)
 
 The current FV contains no BDS/Windows boot path or board storage/USB driver.
+
+In SEC_DXE the code constructs PI HOBs and uses upstream PrePi LZMA and PE/COFF loading inside the delivered FD. After enabling stage-1 it branches to the relocated DXE core entry with the PHIT in x0. The terminal display hook is inside DxeMain, before DXE memory services and driver dispatch. [Trial and observations](SEC_DXE.md)

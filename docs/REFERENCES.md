@@ -42,3 +42,14 @@ evidence that a driver matches this hardware.
 | `docs/evidence/source-audit-20261025.json` | SHA-256 `3a42da4b7946c678bf555ed91d306e1277d5b36a3e87fc56f42d946df2093704` | Compiler/link inputs, relative original paths and individual SHA-256 values; EDK2 clean/pinned/tracked checks; canonical LF publication from `db0abad4ec8b06fcfb3d89d2c468a3bec98e5cea` | CONFIRMED-BUILD-INPUTS |
 | `docs/evidence/offline-validation-20261025.json` | FD SHA-256 `a4acf898e51a814ad6ed4c84a9dacd8788120ad272c3fa528fb0b7579b698230` | Artifact hashes, test scopes, local report hashes and hardware limits | CONFIRMED-BUILD / CONFIRMED-EMULATOR; physical UNKNOWN |
 | `docs/evidence/partitions.json` | Source backup-manifest SHA-256 `12ee626968c09da21dc3e4465537962574b71abf1eca64960a865be9564eb12c` | All 50 original backup names, block paths, sizes and hashes; no binary contents | HISTORICAL-DEVICE-EVIDENCE; not a new rehash |
+
+### SEC_DXE handoff
+
+Pinned EDK2 revision `e7aac7fc137e247edad22f7ee53b9a1fba227397`. The build links upstream files directly under their original licenses. The checkpoint library, platform layout and host tests are original project source.
+
+| File at pinned revision | Evidence | Confidence |
+| --- | --- | --- |
+| [PrePiHobLib/Hob.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/EmbeddedPkg/Library/PrePiHobLib/Hob.c) and [PrePiMemoryAllocationLib/MemoryAllocationLib.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/EmbeddedPkg/Library/PrePiMemoryAllocationLib/MemoryAllocationLib.c) | PHIT construction, end marker and descending page allocations | CONFIRMED-SOURCE |
+| [PrePiLib/FwVol.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/EmbeddedPkg/Library/PrePiLib/FwVol.c) and [PrePiLib/PrePiLib.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/EmbeddedPkg/Library/PrePiLib/PrePiLib.c) | Section extraction, FV HOB and PE/COFF load and relocation | CONFIRMED-SOURCE |
+| [DxeCoreEntryPoint.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.c) and [DxeMain.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c) | DXE entry, setup of exception vectors, invocation of DebugAgentLib with the PHIT before memory services | CONFIRMED-SOURCE |
+| [SEC_MMU physical observation](evidence/sec-mmu-transfer-20261118.json) and [current trial](SEC_DXE.md) | Prior MMU/scanout evidence and source of the diagnostic FD layout | Physical evidence for the prior profile only |

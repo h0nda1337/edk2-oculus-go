@@ -45,6 +45,8 @@ and checked the initial PI handoff table within the firmware image and
 completed two 8-byte reads at the proposed HOB and stack addresses.
 [Physical memory trial](docs/evidence/sec-mem-transfer-20261118.json)
 
+The [attended SEC_DXE candidate](docs/SEC_DXE.md) reached upstream DxeMain inside the loaded-FD arena in QEMU EL1 and EL2.
+
 DXE, a working GOP protocol and Windows boot on the physical unit remain
 future milestones. The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
