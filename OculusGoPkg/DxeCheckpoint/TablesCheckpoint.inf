@@ -1,0 +1,38 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = OculusGoDxeTablesCheckpoint
+  FILE_GUID = 98a53074-7e0a-452f-bcbd-5963539e61fa
+  MODULE_TYPE = BASE
+  LIBRARY_CLASS = DebugAgentLib|DXE_CORE
+
+[Sources]
+  Checkpoint.c
+  MemoryServices.c
+  ImageGcd.c
+  ConfigTables.c
+
+[BuildOptions]
+  GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_DXE_MEMORY=1 -DOCULUS_GO_DXE_GCD=1 -DOCULUS_GO_DXE_TABLES=1
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[LibraryClasses]
+  BaseMemoryLib
+  HobLib
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  UefiLib
+  ExtractGuidedSectionLib
+
+[Guids]
+  gEfiHobMemoryAllocModuleGuid
+  gEfiDxeServicesTableGuid
+  gEfiHobListGuid
+  gEfiMemoryTypeInformationGuid
+
+[Protocols]
+  gEfiLoadedImageProtocolGuid

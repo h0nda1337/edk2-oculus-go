@@ -136,7 +136,11 @@ __wrap_CoreInitializeGcdServices (VOID **Hobs, EFI_PHYSICAL_ADDRESS Base, UINT64
     goto Rejected;
   }
   TrialPaint (0xff00ff, 0x00ffff);
+#ifdef OCULUS_GO_DXE_TABLES
+  return EFI_SUCCESS;
+#else
   __asm__ volatile (".global TrialGcdComplete\nTrialGcdComplete: b TrialGcdComplete");
+#endif
 
 Rejected:
   __asm__ volatile (".global TrialGcdRejected\nTrialGcdRejected: b TrialGcdRejected");
