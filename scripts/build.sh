@@ -8,17 +8,21 @@ jobs=${2:-4}
 build_mode=${3:-NORMAL}
 [[ "$build_target" == DEBUG || "$build_target" == RELEASE ]] || exit 2
 [[ "$jobs" =~ ^[1-9][0-9]*$ ]] || exit 2
-[[ "$build_mode" == NORMAL || "$build_mode" == SEC_VISUAL || "$build_mode" == GOP_MODEL ]] || exit 2
 build_flavor=OculusGo
 build_arguments=()
+case "$build_mode" in
+  NORMAL) ;;
+  SEC_VISUAL) build_flavor=OculusGoSecVisual ;;
+  GOP_MODEL) build_flavor=OculusGoGopModel ;;
+  SEC_C) build_flavor=OculusGoSecC ;;
+  *) echo "Unknown build mode: $build_mode" >&2; exit 2 ;;
+esac
+if [[ "$build_mode" != NORMAL ]]; then
+  [[ "$build_target" == DEBUG ]] || { echo "$build_mode requires DEBUG" >&2; exit 2; }
+  build_arguments=(-D "GO_BUILD_FLAVOR=$build_flavor")
+fi
 if [[ "$build_mode" == SEC_VISUAL ]]; then
-  [[ "$build_target" == DEBUG ]] || { echo 'SEC_VISUAL requires DEBUG' >&2; exit 2; }
-  build_flavor=OculusGoSecVisual
-  build_arguments=(-D GO_BUILD_FLAVOR=OculusGoSecVisual --pcd gOculusGoPkgTokenSpaceGuid.PcdSecVisualDiagnostic=TRUE)
-elif [[ "$build_mode" == GOP_MODEL ]]; then
-  [[ "$build_target" == DEBUG ]] || { echo 'GOP_MODEL requires DEBUG' >&2; exit 2; }
-  build_flavor=OculusGoGopModel
-  build_arguments=(-D GO_BUILD_FLAVOR=OculusGoGopModel)
+  build_arguments+=(--pcd gOculusGoPkgTokenSpaceGuid.PcdSecVisualDiagnostic=TRUE)
 fi
 export WORKSPACE="$project_root"
 export PACKAGES_PATH="$project_root/edk2:$project_root"

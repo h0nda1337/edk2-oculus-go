@@ -123,6 +123,12 @@
       GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_GOP_MODEL=1
   }
   OculusGoPkg/Drivers/InheritedGopDxe/InheritedGopDxe.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoSecC
+  OculusGoPkg/PrePi/PrePi.inf {
+    <BuildOptions>
+      GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_SEC_C=1
+      GCC:*_*_AARCH64_PP_FLAGS = -DOCULUS_GO_SEC_C=1
+  }
 !else
   OculusGoPkg/PrePi/PrePi.inf
 !endif

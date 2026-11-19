@@ -59,3 +59,47 @@ OculusGoSecMain (IN OCULUS_GO_ENTRY_STATE *Entry)
   RequireSuccess (LoadDxeCoreFromFv (NULL, 0));
   CpuDeadLoop ();
 }
+
+#if defined (OCULUS_GO_SEC_C)
+// SEC_C runs before the normal stack, vectors and FP/SIMD setup. Keep this
+// leaf independent of the EDK2 C runtime; its exact code is checked offline.
+__attribute__((noipa, used, no_stack_protector, target("general-regs-only")))
+UINT32
+OculusGoSecColorCheckpoint (VOID)
+{
+  volatile UINT32 Witness;
+  volatile UINT8  *Pixel;
+  UINTN           Band;
+  UINTN           Row;
+  UINTN           Block;
+  UINTN           Column;
+  UINT8           Byte0;
+  UINT8           Byte1;
+  UINT8           Byte2;
+
+  Witness = 0x43434553U;
+  if (Witness != 0x43434553U) {
+    return 0;
+  }
+
+  // These are the two packed-24-bit spans used by SEC_VISUAL.
+  // A white marker is flanked by pure byte 0, a black marker by pure byte 2.
+  for (Band = 0; Band < 2; Band++) {
+    Pixel = (volatile UINT8 *)(UINTN)(Band == 0 ? 0x836A4000U : 0x83BEA000U);
+    for (Row = 0; Row < 32; Row++) {
+      for (Block = 0; Block < 6; Block++) {
+        Byte0 = (Block <= 2) ? 255 : 0;
+        Byte1 = (Block == 1) ? 255 : 0;
+        Byte2 = ((Block & 1) != 0) ? 255 : 0;
+        for (Column = 0; Column < 240; Column++) {
+          Pixel[0] = Byte0;
+          Pixel[1] = Byte1;
+          Pixel[2] = Byte2;
+          Pixel += 3;
+        }
+      }
+    }
+  }
+  return 1;
+}
+#endif

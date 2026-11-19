@@ -30,7 +30,37 @@ _ModuleEntryPoint:
   b.ne EntryRejected
   tst x11, #4
   b.ne EntryRejected
-#if FixedPcdGetBool (PcdSecVisualDiagnostic)
+#if defined (OCULUS_GO_SEC_C)
+  // Require the reviewed load location before changing SP or writing RAM.
+  adr x15, _ModuleEntryPoint
+  ldr x16, =0x80088000
+  cmp x15, x16
+  b.ne EntryRejected
+  msr daifset, #0xf
+  mov x12, sp
+  // The upper half of the image-header padding belongs to this terminal build.
+  // Its upper bound equals FV start; all stack writes are below that address.
+  ldr x15, =0x80081000
+  mov sp, x15
+  stp x0, x1, [sp, #-48]!
+  stp x2, x3, [sp, #16]
+  stp x12, x30, [sp, #32]
+.global SecCCall
+SecCCall:
+  bl OculusGoSecColorCheckpoint
+.global SecCReturn
+SecCReturn:
+  cmp w0, #1
+  ldp x0, x1, [sp]
+  ldp x2, x3, [sp, #16]
+  ldp x12, x30, [sp, #32]
+  mov sp, x12
+  b.ne EntryRejected
+  dsb sy
+.global SecCComplete
+SecCComplete:
+  b SecCComplete
+#elif FixedPcdGetBool (PcdSecVisualDiagnostic)
   // Original terminal SEC measurement, not a bootstrap or the legacy probe.
   // Binary/DT facts and physical limits: docs/SEC_VISUAL_DIAGNOSTIC.md.
   // Reject relocation before the first store. The exact linked entry is
