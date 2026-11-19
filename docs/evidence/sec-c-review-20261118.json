@@ -1,0 +1,147 @@
+{
+  "scope": "terminal-edk2-sec-c",
+  "decision": "APPROVED-FOR-ONE-TERMINAL-SEC-C-MEASUREMENT",
+  "maxAttempts": 1,
+  "reviewDateMexicoCity": "2026-11-18",
+  "platformRevision": "514a09208b07db901b4551227a9d5297ba8dce3f",
+  "previousPhysicalEvidence": "docs/evidence/sec-visual-transfer-20261118.json",
+  "physicalExecution": "UNKNOWN",
+  "executionConditions": "Owner notified in advance, later attended session, intact Android readbacks and live original bootloader flags. Temporary boot into RAM.",
+  "fd": {
+    "file": "build/DEBUG-SEC_C-20261119-033323/OCULUS_GO_DIRECT.fd",
+    "sha256": "3ee7a88df0d44ae7b68dc0ded6774b23a41e9e3f4ce0cffaef38b640ebc8e6f6",
+    "size": 4194304
+  },
+  "image": {
+    "file": "local/OculusGo-SEC-C-20261118.img",
+    "sha256": "3cd2cbfd824ca726029e8810abbfb12a90f5b1653155c972a109a68ccc5d5055",
+    "size": 487424
+  },
+  "model": {
+    "file": "build/sec-c-model-20261118.json",
+    "sha256": "45301a46481fc5e0171798fd547d65151016be2661227a3fd33b0146aefd538d",
+    "size": 2019
+  },
+  "prefixAudit": {
+    "file": "build/sec-c-static-20261118.json",
+    "sha256": "aee436a25f16787ed73adf0adf596247c88a5e2d45511568918b19c55fdcec4b",
+    "size": 1972
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-SEC_C-20261119-033323/SOURCES.json",
+    "sha256": "622fe3ac7bb5596603d59f9e1322be114e852fe34c873bf79e166a6574a2c94d",
+    "size": 122906
+  },
+  "reviewedRamWritesExclusive": {
+    "stack": [
+      "0x80080fcc",
+      "0x80081000"
+    ],
+    "bands": [
+      [
+        "0x836a4000",
+        "0x836c5c00"
+      ],
+      [
+        "0x83bea000",
+        "0x83c0bc00"
+      ]
+    ]
+  },
+  "expectedObservation": "Two markers bordered by different colors. Record the color bordering white and the color bordering black. A match establishes C drawing after the stack witness.",
+  "physicalScope": "This checkpoint ends in SEC. See docs/SEC_C.md for observation and recovery.",
+  "checkedSourceFiles": [
+    {
+      "file": "OculusGoPkg/PrePi/Entry.S",
+      "sha256": "2bf70b0311a23020ce6a44f336ae6ffb25572830530494813f91b0ed72393112"
+    },
+    {
+      "file": "OculusGoPkg/PrePi/SecMain.c",
+      "sha256": "1de584cff4a89763e6b3794d461f4365bebe71774d12aa62243ca157a9c62ad9"
+    },
+    {
+      "file": "OculusGoPkg/PrePi/PrePi.inf",
+      "sha256": "3763d47a367fb3d9cbcb31d8c2078a7f87b2988c7679a916936babd06cdc4254"
+    },
+    {
+      "file": "OculusGoPkg/PrePi/Memory.c",
+      "sha256": "61b4a224b21eb7b90ce466e088883a2ae18480ca99ab2cc4c5be62446ff63526"
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.dsc",
+      "sha256": "34a62c086e255619bf2b2911f92c8546f257a15f0420722cf7428a981f2d3b74"
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.fdf",
+      "sha256": "e1c9e1931a04fd272a2c1d0490a8d1e6bf06e1e10f3591fdb00695300e895eee"
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.dec",
+      "sha256": "e5bf1e7a2c7a82818643fb60f224b671779b1a3740f7ed8bc1b8a3c0653901f5"
+    },
+    {
+      "file": "scripts/build.sh",
+      "sha256": "aebb016f570aed0707ce8178fd9fb7f195dacb7fc6099557c8ab0a8e1dd64bfd"
+    },
+    {
+      "file": "scripts/build-edk2.ps1",
+      "sha256": "b1f01513926a11e9b6e7219f2198f0784b6055b8b6a4c2cf000a29f054ae790d"
+    },
+    {
+      "file": "tests/entry_harness.S",
+      "sha256": "1ab869ad8e6c554adbea895205d71f502e8e22c8e15f516686e767cac6c85c8a"
+    },
+    {
+      "file": "tests/sec_c_qemu.py",
+      "sha256": "e7ce7f305392f09732c1fc0a90db4313779278bb026cf90617f1ce7373d39e38"
+    },
+    {
+      "file": "tests/sec_c_prefix.py",
+      "sha256": "46f08c481595da7a4dddccd4c6bc75970b096390fbade9d4683f9de79a34ca8d"
+    },
+    {
+      "file": "tests/test_sec_c_once.py",
+      "sha256": "b3771680a37fa73c7fac0603b10e4b8dd0da862161aa710b7257ce7f4818338a"
+    },
+    {
+      "file": "tools/run_sec_c_once.py",
+      "sha256": "f55dddfec47f0ed83ee3524c95790353bd9f7e0932ba06611b4a892c022fe4bc"
+    },
+    {
+      "file": "tools/run_sec_visual_once.py",
+      "sha256": "626f21bd4b6ea88666227f428c1b9429e7e8eb10b568850adc433d7f16bcd82c"
+    },
+    {
+      "file": "tools/inspect_fastboot.py",
+      "sha256": "386c1a286153cc98e03d4c39d31309ae07245bfe1a4df26c3bca8ee22f582c58"
+    },
+    {
+      "file": "tools/android_boot.py",
+      "sha256": "5ee66042724df6eee47c394cb74e609224893861b75496fc479d193fd1e8e90f"
+    },
+    {
+      "file": "tools/verify_fd.py",
+      "sha256": "8c23815433c18d85ff36e3db25ecf596d34e85f4758caf4d1713a75fe11f6c71"
+    },
+    {
+      "file": "tools/verify_sec_visual_data.py",
+      "sha256": "a23638b02c175399adf499c5abf6af8c9a7eaec71facb554f57b7ee3b727c7d8"
+    },
+    {
+      "file": "tools/audit_build_sources.py",
+      "sha256": "9929fe3ee89953ac0ff1ff8cc22b5e80722801735650ae409d9a6c5388f4a32a"
+    },
+    {
+      "file": "tools/collect_readonly_preflight.py",
+      "sha256": "bf5a42f15ce19888199e12e4e1a73a7f92a0f7c0adf115cf86c7ef6aec165d89"
+    },
+    {
+      "file": "tools/emulate_entry.py",
+      "sha256": "ee1576486a57a92fd0155481b2d7ed957badda779538be8df2bf284dadb5489f"
+    },
+    {
+      "file": "tools/emulate_sec_handoff.py",
+      "sha256": "6a757be8988629c8f537fdd644089a5631ad6347c055b7ce14173affc12a1ee2"
+    }
+  ]
+}

@@ -5,14 +5,17 @@ with both security indicators active. The owner saw the SEC pattern, Android
 returned and each of the four boot partition hashes matched on readback.
 [Physical evidence](evidence/sec-visual-transfer-20261118.json)
 
-1. Exercise the original DXE graphics driver through UEFI graphics operations
-   in emulated RAM. Use asymmetric red and blue test pixels so the channel
-   convention is observable.
-2. The next physical measurement should distinguish the visible SEC checkpoint
-   from a later stage. Establish a bounded stack and a distinguishable signal
-   before testing normal memory initialization or DXE on the Go. The first
-   color observation did not identify red/blue order.
-3. Review a new image and its recovery procedure separately and notify the
-   owner before physical work. Both previous one-attempt trials are consumed.
-4. Bring up a physical GOP, storage/USB and the required ACPI tables before
-   attempting Windows Boot Manager.
+The original DXE GOP driver has passed 20 checks per exception level in QEMU
+at EL1 and EL2. Its physical pixel order and survival of scanout through DXE
+remain unknown. [Model tests](BUILD.md#test-the-uefi-graphics-protocol-in-qemu)
+
+1. In a new attended session, measure the separate `SEC_C` build once in RAM.
+   Its reviewed C code uses a stack inside the FD and draws red/blue markers
+   around white and black. The previous trials are consumed.
+   [Image, evidence and recovery](SEC_C.md)
+2. Record the colors around each marker and repeat the four Android partition
+   readbacks after recovery. Use the observation to resolve the packed pixel
+   channel order before selecting a physical GOP configuration.
+3. Establish a physical memory handoff and later, distinguishable checkpoints
+   through DXE before enabling the physical GOP. Storage, USB and the required
+   ACPI tables precede Windows Boot Manager.

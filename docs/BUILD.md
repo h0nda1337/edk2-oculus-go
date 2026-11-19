@@ -91,3 +91,7 @@ arguments. The outer guard bytes stayed intact. The local QEMU report SHA-256
 is `bac0686eb46ea805eed644674fdbe0eb1fe7099f3219da415360acf8bb5ffb0c`.
 The headless tests inspect memory. They do not establish that a visor retains
 scanout through physical DXE or that a Windows display driver will bind.
+
+The separate [SEC C build and tests](SEC_C.md) cover the next attended
+measurement. Building either diagnostic leaves the normal DEBUG firmware
+byte-identical to its November 13 baseline, as verified on November 18.

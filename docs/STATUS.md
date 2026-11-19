@@ -12,6 +12,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | Early ARM64 entry in QEMU | PASS: 10 cases, stop before first BL |
 | SEC to DXE in QEMU | PASS: EL1 and EL2, HOBs, memory setup, decompression and loaded DXE entry |
 | Execution on Oculus Go | M2 CONFIRMED in terminal SEC by the operator's visual observation on November 18 |
+| SEC private stack and C color checkpoint | Reviewed image built. Six QEMU cases and static binary audit passed. [Physical measurement pending](SEC_C.md) |
 | UEFI Graphics Output Protocol | `GOP_MODEL` installed and exercised by DXE in QEMU EL1 and EL2. Physical GOP untested |
 | Storage/USB/ACPI/Windows | Pending |
 
