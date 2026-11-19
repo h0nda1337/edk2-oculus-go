@@ -1,0 +1,99 @@
+{
+  "dateMexicoCity": "2026-11-18",
+  "projectRevision": "7f5380e9d55821b1d1fd8dd3ea246beeb6e4b5f2",
+  "physicalColorReference": "sec-c-transfer-20261118.json",
+  "qemu": "10.0.13, TCG Cortex-A57 virt",
+  "profile": "DEBUG GOP_MODEL",
+  "fdBytes": 4194304,
+  "fdSha256": "d4496b29d92ad2e5debd7281f841e8aebd115a628d8ff41a0d2f880842b49eb2",
+  "sourceAudit": {
+    "result": "PASS",
+    "sha256": "cbc72655c44bfed00a7e27f6dfe382498ab105e5ef3398770da8480375e9300a",
+    "edk2": "e7aac7fc137e247edad22f7ee53b9a1fba227397",
+    "inputs": {
+      "edk2-generated": 147,
+      "original-project": 7,
+      "upstream-edk2": 434
+    },
+    "rejected": []
+  },
+  "qemuTest": {
+    "result": "PASS-QEMU-GOP",
+    "reportSha256": "92590ce8c2bea43e6ad3112efa8df7ccb27d2907a70c42d047e21a2a61e5d036",
+    "modelPixelOrder": "packed BGR888",
+    "callsPerLevel": 22,
+    "cases": [
+      {
+        "el": 1,
+        "result": "PASS",
+        "outerGuardsIntact": true,
+        "framebufferHob": {
+          "type": 5,
+          "base": "0x83401000",
+          "size": "0xa8c000"
+        }
+      },
+      {
+        "el": 2,
+        "result": "PASS",
+        "outerGuardsIntact": true,
+        "framebufferHob": {
+          "type": 5,
+          "base": "0x83401000",
+          "size": "0xa8c000"
+        }
+      }
+    ],
+    "calls": [
+      "LocateProtocol",
+      "QueryMode",
+      "FreePool-mode-copy",
+      "QueryMode-invalid",
+      "QueryMode-null-output",
+      "SetMode-invalid",
+      "SetMode-clear",
+      "VideoFill",
+      "BufferToVideo-SEC-C-markers",
+      "VideoToBltBuffer-independent-BGR",
+      "BufferToVideo-tight-pitch",
+      "VideoToVideo-horizontal-overlap",
+      "BltBufferToVideo",
+      "VideoToVideo-down-right",
+      "VideoToVideo-up-left",
+      "VideoToBltBuffer",
+      "invalid-operation",
+      "null-fill",
+      "empty-width",
+      "off-screen",
+      "short-pitch",
+      "row-overflow"
+    ],
+    "observedInBothCases": {
+      "fillBltInputHex": "1958c3fe",
+      "fillPackedPixelHex": "1958c3",
+      "secCMarkerColorsInMemoryOrder": [
+        "blue",
+        "white",
+        "blue",
+        "red",
+        "black",
+        "red"
+      ],
+      "secCMarkerBltInputHex": "ff0000a1ffffffa2ff0000a30000ffa4000000a50000ffa6",
+      "secCMarkerPackedRowHex": "ff0000ffffffff00000000ff0000000000ff",
+      "independentPackedSeedHex": "0000ff00ff00ff0000d46a19",
+      "independentBltReadbackHex": "0000ff0000ff0000ff000000d46a1900"
+    }
+  },
+  "negativeControl": {
+    "fdSha256": "39cca2b407587ce474e7f2780449acb5e0f840943e2cf77aaff0271adde490ab",
+    "model": "archived RGB firmware and its matching symbols",
+    "el": 1,
+    "firstFailingCheck": "VideoFill",
+    "exitCode": 1,
+    "expectedPackedPixelHex": "1958c3",
+    "observedPackedPixelHex": "c35819"
+  },
+  "headsetAccessed": false,
+  "physicalGop": "UNTESTED"
+}

@@ -75,14 +75,28 @@ offline validation and cannot be used for the normal FD.
 wsl -d Debian -- python3 tests/gop_model_qemu.py
 ```
 
+The test accepts `--report <new-file.json>` to save both runs. To test an
+archived build, pass `--build-dir <directory>` pointing to its `FV/` image
+and matching `AARCH64/` SEC and DXE symbols.
+
 This profile maps a reserved 1440 × 2560 surface in emulated RAM and dispatches
 the original `InheritedGopDxe` driver after TrustMeBro. UEFI applications can
 find the protocol with `LocateProtocol`. The single `PixelBltOnly` mode
-translates UEFI BLT pixels into a packed 24-bit surface. RGB byte order is a
-QEMU test convention. On the Go, `SEC_C` identified byte 0 as blue and byte 2
-as red in the inherited surface. [Physical record](evidence/sec-c-transfer-20261118.json)
+translates four-byte UEFI BLT pixels (blue, green, red, reserved) into three
+bytes on the model surface (blue, green, red). Readback returns zero in the
+reserved byte. On the Go, `SEC_C` identified byte 0 as blue and byte 2 as
+red in the inherited SEC surface. [Physical record](evidence/sec-c-transfer-20261118.json)
 
-The November 18 build produced FD
+The BGR firmware at revision `7f5380e` passed 22 calls at EL1 and 22 at
+EL2. Uploading six marker pixels reproduced the SEC color groups in memory.
+For readback, the test seeded a different address directly with primary and
+mixed colors before calling the protocol. It also checked the guard bytes,
+overlapping copies and error paths. With the earlier RGB firmware and its
+matching symbols, the same test reached DXE and rejected the first mixed
+fill: it read `c3 58 19` where it expected `19 58 c3`.
+[BGR firmware hash, samples and test results](evidence/gop-bgr-qemu-20261118.json)
+
+The earlier RGB control build produced FD
 `39cca2b407587ce474e7f2780449acb5e0f840943e2cf77aaff0271adde490ab`.
 Its input audit accepted 7 project files, 434 upstream files and 147 generated
 files (report SHA-256 `64d344fc33e57f12923be48db61b2b7945c09cdea640b9df984f4fe92c98de46`).

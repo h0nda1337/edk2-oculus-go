@@ -13,7 +13,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | SEC to DXE in QEMU | PASS: EL1 and EL2, HOBs, memory setup, decompression and loaded DXE entry |
 | Execution on Oculus Go | M2 CONFIRMED in terminal SEC by the operator's visual observation on November 18 |
 | SEC private stack and C color checkpoint | CONFIRMED on the Go. After the stack witness check, C drew the observed blue–white–blue and red–black–red groups. Byte 0 is blue and byte 2 is red in the inherited framebuffer. Return from C is verified only in QEMU. [Physical record](evidence/sec-c-transfer-20261118.json) |
-| UEFI Graphics Output Protocol | `GOP_MODEL` installed and exercised by DXE in QEMU EL1 and EL2. Physical GOP untested |
+| UEFI Graphics Output Protocol | Packed BGR in `GOP_MODEL` passed 22 calls each in QEMU EL1 and EL2. Physical GOP untested. [Raw color samples and control](evidence/gop-bgr-qemu-20261118.json) |
 | Storage/USB/ACPI/Windows | Pending |
 
 The original offline FD below passed the early-entry, SEC and DXE tests. No emulator-only

@@ -39,6 +39,8 @@ DEBUG message alone does not provide visible output. The GOP_MODEL profile
 installs the graphics protocol after TrustMeBro in emulated DXE.
 On November 18 the separate terminal SEC image took the visual branch after
 the entry guards and the owner saw the four colors on the physical panel.
-Execution on the headset has been established to this point. Stack setup
-and the rest of the normal flow above still require physical evidence.
+The subsequent `SEC_C` pattern was drawn by C after reading a witness from
+a stack inside the loaded image. The normal high-RAM stack, translation
+tables and dispatch of DXE drivers still require physical evidence.
+[SEC C trial](evidence/sec-c-transfer-20261118.json)
 The current FV contains no BDS/Windows boot path or board storage/USB driver.
