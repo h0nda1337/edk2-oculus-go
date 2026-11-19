@@ -26,7 +26,11 @@ EARLY = ('dcache','wrong-x0','relocated','dirty-pool','dirty-guard','arena-readb
 
 
 def validate_reports(model, static, digest):
-    require(model['result']=='PASS-QEMU-DXE-MEM' and static['result']=='PASS-STATIC-DXE-MEM'
+    validate_memory_cases(model, static, digest, 'DXE-MEM', {})
+
+
+def validate_memory_cases(model, static, digest, profile, additional_cases):
+    require(model['result']=='PASS-QEMU-'+profile and static['result']=='PASS-STATIC-'+profile
             and model['fdSha256']==static['fdSha256']==digest and model['vectors']['slotsVerified']==16,
             'Unverified FD or vectors')
     for k in ('innerFvSha256','peSha256','secElfSha256','coreElfSha256'):
@@ -34,6 +38,7 @@ def validate_reports(model, static, digest):
     cases={k:(terminal,pattern) for terminal,(pattern,group) in OUTCOMES.items() for k in group}
     cases.update({k:('MmuRejected','untouched') for k in EARLY})
     cases['bad-fv']=('MmuRejected','hobs')
+    cases.update(additional_cases)
     missing={(el,k) for el in (1,2) for k in cases}
     for row in model['cases']:
         k=row['case']
@@ -44,7 +49,7 @@ def validate_reports(model, static, digest):
         if row['terminal']!='MmuRejected':
             require(row['innerFvMatched'] and row['pageTablesMatched']
                     and int(row['entry'],16)==int(row['coreBase'],16)+static['entryRva'],'Unverified handoff')
-        if row['terminal'] in ('TrialMemoryComplete','TrialMemoryRejected'):
+        if row['terminal'] in ('TrialMemoryComplete','TrialMemoryRejected') or k in additional_cases:
             lo,hi=(int(s,16) for s in row['freeWindow'])
             pages,pool=int(row['pages'],16),int(row['pool'],16)
             require(row['initReturnedSuccess'] and row['witnessBytes']==8449 and
@@ -56,7 +61,7 @@ def validate_reports(model, static, digest):
             require(row['resourceRejectedBeforeInit'] is True,'Unqualified resource was accepted')
         if k=='map-type':
             require(row['alteredDescriptorRejected'] is True,'Descriptor control did not reject')
-        if row['terminal']=='TrialMemoryComplete':
+        if row['terminal']=='TrialMemoryComplete' or k in additional_cases:
             a,b=row['mapKeys']
             require(a!=b and row['loaderPagesReturnedToConventional'] and row['freePoolSuccess'],
                     'Missing memory release evidence')

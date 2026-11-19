@@ -31,7 +31,7 @@ def observe_arena(g,read,write,stop,sec,case):
             'Arena and both guards were not restored before HOB construction')
 
 
-def observe_services(g,read,write,stop,screen,core,base,case):
+def observe_services(g,read,write,stop,screen,core,base,case,after_memory=None):
     def word(address):
         return struct.unpack('<Q',read(address,8))[0]
     def arrive(name):
@@ -141,6 +141,9 @@ def observe_services(g,read,write,stop,screen,core,base,case):
     returned('FreePages')
     key_free,n_free=observe_map(7)
     require(key_free!=key_live,'Memory map key did not change')
+    evidence.update(mapKeys=[key_live,key_free], mapDescriptorCounts=[n_live,n_free],
+                    loaderPagesReturnedToConventional=True, freePoolSuccess=True)
+    if after_memory:
+        return after_memory(evidence)
     arrive('TrialMemoryComplete')
-    return 'TrialMemoryComplete','memory',{**evidence,'mapKeys':[key_live,key_free],
-            'mapDescriptorCounts':[n_live,n_free],'loaderPagesReturnedToConventional':True,'freePoolSuccess':True}
+    return 'TrialMemoryComplete','memory',evidence

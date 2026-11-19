@@ -25,8 +25,9 @@ def screen(stage):
     if stage == 'untouched':
         return data
     side = {'hobs':'ff0000','fv':'00ffff','branch':'ffff00','core':'00ff00',
-            'services':'0080ff','memory':'ff0000'}[stage]
-    center = {'core':'ff00ff','memory':'00ff00'}.get(stage,'000000')
+            'services':'0080ff','memory':'ff0000','image':'00ffff',
+            'relocated-hobs':'0080ff','gcd':'ff00ff'}[stage]
+    center = {'core':'ff00ff','memory':'00ff00','image':'ff00ff','relocated-hobs':'ffffff','gcd':'ffff00'}.get(stage,'000000')
     row = b''.join(bytes.fromhex(c)*288 for c in ('ffffff',side,center,side,'ffffff'))
     for start,end in band_ranges():
         pos = start - FB_BASE + GUARD
@@ -66,7 +67,7 @@ def hobs(read, fv, target, meta):
         if kind==5:
             found.append(struct.unpack_from('<QQ',blob,offset+8))
         if kind==3:
-            resources.append(struct.unpack_from('<QQ',blob,offset+32))
+            resources.append(struct.unpack_from('<IIQQ',blob,offset+24))
         if kind==2 and size==72 and blob[offset+48:offset+64]==CORE.bytes_le:
             base,length=struct.unpack_from('<QQ',blob,offset+24)
             entry,=struct.unpack_from('<Q',blob,offset+64)
@@ -78,7 +79,10 @@ def hobs(read, fv, target, meta):
             require(size==8 and POOL+offset==end,'Incorrect HOB terminator')
             break
         offset+=size
-    require(POOL+offset==end and kind==0xffff and module and resources==[(POOL,LIMIT-POOL)]
+    expected = [(0, 0x407 if meta['result'] != 'PASS-STATIC-SEC-DXE' else 0x403, POOL, LIMIT-POOL)]
+    if meta['result'] == 'PASS-STATIC-DXE-GCD':
+        expected.append((5, 0x403, STACK, TOP-STACK))
+    require(POOL+offset==end and kind==0xffff and module and resources==expected
             and len(found)==2 and found[0]==(0x80081000,0x7f000),'Missing resource, module, or FV HOB')
     addr,size=found[1]
     require(module[1]+module[2]<=addr and size==len(fv) and addr+size<=LIMIT and read(addr,size)==fv,
@@ -201,7 +205,8 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
             if memory:
                 require(read(fv_base,len(fv))==fv and read(base+a,b-a)==original_text and
                         read(TABLE,len(checked))==checked,'Core altered firmware, executable text or translations')
-                if case not in ('bad-module','untested-resource'):
+                if case not in ('bad-module','untested-resource') and not measurement.get('relocatedHobs'):
+                    # Upstream GCD may reuse the original HOB storage after migration.
                     require(read(POOL,hob_bytes)==original_hobs,'Core altered the input HOB list')
             runtime={**measurement,'coreBase':hex(base),'entry':hex(entry),'dxeMain':hex(base+core['DxeMain']),
                      'terminalPc':hex(g.register(32)),'innerFvBase':hex(fv_base),'remainingArenaBytes':free_bytes,
@@ -224,9 +229,11 @@ def main():
     a=arguments()
     fd,fv,pe=(p.read_bytes() for p in (a.fd,a.fv,a.pe))
     memory=None
-    if a.memory:
+    if a.gcd:
+        import dxe_gcd_trace as memory
+    elif a.memory:
         import dxe_memory_trace as memory
-    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory)
+    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd)
     names=symbols(a.sec_elf)
     bias=int(verify(fd)['secEntryAddress'],16)-names['_ModuleEntryPoint']
     sec={k:v+bias for k,v in names.items()}
@@ -241,7 +248,7 @@ def main():
             for case in ((*CASES,*memory.EXTRA_CASES) if memory else CASES):
                 print(f'EL{el} {case}',flush=True)
                 cases.append(exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case,memory))
-    a.report.write_text(json.dumps({**meta,'result':'PASS-QEMU-DXE-MEM' if memory else 'PASS-QEMU-SEC-DXE','vectors':vectors,'cases':cases},indent=2)+'\n')
+    a.report.write_text(json.dumps({**meta,'result':'PASS-QEMU-DXE-GCD' if a.gcd else 'PASS-QEMU-DXE-MEM' if memory else 'PASS-QEMU-SEC-DXE','vectors':vectors,'cases':cases},indent=2)+'\n')
 
 
 if __name__=='__main__':
