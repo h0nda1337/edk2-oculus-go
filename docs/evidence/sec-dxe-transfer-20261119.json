@@ -41,7 +41,21 @@
     "earlierPatternsReported": false
   },
   "recovery": {
-    "status": "PENDING"
+    "operatorReportedSpanish": "Android arrancó y reconecté USB",
+    "preflightStartUtc": "2026-11-19T06:06:04Z",
+    "reportSha256": "84d20071c1066f57253c17bfe1c7b5998ca41bcfa9ebb75524bad26cf95444ec",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "product": "pacific",
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
   },
   "physicalFindings": {
     "upstreamDxeMainReached": "CONFIRMED-DEVICE",
