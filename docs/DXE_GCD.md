@@ -15,9 +15,15 @@ El despachador de esta revisión de EDK2 conserva un puntero al GUID del módulo
 
 La imagen registrada en esta prueba es DXE Core. La carga de otro ejecutable con `LoadImage` y `StartImage`, el despacho de drivers, el GOP físico y la Shell son hitos posteriores. La prueba consulta el mapa GCD de memoria. El espacio de puertos de E/S queda fuera de la medición.
 
-## Resultado del candidato
+## Resultado en el Oculus Go
 
-QEMU 10.0.13 ejecutó 38 casos sobre el FD extraído del contenedor. En EL1 y EL2 se alcanzó `TrialGcdComplete` con la caché de instrucciones inicialmente encendida y apagada. Los otros 34 casos terminaron en el punto de rechazo previsto. La prueba comparó las dos bandas completas y sus guardas. La segunda ejecución produjo informes estático y de QEMU idénticos byte por byte. La ejecución en el visor sigue pendiente para este perfil. [Informe por caso](evidence/dxe-gcd-qemu-20261119.json) · [Revisión de la imagen](evidence/dxe-gcd-review-20261119.json)
+El 19 de noviembre de 2026, el operador observó «blanco, morado, celeste, morado, blanco» tras el arranque temporal con `Secure boot: true`. El centro celeste y los lados morados coinciden con la señal final de esta imagen. Esa señal confirma en el visor la consulta del protocolo de imagen cargada, la migración de los HOB con la página original preservada, la clasificación y propiedad de la RAM y de la pila, y la liberación del buffer del mapa GCD. Los valores numéricos de los punteros y el nivel de excepción del visor siguen sin medirse. [Registro físico](evidence/dxe-gcd-transfer-20261119.json)
+
+Android completó el arranque en el slot A. ADB estuvo temporalmente `offline` y una primera lectura de `boot_a` llegó incompleta. La repetición leyó los 130 MiB de `aboot_a`, `aboot_b`, `boot_a` y `boot_b`. Los cuatro SHA-256 coincidieron con la lectura anterior al ensayo y con los respaldos originales. [Comprobación posterior](evidence/dxe-gcd-transfer-20261119.json)
+
+## Resultado en QEMU
+
+QEMU 10.0.13 ejecutó 38 casos sobre el FD extraído del contenedor. En EL1 y EL2 se alcanzó `TrialGcdComplete` con la caché de instrucciones inicialmente encendida y apagada. Los otros 34 casos terminaron en el punto de rechazo previsto. La prueba comparó las dos bandas completas y sus guardas. La segunda ejecución produjo informes estático y de QEMU idénticos byte por byte. [Informe por caso](evidence/dxe-gcd-qemu-20261119.json) · [Revisión de la imagen](evidence/dxe-gcd-review-20261119.json)
 
 | Medición en los cuatro arranques positivos | Resultado |
 | --- | --- |

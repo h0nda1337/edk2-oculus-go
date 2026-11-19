@@ -1,0 +1,87 @@
+{
+  "dateMexicoCity": "2026-11-19",
+  "scope": "terminal-edk2-dxe-image-gcd",
+  "revision": "e34d10118f799cc253584ce9c0fac3f3aabe4fae",
+  "reviewSha256": "912720823231cc3a7346df7a678bb1302df6697cf46d083bd26770c7458d8b58",
+  "preflightStartUtc": "2026-11-19T16:34:05Z",
+  "preflightReportSha256": "3bd3b573c16dd3c0a26b4a219d727e364a9110dbac17897979491eb5ede73d15",
+  "preflightResult": "PASS-READONLY",
+  "partitionsMatchedBefore": [
+    "aboot_a",
+    "aboot_b",
+    "boot_a",
+    "boot_b"
+  ],
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferSessionStartUtc": "2026-11-19T16:35:15.912369Z",
+  "transferReportSha256": "e89419bd10a3a9e8aac56052cd2374837362b88879eb3a2975d75b661c875dd5",
+  "fastbootBootStderrSha256": "eb69d7712d172727862ee283053e046510127d6d759856b1dfbc7b639b6db7d1",
+  "imageSha256": "a0594d52bd4077dec0e940b9aff68a298003135f9bef8818a327abf8c145a5d2",
+  "fdSha256": "b5a56101b528ebbb3343606fa6cba4030074b6f4a8c26fb3f3ec8d2909c1534e",
+  "imageBytes": 462848,
+  "fastbootReport": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "physicalDxeGcdExecutionAtHostCommandExit": "UNKNOWN",
+  "operatorObservationAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "blanco, morado, celeste, morado, blanco",
+    "centerAsReported": "celeste",
+    "matchesReviewedMagentaSidesCyanCenter": true,
+    "eyeCoverage": "UNKNOWN",
+    "earlierPatternsReported": false
+  },
+  "recovery": {
+    "operatorReportedSpanish": "Android arrancó y reconecté el USB",
+    "preflightStartUtc": "2026-11-19T16:38:45Z",
+    "reportSha256": "f5fccbb107f90e3b00d6ca84a7397be885e1e29ef3883194ba1d6f535ddc123a",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "root": true,
+    "product": "pacific",
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    },
+    "earlierReadback": {
+      "adbTemporarilyOffline": true,
+      "scopedTransportReconnectRequested": true,
+      "result": "FAIL",
+      "partition": "boot_a",
+      "error": "Incomplete partition read: 21780475 / 67108864",
+      "reportSha256": "5cb7192782c58820a72e333e909a7be420797be7debc533ab41acf78f9edc7e9",
+      "usedForFinalHashes": false
+    }
+  },
+  "physicalFindings": {
+    "earlyDxeImageAndGcdServices": "CONFIRMED-DEVICE",
+    "source": "OculusGoPkg/DxeCheckpoint/ImageGcd.c",
+    "checkpoint": "Final TrialPaint immediately preceding TrialGcdComplete",
+    "evidence": "Operator reported the final five-band pattern. This diagnostic paints it only after all image, HOB and GCD checks pass.",
+    "loadedImageProtocolOnCoreHandleMatchedModule": true,
+    "gcdInitializerReturnedSuccess": true,
+    "relocatedHobsMatchedOriginalSnapshot": true,
+    "originalGuidPageVerifiedAs": "EfiBootServicesData",
+    "systemMemoryBytesValidated": 1572864,
+    "reservedStackBytesValidated": 65536,
+    "arenaAndStackOwnedByDxeCore": true,
+    "gcdMapBufferFreed": true,
+    "physicalExceptionLevel": "UNKNOWN",
+    "numericHobPointersAndMapEntriesIndependentlyCapturedOnDevice": false,
+    "childImageLoadStartDriverDispatchPhysicalGopShell": "UNTESTED"
+  }
+}

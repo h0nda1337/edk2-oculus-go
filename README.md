@@ -49,7 +49,7 @@ The Go reached upstream DxeMain in the SEC_DXE trial. The operator saw white, gr
 
 DXE_MEM reached its green-center checkpoint on the Go. Upstream DXE Boot Services allocated two pages and a 257-byte pool. The diagnostic verified all 8,449 bytes and checked that the pages returned to conventional memory after release. Android booted on slot A, and the four bootloader and boot partition hashes matched the preflight and original backups. [Physical record](docs/evidence/dxe-mem-transfer-20261119.json) · [Diagnostic and QEMU results](docs/DXE_MEM.md)
 
-The next diagnostic, `DXE_GCD`, runs upstream image registration and GCD initialization with the active stack reserved and the original module GUID kept in allocated memory. The previous physical milestone is DXE_MEM. [DXE_GCD and its checkpoints](docs/DXE_GCD.md)
+The Go completed `DXE_GCD`. The operator saw a light-blue center between purple bands and white ends. DXE Core looked up its Loaded Image protocol, verified the relocated HOB list and its original GUID page, and confirmed ownership of the 1.5 MiB arena and reserved 64 KiB stack in the GCD memory map. [Physical record](docs/evidence/dxe-gcd-transfer-20261119.json) · [Checkpoint definitions](docs/DXE_GCD.md)
 
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
