@@ -34,7 +34,12 @@ diagnostic. The owner saw its four colors. Android booted again on slot A
 and all four full `boot` and `aboot` readbacks matched the original backups.
 [Measurement and recovery evidence](docs/evidence/sec-visual-transfer-20261118.json)
 
-The diagnostic stops before stack setup. DXE, a working GOP protocol and
-Windows boot on the physical unit remain future milestones. The trial is
-consumed. The owner is notified before physical work and separately authorizes
-partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
+A second temporary image, `SEC_C`, drew its markers from C after checking a
+witness on its private stack. The owner saw blue on both sides of white and
+red on both sides of black. This identifies byte 0 as blue and byte 2 as red
+in the inherited packed framebuffer, consistent with BGR.
+[Physical SEC C observation](docs/evidence/sec-c-transfer-20261118.json)
+
+DXE, a working GOP protocol and Windows boot on the physical unit remain
+future milestones. The owner is notified before physical work and separately
+authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)

@@ -7,7 +7,7 @@
 | Generic timer | Official kernel arch_timer | EDK2 TimerDxe / Windows GTDT | Allowed EDK2 | 19.2 MHz confirmed; delivered EL permissions UNKNOWN |
 | UFS | Official kernel Qualcomm UFS | UNKNOWN | No import | No Block I/O driver enabled |
 | USB DWC3 | Official kernel Qualcomm/DWC3 | UNKNOWN | No import | No USB controller code enabled |
-| Display | Official kernel MDSS/panel | Original InheritedGopDxe | No import | Physical SEC colors observed. GOP installed and BLT tested in emulated DXE. Physical DXE/GOP, channel order and persistence through MMU setup remain unverified |
+| Display | Official kernel MDSS/panel | Original InheritedGopDxe | No import | On the Go at SEC, byte 0 displays blue and byte 2 red. QEMU GOP uses an RGB model convention. Physical GOP and scanout through MMU setup and DXE remain unverified. [Physical record](evidence/sec-c-transfer-20261118.json) |
 | Adreno 530 | Official kernel KGSL | UNKNOWN | No import | Deferred until framebuffer/GOP |
 | Battery, audio, wireless, sensors | Official kernel, per-device evidence needed | UNKNOWN | No import | Deferred |
 

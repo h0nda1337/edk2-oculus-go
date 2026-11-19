@@ -79,7 +79,8 @@ This profile maps a reserved 1440 × 2560 surface in emulated RAM and dispatches
 the original `InheritedGopDxe` driver after TrustMeBro. UEFI applications can
 find the protocol with `LocateProtocol`. The single `PixelBltOnly` mode
 translates UEFI BLT pixels into a packed 24-bit surface. RGB byte order is a
-test convention. The physical SEC colors are invariant under red/blue swap.
+QEMU test convention. On the Go, `SEC_C` identified byte 0 as blue and byte 2
+as red in the inherited surface. [Physical record](evidence/sec-c-transfer-20261118.json)
 
 The November 18 build produced FD
 `39cca2b407587ce474e7f2780449acb5e0f840943e2cf77aaff0271adde490ab`.
@@ -92,6 +93,6 @@ is `bac0686eb46ea805eed644674fdbe0eb1fe7099f3219da415360acf8bb5ffb0c`.
 The headless tests inspect memory. They do not establish that a visor retains
 scanout through physical DXE or that a Windows display driver will bind.
 
-The separate [SEC C build and tests](SEC_C.md) cover the next attended
+The separate [SEC C build and tests](SEC_C.md) cover the November 18
 measurement. Building either diagnostic leaves the normal DEBUG firmware
 byte-identical to its November 13 baseline, as verified on November 18.

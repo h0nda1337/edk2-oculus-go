@@ -20,5 +20,38 @@
   "partitionWriteCommandIssued": false,
   "physicalSecCExecutionAtHostCommandExit": "UNKNOWN",
   "operatorObservationAtHostCommandExit": "PENDING",
-  "postRecoveryReadbackAtHostCommandExit": "PENDING"
+  "postRecoveryReadbackAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "en orden de arriba hacia abajo: rojo, negro, rojo, azul, blanco, azul",
+    "observationDirection": "top-to-bottom as seen by the operator",
+    "neighborsOfWhite": ["blue", "blue"],
+    "neighborsOfBlack": ["red", "red"],
+    "eyeCoverage": "UNKNOWN"
+  },
+  "physicalFindings": {
+    "secCStackWitnessAndFramebufferStores": "CONFIRMED",
+    "scope": "The reviewed function used its temporary stack, wrote and read the volatile witness and reached its framebuffer stores on this unit.",
+    "observedByte0": "blue",
+    "observedByte2": "red",
+    "packedByteOrder": "consistent with BGR in the inherited SEC framebuffer",
+    "returnFromCOnHardware": "UNKNOWN",
+    "physicalGop": "UNTESTED"
+  },
+  "recovery": {
+    "operatorReportedSpanish": "Android arrancó y ya reconecté USB",
+    "preflightStartUtc": "2026-11-19T03:47:54Z",
+    "reportSha256": "237dc72a2a1423503ec69f1272b938e98b7384c05408bc2c47ddd3227e0895ca",
+    "result": "PASS-READONLY",
+    "bootCompleted": true,
+    "sameUnitAsPreflight": true,
+    "product": "pacific",
+    "slot": "_a",
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
 }

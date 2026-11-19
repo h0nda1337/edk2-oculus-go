@@ -36,11 +36,12 @@ de color para poder leer el resultado incluso con la imagen girada.
 | Azul a ambos lados de la marca blanca y rojo a ambos lados de la negra | Orden compatible con B, G, R |
 | Marcas o colores ambiguos, pantalla negra o logo fijo | Registrar lo observado y mantener el orden como desconocido |
 
-Ver el patrón nuevo demostraría que se alcanzaron las escrituras de la
-función C después de leer el testigo. El regreso desde C se observa con
-puntos de parada en QEMU. El patrón por sí solo no demuestra ese regreso en
-hardware. El estado del watchdog y la respuesta del visor a una excepción
-temprana siguen sin medirse.
+El propietario observó «en orden de arriba hacia abajo: rojo, negro, rojo, azul, blanco, azul».
+Las dos marcas identifican el primer
+byte como azul y el tercero como rojo en el framebuffer heredado. El patrón
+confirma que la función C dibujó después de comprobar el testigo de pila.
+La dirección de barrido del panel sigue sin determinarse. El retorno desde
+C se verificó en QEMU. [Registro físico](evidence/sec-c-transfer-20261118.json)
 
 ## Pruebas offline
 
@@ -73,7 +74,7 @@ abarcan 52 bytes en `[0x80080fcc, 0x80081000)`. Las dos bandas ocupan
 fuentes aceptó 5 archivos propios, 434 de EDK2 y 144 generados.
 [Revisión y hashes de los informes](evidence/sec-c-review-20261118.json)
 
-## Próxima sesión con el visor
+## Ensayo físico del 18 de noviembre
 
 La imagen local `local/OculusGo-SEC-C-20261118.img` ocupa 487424 bytes. Su
 SHA-256 es `3cd2cbfd824ca726029e8810abbfb12a90f5b1653155c972a109a68ccc5d5055`.
@@ -83,27 +84,22 @@ La comprobación por defecto lee sólo archivos del PC:
 python tools/run_sec_c_once.py
 ```
 
-El ensayo físico requiere avisar primero al propietario y terminar el turno.
-En una sesión posterior, con el visor a mano y Android operativo, se comprueban
-de nuevo las cuatro particiones originales. El ejecutor exige un informe de
-menos de una hora, un único equipo con el número de serie indicado, el slot
-`_a` y los dos indicadores de Secure Boot activos en el menú original.
-El envío, si se cumplen las condiciones, equivale a este comando desde la raíz:
+Antes del envío, el ejecutor comprobó los hashes de las cuatro particiones
+en el informe de Android y verificó el visor, el slot `_a` y los dos
+indicadores de Secure Boot en Fastboot. El único intento se consumió al
+reservar el envío temporal a RAM. El comando registrado equivale a:
 
 ```powershell
 fastboot -s <serie-local-verificada> boot local/OculusGo-SEC-C-20261118.img
 ```
 
-La sesión utiliza el ejecutor con `--execute --operator-present`,
-`--fastboot`, `--expected-serial` y `--preflight`. Antes del envío reserva
-un solo intento, incluso si Fastboot pierde la conexión. La transferencia va
-a RAM. El diagnóstico termina deliberadamente en un bucle. Puede quedarse
-el logo fijo, desaparecer USB o quedar la pantalla en negro. Tras observar
-unos 15 segundos, anotar qué color toca ambos lados de la marca blanca y,
-si se distingue, qué color toca la negra.
-
+El diagnóstico tiene un bucle terminal después del retorno desde C.
 Para recuperar desde ese estado se desconecta USB y se mantiene sólo Power.
 Soltar al apagarse o al llegar a 20 segundos. Si se apaga, usar Power y
 volumen menos hasta el menú original y elegir únicamente **Boot device**.
 Si falla el apagado o el menú, detener la prueba y registrar lo ocurrido.
-Tras volver a Android se comprueban otra vez los cuatro hashes completos.
+El propietario confirmó el regreso a Android. ADB verificó el arranque
+completo en el mismo visor y slot A. Se volvieron a leer los 130 MiB de
+`aboot_a`, `aboot_b`, `boot_a` y `boot_b`. Los cuatro SHA-256 coinciden con
+los de antes del ensayo y con las copias originales.
+[Hashes y observación del propietario](evidence/sec-c-transfer-20261118.json)
