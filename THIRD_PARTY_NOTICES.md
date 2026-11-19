@@ -22,3 +22,9 @@ does not grant redistribution rights over them.
 No external driver or user-repository code is imported at this revision.
 Future imports must record original copyright, license, repository, commit,
 file and changes here before being built.
+
+The DXE_DISPATCH trial links upstream DevicePathDxe unchanged from
+[TianoCore at the pinned revision](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf).
+The driver sources are `MdeModulePkg/Universal/DevicePathDxe/DevicePath.c`
+and `DevicePathDxe.inf`, under BSD-2-Clause-Patent. The platform selects
+Device Path Utilities and disables the optional text conversion interfaces.

@@ -3,6 +3,9 @@
 #include <Base.h>
 #include <Chipset/AArch64Mmu.h>
 #include "Layout.h"
+#ifdef OCULUS_GO_DXE_DISPATCH
+#include <Trial/DispatchLayout.h>
+#endif
 #ifdef OCULUS_GO_SEC_DXE
 #include <Trial/DxeLayout.h>
 #define TEXT_RANGE_PARAMS , UINTN TextBase, UINTN TextEnd
@@ -20,6 +23,9 @@ STATIC CONST UINT32 Windows[] = {0x80000000, 0x80400000, 0x83600000, 0x83a00000,
   , GO_DXE_POOL
 #endif
 };
+#ifdef OCULUS_GO_DXE_DISPATCH
+STATIC_ASSERT (GO_ARENA_L3 == GO_TABLE_BASE + (ARRAY_SIZE (Windows) + 1) * GO_PAGE_BYTES, "arena L3 page");
+#endif
 STATIC_ASSERT (ARRAY_SIZE (Windows) + 2 == GO_TABLE_COUNT, "L3 table count");
 STATIC_ASSERT (GO_TABLE_BASE + GO_TABLE_COUNT * GO_PAGE_BYTES < GO_STACK_PAGE, "workspace overlap");
 STATIC_ASSERT ((GO_BAND_BYTES + GO_PAGE_BYTES - 1) / GO_PAGE_BYTES == GO_BAND_PAGES, "band coverage");
@@ -57,6 +63,9 @@ Descriptor (UINTN Table, UINTN Index, UINTN El TEXT_RANGE_PARAMS)
   if (((Address >= GO_STACK_PAGE) && (Address < GO_STACK_TOP)) ||
 #ifdef OCULUS_GO_DXE_DEBUG
       (Address == GO_DEBUG_PAGE) ||
+#ifdef OCULUS_GO_DXE_DISPATCH
+      (Address == GO_ARENA_L3) ||
+#endif
 #endif
       ((Address >= GO_DXE_POOL) && (Address < GO_DXE_POOL_END)) ||
 #else

@@ -112,6 +112,12 @@ __wrap_CoreNewDebugImageInfoEntry (UINT32 Type, EFI_LOADED_IMAGE_PROTOCOL *Image
   EFI_DEBUG_IMAGE_INFO_TABLE_HEADER *Header;
   EFI_DEBUG_IMAGE_INFO_NORMAL *Record;
   EFI_SYSTEM_TABLE_POINTER Locator;
+#ifdef OCULUS_GO_DXE_DISPATCH
+  if (Image != gDxeCoreLoadedImage && Handle != gDxeCoreImageHandle) {
+    __real_CoreNewDebugImageInfoEntry (Type, Image, Handle);
+    return;
+  }
+#endif
   if (Image != gDxeCoreLoadedImage || Handle != gDxeCoreImageHandle || Type != EFI_DEBUG_IMAGE_INFO_TYPE_NORMAL) {
     TrialDebugRejected ();
   }
@@ -134,6 +140,10 @@ __wrap_CoreNewDebugImageInfoEntry (UINT32 Type, EFI_LOADED_IMAGE_PROTOCOL *Image
     TrialDebugRejected ();
   }
   TrialPaint (0xff0000, 0x00ffff);
+#ifdef OCULUS_GO_DXE_DISPATCH
+  return;
+#else
   __asm__ volatile (".global TrialDebugComplete\nTrialDebugComplete: b TrialDebugComplete");
   __builtin_unreachable ();
+#endif
 }
