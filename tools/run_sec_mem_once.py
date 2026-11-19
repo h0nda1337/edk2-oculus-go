@@ -2,18 +2,15 @@
 
 Live mode belongs to a later, owner-attended Windows session. SPDX-License-Identifier: BSD-2-Clause-Patent
 """
-import argparse
-from datetime import datetime, timezone
 import json
-import os
 from pathlib import Path
 import re
 import subprocess
 import zlib
 
+from attended_terminal import attended_main, measure_once
 from android_boot import DTB_SHA, HEADER, PAGE, verify_container
-from inspect_fastboot import FASTBOOT_SHA256, QUERIES, require_device, validate_replies
-from run_sec_c_once import capture, check_readback, locked_input, require
+from run_sec_c_once import capture, check_readback, require
 from run_sec_visual_once import checked_file, sha
 from verify_fd import verify
 
@@ -116,68 +113,11 @@ def reviewed_inputs(root, review):
 
 
 def measure(root, image, tool, serial, preflight, report, output):
-    ledger = root / LEDGER
-    require(not ledger.exists(), 'SEC_MEM attempt already consumed')
-    before = check_readback(root, preflight, serial, datetime.now(timezone.utc))
-    report['preflightSha256'] = before
-    require_device(capture(tool, serial, output, report, 'devices', ['devices', '-l'], 10), serial)
-    replies = {key: capture(tool, serial, output, report, key, args, 10) for key, args in QUERIES}
-    report['bootloader'] = validate_replies(replies)
-    require(check_readback(root, preflight, serial, datetime.now(timezone.utc)) == before,
-            'Android evidence changed before transfer')
-    ledger.parent.mkdir(parents=True, exist_ok=True)
-    with ledger.open('x', encoding='utf-8', newline='\n') as stream:
-        json.dump({'status': 'CONSUMED-BEFORE-SEND', 'reservedUtc': datetime.now(timezone.utc).isoformat(),
-                   'imageSha256': report['imageSha256'], 'reviewSha256': report['reviewSha256'],
-                   'logDirectory': output.name}, stream, indent=2)
-        stream.write('\n')
-        stream.flush()
-        os.fsync(stream.fileno())
-    report['attemptConsumed'] = True
-    report['temporaryBootCommandIssued'] = True
-    response = capture(tool, serial, output, report, 'temporary-boot', ['boot', str(image)], 20)
-    require(re.search(r"(?m)^Sending 'boot.img'.*\bOKAY\b", response)
-            and re.search(r'(?m)^Booting\s+OKAY\b', response), 'Incomplete Fastboot acknowledgement')
-    report['result'] = 'COMMAND-ACCEPTED-EXECUTION-UNKNOWN'
+    measure_once(root, LEDGER, image, tool, serial, preflight, report, output, capture, check_readback)
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--execute', action='store_true')
-    parser.add_argument('--operator-present', action='store_true')
-    parser.add_argument('--preflight', type=Path)
-    parser.add_argument('--fastboot', type=Path)
-    parser.add_argument('--expected-serial')
-    args = parser.parse_args()
-    review_bytes = (ROOT / REVIEW).read_bytes()
-    review = json.loads(review_bytes)
-    image, prior_serial = reviewed_inputs(ROOT, review)
-    if not args.execute:
-        print(json.dumps({'result': 'PASS-OFFLINE-ONLY', 'deviceContacted': False,
-                          'imageSha256': review['image']['sha256'], 'ledgerAlreadyPresent': (ROOT / LEDGER).exists()}))
-        return
-    require(args.operator_present and args.preflight and args.fastboot and args.expected_serial == prior_serial,
-            'An attended session, matching local serial, explicit Fastboot and fresh Android preflight are required')
-    require(not (ROOT / LEDGER).exists(), 'SEC_MEM attempt already consumed')
-    require(not subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT).strip()
-            and subprocess.check_output(['git', 'show', 'HEAD:' + REVIEW], cwd=ROOT) == review_bytes,
-            'Live execution requires an intact committed checkout and review')
-    tool = args.fastboot.resolve(strict=True)
-    out = ROOT / 'local' / ('sec-mem-once-' + datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S-%f'))
-    out.mkdir()
-    report = {'result': 'IN-PROGRESS', 'commands': [], 'attemptConsumed': False,
-              'reviewSha256': sha(review_bytes), 'imageSha256': review['image']['sha256'],
-              'fdSha256': review['fd']['sha256'], 'temporaryBootCommandIssued': False,
-              'physicalSecMemExecution': 'UNKNOWN', 'partitionWriteCommandIssued': False}
-    try:
-        with locked_input(image, report['imageSha256']), locked_input(tool, FASTBOOT_SHA256):
-            measure(ROOT, image, tool, prior_serial, args.preflight, report, out)
-    except Exception as error:
-        report.update(result='FAIL', error=str(error))
-        raise
-    finally:
-        (out / 'REPORT.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8', newline='\n')
-        print(report['result'], out)
+    attended_main(ROOT, REVIEW, LEDGER, reviewed_inputs, 'sec-mem', measure)
 
 
 if __name__ == '__main__':
