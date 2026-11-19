@@ -24,6 +24,15 @@ import must extend `sources.lock.json` and this document with file/license/
 changes. A repository appearing under the user's account is not sufficient
 evidence that a driver matches this hardware.
 
+## SEC_MMU sources
+
+| Source | Revision and file | Contribution and confidence |
+| --- | --- | --- |
+| [Arm, Learn the Architecture, AArch64 memory management](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/Learn%20the%20Architecture/LearnTheArchitecture-MemoryManagement-101811_0100_00_en.pdf) | 101811_0100_00, v1.0, sections on translation tables and translation control | Primary architectural reference for stage 1, SCTLR, TCR, TTBR and MAIR. CONFIRMED architecture |
+| [TianoCore AArch64Mmu.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/ArmPkg/Include/Chipset/AArch64Mmu.h) | Pinned EDK2, BSD-2-Clause-Patent. Included unmodified by `OculusGoPkg/SecMmu/Tables.c` | Descriptor flags, attributes and permissions. CONFIRMED build input |
+| [TianoCore ArmMmuLibCore](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/ArmPkg/Library/ArmMmuLib/AArch64/ArmMmuLibCore.c) | Same pin and license, `ArmConfigureMmu` | Reviewed EL2 TCR RES1 bits, EL1 TG1 with EPD1, output width and MAIR. Reference for the original terminal sequence. CONFIRMED source |
+| [SEC_MMU evidence](evidence/sec-mmu-review-20261118.json) | Project `f39869d`, `OculusGoPkg/SecMmu/{Entry.S,Layout.h,Tables.c,Signal.c}` | Layout is derived from physical SEC_STACK and scanout evidence. Activation in the packaged image is CONFIRMED in QEMU. Physical result UNKNOWN |
+
 ## Local reconstruction evidence, verified 2026-10-25
 
 | Record | Revision / hash | Information | Confidence |

@@ -20,7 +20,7 @@ records data, not imported implementation. No new physical capture was made.
 All ends above are exclusive. The occupied FD is reserved. The normal
 memory map excludes splash `0x83400000..0x85800000`, secure carve-outs
 `0x85800000..0x91700000` and ramoops `0x9ff00000..0xa0000000`. Only the
-`GOP_MODEL` emulation profile maps the 24-bit surface
+`GOP_MODEL` emulation profile maps the entire 24-bit surface
 `0x83401000..0x83e8d000` as normal non-cacheable memory and publishes a
 reserved-memory resource HOB for it. It leaves the surrounding reservation
 outside the map. FDT at the observed `0x82000000` is recorded as a pointer.
@@ -76,6 +76,13 @@ are a choice in the FD layout. Two full-span patterns, the 96-byte entry
 record and nested C/PI calls reached their visual checkpoint on the Go.
 Stability through MMU setup and DXE is UNKNOWN.
 [Footprint, origins and checks](SEC_STACK.md)
+
+The separate terminal SEC_MMU image builds seven 4 KiB translation tables
+at `[0x8043f000, 0x80446000)` and uses `[0x8047e000, 0x8047f000)` for its
+stack. It maps four code pages, the stack page and 68 pages covering the
+two scanout bands plus their final page tails. The walker uses the tables
+physically. All 3,584 descriptor words and both scanout bands were checked
+in QEMU. Physical translation and scanout are UNKNOWN. [Detailed map](SEC_MMU.md)
 
 | Local evidence checked | SHA-256 |
 | --- | --- |

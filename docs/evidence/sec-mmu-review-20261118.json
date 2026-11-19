@@ -1,0 +1,206 @@
+{
+  "scope": "terminal-edk2-sec-mmu",
+  "decision": "ONE-ATTENDED-TEMPORARY-BOOT",
+  "maxAttempts": 1,
+  "dateMexicoCity": "2026-11-18",
+  "physicalExecution": "UNKNOWN",
+  "procedure": "docs/SEC_MMU.md",
+  "platformRevision": "f39869d",
+  "verificationRevision": "a4f792b",
+  "transportRevision": "5114b09",
+  "entryAddress": "0x80081800",
+  "fd": {
+    "file": "build/DEBUG-SEC_MMU-20261119-050203/OCULUS_GO_DIRECT.fd",
+    "size": 4194304,
+    "sha256": "92a9b4f1df2444e0e8ff5214c357bfda5d7981f0cb548b711bf3e46c2f469b65"
+  },
+  "image": {
+    "file": "local/OculusGo-SEC-MMU-92a9b4f1df24.img",
+    "size": 376832,
+    "sha256": "86dd2aaea11086407ff8175c4e7a69ad842b61f925a73c725290f20f2b465fb8"
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-SEC_MMU-20261119-050203/SOURCES.json",
+    "size": 26517,
+    "sha256": "ab2ee65687c8de8d5b036eec42dc43f1aec455ba1be4d4dcf35599456a5262c0"
+  },
+  "model": {
+    "file": "build/DEBUG-SEC_MMU-20261119-050203/QEMU.json",
+    "size": 7914,
+    "sha256": "da471da363fae2c8988d55c9cce03ba48d8779b25cd11ce3ccc60f6d0d1c7007"
+  },
+  "staticAudit": {
+    "file": "build/DEBUG-SEC_MMU-20261119-050203/STATIC.json",
+    "size": 776,
+    "sha256": "755bad4f596f97e68bcbf60deea570063c9ee3535612e46d2a7fedffa6752276"
+  },
+  "priorReadback": {
+    "file": "local/readonly-preflight-20261119-045506/REPORT.json",
+    "size": 7739,
+    "sha256": "9d76cf74a45b25644edea2d817df3a39ffc9157fb70d87b0ced4b31d4067d788"
+  },
+  "findings": {
+    "cases": 29,
+    "sealed": 4,
+    "checkedActivationLevels": [
+      1,
+      2
+    ],
+    "codeSectionBytes": 4848,
+    "reachableInstructions": 342,
+    "vectorSlots": 16,
+    "allTableBytesCompared": 28672,
+    "translatedStackPage": "0x8047e000",
+    "scanoutReadbackBytesPerPattern": 276480,
+    "fdIdenticalAfterExtraction": true,
+    "imageReencodedByteIdentically": true,
+    "repeatedModelAndStaticReportsByteIdentical": true
+  },
+  "checkedSourceFiles": [
+    {
+      "file": "OculusGoPkg/OculusGoPkg.dsc",
+      "size": 9091,
+      "sha256": "86b89f183e2413fcee339e2b1cadd16cb1d1816c722cecf05169e58cbb5189e2"
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.fdf",
+      "size": 3128,
+      "sha256": "e9bbeb1fcf22e3048edc2040022f2d5f0abdd0720f74287dce8099e98d236b84"
+    },
+    {
+      "file": "OculusGoPkg/SecMmu/Entry.S",
+      "size": 3986,
+      "sha256": "7974f38a2479c9f77324595d10a3324afbfe18de0aa2bec02f20b9731f04316d"
+    },
+    {
+      "file": "OculusGoPkg/SecMmu/Layout.h",
+      "size": 525,
+      "sha256": "05ad0f79a943d2d83c637f4a78e7b6909bf5747cd6d8a0ee6d621ca251ec500b"
+    },
+    {
+      "file": "OculusGoPkg/SecMmu/SecMmu.inf",
+      "size": 436,
+      "sha256": "517585d4751174a9424b064bec0945f84803538b1873abddb151876422cfbbbd"
+    },
+    {
+      "file": "OculusGoPkg/SecMmu/Signal.c",
+      "size": 1188,
+      "sha256": "035058a38c6051948ff50f822363f8cea2d3442faec489998e8caef53c4609b9"
+    },
+    {
+      "file": "OculusGoPkg/SecMmu/Tables.c",
+      "size": 2475,
+      "sha256": "ad93403a0d81e7706f10b7be912d575a08f70626a44476a0df5e5fe2c7628e0b"
+    },
+    {
+      "file": "scripts/build-edk2.ps1",
+      "size": 811,
+      "sha256": "e742b300739d8902112e44b9f761814d5cb07aa1ad3eb97ba1c6f91d63cf2f0e"
+    },
+    {
+      "file": "scripts/build.sh",
+      "size": 3663,
+      "sha256": "ca5e905189c77ff1cfcc6b2cfb1a2533786c9ce30ea696df16c255b3207b4512"
+    },
+    {
+      "file": "tests/entry_harness.S",
+      "size": 464,
+      "sha256": "1ab869ad8e6c554adbea895205d71f502e8e22c8e15f516686e767cac6c85c8a"
+    },
+    {
+      "file": "tests/sec_c_qemu.py",
+      "size": 7879,
+      "sha256": "e7ce7f305392f09732c1fc0a90db4313779278bb026cf90617f1ce7373d39e38"
+    },
+    {
+      "file": "tests/sec_mem_qemu.py",
+      "size": 16491,
+      "sha256": "5896704792bf311272c33c028299a248aa19354d427e2fc5baf338131e346c68"
+    },
+    {
+      "file": "tests/sec_mem_static.py",
+      "size": 19022,
+      "sha256": "31449e9ce05845ae1daef0fd08e880b417ebb0f07f85c7cca119ccab88958ace"
+    },
+    {
+      "file": "tests/sec_mmu_qemu.py",
+      "size": 9692,
+      "sha256": "66063947a4c5cce83aca9d6041a5831646540aa523cf14b28cb8e6e26946a59f"
+    },
+    {
+      "file": "tests/sec_mmu_static.py",
+      "size": 4785,
+      "sha256": "ad442099a162d807bcc49a69b371712dffd6e4dee63cfaff468f3fdcd1a6ec84"
+    },
+    {
+      "file": "tests/sec_visual_mmu_el1.S",
+      "size": 950,
+      "sha256": "9799f0bbf0025493e85472646ae4bd4c257af3251cda0056e2a4bb2c04d7b124"
+    },
+    {
+      "file": "tools/android_boot.py",
+      "size": 4968,
+      "sha256": "5ee66042724df6eee47c394cb74e609224893861b75496fc479d193fd1e8e90f"
+    },
+    {
+      "file": "tools/attended_terminal.py",
+      "size": 4608,
+      "sha256": "7750ccf180778102e560a5924c91a94c014d79b344447a7fe346bd29d616c067"
+    },
+    {
+      "file": "tools/audit_build_sources.py",
+      "size": 4559,
+      "sha256": "9929fe3ee89953ac0ff1ff8cc22b5e80722801735650ae409d9a6c5388f4a32a"
+    },
+    {
+      "file": "tools/collect_readonly_preflight.py",
+      "size": 8495,
+      "sha256": "bf5a42f15ce19888199e12e4e1a73a7f92a0f7c0adf115cf86c7ef6aec165d89"
+    },
+    {
+      "file": "tools/emulate_entry.py",
+      "size": 8358,
+      "sha256": "ee1576486a57a92fd0155481b2d7ed957badda779538be8df2bf284dadb5489f"
+    },
+    {
+      "file": "tools/emulate_sec_handoff.py",
+      "size": 13021,
+      "sha256": "6a757be8988629c8f537fdd644089a5631ad6347c055b7ce14173affc12a1ee2"
+    },
+    {
+      "file": "tools/inspect_fastboot.py",
+      "size": 5150,
+      "sha256": "386c1a286153cc98e03d4c39d31309ae07245bfe1a4df26c3bca8ee22f582c58"
+    },
+    {
+      "file": "tools/run_sec_c_once.py",
+      "size": 11681,
+      "sha256": "f55dddfec47f0ed83ee3524c95790353bd9f7e0932ba06611b4a892c022fe4bc"
+    },
+    {
+      "file": "tools/run_sec_mmu_once.py",
+      "size": 3944,
+      "sha256": "4188025fb332980680031bf7b33731e4b4de7b900c82aa9837d0b38b13e209d7"
+    },
+    {
+      "file": "tools/run_sec_visual_once.py",
+      "size": 10548,
+      "sha256": "626f21bd4b6ea88666227f428c1b9429e7e8eb10b568850adc433d7f16bcd82c"
+    },
+    {
+      "file": "tools/terminal_review.py",
+      "size": 3005,
+      "sha256": "9447f574ed36a7bfad3e2479c9c3d16079d98a98da745172658c87436c090bfa"
+    },
+    {
+      "file": "tools/verify_fd.py",
+      "size": 3025,
+      "sha256": "922e72e2db14371043e103d7f2e6d7673f51dfedcd287265e5422993be4eb39c"
+    },
+    {
+      "file": "tools/verify_sec_visual_data.py",
+      "size": 4628,
+      "sha256": "a23638b02c175399adf499c5abf6af8c9a7eaec71facb554f57b7ee3b727c7d8"
+    }
+  ]
+}
