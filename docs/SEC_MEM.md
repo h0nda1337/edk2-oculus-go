@@ -92,6 +92,13 @@ El análisis ELF/FD cotejó 632 instrucciones alcanzables incluidos los
 de QEMU y del análisis estático se reprodujeron byte por byte en una segunda
 ejecución. [Revisión de la imagen y hashes de los resultados](evidence/sec-mem-review-20261118.json)
 
+También se recompiló el perfil normal. Sus 4 MiB coincidieron byte por byte
+con la referencia anterior, SHA-256
+`72f602d2eec7d2bff0117bf8d8370218e47ef22fbd7023ab42b3497af9294e58`.
+Pasaron las pruebas de entrada, SEC y DXE en QEMU, junto con la auditoría
+de fuentes y las pruebas de host. El SHA-256 del informe local de regresión
+es `87b6843c462bf13f0bd27bf55db314b5e70d5b319c75a954c7d7b20999134f70`.
+
 Con el FD extraído y el ELF de esa misma compilación, las pruebas se pueden
 repetir desde la raíz del proyecto en Linux o WSL:
 
