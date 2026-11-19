@@ -1,0 +1,71 @@
+{
+  "decision": "APPROVED-FOR-ONE-TERMINAL-SEC-MEASUREMENT",
+  "scope": "terminal-edk2-sec-visual",
+  "maxAttempts": 1,
+  "previousReviewSha256": "ba136f8a6e8655d7880b962aa8bad1c728abe42853fa8b6286374d21e5f42a2d",
+  "hostReview": "2026-11-18: require both getvar secure=yes and OEM Secure boot=true in the existing live replies before the same FD-keyed reservation. Same image, payload command and attempt limit.",
+  "meaning": "Technical review of the exact bounded diagnostic only; execution still requires current owner presence, fresh Android integrity evidence and live Fastboot identity/state checks",
+  "fullNormalFirmwareCleared": false,
+  "physicalExecution": "UNKNOWN",
+  "fd": {
+    "file": "build/DEBUG-SEC_VISUAL-20261025-171555/OCULUS_GO_DIRECT.fd",
+    "sha256": "5cd4fc047a44df5f4322fc7634dbcb0a730261d4f94bb881f69382504dc51db0",
+    "size": 4194304
+  },
+  "image": {
+    "file": "local/OculusGo-SEC-VISUAL-20261025-MEASUREMENT.img",
+    "sha256": "07eb55d5ac04c175c5101789672d45e0f584118d7a478898cea7193eefb4be14",
+    "size": 487424
+  },
+  "model": {
+    "file": "build/sec-visual-model-20261025-1736/REPORT.json",
+    "sha256": "baa417b05343eb8b89066c5dbf1c6d9615ecf62b19e47e83160890ea22ceb000"
+  },
+  "data": {
+    "file": "build/sec-visual-data-20261025.json",
+    "sha256": "add1cf62ac36ae5b0e59f0e39738e75897fe168de0b8f8b5a6bc3b46f7fdd1f2"
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-SEC_VISUAL-20261025-171555/SOURCES.json",
+    "sha256": "554e7c1d7de7c8b815d04966b9c7f7c402dca00930ef69720716f13810b5c8b0"
+  },
+  "sourceCounts": {"originalProject": 5, "upstreamEdk2": 434, "generated": 144, "rejected": 0},
+  "modelCases": {"acceptedEntry": 8, "rejectedBeforeStores": 4},
+  "prefixAudit": {
+    "instructions": 62,
+    "sha256": "d72949d9ae507be0519f8a62bef0efb61c83eb37c40c572190915aadecaa6ea2",
+    "normalControlFlowOnly": true,
+    "calls": 0,
+    "indirectBranches": 0,
+    "storeInstructions": ["0x800880c0", "0x800880c4", "0x800880c8"],
+    "terminalPc": "0x800880f4"
+  },
+  "bandRangesExclusive": [["0x836a4000", "0x836c5c00"], ["0x83bea000", "0x83c0bc00"]],
+  "totalBytesWritten": 276480,
+  "expectedSignal": "Two bands of white, black, green, magenta blocks; terminal SEC entry only, no text/GOP/DXE",
+  "negativeObservationMeaning": "UNKNOWN cause; static logo, black screen, USB loss or Fastboot OKAY do not prove code execution",
+  "recovery": "Owner-confirmed stock Power/menu/Boot device procedure on 2026-10-25; not a universal recovery guarantee",
+  "hostBootCommandTimeoutSeconds": 20,
+  "physicalTimeoutImplemented": false,
+  "batteryThresholdUsed": false,
+  "legacyLedgerReused": false,
+  "checkedSourceFiles": [
+    {"file": "OculusGoPkg/OculusGoPkg.dec", "sha256": "e5bf1e7a2c7a82818643fb60f224b671779b1a3740f7ed8bc1b8a3c0653901f5"},
+    {"file": "OculusGoPkg/OculusGoPkg.dsc", "sha256": "7a27042652d432b54c7fb160d78ba7280d0a0bceee079276fdec1c4954212504"},
+    {"file": "OculusGoPkg/OculusGoPkg.fdf", "sha256": "ad845c629fe1713f2d9cd92227623cb2e1227fa7d6929886d2944c8ef72cde56"},
+    {"file": "OculusGoPkg/PrePi/Entry.S", "sha256": "69a105be7271511b010f0ec3221da8c9910fc7c0257348c5b96a2fd2660ed31b"},
+    {"file": "OculusGoPkg/PrePi/PrePi.inf", "sha256": "3763d47a367fb3d9cbcb31d8c2078a7f87b2988c7679a916936babd06cdc4254"},
+    {"file": "scripts/build.sh", "sha256": "c44fae5c72a143f7d0fae13258516ca91f59988b0b3ef4355e2c4a1a88b97a75"},
+    {"file": "scripts/build-edk2.ps1", "sha256": "0addf4502e52f21f31df7de1194b80efbdcc2da094c0fa252abbdf9406549cd5"},
+    {"file": "tools/emulate_entry.py", "sha256": "ee1576486a57a92fd0155481b2d7ed957badda779538be8df2bf284dadb5489f"},
+    {"file": "tools/emulate_sec_handoff.py", "sha256": "6a757be8988629c8f537fdd644089a5631ad6347c055b7ce14173affc12a1ee2"},
+    {"file": "tools/emulate_sec_visual.py", "sha256": "1c1cefb18e486b93052c0e54ea996680b711f4edce5f166757bb8e3877af9527"},
+    {"file": "tools/verify_sec_visual_data.py", "sha256": "a23638b02c175399adf499c5abf6af8c9a7eaec71facb554f57b7ee3b727c7d8"},
+    {"file": "tools/android_boot.py", "sha256": "5ee66042724df6eee47c394cb74e609224893861b75496fc479d193fd1e8e90f"},
+    {"file": "tools/verify_fd.py", "sha256": "8c23815433c18d85ff36e3db25ecf596d34e85f4758caf4d1713a75fe11f6c71"},
+    {"file": "tools/inspect_fastboot.py", "sha256": "386c1a286153cc98e03d4c39d31309ae07245bfe1a4df26c3bca8ee22f582c58"},
+    {"file": "tools/run_sec_visual_once.py", "sha256": "626f21bd4b6ea88666227f428c1b9429e7e8eb10b568850adc433d7f16bcd82c"},
+    {"file": "tools/collect_readonly_preflight.py", "sha256": "bf5a42f15ce19888199e12e4e1a73a7f92a0f7c0adf115cf86c7ef6aec165d89"},
+    {"file": "tests/entry_harness.S", "sha256": "1ab869ad8e6c554adbea895205d71f502e8e22c8e15f516686e767cac6c85c8a"}
+  ]
+}

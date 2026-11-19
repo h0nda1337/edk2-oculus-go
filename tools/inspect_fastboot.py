@@ -31,23 +31,27 @@ def require_device(listing, serial):
 
 
 def value(text, key):
-    matches = re.findall(r'^(?:\(bootloader\)\s*)?' + re.escape(key)
-                         + r':\s*(\S+)\s*$', text, re.MULTILINE)
-    if len(matches) != 1:
+    prefix = r'^[ \t]*(?:\(bootloader\)[ \t]*)?' + re.escape(key) + ':'
+    fields = [line for line in text.splitlines() if re.match(prefix, line)]
+    if len(fields) != 1:
         raise ValueError(f'Missing or ambiguous bootloader field: {key}')
-    return matches[0]
+    field = fields[0].split(':', 1)[1].strip()
+    if not re.fullmatch(r'\S+', field):
+        raise ValueError(f'Invalid bootloader field: {key}')
+    return field
 
 
 def validate_replies(replies):
     product = value(replies['product'], 'product')
     slot = value(replies['slot'], 'current-slot')
     secure = value(replies['secure'], 'secure')
+    secure_boot = value(replies['device-info'], 'Secure boot')
     unlocked = value(replies['device-info'], 'Device unlocked')
     critical = value(replies['device-info'], 'Device critical unlocked')
-    if (product.casefold(), slot, secure, unlocked, critical) != (
-            'pacific', '_a', 'yes', 'true', 'false'):
+    if (product.casefold(), slot, secure, secure_boot, unlocked, critical) != (
+            'pacific', '_a', 'yes', 'true', 'true', 'false'):
         raise ValueError('Bootloader state differs from the reviewed original state')
-    return {'product': product, 'slot': slot, 'secure': secure,
+    return {'product': product, 'slot': slot, 'secure': secure, 'secureBoot': secure_boot,
             'unlocked': unlocked, 'criticalUnlocked': critical}
 
 

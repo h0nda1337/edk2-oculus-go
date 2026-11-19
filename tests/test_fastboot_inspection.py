@@ -26,15 +26,28 @@ class FastbootInspection(unittest.TestCase):
     def test_reviewed_state_required(self):
         replies = {'product': 'product: pacific\n', 'slot': 'current-slot: _a\n',
                    'secure': 'secure: yes\n',
-                   'device-info': '(bootloader) Device unlocked: true\n'
+                   'device-info': '(bootloader)\tSecure boot: true\r\n'
+                                  '(bootloader) Device unlocked: true\n'
                                   '(bootloader) Device critical unlocked: false\n'}
-        self.assertEqual(validate_replies(replies)['slot'], '_a')
+        state = validate_replies(replies)
+        self.assertEqual((state['slot'], state['secure'], state['secureBoot']),
+                         ('_a', 'yes', 'true'))
         for key, changed in (('slot', 'current-slot: _b'), ('secure', 'secure: no'),
                              ('product', 'product: other'),
-                             ('device-info', 'Device unlocked: false\n'
+                             ('device-info', 'Secure boot: true\nDevice unlocked: false\n'
                                              'Device critical unlocked: false\n')):
             with self.assertRaises(ValueError):
                 validate_replies({**replies, key: changed})
+
+    def test_oem_secure_boot_is_independent_of_getvar_secure(self):
+        base = {'product': 'product: pacific', 'slot': 'current-slot: _a',
+                'secure': 'secure: yes'}
+        locks = 'Device unlocked: true\nDevice critical unlocked: false'
+        for field in ('', 'Secure boot: false', 'Secure boot: yes',
+                      'Secure boot:\ntrue', 'Secure boot: true\nSecure boot: false',
+                      'Secure boot: true\nSecure boot:'):
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate_replies({**base, 'device-info': field + '\n' + locks})
 
     def test_fixed_read_only_queries(self):
         self.assertEqual(tuple(args for _, args in QUERIES), (

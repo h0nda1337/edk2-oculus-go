@@ -1,8 +1,13 @@
 # One bounded EDK2 SEC measurement: review, not an execution result
 
-Reviewed 2026-10-25 and rechecked offline 2026-11-13. Exact scope: terminal SEC visual diagnostic, not the
-normal full-firmware path. Artifact and tool/input hashes are bound in
-`evidence/sec-visual-review-20261025.json`. No attempt has been consumed by
+The October 25 review covers the terminal SEC visual diagnostic. The
+[November 18 host revision](evidence/sec-visual-review-20261118.json) pins the
+same firmware, image, source audit and model reports. The host parser now
+requires both `getvar secure` = `yes` and the OEM `Secure boot` field =
+`true` before reserving the attempt. Both responses come from the original
+loader and the recorded values describe what it reports. The earlier
+[review](evidence/sec-visual-review-20261025.json) records the previous parser.
+Both manifests use the same FD-keyed attempt ledger. No attempt has been consumed by
 offline validation. The previous project's consumed probe ledger is untouched.
 
 ## Why this experiment is bounded
@@ -34,8 +39,11 @@ does not enable this path.
 The exact FD passed 12 QEMU cases: eight accepted EL1/EL2 entries varying
 I-cache/debug-mask state, and four rejecting enabled D-cache or relocated
 entry. Both full bands and boundary sentinels were checked, as were preserved
-x0-x3/SP/LR and an untouched stack-record sentinel. This is not a dynamic
-MMU-on/secondary-core test or a model of Kryo, stage 2, exceptions or scanout.
+x0-x3/SP/LR and an untouched stack-record sentinel. The independent
+[EL1 translation test](../tests/sec_visual_mmu_el1.py) later exercised the
+same FD with the MMU enabled and observed rejection before either band.
+Secondary-core execution, Kryo, stage 2 and physical scanout remain outside
+this coverage.
 
 Both original-packager outputs have the same SHA-256. Decompression reproduces
 the complete 4 MiB FD and exact original EVT DTB; original stock boot hash,
@@ -89,9 +97,9 @@ Use the original restricted runner, not an ad-hoc repeat or old runner:
 
 ```powershell
 # Offline validation only; no device contact and no ledger consumption:
-python tools/run_sec_visual_once.py --review docs/evidence/sec-visual-review-20261025.json
+python tools/run_sec_visual_once.py --review docs/evidence/sec-visual-review-20261118.json
 # Only in a later, confirmed operator session, with explicit local paths:
-python tools/run_sec_visual_once.py --review docs/evidence/sec-visual-review-20261025.json --fastboot '<PINNED-FASTBOOT-EXE>' --expected-serial '<LOCAL-SERIAL>' --preflight '<FRESH-LOCAL-REPORT.json>' --execute --operator-present
+python tools/run_sec_visual_once.py --review docs/evidence/sec-visual-review-20261118.json --fastboot '<PINNED-FASTBOOT-EXE>' --expected-serial '<LOCAL-SERIAL>' --preflight '<FRESH-LOCAL-REPORT.json>' --execute --operator-present
 ```
 
 The runner requires clean committed work and pins artifact/source/report
