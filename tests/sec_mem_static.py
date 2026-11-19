@@ -51,7 +51,7 @@ def load_word(data, physical, fmt='<I'):
     return struct.unpack_from(fmt, data, offset)[0]
 
 
-def disassembly(elf, bias):
+def disassembly(elf, bias, functions=FUNCTIONS):
     listing = subprocess.check_output(['aarch64-linux-gnu-objdump', '-d', '-w', elf], text=True)
     code = {}
     for line in listing.splitlines():
@@ -62,10 +62,10 @@ def disassembly(elf, bias):
     listing = subprocess.check_output(['aarch64-linux-gnu-nm', '-S', '--defined-only', elf], text=True)
     for line in listing.splitlines():
         parts = line.split()
-        if len(parts) == 4 and parts[2] in ('t', 'T') and parts[3] in FUNCTIONS:
+        if len(parts) == 4 and parts[2] in ('t', 'T') and parts[3] in functions:
             start = bias + int(parts[0], 16)
             ranges[parts[3]] = range(start, start + int(parts[1], 16), 4)
-    require(ranges.keys() == FUNCTIONS, 'Missing reviewed C function')
+    require(ranges.keys() == functions, 'Missing reviewed C function')
     return code, ranges
 
 

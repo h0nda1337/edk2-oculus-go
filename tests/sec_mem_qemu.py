@@ -2,6 +2,7 @@
 SPDX-License-Identifier: BSD-2-Clause-Patent
 """
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -253,7 +254,8 @@ def exercise(remote, ram, fd, sym, el, scenario, tree, pool):
             'fdtAndGuardsUnchanged': True, 'incomingRegistersRestored': True}
 
 
-def run(fd_path, data, harness, sym, el, scenario, tree, pool):
+@contextmanager
+def guest(fd_path, harness, el, load):
     with tempfile.TemporaryFile() as memory, socket.socket() as listener:
         memory.truncate(2 << 30)
         listener.bind(('127.0.0.1', 0))
@@ -261,7 +263,6 @@ def run(fd_path, data, harness, sym, el, scenario, tree, pool):
         listener.settimeout(15)
         port = listener.getsockname()[1]
         ram = memory.fileno()
-        load = BASE + (0x100000 if scenario == 'relocated' else 0)
         cmd = ['qemu-system-aarch64', '-accel', 'tcg', '-cpu', 'cortex-a57', '-m', '2048',
                '-object', f'memory-backend-file,id=ram,size=2G,mem-path=/proc/self/fd/{ram},share=on',
                '-machine', f'virt,secure=off,virtualization={"on" if el == 2 else "off"},memory-backend=ram',
@@ -273,13 +274,19 @@ def run(fd_path, data, harness, sym, el, scenario, tree, pool):
             try:
                 stream, _ = listener.accept()
                 with stream:
-                    return exercise(Remote(stream), ram, data, sym, el, scenario, tree, pool)
+                    yield Remote(stream), ram
             finally:
                 process.terminate()
                 try:
                     process.wait(timeout=5)
                 except subprocess.TimeoutExpired:
                     process.kill()
+
+
+def run(fd_path, data, harness, sym, el, scenario, tree, pool):
+    load = BASE + (0x100000 if scenario == 'relocated' else 0)
+    with guest(fd_path, harness, el, load) as (remote, ram):
+        return exercise(remote, ram, data, sym, el, scenario, tree, pool)
 
 
 def main():
