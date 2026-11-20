@@ -1,6 +1,6 @@
 # Next steps
 
-El próximo paso físico es observar el dibujo de `DXE_GOP` en el Go durante un arranque temporal. En QEMU, DXE ya arrancó primero DevicePathDxe y después InheritedGopDxe, y se comprobó el amarillo central por lectura del GOP y de RAM. Tras confirmar el dibujo en el visor, el siguiente objetivo hacia la Shell es conectar una consola de texto a este GOP y ver caracteres. [Prueba del segundo driver](DXE_GOP.md) · [Último punto confirmado en el visor](evidence/dxe-dispatch-transfer-20261119.json)
+**M3 completado.** El visor mostró el patrón BGR dibujado por el GOP que publicó InheritedGopDxe. El siguiente objetivo hacia la Shell es conectar una consola de texto a ese GOP y verificar que una llamada a `OutputString()` dibuja caracteres legibles. [Registro físico](evidence/dxe-gop-transfer-20261120.json)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

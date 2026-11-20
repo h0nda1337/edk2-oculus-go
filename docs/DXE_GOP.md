@@ -42,4 +42,8 @@ El enlazador GNU avisó de segmentos LOAD RWX en los ELF intermedios del núcleo
 
 ## Prueba en el visor
 
-El [manifiesto de revisión](evidence/dxe-gop-review-20261119.json) fija el contenedor, el FD, los informes, las fuentes y el cotejo posterior a la prueba anterior. `python tools/run_dxe_gop_once.py` sin opciones valida estos archivos en el PC. El resultado físico de este perfil está pendiente. La prueba requiere una sesión atendida con el visor en Android. Se cotejan la unidad y las copias de control y se usa el contenedor revisado para un único arranque temporal en RAM. El operador describe las franjas y el centro estables antes de la recuperación por el menú original. Después se comprueba la vuelta a Android y se cotejan los cuatro hashes de control. La siguiente etapa hacia la Shell es mostrar texto a través de GOP.
+El [manifiesto de revisión](evidence/dxe-gop-review-20261119.json) fija el contenedor, el FD, los informes, las fuentes y el cotejo posterior a la prueba anterior. `python tools/run_dxe_gop_once.py` sin opciones valida estos archivos en el PC.
+
+El 20 de noviembre de 2026 el gestor de arranque original del Go aceptó la imagen temporal en el slot A con Secure Boot activo. El operador observó «azul, rojo, amarillo, rojo, azul». En esta imagen sólo el protocolo que publica el segundo driver dibuja esa secuencia. El amarillo central se pinta después de comprobar las diez lecturas de los bloques iniciales. La observación acredita salida física por GOP (M3). El PC exacto, el nivel de excepción y la cobertura por ojo en el visor siguen sin medirse. [Registro físico](evidence/dxe-gop-transfer-20261120.json)
+
+Android volvió a arrancar en la misma unidad y en el slot A. ADB confirmó el arranque completo. El cotejo posterior leyó 136 314 880 bytes y los hashes SHA-256 de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` coincidieron con los previos y con los respaldos originales.

@@ -7,7 +7,7 @@
 | Generic timer | Official kernel arch_timer | EDK2 TimerDxe / Windows GTDT | Allowed EDK2 | 19.2 MHz confirmed; delivered EL permissions UNKNOWN |
 | UFS | Official kernel Qualcomm UFS | UNKNOWN | No import | No Block I/O driver enabled |
 | USB DWC3 | Official kernel Qualcomm/DWC3 | UNKNOWN | No import | No USB controller code enabled |
-| Display | Official kernel MDSS/panel | Original InheritedGopDxe | No import | The two-driver DXE profile passed packed BGR fill and readback through the published GOP at EL1 and EL2 in QEMU. Raw DXE checkpoints reached the panel on the Go. Physical GOP output is pending. [Two-driver trial](DXE_GOP.md) · [Physical DXE dispatch](evidence/dxe-dispatch-transfer-20261119.json) [SEC color observation](evidence/sec-c-transfer-20261118.json) · [GOP tests](evidence/gop-bgr-qemu-20261118.json) |
+| Display | Official kernel MDSS/panel | Original InheritedGopDxe | No import | The two-driver DXE profile passed packed BGR fill and readback through the published GOP at EL1 and EL2 in QEMU. The GOP drew the blue/red/yellow/red/blue signal on the physical panel during the attended DXE_GOP trial. [Physical GOP](evidence/dxe-gop-transfer-20261120.json) [Two-driver trial](DXE_GOP.md) · [Physical DXE dispatch](evidence/dxe-dispatch-transfer-20261119.json) [SEC color observation](evidence/sec-c-transfer-20261118.json) · [GOP tests](evidence/gop-bgr-qemu-20261118.json) |
 | Adreno 530 | Official kernel KGSL | UNKNOWN | No import | Deferred until framebuffer/GOP |
 | Battery, audio, wireless, sensors | Official kernel, per-device evidence needed | UNKNOWN | No import | Deferred |
 

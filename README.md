@@ -63,7 +63,7 @@ orange, green, orange and white after the driver's GetDevicePathSize call.
 [Physical record](docs/evidence/dxe-dispatch-transfer-20261119.json)
 [Results and visual checkpoints](docs/DXE_DISPATCH.md)
 
-In `DXE_GOP`, InheritedGopDxe starts second after DevicePathDxe publishes its protocol. At EL1 and EL2 in QEMU, DXE called the published GOP 24 times to fill and read back two bands. The resulting packed BGR pattern is blue, red, yellow, red, blue. The physical GOP check is pending. [Reproduction and visual checkpoints](docs/DXE_GOP.md)
+In `DXE_GOP`, InheritedGopDxe starts second after DevicePathDxe publishes its protocol. At EL1 and EL2 in QEMU, DXE called the published GOP 24 times to fill and read back two bands. The resulting packed BGR pattern is blue, red, yellow, red, blue. On November 20 the owner saw the same pattern in the Go, confirming M3, visible UEFI graphics through GOP. [Physical observation](docs/evidence/dxe-gop-transfer-20261120.json) [Reproduction and visual checkpoints](docs/DXE_GOP.md)
 
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
