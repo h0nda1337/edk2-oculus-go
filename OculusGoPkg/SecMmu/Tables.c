@@ -22,9 +22,12 @@ STATIC CONST UINT32 Windows[] = {0x80000000, 0x80400000, 0x83600000, 0x83a00000,
 #ifdef OCULUS_GO_SEC_DXE
   , GO_DXE_POOL
 #endif
+#ifdef OCULUS_GO_DXE_GOP
+  , 0x83400000, 0x83800000, 0x83e00000
+#endif
 };
 #ifdef OCULUS_GO_DXE_DISPATCH
-STATIC_ASSERT (GO_ARENA_L3 == GO_TABLE_BASE + (ARRAY_SIZE (Windows) + 1) * GO_PAGE_BYTES, "arena L3 page");
+STATIC_ASSERT (GO_ARENA_L3 == GO_TABLE_BASE + 7 * GO_PAGE_BYTES, "arena L3 page");
 #endif
 STATIC_ASSERT (ARRAY_SIZE (Windows) + 2 == GO_TABLE_COUNT, "L3 table count");
 STATIC_ASSERT (GO_TABLE_BASE + GO_TABLE_COUNT * GO_PAGE_BYTES < GO_STACK_PAGE, "workspace overlap");
@@ -59,6 +62,11 @@ Descriptor (UINTN Table, UINTN Index, UINTN El TEXT_RANGE_PARAMS)
       ) {
     return Address | Attributes | TT_AP_NO_RO | ((El == 4) ? TT_UXN_MASK : 0);
   }
+#ifdef OCULUS_GO_DXE_GOP
+  if (Address >= GO_FB_BASE && Address < GO_FB_BASE + GO_FB_SIZE) {
+    return Address | Attributes | TT_XN_MASK | ((El == 4) ? TT_PXN_MASK : 0);
+  }
+#endif
 #ifdef OCULUS_GO_SEC_DXE
   if (((Address >= GO_STACK_PAGE) && (Address < GO_STACK_TOP)) ||
 #ifdef OCULUS_GO_DXE_DEBUG

@@ -13,7 +13,12 @@
 EFI_STATUS EFIAPI __real_CoreStartImage (EFI_HANDLE Handle, UINTN *Size, CHAR16 **Data);
 EFI_STATUS EFIAPI __real_CoreDispatcher (VOID);
 STATIC CONST EFI_GUID mDevicePathFile = {0x9b680fce,0xad6b,0x4f3a,{0xb6,0x0b,0xf5,0x98,0x99,0x00,0x34,0x43}};
-STATIC BOOLEAN mStarted;
+#ifdef OCULUS_GO_DXE_GOP
+#include <Protocol/GraphicsOutput.h>
+STATIC CONST EFI_GUID mGopFile = {0x8cd15dc8,0xf091,0x4917,{0xb7,0x79,0x34,0x2c,0x1e,0x0a,0xa2,0xde}};
+VOID TrialGopBlt (UINTN Start, UINTN Limit, CONST EFI_GUID *File);
+#endif
+STATIC UINTN mStarted;
 STATIC UINTN mTextBase, mTextEnd;
 
 STATIC __attribute__((noinline,noreturn)) VOID
@@ -113,12 +118,28 @@ SealDriverText (EFI_LOADED_IMAGE_PROTOCOL *Image)
   return TRUE;
 }
 
+STATIC BOOLEAN
+DevicePathResponds (VOID)
+{
+  EFI_DEVICE_PATH_UTILITIES_PROTOCOL *Utilities;
+  EFI_DEVICE_PATH_PROTOCOL End = { END_DEVICE_PATH_TYPE, END_ENTIRE_DEVICE_PATH_SUBTYPE, { sizeof (End), 0 } };
+  return gBS->LocateProtocol (&gEfiDevicePathUtilitiesProtocolGuid, NULL, (VOID **)&Utilities) == EFI_SUCCESS &&
+         TrialSpan ((UINTN)Utilities->GetDevicePathSize, 4, mTextBase, mTextEnd) &&
+         Utilities->GetDevicePathSize (&End) == sizeof (End);
+}
+
 EFI_STATUS EFIAPI
 __wrap_CoreStartImage (EFI_HANDLE Handle, UINTN *Size, CHAR16 **Data)
 {
   EFI_LOADED_IMAGE_PROTOCOL *Image;
   MEDIA_FW_VOL_FILEPATH_DEVICE_PATH *Path;
-  if (mStarted || Size != NULL || Data != NULL ||
+  STATIC CONST EFI_GUID * CONST Files[] = {
+    &mDevicePathFile
+#ifdef OCULUS_GO_DXE_GOP
+    , &mGopFile
+#endif
+  };
+  if (mStarted >= ARRAY_SIZE (Files) || Size != NULL || Data != NULL ||
       gBS->HandleProtocol (Handle, &gEfiLoadedImageProtocolGuid, (VOID **)&Image) != EFI_SUCCESS ||
       Image->SystemTable != gST || Image->ParentHandle != gImageHandle || Image->ImageCodeType != EfiBootServicesCode ||
       Image->ImageDataType != EfiBootServicesData || Image->FilePath == NULL) {
@@ -127,33 +148,52 @@ __wrap_CoreStartImage (EFI_HANDLE Handle, UINTN *Size, CHAR16 **Data)
   Path = (VOID *)Image->FilePath;
   if (Path->Header.Type != MEDIA_DEVICE_PATH || Path->Header.SubType != MEDIA_PIWG_FW_FILE_DP ||
       Path->Header.Length[0] != sizeof (*Path) || Path->Header.Length[1] != 0 ||
-      !CompareGuid (&Path->FvFileName, &mDevicePathFile) || !SealDriverText (Image)) {
+      !CompareGuid (&Path->FvFileName, Files[mStarted]) || !SealDriverText (Image)) {
     TrialDispatchRejected ();
   }
-  TrialPaint (0xffff00, 0x0000ff);
+  if (mStarted == 0) {
+    TrialPaint (0xffff00, 0x0000ff);
+  }
   if (__real_CoreStartImage (Handle, Size, Data) != EFI_SUCCESS) {
     TrialDispatchRejected ();
   }
-  mStarted = TRUE;
+  ++mStarted;
+#ifdef OCULUS_GO_DXE_GOP
+  if (mStarted == 1) {
+    if (!DevicePathResponds ()) {
+      TrialDispatchRejected ();
+    }
+    TrialPaint (0xff8000, 0x00ff00);
+  }
+#endif
   return EFI_SUCCESS;
 }
 
 EFI_STATUS EFIAPI
 __wrap_CoreDispatcher (VOID)
 {
-  EFI_DEVICE_PATH_UTILITIES_PROTOCOL *Utilities;
-  EFI_DEVICE_PATH_PROTOCOL End = { END_DEVICE_PATH_TYPE, END_ENTIRE_DEVICE_PATH_SUBTYPE, { sizeof (End), 0 } };
-  if (gBS->LocateProtocol (&gEfiDevicePathUtilitiesProtocolGuid, NULL, (VOID **)&Utilities) != EFI_NOT_FOUND) {
+  VOID *Interface;
+  if (gBS->LocateProtocol (&gEfiDevicePathUtilitiesProtocolGuid, NULL, &Interface) != EFI_NOT_FOUND) {
     TrialDispatchRejected ();
   }
+#ifdef OCULUS_GO_DXE_GOP
+  if (gBS->LocateProtocol (&gEfiGraphicsOutputProtocolGuid, NULL, &Interface) != EFI_NOT_FOUND) {
+    TrialDispatchRejected ();
+  }
+#endif
   TrialPaint (0x00ffff, 0x0000ff);
-  if (__real_CoreDispatcher () != EFI_SUCCESS || !mStarted ||
-      gBS->LocateProtocol (&gEfiDevicePathUtilitiesProtocolGuid, NULL, (VOID **)&Utilities) != EFI_SUCCESS ||
-      !TrialSpan ((UINTN)Utilities->GetDevicePathSize, 4, mTextBase, mTextEnd) ||
-      Utilities->GetDevicePathSize (&End) != sizeof (End)) {
+  EFI_STATUS Status = __real_CoreDispatcher ();
+#ifdef OCULUS_GO_DXE_GOP
+  if (Status != EFI_SUCCESS || mStarted != 2) {
+    TrialDispatchRejected ();
+  }
+  TrialGopBlt (mTextBase, mTextEnd, &mGopFile);
+#else
+  if (Status != EFI_SUCCESS || mStarted != 1 || !DevicePathResponds ()) {
     TrialDispatchRejected ();
   }
   TrialPaint (0xff8000, 0x00ff00);
   __asm__ volatile (".global TrialDispatchComplete\nTrialDispatchComplete: b TrialDispatchComplete");
+#endif
   __builtin_unreachable ();
 }

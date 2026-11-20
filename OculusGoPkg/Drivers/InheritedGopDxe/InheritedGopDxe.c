@@ -1,5 +1,5 @@
 /** @file
-  Single-mode GOP over packed BGR888 RAM for the GOP_MODEL QEMU build.
+  Single-mode GOP over packed BGR888 RAM for the inherited Pacific splash surface.
   SEC_C identified byte 0 as blue and byte 2 as red on the inherited surface.
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
@@ -7,12 +7,15 @@
 #include <Library/BaseMemoryLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/UefiBootServicesTableLib.h>
-#include <Model/Framebuffer.h>
+#include <Display/Framebuffer.h>
 #include <Protocol/GraphicsOutput.h>
+#ifdef OCULUS_GO_GOP_DEVICE_PATH
+#include <Protocol/DevicePathUtilities.h>
+#endif
 
 STATIC EFI_GRAPHICS_OUTPUT_MODE_INFORMATION mInfo = {
-  0, GO_MODEL_FB_WIDTH, GO_MODEL_FB_HEIGHT, PixelBltOnly,
-  { 0, 0, 0, 0 }, GO_MODEL_FB_WIDTH
+  0, GO_FB_WIDTH, GO_FB_HEIGHT, PixelBltOnly,
+  { 0, 0, 0, 0 }, GO_FB_WIDTH
 };
 STATIC EFI_GRAPHICS_OUTPUT_PROTOCOL_MODE mMode = {
   1, 0, &mInfo, sizeof (mInfo), 0, 0
@@ -47,21 +50,21 @@ SetMode (IN EFI_GRAPHICS_OUTPUT_PROTOCOL *This, IN UINT32 ModeNumber)
   if (ModeNumber != 0) {
     return EFI_UNSUPPORTED;
   }
-  ZeroMem ((VOID *)(UINTN)GO_MODEL_FB_BASE, GO_MODEL_FB_SIZE);
+  ZeroMem ((VOID *)(UINTN)GO_FB_BASE, GO_FB_SIZE);
   return EFI_SUCCESS;
 }
 
 STATIC BOOLEAN
 OnScreen (UINTN X, UINTN Y, UINTN Width, UINTN Height)
 {
-  return (X < GO_MODEL_FB_WIDTH) && (Y < GO_MODEL_FB_HEIGHT) &&
-         (Width <= GO_MODEL_FB_WIDTH - X) && (Height <= GO_MODEL_FB_HEIGHT - Y);
+  return (X < GO_FB_WIDTH) && (Y < GO_FB_HEIGHT) &&
+         (Width <= GO_FB_WIDTH - X) && (Height <= GO_FB_HEIGHT - Y);
 }
 
 STATIC UINT8 *
 ScreenPixel (UINTN X, UINTN Y)
 {
-  return (UINT8 *)(UINTN)GO_MODEL_FB_BASE + Y * GO_MODEL_FB_STRIDE + X * GO_MODEL_FB_BYTES_PER_PIXEL;
+  return (UINT8 *)(UINTN)GO_FB_BASE + Y * GO_FB_STRIDE + X * GO_FB_BYTES_PER_PIXEL;
 }
 
 // Width and Height already fit the screen. The caller supplies the allocation,
@@ -133,7 +136,7 @@ Blt (
       for (Row = 0; Row < Height; Row++) {
         Video = ScreenPixel (DestinationX, DestinationY + Row);
         for (Col = 0; Col < Width; Col++) {
-          WritePixel (Video + Col * GO_MODEL_FB_BYTES_PER_PIXEL, &Color);
+          WritePixel (Video + Col * GO_FB_BYTES_PER_PIXEL, &Color);
         }
       }
       break;
@@ -146,9 +149,9 @@ Blt (
         Video = ScreenPixel (SourceX, SourceY + Row);
         BufferRow = (EFI_GRAPHICS_OUTPUT_BLT_PIXEL *)((UINT8 *)BltBuffer + (DestinationY + Row) * Delta) + DestinationX;
         for (Col = 0; Col < Width; Col++) {
-          BufferRow[Col].Blue     = Video[Col * GO_MODEL_FB_BYTES_PER_PIXEL];
-          BufferRow[Col].Green    = Video[Col * GO_MODEL_FB_BYTES_PER_PIXEL + 1];
-          BufferRow[Col].Red      = Video[Col * GO_MODEL_FB_BYTES_PER_PIXEL + 2];
+          BufferRow[Col].Blue     = Video[Col * GO_FB_BYTES_PER_PIXEL];
+          BufferRow[Col].Green    = Video[Col * GO_FB_BYTES_PER_PIXEL + 1];
+          BufferRow[Col].Red      = Video[Col * GO_FB_BYTES_PER_PIXEL + 2];
           BufferRow[Col].Reserved = 0;
         }
       }
@@ -162,7 +165,7 @@ Blt (
         Video = ScreenPixel (DestinationX, DestinationY + Row);
         BufferRow = (EFI_GRAPHICS_OUTPUT_BLT_PIXEL *)((UINT8 *)BltBuffer + (SourceY + Row) * Delta) + SourceX;
         for (Col = 0; Col < Width; Col++) {
-          WritePixel (Video + Col * GO_MODEL_FB_BYTES_PER_PIXEL, &BufferRow[Col]);
+          WritePixel (Video + Col * GO_FB_BYTES_PER_PIXEL, &BufferRow[Col]);
         }
       }
       break;
@@ -175,7 +178,7 @@ Blt (
       for (Row = 0; Row < Height; Row++) {
         Offset = (DestinationY > SourceY) ? Height - 1 - Row : Row;
         CopyMem (ScreenPixel (DestinationX, DestinationY + Offset),
-                 ScreenPixel (SourceX, SourceY + Offset), Width * GO_MODEL_FB_BYTES_PER_PIXEL);
+                 ScreenPixel (SourceX, SourceY + Offset), Width * GO_FB_BYTES_PER_PIXEL);
       }
       break;
     default:
@@ -192,5 +195,26 @@ InheritedGopDxeEntry (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTabl
   EFI_HANDLE Handle;
 
   Handle = NULL;
+#ifdef OCULUS_GO_GOP_DEVICE_PATH
+  EFI_DEVICE_PATH_UTILITIES_PROTOCOL *Utilities;
+  EFI_DEVICE_PATH_PROTOCOL *Path;
+  VENDOR_DEVICE_PATH Vendor = { { HARDWARE_DEVICE_PATH, HW_VENDOR_DP, { sizeof (Vendor), 0 } }, { 0 } };
+  EFI_STATUS Status = gBS->LocateProtocol (&gEfiDevicePathUtilitiesProtocolGuid, NULL, (VOID **)&Utilities);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+  CopyGuid (&Vendor.Guid, &gEfiCallerIdGuid);
+  Path = Utilities->AppendDeviceNode (NULL, &Vendor.Header);
+  if (Path == NULL) {
+    return EFI_OUT_OF_RESOURCES;
+  }
+  Status = gBS->InstallMultipleProtocolInterfaces (&Handle, &gEfiGraphicsOutputProtocolGuid, &mGop,
+                                                    &gEfiDevicePathProtocolGuid, Path, NULL);
+  if (EFI_ERROR (Status)) {
+    FreePool (Path);
+  }
+  return Status;
+#else
   return gBS->InstallMultipleProtocolInterfaces (&Handle, &gEfiGraphicsOutputProtocolGuid, &mGop, NULL);
+#endif
 }

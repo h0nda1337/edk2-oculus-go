@@ -9,7 +9,12 @@
 #define GO_CODE_START    0x80081000
 #ifdef OCULUS_GO_SEC_DXE
 #define GO_CODE_END      0x80100000
+#ifdef OCULUS_GO_DXE_GOP
+#include <Display/Framebuffer.h>
+#define GO_TABLE_COUNT   11
+#else
 #define GO_TABLE_COUNT   8
+#endif
 #define GO_STACK_PAGE    GO_DXE_STACK_BASE
 #else
 #define GO_CODE_END      0x80085000

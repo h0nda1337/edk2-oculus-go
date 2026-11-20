@@ -141,12 +141,24 @@ MmuTranslated:
   bl .LtranslateWrite
   tbz x1, #0, .Lreject
 #endif
+#ifdef OCULUS_GO_DXE_GOP
+  ldr x0, =GO_FB_BASE
+  ldr x2, =(GO_FB_SIZE / GO_PAGE_BYTES)
+  bl .LidentityRange
+  ldr x0, =(GO_FB_BASE - GO_PAGE_BYTES)
+  bl .LtranslateWrite
+  tbz x1, #0, .Lreject
+  ldr x0, =(GO_FB_BASE + GO_FB_SIZE)
+  bl .LtranslateWrite
+  tbz x1, #0, .Lreject
+#else
   ldr x0, =GO_BAND_ONE
   mov x2, #GO_BAND_PAGES
   bl .LidentityRange
   ldr x0, =GO_BAND_TWO
   mov x2, #GO_BAND_PAGES
   bl .LidentityRange
+#endif
   ldr x3, =0x534d4d553634434b
   str x3, [sp, #-16]!
   dsb sy

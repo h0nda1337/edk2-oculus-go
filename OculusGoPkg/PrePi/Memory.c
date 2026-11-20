@@ -7,10 +7,10 @@
 #include <Library/HobLib.h>
 #include <Library/PcdLib.h>
 #if defined (OCULUS_GO_GOP_MODEL)
-#include <Model/Framebuffer.h>
+#include <Display/Framebuffer.h>
 #define GO_MODEL_EXTRA_REGIONS  1
-STATIC_ASSERT ((GO_MODEL_FB_BASE & EFI_PAGE_MASK) == 0, "Unaligned model surface base");
-STATIC_ASSERT ((GO_MODEL_FB_SIZE & EFI_PAGE_MASK) == 0, "Unaligned model surface size");
+STATIC_ASSERT ((GO_FB_BASE & EFI_PAGE_MASK) == 0, "Unaligned model surface base");
+STATIC_ASSERT ((GO_FB_SIZE & EFI_PAGE_MASK) == 0, "Unaligned model surface size");
 #else
 #define GO_MODEL_EXTRA_REGIONS  0
 #endif
@@ -55,9 +55,9 @@ OculusGoInitializeMemory (VOID)
   // general-purpose page allocator even though QEMU backs it with RAM.
   BuildResourceDescriptorHob (EFI_RESOURCE_MEMORY_RESERVED,
     EFI_RESOURCE_ATTRIBUTE_PRESENT | EFI_RESOURCE_ATTRIBUTE_INITIALIZED |
-    EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE, GO_MODEL_FB_BASE, GO_MODEL_FB_SIZE);
+    EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE, GO_FB_BASE, GO_FB_SIZE);
   Map[4] = (ARM_MEMORY_REGION_DESCRIPTOR) {
-    GO_MODEL_FB_BASE, GO_MODEL_FB_BASE, GO_MODEL_FB_SIZE,
+    GO_FB_BASE, GO_FB_BASE, GO_FB_SIZE,
     ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED
   };
 #endif
