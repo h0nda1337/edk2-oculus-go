@@ -49,4 +49,10 @@ El enlazador informó de segmentos RWX en los ELF intermedios y GCC mantuvo la a
 
 Dos ejecuciones completas de DXE_DISPATCH con invitados independientes y distintos grados de paralelismo produjeron informes idénticos byte por byte. La regresión de DXE_DEBUG reprodujo los informes estático y de QEMU de la revisión anterior, incluidos sus 66 casos. En Windows pasaron 78 pruebas Python. En Debian pasaron 77 y se omitió una específica de Windows. El ejecutable de host pasó además sus 19 comprobaciones de TrustMeBro.
 
-La prueba del mismo contenedor en el Oculus Go está pendiente. La comprobación local de la [revisión](evidence/dxe-dispatch-review-20261119.json) se ejecuta con `python tools/run_dxe_dispatch_once.py`. El procedimiento físico atendido usa el arranque temporal y el retorno a Android documentados en [recuperación](RECOVERY.md).
+## Resultado en el Oculus Go
+
+El 19 de noviembre de 2026, con Secure Boot activo y el slot A seleccionado, Fastboot aceptó el arranque temporal de la imagen revisada. El operador observó «blanco, naranja, verde, naranja, blanco». El verde central entre franjas naranjas acredita el retorno correcto de StartImage y del despachador, la localización de Device Path Utilities y una llamada a GetDevicePathSize que devolvió 4 bytes. La comprobación del firmware sitúa la función llamada en el texto del driver. El nivel de excepción y las direcciones dinámicas del visor siguen sin medirse. [Registro físico](evidence/dxe-dispatch-transfer-20261119.json)
+
+La [revisión de la imagen](evidence/dxe-dispatch-review-20261119.json) fija los hashes del contenedor, del FD y del modelo. El intento físico de esta revisión está consumido. [Recuperación](RECOVERY.md)
+
+Android volvió a arrancar en el slot A. ADB confirmó el arranque completo y la identidad de la unidad. La lectura completa posterior de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` sumó 136.314.880 bytes. Sus cuatro hashes SHA-256 coincidieron con la lectura previa y con los respaldos originales. [Cotejo posterior](evidence/dxe-dispatch-transfer-20261119.json)

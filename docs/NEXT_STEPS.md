@@ -1,6 +1,6 @@
 # Next steps
 
-DXE_DISPATCH passed the QEMU EL1/EL2 trials. The next physical observation is the temporary image's white/orange/green/orange/white pattern after DevicePathDxe has returned a working protocol. DXE_DEBUG remains the latest checkpoint observed on the Go. After physical confirmation, integrate inherited GOP into FV dispatch and connect a UEFI text console on the way to the Shell. [Dispatch trial](DXE_DISPATCH.md) · [Previous physical record](evidence/dxe-debug-transfer-20261119.json)
+DXE_DISPATCH reached its final checkpoint on the Go. DevicePathDxe ran from the FV and its published protocol answered a call from DXE Core. The next offline target is to dispatch inherited GOP and exercise output through that protocol, followed by a UEFI text console for the Shell. [Physical record](evidence/dxe-dispatch-transfer-20261119.json) · [Dispatch trial](DXE_DISPATCH.md)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

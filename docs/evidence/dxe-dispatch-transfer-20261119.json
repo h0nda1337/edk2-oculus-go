@@ -1,0 +1,77 @@
+{
+  "dateMexicoCity": "2026-11-19",
+  "scope": "terminal-edk2-dxe-dispatch",
+  "revision": "1714caa39045be876db9159e986c6d3901c35ba5",
+  "reviewSha256": "79c34be41ff778700fa7451739b3c1925a444ca78b7d34e91739930b9f3df72e",
+  "preflightStartUtc": "2026-11-20T00:29:28Z",
+  "preflightReportSha256": "3a3e0af90600b8afdfa06a6bb0038ab34fb59ae7be2e89e99876182ed0062698",
+  "preflightResult": "PASS-READONLY",
+  "partitionsMatchedBefore": [
+    "aboot_a",
+    "aboot_b",
+    "boot_a",
+    "boot_b"
+  ],
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferSessionStartUtc": "2026-11-20T00:30:33.352081Z",
+  "transferReportSha256": "7d9bfbd7b04f21bfc7353276846d0c2cc63361d9c3f40a917b1f55ec97823ac1",
+  "fastbootBootStderrSha256": "4480a2bd6b80ecc347dbe0c2f54422d34f0eedb00fa745d00f215b6d03500806",
+  "imageSha256": "7ea650a41aabd0801904037fcda3c9b8de1b275640c3c2f3bc8a2fa772520af2",
+  "fdSha256": "8cb6ba32f7b9b8051c4a7fd9779afc125aae951d48f750b8de8e5586574f93d1",
+  "imageBytes": 479232,
+  "fastbootReport": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "physicalDxeDispatchExecutionAtHostCommandExit": "UNKNOWN",
+  "operatorObservationAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "blanco, naranja, verde, naranja, blanco",
+    "centerAsReported": "verde",
+    "matchesFinalPattern": true,
+    "eyeCoverage": "UNKNOWN",
+    "earlierPatternsReported": false
+  },
+  "physicalFindings": {
+    "result": "CONFIRMED-DEVICE",
+    "source": "OculusGoPkg/DxeCheckpoint/Dispatch.c",
+    "checkpoint": "TrialDispatchComplete",
+    "driver": "DevicePathDxe",
+    "firmwareVolumeFileGuid": "9b680fce-ad6b-4f3a-b60b-f59899003443",
+    "driverFileGuidChecked": true,
+    "coreStartImageReturnedSuccess": true,
+    "coreDispatcherReturnedSuccess": true,
+    "protocolLocatedAfterDispatch": "EFI_DEVICE_PATH_UTILITIES_PROTOCOL",
+    "methodInDriverTextChecked": true,
+    "getDevicePathSizeEndNodeBytesChecked": 4,
+    "physicalExceptionLevel": "UNKNOWN",
+    "physicalDriverLoadAddress": "UNKNOWN",
+    "shellExecuted": false
+  },
+  "recovery": {
+    "operatorReportedSpanish": "android",
+    "preflightStartUtc": "2026-11-20T00:33:45Z",
+    "reportSha256": "068acacb99aa70e017b824b2c139658348b1204403f24adc83a42f445c50cc3f",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "root": true,
+    "product": "pacific",
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}

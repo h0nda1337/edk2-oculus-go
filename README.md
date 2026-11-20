@@ -58,7 +58,9 @@ The Go completed `DXE_GCD`. The operator saw a light-blue center between purple 
 `DXE_DISPATCH` continued past this checkpoint in QEMU at EL1 and EL2. The
 dispatcher scheduled upstream DevicePathDxe from the firmware volume. Its
 published Device Path Utilities protocol answered a call from DXE Core.
-The same temporary image awaits its first test on the Go.
+The same image reached the final checkpoint on the Go. The operator saw white,
+orange, green, orange and white after the driver's GetDevicePathSize call.
+[Physical record](docs/evidence/dxe-dispatch-transfer-20261119.json)
 [Results and visual checkpoints](docs/DXE_DISPATCH.md)
 
 The owner is notified before physical work and separately
