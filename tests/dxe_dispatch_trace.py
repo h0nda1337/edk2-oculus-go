@@ -15,7 +15,27 @@ CORE_CASES = debug.CORE_CASES + CONTROLS
 EXTRA_CASES = debug.EXTRA_CASES + CONTROLS
 
 
-def observe_services(g, read, write, stop, screen, core, base, case, constructors, driver, el):
+def executable_span(read, address, driver):
+    # Infer text boundaries independently from the loaded PE section table.
+    nt = address+int.from_bytes(read(address+60,4),'little')
+    count = int.from_bytes(read(nt+6,2),'little')
+    sections = nt+24+int.from_bytes(read(nt+20,2),'little')
+    ranges = []
+    for i in range(count):
+        section = read(sections+40*i,40)
+        flags, = struct.unpack_from('<I', section,36)
+        if flags & (1<<29):
+            vs, rva, raw = struct.unpack_from('<III',section,8)
+            require(flags & (1<<31) == 0, 'Writable executable driver text')
+            ranges.append((address+rva,address+rva+((max(vs,raw)+4095)&~4095)))
+    require(len(ranges)==1 and ranges[0][0] <= address+driver['_ModuleEntryPoint'] < ranges[0][1],
+            'Unexpected executable sections')
+    return list(map(hex,ranges[0]))
+
+
+def observe_services(g, read, write, stop, screen, core, base, case, constructors, driver, el, gop=None):
+    if gop:
+        import dxe_gop_trace as second
     def arrive(name):
         stop(base + core[name], name)
 
@@ -32,7 +52,9 @@ def observe_services(g, read, write, stop, screen, core, base, case, constructor
             return 'TrialDispatchRejected', stage, evidence
 
         if case in ('valid', 'icache', 'table-order'):
-            require(g.command(f'Z1,{base+core["TrialDispatchRejected"]:x},4') == 'OK', 'Cannot monitor driver rejection')
+            rejections = ('TrialDispatchRejected', 'TrialGopRejected') if gop else ('TrialDispatchRejected',)
+            for name in rejections:
+                require(g.command(f'Z1,{base+core[name]:x},4') == 'OK', 'Cannot monitor ' + name)
         arrive('CoreInitializeEventServices')
         screen('debug-image')
         returned('event services')
@@ -54,6 +76,8 @@ def observe_services(g, read, write, stop, screen, core, base, case, constructor
                 'Driver DEPEX was not a TRUE/END copy from the FV')
         if case == 'false-depex':
             write(dep, bytes([7]))
+        if gop:
+            second.read_dependency(g, read, write, arrive, returned, evidence, case)
         arrive('__wrap_CoreDispatcher')
         arrive('CoreDispatcher')
         screen('dispatch')
@@ -61,6 +85,10 @@ def observe_services(g, read, write, stop, screen, core, base, case, constructor
         runnable = case != 'false-depex'
         returned('evaluate FFS dependency',int(runnable))
         evidence['dependencySatisfied'] = runnable
+        if gop:
+            arrive('CoreIsSchedulable')
+            returned('GOP waits for Device Path Utilities', 0)
+            evidence['gopWaitedForUtilities'] = True
         if not runnable:
             for n in ('CoreLoadImage','__wrap_CoreStartImage'):
                 require(g.command(f'Z1,{base+core[n]:x},4') == 'OK', 'Cannot monitor unexpected load')
@@ -98,21 +126,7 @@ def observe_services(g, read, write, stop, screen, core, base, case, constructor
         if case == 'wrong-file-guid':
             write(path+4,bytes(16))
             return rejected('dispatch')
-        # Infer text boundaries independently from the loaded PE section table.
-        nt = address+int.from_bytes(read(address+60,4),'little')
-        count = int.from_bytes(read(nt+6,2),'little')
-        sections = nt+24+int.from_bytes(read(nt+20,2),'little')
-        ranges = []
-        for i in range(count):
-            section = read(sections+40*i,40)
-            flags, = struct.unpack_from('<I', section,36)
-            if flags & (1<<29):
-                vs, rva, raw = struct.unpack_from('<III',section,8)
-                require(flags & (1<<31) == 0, 'Writable executable driver text')
-                ranges.append((address+rva,address+rva+((max(vs,raw)+4095)&~4095)))
-        require(len(ranges)==1 and ranges[0][0] <= address+driver['_ModuleEntryPoint'] < ranges[0][1],
-                'Unexpected executable sections')
-        evidence['driverText'] = list(map(hex,ranges[0]))
+        evidence['driverText'] = executable_span(read,address,driver)
         arrive('CoreStartImage')
         screen('start-driver')
         resume = g.register(30)
@@ -135,6 +149,8 @@ def observe_services(g, read, write, stop, screen, core, base, case, constructor
         if case == 'bad-protocol-result':
             g.set_register(0,3)
             return rejected('start-driver')
+        if gop:
+            return second.observe_driver(g, read, write, stop, screen, arrive, returned, evidence, case, gop)
         arrive('TrialDispatchComplete')
         return 'TrialDispatchComplete','protocol',evidence
 

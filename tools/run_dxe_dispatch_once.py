@@ -24,13 +24,18 @@ LATE = {**{k:('TrialDispatchComplete','protocol') for k in POSITIVE},
 
 
 def validate_reports(model, static, digest):
-    validate_debug_cases(model, static, digest, 'DXE-DISPATCH', LATE)
+    validate_dispatch_cases(model, static, digest, 'DXE-DISPATCH', {})
+
+
+def validate_dispatch_cases(model, static, digest, profile, later):
+    outcomes = {**LATE, **later}
+    validate_debug_cases(model, static, digest, profile, outcomes)
     require(model['driverGuid'] == static['driverGuid'] == '9b680fce-ad6b-4f3a-b60b-f59899003443' and
             model['driverPeSha256'] == static['driverPeSha256'] and
             re.fullmatch('[0-9a-f]{64}',static['driverPeSha256']), 'Unexpected embedded FV driver')
     for row in model['cases']:
         case = row['case']
-        if case not in LATE:
+        if case not in outcomes:
             require('driverFile' not in row, 'Dispatch before prerequisite')
             continue
         require(row['eventsInitialized'] is True and row['driverFile'] == static['driverGuid'] and

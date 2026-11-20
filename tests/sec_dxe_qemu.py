@@ -25,23 +25,24 @@ def screen(stage):
     data = bytearray(b'\xa5' * (SURFACE_BYTES+2*GUARD))
     if stage == 'untouched':
         return data
-    side = {'hobs':'ff0000','fv':'00ffff','branch':'ffff00','core':'00ff00',
+    gop = stage == 'gop-blt'
+    side = {'gop-blt':'0000ff','gop-error':'800080','hobs':'ff0000','fv':'00ffff','branch':'ffff00','core':'00ff00',
             'services':'0080ff','memory':'ff0000','image':'00ffff',
             'relocated-hobs':'0080ff','gcd':'ff00ff','ctors':'ff0000','dxe-table':'ffff00','tables':'00ff00',
             'debug-locator':'0080ff','debug-image':'0000ff','dispatch':'ffff00','start-driver':'00ffff','protocol':'0080ff'}[stage]
-    center = {'core':'ff00ff','memory':'00ff00','image':'ff00ff','relocated-hobs':'ffffff','gcd':'ffff00',
+    center = {'gop-blt':'00ffff','core':'ff00ff','memory':'00ff00','image':'ff00ff','relocated-hobs':'ffffff','gcd':'ffff00',
               'ctors':'00ffff','dxe-table':'ff0000','tables':'0080ff',
               'debug-locator':'ffff00','debug-image':'ffff00','dispatch':'ff0000','start-driver':'ff0000','protocol':'00ff00'}.get(stage,'000000')
-    row = b''.join(bytes.fromhex(c)*288 for c in ('ffffff',side,center,side,'ffffff'))
+    row = b''.join(bytes.fromhex(c)*288 for c in (('ff0000' if gop else 'ffffff'),side,center,side,('ff0000' if gop else 'ffffff')))
     for start,end in band_ranges():
         pos = start - FB_BASE + GUARD
         data[pos:pos+end-start] = row*32
     return data
 
 
-def tables(el, text_start, text_end, debug_span=()):
-    windows = (*WINDOWS,POOL)
-    buf = bytearray(8*PAGE)
+def tables(el, text_start, text_end, debug_span=(), full_fb=False):
+    windows = (*WINDOWS,POOL, *((0x83400000,0x83800000,0x83e00000) if full_fb else ()))
+    buf = bytearray((len(windows)+2)*PAGE)
     def put(off,val):
         struct.pack_into('<Q',buf,off,val)
     put(16,TABLE+PAGE+3)
@@ -49,7 +50,8 @@ def tables(el, text_start, text_end, debug_span=()):
         put(PAGE+((va>>21)&511)*8,TABLE+(i+2)*PAGE+3)
     rx = 0x787 | ((1<<54) if el == 1 else 0)
     rw = 0x707 | (1<<54) | ((1<<53) if el == 1 else 0)
-    for lo,hi in ((0x80081000,0x80100000),(POOL,LIMIT),(STACK,TOP),*debug_span,*band_ranges()):
+    display = ((FB_BASE,FB_BASE+SURFACE_BYTES),) if full_fb else band_ranges()
+    for lo,hi in ((0x80081000,0x80100000),(POOL,LIMIT),(STACK,TOP),*debug_span,*display):
         for va in range(lo,hi,PAGE):
             off=(windows.index(va & ~0x1fffff)+2)*PAGE+((va>>12)&511)*8
             put(off,va | (rx if va < 0x80100000 or text_start <= va < text_end else rw))
@@ -84,7 +86,7 @@ def hobs(read, fv, target, meta):
             break
         offset+=size
     expected = [(0, 0x407 if meta['result'] != 'PASS-STATIC-SEC-DXE' else 0x403, POOL, LIMIT-POOL)]
-    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES','PASS-STATIC-DXE-DEBUG','PASS-STATIC-DXE-DISPATCH'):
+    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES','PASS-STATIC-DXE-DEBUG','PASS-STATIC-DXE-DISPATCH','PASS-STATIC-DXE-GOP'):
         expected.append((5, 0x403, STACK, TOP-STACK))
     require(POOL+offset==end and kind==0xffff and module and resources==expected
             and len(found)==2 and found[0]==(0x80081000,0x7f000),'Missing resource, module, or FV HOB')
@@ -99,6 +101,8 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
     bias=load-BASE
     sec={k:v+bias for k,v in sec.items()}
     debug_span = ((int(meta["debugPage"],16),int(meta["debugPage"],16)+PAGE),) if "debugPage" in meta else ()
+    full_fb = 'gopGuid' in meta
+    table_end = TABLE + (11 if full_fb else 8)*PAGE
     original=bytearray(fd)
     with guest(path,harness,el,load) as (g,ram):
         g.stream.settimeout(30)
@@ -128,7 +132,7 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
         g.set_register(32,0x41000000+(64 if el==2 else 0))
         stop(load,'firmware entry')
         previous=RAM_START
-        for begin,end in sorted(((POOL,LIMIT),(TABLE,TABLE+8*PAGE),(STACK,TOP),*debug_span,*band_ranges())):
+        for begin,end in sorted(((POOL,LIMIT),(TABLE,table_end),(STACK,TOP),*debug_span,*band_ranges())):
             watch(g,2,previous,begin)
             previous=end
         watch(g,2,previous,RAM_START+(2<<30))
@@ -186,7 +190,7 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
             offset,base,_,fv_base,free_bytes=hobs(read,fv,entry,meta)
             a,b=meta['textRva']
             map_spans = debug_span + (((TABLE+7*PAGE,TABLE+8*PAGE),) if 'driverGuid' in meta else ())
-            checked=tables(el,base+a,base+b,map_spans)
+            checked=tables(el,base+a,base+b,map_spans,full_fb)
             require(read(TABLE,len(checked))==checked,'Incorrect W^X mapping or guards')
             if memory:
                 original_text=read(base+a,b-a)
@@ -205,6 +209,8 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
                 extra = {'constructors': meta['constructors']} if 'constructors' in meta else {}
                 if 'driverGuid' in meta:
                     extra.update(driver=meta['driverSymbols'], el=el)
+                if full_fb:
+                    extra.update(gop=meta['gopSymbols'])
                 terminal,stage,measurement=memory.observe_services(g,read,write,stop,check_screen,core,base,case,**extra)
             else:
                 terminal='TrialDxeRejected' if case=='bad-module' else 'TrialDxeComplete'
@@ -212,8 +218,10 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
                 stage='branch' if case=='bad-module' else 'core'
                 measurement={}
             if memory:
-                if measurement.get('driverText'):
-                    lo, hi = (int(value,16) for value in measurement['driverText'])
+                for field in ('driverText','gopText'):
+                    if field not in measurement:
+                        continue
+                    lo, hi = (int(value,16) for value in measurement[field])
                     require(POOL <= lo < hi <= LIMIT, 'Driver code escaped arena')
                     for addr in range(lo,hi,PAGE):
                         struct.pack_into('<Q',checked,7*PAGE+8*((addr-POOL)//PAGE),addr | 0x787 | ((1<<54) if el == 1 else 0))
@@ -230,7 +238,7 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
             stop(sec[terminal],terminal)
         check_screen(stage)
         actual=bytearray(read(load,SIZE))
-        spans=((POOL,LIMIT),(TABLE,TABLE+8*PAGE),(STACK,TOP)) if success else (
+        spans=((POOL,LIMIT),(TABLE,table_end),(STACK,TOP)) if success else (
             ((POOL,LIMIT),(STACK,TOP)) if case in ('bad-fv','arena-readback') else (((STACK,TOP),) if case.startswith('dirty-') else ()))
         if runtime.get("debugPageTouched"):
             spans += debug_span
@@ -245,7 +253,9 @@ def main():
     a=arguments()
     fd,fv,pe=(p.read_bytes() for p in (a.fd,a.fv,a.pe))
     memory=None
-    if a.driver_pe:
+    if a.gop_pe:
+        import dxe_gop_trace as memory
+    elif a.driver_pe:
         import dxe_dispatch_trace as memory
     elif a.debug_image:
         import dxe_debug_trace as memory
@@ -255,10 +265,13 @@ def main():
         import dxe_gcd_trace as memory
     elif a.memory:
         import dxe_memory_trace as memory
-    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe)
+    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe,a.gop_pe)
     if a.driver_pe:
         driver_symbols = symbols(a.driver_pe.with_suffix('.debug'))
         meta['driverSymbols'] = {n:driver_symbols[n] for n in ('_ModuleEntryPoint','DevicePathEntryPoint','GetDevicePathSize')}
+    if a.gop_pe:
+        sym = symbols(a.gop_pe.with_suffix('.debug'))
+        meta['gopSymbols'] = {n:sym[n] for n in ('_ModuleEntryPoint','InheritedGopDxeEntry','QueryMode','Blt')}
     names=symbols(a.sec_elf)
     bias=int(verify(fd)['secEntryAddress'],16)-names['_ModuleEntryPoint']
     sec={k:v+bias for k,v in names.items()}
@@ -275,7 +288,11 @@ def main():
         def run_one(scenario):
             el, case = scenario
             print(f'EL{el} {case}',flush=True)
-            return exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case,memory)
+            try:
+                return exercise(a.fd.resolve(),fd,fv,sec,core,meta,harness,el,case,memory)
+            except Exception as error:
+                print(f'EL{el} {case} failed: {error}', flush=True)
+                raise
 
         jobs = int(os.environ.get('DXE_QEMU_JOBS', '1'))
         require(1 <= jobs <= 8, 'DXE_QEMU_JOBS must be between 1 and 8')

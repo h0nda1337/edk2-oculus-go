@@ -25,6 +25,7 @@ PY
 profile=()
 case "$(basename "$out")" in
   DEBUG-SEC_DXE-*) dir=Build/OculusGoSecDxe/DEBUG_GCC5 ;;
+  DEBUG-DXE_GOP-*) dir=Build/OculusGoDxeGop/DEBUG_GCC5; profile=(--driver-pe "$dir/AARCH64/DevicePathDxe.efi" --gop-pe "$dir/AARCH64/InheritedGopDxe.efi") ;;
   DEBUG-DXE_DISPATCH-*) dir=Build/OculusGoDxeDispatch/DEBUG_GCC5; profile=(--driver-pe "$dir/AARCH64/DevicePathDxe.efi") ;;
   DEBUG-DXE_DEBUG-*) dir=Build/OculusGoDxeDebug/DEBUG_GCC5; profile=(--debug-image) ;;
   DEBUG-DXE_TABLES-*) dir=Build/OculusGoDxeTables/DEBUG_GCC5; profile=(--tables) ;;
