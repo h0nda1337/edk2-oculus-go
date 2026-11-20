@@ -1,6 +1,6 @@
 # Next steps
 
-DXE_DISPATCH reached its final checkpoint on the Go. DevicePathDxe ran from the FV and its published protocol answered a call from DXE Core. The next offline target is to dispatch inherited GOP and exercise output through that protocol, followed by a UEFI text console for the Shell. [Physical record](evidence/dxe-dispatch-transfer-20261119.json) · [Dispatch trial](DXE_DISPATCH.md)
+El próximo paso físico es observar el dibujo de `DXE_GOP` en el Go durante un arranque temporal. En QEMU, DXE ya arrancó primero DevicePathDxe y después InheritedGopDxe, y se comprobó el amarillo central por lectura del GOP y de RAM. Tras confirmar el dibujo en el visor, el siguiente objetivo hacia la Shell es conectar una consola de texto a este GOP y ver caracteres. [Prueba del segundo driver](DXE_GOP.md) · [Último punto confirmado en el visor](evidence/dxe-dispatch-transfer-20261119.json)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

@@ -118,3 +118,11 @@ only. Any binary distribution requires review of the individual package terms.
 | [Image.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Image/Image.c) | Carga y relocalización PE/COFF, mantenimiento de caché y llamada al punto de entrada de la imagen. | CONFIRMED-SOURCE |
 | [DevicePathDxe.inf](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf) y [DevicePath.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/DevicePathDxe/DevicePath.c) | GUID del archivo, DEPEX y publicación de EFI_DEVICE_PATH_UTILITIES_PROTOCOL. Código de TianoCore sin cambios, BSD-2-Clause-Patent. | CONFIRMED-SOURCE |
 | [AArch64Mmu.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/ArmPkg/Include/Chipset/AArch64Mmu.h) | Bits de permiso y atributos de la traducción. La ubicación de la tabla L3 y de las páginas de código procede del diseño del FD y del PE relocalizado. | CONFIRMED-SOURCE |
+
+### DXE_GOP
+
+| Fuente y revisión | Qué aporta | Confianza |
+| --- | --- | --- |
+| [GraphicsOutput.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/GraphicsOutput.h) | Orden Blue, Green, Red, Reserved del píxel BLT, semántica de VideoFill, VideoToBltBuffer y PixelBltOnly. EDK2 sin cambios. | CONFIRMED-SOURCE |
+| [DevicePathUtilities.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/DevicePathUtilities.h) y [Dependency.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Dispatcher/Dependency.c) | AppendDeviceNode construye la ruta del GOP. El despachador evalúa el GUID de protocolo de la expresión DEPEX. EDK2 sin cambios. | CONFIRMED-SOURCE |
+| [Verificador local de las capturas Pacific](../tools/verify_sec_visual_data.py) y [ensayo SEC_C](evidence/sec-c-transfer-20261118.json) | Capturas originales de aboot y del árbol en ejecución cotejadas por hash. Sustentan la geometría, base y stride. La observación en el visor distingue azul y rojo. | CONFIRMED para esta unidad y esta ruta de arranque |

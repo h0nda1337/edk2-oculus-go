@@ -110,3 +110,5 @@ scanout through physical DXE or that a Windows display driver will bind.
 The separate [SEC C build and tests](SEC_C.md) cover the November 18
 measurement. Building either diagnostic leaves the normal DEBUG firmware
 byte-identical to its November 13 baseline, as verified on November 18.
+
+The `DXE_GOP` profile packages DevicePathDxe and InheritedGopDxe in the same firmware volume. Its offline check extracts the firmware from the Android boot container and observes the two drivers and the BGR scanout. [Commands and expected display](DXE_GOP.md)
