@@ -13,7 +13,7 @@ el contraste y la latencia tienen prioridad sobre las animaciones.
 | Componente | Evidencia actual |
 | --- | --- |
 | Pantalla en el visor | En SEC, la función C dibujó tras comprobar su pila. El primer byte del píxel produjo azul y el tercero rojo en el framebuffer heredado. La disposición de las vistas y la óptica por ojo siguen por medir. [Observación física](evidence/sec-c-transfer-20261118.json) |
-| Gráficos en DXE | En QEMU, el perfil `GOP_MODEL` instala `InheritedGopDxe` tras `TrustMeBroDxe` y ofrece las operaciones BLT de UEFI. Mostrar el menú en el Go requiere verificar DXE, GOP y la persistencia de la imagen en el panel. [Pruebas del GOP](BUILD.md#test-the-uefi-graphics-protocol-in-qemu) |
+| Gráficos en DXE | Confirmado en el Go. El GOP publicado por InheritedGopDxe dibujó las cinco franjas del ensayo M3. El perfil de texto coloca una copia de cada glifo en cada mitad del framebuffer. La orientación y el encaje bajo las lentes se medirán por ojo. [Prueba física del GOP](evidence/dxe-gop-transfer-20261120.json) · [Consola de texto](DXE_TEXT.md) |
 | Arranque e interacción | El volumen actual contiene SEC y DXE. Están pendientes el administrador de arranque, la Shell, el acceso al almacenamiento desde UEFI, la entrada del mando y el compositor. [Composición del firmware](../OculusGoPkg/OculusGoPkg.fdf) · [Matriz de controladores](DRIVER_MATRIX.md) |
 
 ## Integración prevista

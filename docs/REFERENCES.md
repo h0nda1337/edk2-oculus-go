@@ -126,3 +126,11 @@ only. Any binary distribution requires review of the individual package terms.
 | [GraphicsOutput.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/GraphicsOutput.h) | Orden Blue, Green, Red, Reserved del píxel BLT, semántica de VideoFill, VideoToBltBuffer y PixelBltOnly. EDK2 sin cambios. | CONFIRMED-SOURCE |
 | [DevicePathUtilities.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/DevicePathUtilities.h) y [Dependency.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Dispatcher/Dependency.c) | AppendDeviceNode construye la ruta del GOP. El despachador evalúa el GUID de protocolo de la expresión DEPEX. EDK2 sin cambios. | CONFIRMED-SOURCE |
 | [Verificador local de las capturas Pacific](../tools/verify_sec_visual_data.py) y [ensayo SEC_C](evidence/sec-c-transfer-20261118.json) | Capturas originales de aboot y del árbol en ejecución cotejadas por hash. Sustentan la geometría, base y stride. La observación en el visor distingue azul y rojo. | CONFIRMED para esta unidad y esta ruta de arranque |
+
+### DXE_TEXT
+
+| Fuente | Aportación | Confianza |
+| --- | --- | --- |
+| [EDK2 SimpleTextOut.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/SimpleTextOut.h) | ABI de `EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL`, orden de los métodos, modos, atributos y estados. | CONFIRMED-SOURCE |
+| [EDK2 GraphicsConsoleDxe.inf](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/Console/GraphicsConsoleDxe/GraphicsConsoleDxe.inf) y [LaffStd.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/Console/GraphicsConsoleDxe/LaffStd.c) | Dependencias HII y Driver Binding de la consola genérica, y bitmaps estrechos 8×19 de los 95 caracteres ASCII imprimibles y los 50 caracteres gráficos de UEFI. | CONFIRMED-SOURCE |
+| [Captura anterior de GOP en el Go](evidence/dxe-gop-transfer-20261120.json) | Salida física del segundo driver y orden BGR observados en la unidad Pacific. La colocación del texto y su orientación bajo las lentes se comprobarán en el visor. | CONFIRMED-DEVICE para el GOP, HYPOTHESIS para la orientación óptica |

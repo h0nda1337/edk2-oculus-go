@@ -1,6 +1,8 @@
 # Next steps
 
-**M3 completado.** El visor mostró el patrón BGR dibujado por el GOP que publicó InheritedGopDxe. El siguiente objetivo hacia la Shell es conectar una consola de texto a ese GOP y verificar que una llamada a `OutputString()` dibuja caracteres legibles. [Registro físico](evidence/dxe-gop-transfer-20261120.json)
+**Siguiente prueba física: lectura de la consola.** Tras el patrón BGR observado en el Go, QEMU ya dibuja dos líneas mediante `gST->ConOut->OutputString()`. En un arranque temporal de `DXE_TEXT`, comprobar por separado si cada ojo puede leer ambas líneas y en qué orientación. [GOP en el visor](evidence/dxe-gop-transfer-20261120.json) · [Consola en QEMU](DXE_TEXT.md)
+
+Para llegar al prompt, queda integrar la selección de consola en el arranque normal y lanzar la Shell ARM64 desde el volumen con los servicios de carga de imágenes. Para probar comandos hará falta además una fuente de entrada que publique `ConIn`.
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

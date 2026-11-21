@@ -112,3 +112,5 @@ measurement. Building either diagnostic leaves the normal DEBUG firmware
 byte-identical to its November 13 baseline, as verified on November 18.
 
 The `DXE_GOP` profile packages DevicePathDxe and InheritedGopDxe in the same firmware volume. Its offline check extracts the firmware from the Android boot container and observes the two drivers and the BGR scanout. [Commands and expected display](DXE_GOP.md)
+
+The [DXE_TEXT trial](DXE_TEXT.md) exercises both output strings through the UEFI system table and exports an upright pixel crop from each modeled exception level.
