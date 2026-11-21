@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de Pacific.** La [captura en Android](evidence/ufs-splash-physical-layout-20261120.json) confirmó la geometría de `splash` en el LUN 4. La [sonda física](UFS_HANDOFF.md) confirmó HCE activo y ambas listas en marcha. La [medición de colas](UFS_QUEUES.md) dio UTR `0x918EE400` y UTM `0x918EEC00`. En el visor, [UFS_LK_MAP](UFS_LK_DMA.md) confirmó las bases y los dos bloques de identidad de CPU. El siguiente paso es establecer el destino DMA del controlador para la ventana propia antes de enviar el primer NOP físico. En QEMU ya se obtuvo una respuesta por página. La lectura de `splash` será posterior. [Integración UFS](UFS_SPLASH.md)
+**UFS de Pacific.** El siguiente arranque temporal probará un NOP mediante el slot 1 de las colas de LK. Registrar el panel y comprobar el retorno a Android. Después habrá que demostrar la ruta DMA a la ventana propia antes de que EDK2 lea la GPT y el emblema de `splash` en el LUN 4. [Paquete para la prueba](UFS_NOP11.md) · [Geometría física](evidence/ufs-splash-physical-layout-20261120.json) · [Integración del lector](UFS_SPLASH.md)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 
