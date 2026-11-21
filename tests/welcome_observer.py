@@ -156,7 +156,8 @@ def png(rgb):
 
 
 class WelcomeObserver:
-    def __init__(self, output):
+    def __init__(self, output, stock_mark=None):
+        self.stock_mark = stock_mark
         self.output = output
         self.frames = []
         self.start = None
@@ -192,6 +193,9 @@ class WelcomeObserver:
         image = png(first)
         name = f"frame-{len(self.frames):03}.png"
         (self.output / name).write_bytes(image)
+        from oculus_logo import matches_tile
+        stock_visible = (self.stock_mark is not None and matches_tile(first, self.stock_mark)
+                        and matches_tile(second, self.stock_mark))
         self.frames.append(
             {
                 "ms": round(1000 * (now - self.start)),
@@ -203,6 +207,7 @@ class WelcomeObserver:
                 "letters": lit_letters(first, self.font),
                 "rightLetters": lit_letters(second, self.font),
                 "differentViews": first != second,
+                "stockEmblemBothEyes": stock_visible,
                 "png": name,
                 "sha256": hashlib.sha256(image).hexdigest(),
             }
@@ -244,6 +249,7 @@ class WelcomeObserver:
             if (
                 min(levels) == 255
                 and min(sample["rightLetters"]) == 255
+                and (self.stock_mark is None or sample["stockEmblemBothEyes"])
                 and sample["differentViews"]
                 and sample["stereoContourRows"] >= 6
             ):

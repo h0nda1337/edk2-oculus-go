@@ -249,11 +249,18 @@ def verify_viewport(frame, rows, layout):
     }
 
 
-def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe_welcome=False):
+def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe_welcome=False, stock_splash=None):
     welcome = None
+    stock = mark = None
+    if stock_splash is not None:
+        if not observe_welcome or layout != "centered":
+            raise ValueError("Stock emblem requires the centered welcome observer")
+        from oculus_logo import stock_frame, stock_mark
+        stock = stock_frame(stock_splash)
+        mark = stock_mark(stock)
     if observe_welcome:
         from welcome_observer import WelcomeObserver
-        welcome = WelcomeObserver(output / "welcome")
+        welcome = WelcomeObserver(output / "welcome", mark)
 
     evidence = embedded_shell(fd.read_bytes(), reference)
     output.mkdir(parents=True, exist_ok=True)
@@ -303,6 +310,10 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe
                 "-device",
                 f"loader,file={fixture},cpu-num=0",
             ]
+        if stock is not None:
+            surface_input = Path(tmp) / "inherited.bgr"
+            surface_input.write_bytes(stock)
+            command += ["-device", f"loader,file={surface_input},addr={FB:#x},force-raw=on"]
         child = subprocess.Popen(command)
         deadline = time.monotonic() + timeout
         try:
@@ -327,6 +338,10 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe
                 raise RuntimeError("Entry exception level differs")
             png = eye_png(frame)
             (output / "eye.png").write_bytes(png)
+            viewport_frame = frame
+            if mark is not None:
+                from oculus_logo import check_footer
+                viewport_frame = check_footer(frame, mark)
             report = {
                 **evidence,
                 "el": el,
@@ -334,7 +349,7 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe
                 "fdSha256": sha(fd.read_bytes()),
                 "shellFileGuid": SHELL_GUID,
                 "screenRows": rows,
-                "eyeGeometry": verify_viewport(frame, rows, layout),
+                "eyeGeometry": verify_viewport(viewport_frame, rows, layout),
                 "eyesMatch": True,
                 "eyeNativeBgrSha256": sha(frame[: SIZE // 2]),
                 "eyePngSha256": sha(png),
@@ -345,6 +360,11 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe
             }
             if welcome:
                 report["welcome"] = welcome.finish()
+            if mark is not None:
+                report["oculusEmblem"] = {"source": "stock pixels preloaded into inherited scanout",
+                                          "reducedLumaSha256": sha(mark), "exactPixelsBothEyes": True,
+                                          "welcomeTopInTile": 355, "shellTopInEye": 960,
+                                          "size": [68, 42]}
             if dtb is not None:
                 report["pacificFdAtEl1"] = True
                 report["dtbSha256"] = DTB_SHA
@@ -374,6 +394,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--layout", choices=LAYOUTS, default="centered")
     parser.add_argument("--observe-welcome", action="store_true", help="Validate the 3D intro before the prompt")
+    parser.add_argument("--stock-splash", type=Path, help="Seed inherited scanout from the private stock splash dump")
     args = parser.parse_args()
     if args.inspect_only:
         detail = inspect_pacific(args.fd, args.shell_efi)
@@ -381,6 +402,6 @@ if __name__ == "__main__":
         (args.output / "static.json").write_text(json.dumps(detail, indent=2) + "\n")
     else:
         detail = run(
-            args.fd, args.shell_efi, args.output.resolve(), args.timeout, args.el, args.pacific_dtb, args.layout, args.observe_welcome
+            args.fd, args.shell_efi, args.output.resolve(), args.timeout, args.el, args.pacific_dtb, args.layout, args.observe_welcome, args.stock_splash
         )
     print(json.dumps(detail, indent=2))
