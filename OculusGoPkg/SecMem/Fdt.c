@@ -133,13 +133,14 @@ CheckProperty (
 // Entry has already required the captured FDT address before calling this function.
 // Traversal is iterative. The capture uses the v17 layout: header, reservations,
 // structure, strings. Reject unsupported layouts before following any offset.
-BOOLEAN
-OculusGoSecMemValidateFdt (IN CONST VOID *Fdt)
+STATIC BOOLEAN
+ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific)
 {
   CONST UINT8 *Data = Fdt;
   CONST UINT8 *Name;
   UINT32 Total, Struct, Strings, Reserve, StructSize, StringsSize, End, Pos;
   UINT32 Depth = 0, Branch = OtherNode, Seen = 0;
+  BOOLEAN PacificModel = FALSE;
   BOOLEAN RootSeen = FALSE, MemorySeen = FALSE, ReservedSeen = FALSE;
   UINT32 Token, Bytes, NameOffset, Start;
 
@@ -238,12 +239,20 @@ OculusGoSecMemValidateFdt (IN CONST VOID *Fdt)
                             Data + Strings + StringsSize, Data + Pos, Bytes, &Seen)) {
           return FALSE;
         }
+        if (RequirePacific && (Depth == 1) &&
+            NameIs (Data + Strings + NameOffset, Data + Strings + StringsSize, "model")) {
+          if (PacificModel || (Bytes != sizeof ("Oculus Pacific EVT")) ||
+              !NameIs (Data + Pos, Data + Pos + Bytes, "Oculus Pacific EVT")) {
+            return FALSE;
+          }
+          PacificModel = TRUE;
+        }
         Pos += (Bytes + 3) & ~3U;
         break;
       case 4: // FDT_NOP
         break;
       case 9: // FDT_END
-        return (Pos == End) && (Depth == 0) &&
+        return (!RequirePacific || PacificModel) && (Pos == End) && (Depth == 0) &&
                (Seen == (RootAddress | RootSize | RamType | RamReg |
                          ReservedAddress | ReservedSize | ReservedRanges));
       default:
@@ -251,4 +260,16 @@ OculusGoSecMemValidateFdt (IN CONST VOID *Fdt)
     }
   }
   return FALSE;
+}
+
+BOOLEAN
+OculusGoSecMemValidateFdt (IN CONST VOID *Fdt)
+{
+  return ValidateFdt (Fdt, FALSE);
+}
+
+BOOLEAN
+GoUfsValidatePacificFdt (IN CONST VOID *Fdt)
+{
+  return ValidateFdt (Fdt, TRUE);
 }

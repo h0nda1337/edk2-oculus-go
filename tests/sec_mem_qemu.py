@@ -255,7 +255,7 @@ def exercise(remote, ram, fd, sym, el, scenario, tree, pool):
 
 
 @contextmanager
-def guest(fd_path, harness, el, load):
+def guest(fd_path, harness, el, load, extra_args=()):
     with tempfile.TemporaryFile() as memory, socket.socket() as listener:
         memory.truncate(2 << 30)
         listener.bind(('127.0.0.1', 0))
@@ -269,7 +269,7 @@ def guest(fd_path, harness, el, load):
                '-S', '-nodefaults', '-display', 'none', '-serial', 'none', '-monitor', 'none',
                '-chardev', f'socket,id=debug,host=127.0.0.1,port={port},server=off',
                '-gdb', 'chardev:debug', '-device', f'loader,file={harness},addr=0x41000000,force-raw=on',
-               '-device', f'loader,file={fd_path},addr={load:#x},force-raw=on']
+               '-device', f'loader,file={fd_path},addr={load:#x},force-raw=on', *extra_args]
         with subprocess.Popen(cmd, pass_fds=(ram,)) as process:
             try:
                 stream, _ = listener.accept()
