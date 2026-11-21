@@ -71,5 +71,28 @@ int main (void)
   assert (t->OutputString (t,L"x")==EFI_DEVICE_ERROR && Count==2 && t->Mode->CursorColumn==0);
   Count=FailAt=0;
   assert (t->Reset (t,FALSE)==EFI_SUCCESS && t->Mode->CursorRow==0 && t->Mode->Attribute==EFI_LIGHTGRAY);
+  Count=FailAt=0;
+  assert (t->QueryMode (t,2,&cols,&rows)==EFI_SUCCESS && cols==24 && rows==12);
+  assert (t->SetMode (t,2)==EFI_SUCCESS && t->Mode->Mode==2 && Count==3);
+  assert (Calls[0].Op==EfiBltVideoFill && Calls[0].W==1440 && Calls[0].H==2560);
+  for (UINTN eye=0; eye<2; ++eye) {
+    CALL *c=&Calls[1+eye];
+    assert (c->Dx==492 && c->Dy==448+1280*eye && c->W==456 && c->H==384);
+  }
+  assert (t->SetCursorPosition (t,24,0)==EFI_UNSUPPORTED);
+  assert (t->SetCursorPosition (t,0,12)==EFI_UNSUPPORTED);
+  Count=0;
+  assert (t->SetCursorPosition (t,23,11)==EFI_SUCCESS && t->OutputString (t,L"x")==EFI_SUCCESS);
+  assert (t->Mode->CursorRow==11 && t->Mode->CursorColumn==0 && Count==6);
+  for (UINTN eye=0; eye<2; ++eye) {
+    CALL *c=&Calls[2+eye];
+    assert (c->Op==EfiBltVideoToVideo && c->Sx==492 && c->Dx==530);
+    assert (c->Sy==448+1280*eye && c->Dy==c->Sy && c->W==418 && c->H==384);
+  }
+  Count=0;
+  assert (t->Reset (t,FALSE)==EFI_SUCCESS && t->Mode->Mode==0 && Count==3);
+  Count=0;
+  FailAt=2;
+  assert (t->SetMode (t,2)==EFI_DEVICE_ERROR && t->Mode->Mode==0);
   return 0;
 }

@@ -28,7 +28,9 @@ from verify_fd import SIZE as FIRMWARE_BYTES
 FB = 0x83401000
 NATIVE_WIDTH, EYE_WIDTH, CELL_W, CELL_H = 1440, 1280, 16, 38
 SIZE = NATIVE_WIDTH * EYE_WIDTH * 2 * 3
-TOP = (NATIVE_WIDTH - 25 * CELL_H) // 2
+# Logical per-eye coordinates, origin at the top left when worn.
+# Keep the original layout for replay of the first physical Shell image.
+LAYOUTS = {"centered": (24, 12), "legacy": (80, 25)}
 SHELL_GUID = "7c04a583-9e3e-4f1c-ad65-e05268d0b4d1"
 
 
@@ -120,7 +122,7 @@ def inspect_pacific(fd, reference):
     }
 
 
-def decode_grid(scan):
+def decode_grid(scan, columns, height):
     """Decode visible 8x19 ASCII glyphs from native clockwise panel coordinates."""
     header = (ROOT / "OculusGoPkg/Include/third-party/edk2/ConsoleFont.h").read_text()
     font = {
@@ -132,11 +134,13 @@ def decode_grid(scan):
     if left != right:
         raise ValueError("Frame is changing or left/right eye pixels differ")
     rows = []
-    for row in range(25):
-        top_x = NATIVE_WIDTH - 1 - TOP - row * CELL_H
+    left_margin = (EYE_WIDTH - columns * CELL_W) // 2
+    top_margin = (NATIVE_WIDTH - height * CELL_H) // 2
+    for row in range(height):
+        top_x = NATIVE_WIDTH - 1 - top_margin - row * CELL_H
         chars = []
-        for col in range(80):
-            base = 3 * (col * CELL_W * NATIVE_WIDTH + top_x)
+        for col in range(columns):
+            base = 3 * ((left_margin + col * CELL_W) * NATIVE_WIDTH + top_x)
             bits = bytearray()
             for v in range(19):
                 pos = base - v * 6
@@ -152,11 +156,11 @@ def decode_grid(scan):
 
 def eye_png(frame):
     # Exactly one pixel per glyph sample, preserving the real BGR colors.
-    w, h = EYE_WIDTH // 2, 25 * CELL_H // 2
+    w, h = EYE_WIDTH // 2, NATIVE_WIDTH // 2
     pixels = bytearray()
     for y in range(h):
         pixels.append(0)
-        x_native = NATIVE_WIDTH - 1 - TOP - 2 * y
+        x_native = NATIVE_WIDTH - 1 - 2 * y
         for x in range(w):
             pos = 3 * (2 * x * NATIVE_WIDTH + x_native)
             pixels.extend(frame[pos : pos + 3][::-1])
@@ -187,7 +191,7 @@ def request(wire, command, args=None):
             return reply["return"]
 
 
-def wait_for_prompt(wire, log, surface, deadline, trace_loader):
+def wait_for_prompt(wire, log, surface, deadline, trace_loader, layout):
     previous = None
     serial = ""
     while time.monotonic() < deadline:
@@ -205,11 +209,11 @@ def wait_for_prompt(wire, log, surface, deadline, trace_loader):
         if frame[: SIZE // 2] != frame[SIZE // 2 :]:
             previous = None
             continue
-        rows = decode_grid(frame)
+        rows = decode_grid(frame, *LAYOUTS[layout])
         if (
             "Shell>" in rows
             and any(row.startswith("UEFI Basic Shell v") for row in rows)
-            and any("OculusGo UEFI, 0x00000002" in row for row in rows)
+            and "OculusGoUEFI,0x00000002" in "".join("".join(rows).split())
         ):
             if previous == frame:
                 return frame, rows, serial
@@ -220,7 +224,30 @@ def wait_for_prompt(wire, log, surface, deadline, trace_loader):
     raise TimeoutError("Prompt not observed. " + regs[:330] + " " + serial[-1700:])
 
 
-def run(fd, reference, output, timeout, el, dtb=None):
+def verify_viewport(frame, rows, layout):
+    columns, height = LAYOUTS[layout]
+    left = (EYE_WIDTH - columns * CELL_W) // 2
+    top = (NATIVE_WIDTH - height * CELL_H) // 2
+    prompt_y = top + rows.index("Shell>") * CELL_H
+    if layout == "centered":
+        # Test the physical crop regression directly in worn per-eye pixels.
+        if left < 440 or prompt_y < 570 or prompt_y + CELL_H > 870:
+            raise ValueError("Prompt fell outside the proposed central reading area")
+        for u in range(EYE_WIDTH):
+            column = frame[3 * u * NATIVE_WIDTH : 3 * (u + 1) * NATIVE_WIDTH]
+            if left <= u < left + columns * CELL_W:
+                if any(column[: 3 * top]) or any(column[3 * (NATIVE_WIDTH - top) :]):
+                    raise ValueError("Pixels above or below the viewport")
+            elif any(column):
+                raise ValueError("Pixels beyond a horizontal margin")
+    return {
+        "perEyeDimensions": [EYE_WIDTH, NATIVE_WIDTH],
+        "viewportXYWH": [left, top, columns * CELL_W, height * CELL_H],
+        "promptCellBoundsXYWH": [left, prompt_y, len("Shell>") * CELL_W, CELL_H],
+    }
+
+
+def run(fd, reference, output, timeout, el, dtb=None, layout="centered"):
     evidence = embedded_shell(fd.read_bytes(), reference)
     output.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
@@ -282,7 +309,7 @@ def run(fd, reference, output, timeout, el, dtb=None):
                 with channel.makefile("rwb", buffering=0) as wire:
                     assert "QMP" in json.loads(wire.readline())
                     request(wire, "qmp_capabilities")
-                    frame, rows, serial = wait_for_prompt(wire, log, surface, deadline, dtb is None)
+                    frame, rows, serial = wait_for_prompt(wire, log, surface, deadline, dtb is None, layout)
             loads = re.findall(r"Loading driver at [^\r\n]+ (?:GoBdsDxe|Shell)\.efi", serial)
             if dtb is None and [line.split()[-1] for line in loads] != [
                 "GoBdsDxe.efi",
@@ -300,6 +327,7 @@ def run(fd, reference, output, timeout, el, dtb=None):
                 "fdSha256": sha(fd.read_bytes()),
                 "shellFileGuid": SHELL_GUID,
                 "screenRows": rows,
+                "eyeGeometry": verify_viewport(frame, rows, layout),
                 "eyesMatch": True,
                 "eyeNativeBgrSha256": sha(frame[: SIZE // 2]),
                 "eyePngSha256": sha(png),
@@ -335,6 +363,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--pacific-dtb", type=Path, help="Boot the real Pacific FD using the EL2 QEMU GIC map"
     )
+    parser.add_argument("--layout", choices=LAYOUTS, default="centered")
     args = parser.parse_args()
     if args.inspect_only:
         detail = inspect_pacific(args.fd, args.shell_efi)
@@ -342,6 +371,6 @@ if __name__ == "__main__":
         (args.output / "static.json").write_text(json.dumps(detail, indent=2) + "\n")
     else:
         detail = run(
-            args.fd, args.shell_efi, args.output.resolve(), args.timeout, args.el, args.pacific_dtb
+            args.fd, args.shell_efi, args.output.resolve(), args.timeout, args.el, args.pacific_dtb, args.layout
         )
     print(json.dumps(detail, indent=2))

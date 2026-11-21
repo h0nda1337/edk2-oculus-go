@@ -1,6 +1,7 @@
 /** Minimal platform boot policy: the inherited display and the Shell in this FV.
     SPDX-License-Identifier: BSD-2-Clause-Patent **/
 #include <PiDxe.h>
+#include <Display/TextModes.h>
 #include <Guid/EventGroup.h>
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
@@ -41,7 +42,7 @@ SelectDisplay (VOID)
     if (EFI_ERROR (Status)) {
       break;
     }
-    Status = Text->Reset (Text, FALSE);
+    Status = Text->SetMode (Text, GO_TEXT_MODE_CENTERED);
     if (EFI_ERROR (Status)) {
       break;
     }
