@@ -1,6 +1,7 @@
 /** Minimal platform boot policy: the inherited display and the Shell in this FV.
     SPDX-License-Identifier: BSD-2-Clause-Patent **/
 #include <PiDxe.h>
+#include "Welcome.h"
 #include <Display/TextModes.h>
 #include <Guid/EventGroup.h>
 #include <Library/BaseLib.h>
@@ -78,6 +79,17 @@ BootShell (VOID)
   EFI_DEVICE_PATH_PROTOCOL *Path = AppendDevicePathNode (Volume, &Node.Header);
   if (Path == NULL) {
     return EFI_OUT_OF_RESOURCES;
+  }
+  if (FixedPcdGetBool (PcdGoWelcomeEnabled)) {
+    EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop;
+    EFI_STATUS Intro = gBS->HandleProtocol (gST->ConsoleOutHandle,
+                                             &gEfiGraphicsOutputProtocolGuid, (VOID **)&Gop);
+    if (!EFI_ERROR (Intro)) {
+      Intro = GoPlayWelcome (Gop);
+      // The whole intro tile lies inside the active text viewport.
+      gST->ConOut->ClearScreen (gST->ConOut);
+    }
+    DEBUG ((DEBUG_INFO, "Go BDS: welcome scene returned %r\n", Intro));
   }
   EfiSignalEventReadyToBoot ();
   Status = gBS->LoadImage (FALSE, gImageHandle, Path, NULL, 0, &Child);

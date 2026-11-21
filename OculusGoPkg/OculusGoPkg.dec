@@ -20,6 +20,7 @@
   gOculusGoTrustMeBroProtocolGuid = { 0x4b7e5f2a, 0x196d, 0x47cc, { 0xb8, 0x1f, 0x54, 0x91, 0x4a, 0x3e, 0x9d, 0x70 } }
 
 [PcdsFixedAtBuild]
+  gOculusGoPkgTokenSpaceGuid.PcdGoWelcomeEnabled|TRUE|BOOLEAN|0x00000005
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase|0x94000000|UINT64|0x00000001
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize|0x04000000|UINT32|0x00000002
   gOculusGoPkgTokenSpaceGuid.PcdStackSize|0x00040000|UINT32|0x00000003

@@ -8,6 +8,8 @@
   ENTRY_POINT = GoBdsInitialize
 [Sources]
   GoBds.c
+  Welcome.c
+  Welcome.h
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
@@ -20,6 +22,7 @@
   DevicePathLib
   MemoryAllocationLib
   PcdLib
+  TimerLib
   UefiBootServicesTableLib
   UefiDriverEntryPoint
   UefiLib
@@ -33,6 +36,7 @@
   gUefiShellFileGuid
   gOculusGoDisplayFileGuid
 [FixedPcd]
+  gOculusGoPkgTokenSpaceGuid.PcdGoWelcomeEnabled
   gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVendor
   gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareRevision
 [Depex]
