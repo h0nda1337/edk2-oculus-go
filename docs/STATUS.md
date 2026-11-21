@@ -1,6 +1,6 @@
 # Status
 
-La sonda `UFS_NOP11` está empaquetada para un arranque temporal. El FD completó el NOP con las colas heredadas en EL1 y EL2 bajo QEMU. La medición anterior del visor confirmó el mapa de CPU y ambas bases de LK. Quedan pendientes el primer NOP físico y la traducción DMA de la ventana de 16 KiB. [Paquete, pruebas y panel](UFS_NOP11.md) · [Última lectura en el Go](UFS_LK_DMA.md)
+**Primer NOP UFS confirmado en el Go.** En el slot 1 de las colas heredadas de LK, el controlador devolvió `NOP IN` con tag 1 y `OCS 00000000`. El visor mostró `RAM RESTORED` después de que la sonda cotejara las dos asignaciones. La dirección DMA de la ventana propia de 16 KiB y la primera lectura del LUN 4 siguen pendientes. [Registro físico](evidence/ufs-nop11-transfer-20261121.json) · [Sonda y pruebas QEMU](UFS_NOP11.md)
 
 **UFS.** QEMU recuperó el logo con la GPT y la geometría medidas del LUN 4. La sonda SEC llegó a `UFS DONE` en el Go. LK entregó el host UFSHCI 1.1 habilitado y ambas listas en marcha, con los dos doorbells a cero. La [sonda de colas](UFS_QUEUES.md) llegó a `UFS QUEUES DONE` en el visor. UTR estaba en `0x918EE400` y UTM en `0x918EEC00`. Siguen pendientes el mapeo DMA del Go y la primera lectura del LUN 4 desde EDK2. [Resultados y procedimiento](UFS_HANDOFF.md)
 

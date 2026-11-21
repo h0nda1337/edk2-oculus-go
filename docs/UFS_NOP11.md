@@ -1,6 +1,6 @@
 # Primer NOP en las colas UFS de LK
 
-`UFS_NOP11` prepara un intercambio NOP OUT / NOP IN durante un arranque temporal en Pacific. El controlador UFS puede responder antes de seleccionar un LUN o leer bloques. Esto permite evaluar el transporte por separado de la lectura de la GPT y de `splash`. En el Go, la última medición confirmó las bases de las colas y la traducción de la CPU. La ejecución física de este NOP y la dirección DMA de la ventana de 16 KiB siguen **UNKNOWN**. [Lectura física anterior](evidence/ufs-lk-map-transfer-20261121.json)
+`UFS_NOP11` prepara un intercambio NOP OUT / NOP IN durante un arranque temporal en Pacific. El controlador UFS puede responder antes de seleccionar un LUN o leer bloques. Esto permite evaluar el transporte por separado de la lectura de la GPT y de `splash`. En el Go, la medición anterior al NOP confirmó las bases de las colas y la traducción de la CPU. El operador confirmó el primer NOP físico en las colas de LK. La dirección DMA de la ventana propia de 16 KiB sigue **UNKNOWN**. [Registro físico](evidence/ufs-nop11-transfer-20261121.json) [Lectura física anterior](evidence/ufs-lk-map-transfer-20261121.json)
 
 ## Memoria y registro que utiliza la sonda
 
@@ -35,11 +35,11 @@ El empaquetador del proyecto comprueba el respaldo de `boot_a`, construye una im
 
 ## Lectura del panel en la sesión física
 
-La sesión comienza con el Go en Android. Después de cotejar las particiones de arranque por lectura y confirmar que el operador está mirando, el transporte envía una sola vez `fastboot -s <serie-verificada> boot local/OculusGo-UFS-NOP11-de576f5ca9e3.img`. El siguiente panel indicaría que el controlador respondió y que la sonda restauró las colas.
+Los cuatro hashes de arranque coincidieron con los respaldos. Con el operador mirando, Fastboot aceptó un arranque temporal de la imagen revisada. El operador transcribió estas ocho filas. [Registro físico](evidence/ufs-nop11-transfer-20261121.json)
 
 ```text
-UFS NOP IN    DONE
-TAG 01  CT 02
+UFS NOP IN DONE
+TAG 01 CT 02
 UCD 918EEE80
 UTR 918EE420
 OCS 00000000
@@ -48,4 +48,6 @@ RAM RESTORED
 FD DMA UNTESTED
 ```
 
-Registrar el texto que realmente aparezca, incluidos `STOP`, `BAD`, `FAULT` o `HOLD` con su motivo. Si la imagen se detiene antes del panel final, registrar la última fila visible. Después de la lectura, el operador puede seguir la secuencia de apagado y retorno a Android ya probada en este visor. El cotejo de hashes posterior documenta el retorno. Incluso con `DONE`, quedará por demostrar el acceso físico a la ventana propia antes de leer el LUN 4. [Recuperación](RECOVERY.md)
+El primer dword de la respuesta en little-endian corresponde a los bytes `20 00 00 01`, que identifican NOP IN con el tag enviado. Al mostrar `RAM RESTORED`, la sonda ya había repuesto los tres tramos de 32 bytes y cotejado el contenido de las asignaciones UTR y UTM con su copia inicial. Este resultado acredita el intercambio en la página de LK. El acceso físico a la ventana propia y la primera lectura del LUN 4 siguen pendientes.
+
+El operador volvió a Android y lo reconectó por USB. ADB confirmó el mismo visor, el slot `_a` y el arranque completo. Los SHA-256 de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` coincidieron con los cuatro respaldos y con la lectura previa al NOP. Se cotejaron 136 314 880 bytes en cada lectura. [Retorno verificado](evidence/ufs-nop11-transfer-20261121.json)

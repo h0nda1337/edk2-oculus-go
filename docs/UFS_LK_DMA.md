@@ -51,7 +51,7 @@ El mismo FD destinado al Go pasó 30 casos en QEMU, 15 en EL1 y 15 en EL2. Se co
 | `MISMATCH`, `UNKNOWN`, `CHANGED` o `FAULT` | El campo indicado delimita la discrepancia. Conviene copiar también las filas disponibles. |
 | `DMA WINDOW UNTESTED` | La ventana sigue pendiente de una respuesta del controlador físico. |
 
-Para una prueba física activa se debe establecer el destino del DMA UFS sobre esta asignación y mantener sus descriptores propios mientras exista una solicitud pendiente. El primer intercambio de dispositivo previsto es un NOP, antes de cualquier lectura del LUN 4. [Procedimiento de recuperación](RECOVERY.md)
+Para una prueba física activa se debe establecer el destino del DMA UFS sobre esta asignación y mantener sus descriptores propios mientras exista una solicitud pendiente. La siguiente prueba física completó un NOP en las colas de LK. La ventana propia de 16 KiB sigue pendiente de validación DMA. [Panel de UFS_NOP11](evidence/ufs-nop11-transfer-20261121.json) [Procedimiento de recuperación](RECOVERY.md)
 
 ## Reproducción offline
 

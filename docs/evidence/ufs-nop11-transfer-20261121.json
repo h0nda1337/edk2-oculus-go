@@ -1,0 +1,71 @@
+{
+  "scope": "terminal-ufs-nop11",
+  "testedRevision": "87d0316eeb2a9f57c69227cb604108d9fc043360",
+  "reviewSha256": "664ef6d444099853ef061990cbd1ec7602f14372a5669e4b87f24971793466c6",
+  "preflightReportSha256": "b71a22098212b977b49185abe31e4413585691929801f1b07e14423ef5dc14b4",
+  "matchedOriginalsBefore": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-21T17:20:48.012046+00:00",
+  "transferReportSha256": "606a3d9aaea42d5c1c5b72c09a72bd60e8478a0924df6ced6c759dbbe56f1c71",
+  "fastbootBootStderrSha256": "7acfcaef5ed8b6d58108fb13d368dc0a4671b86d9ef9796bff3d5b195c7d1a73",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "imageSha256": "6f92260b616ab8c643a2713f5b6975c42663605d61867807e2c1a5005616e47b",
+  "fdSha256": "de576f5ca9e33e6405c444aded8682f3dbcc626a5ad51359a96d586eedd5268b",
+  "fastbootResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "temporaryBootCommandIssued": true,
+  "partitionWriteCommandIssued": false,
+  "physicalProbeExecution": "CONFIRMED by operator transcription",
+  "physicalPanel": {
+    "source": "Operator transcription from the headset after the reviewed temporary boot",
+    "rawLines": [
+      "UFS NOP IN DONE",
+      "TAG 01 CT 02",
+      "UCD 918EEE80",
+      "UTR 918EE420",
+      "OCS 00000000",
+      "RSP 01000020",
+      "RAM RESTORED",
+      "FD DMA UNTESTED"
+    ],
+    "transferSlot": 1,
+    "taskTag": 1,
+    "commandType": 2,
+    "descriptorAddress": "0x918EE420",
+    "commandAddress": "0x918EEE80",
+    "responseAddressDerivedFromDescriptor": "0x918EEF00",
+    "overallCommandStatus": "0x00000000",
+    "firstResponseWordLittleEndian": "0x01000020",
+    "restoredLkRam": "CONFIRMED by firmware readback of both 1024-byte allocations and panel"
+  },
+  "physicalLkQueueNop": "CONFIRMED",
+  "physicalWindowDma": "UNKNOWN",
+  "physicalLun4Read": "NOT EXERCISED",
+  "recovery": {
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-21T17:26:30+00:00",
+    "reportSha256": "3cdcae45dd2df3e95e6a5464350dbd76bfc06073940d3762b7690d9f2868c55c",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  },
+  "postBootAndroid": "CONFIRMED by operator and via ADB"
+}

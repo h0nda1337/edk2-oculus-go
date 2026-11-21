@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de Pacific.** El siguiente arranque temporal probará un NOP mediante el slot 1 de las colas de LK. Registrar el panel y comprobar el retorno a Android. Después habrá que demostrar la ruta DMA a la ventana propia antes de que EDK2 lea la GPT y el emblema de `splash` en el LUN 4. [Paquete para la prueba](UFS_NOP11.md) · [Geometría física](evidence/ufs-splash-physical-layout-20261120.json) · [Integración del lector](UFS_SPLASH.md)
+**UFS de Pacific.** El Go ya completó el NOP con las colas de LK. El próximo hito es identificar y validar el acceso DMA a un búfer de datos propio. Una vez demostrado, comprobar la capacidad del LUN 4 y cotejar un bloque de su GPT con el respaldo antes de leer `splash`. Para acceder desde la Shell quedará publicar el LUN mediante Block I/O en DXE. [Registro físico](evidence/ufs-nop11-transfer-20261121.json) · [Geometría del LUN 4](evidence/ufs-splash-physical-layout-20261120.json)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 
