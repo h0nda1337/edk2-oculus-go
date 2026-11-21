@@ -61,10 +61,10 @@ int main (void)
   assert (Count==6 && t->Mode->CursorColumn==0 && t->Mode->CursorRow==24);
   for (UINTN eye=0; eye<2; ++eye) {
     CALL *c=&Calls[2+eye];
-    assert (c->Op==EfiBltVideoToVideo && c->Sx==283 && c->Dx==245);
+    assert (c->Op==EfiBltVideoToVideo && c->Sx==245 && c->Dx==283);
     assert (c->Sy==eye*1280 && c->Dy==c->Sy && c->W==912 && c->H==1280);
     c=&Calls[4+eye];
-    assert (c->Op==EfiBltVideoFill && c->Dx==1157 && c->Dy==eye*1280 && c->W==38 && c->H==1280);
+    assert (c->Op==EfiBltVideoFill && c->Dx==245 && c->Dy==eye*1280 && c->W==38 && c->H==1280);
   }
   Count=0;
   FailAt=2;

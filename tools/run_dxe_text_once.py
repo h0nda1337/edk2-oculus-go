@@ -27,6 +27,10 @@ OUTCOMES = {**{k:('TrialTextComplete','text-complete') for k in POSITIVE},
 
 
 def validate_reports(model,static,digest):
+    validate_text_cases(model, static, digest, ['EDK2 GO', 'UEFI 42'], EXPECTED_RASTER)
+
+
+def validate_text_cases(model, static, digest, lines, raster):
     validate_gop_cases(model,static,digest,'DXE-TEXT',OUTCOMES)
     require(set(model['textSymbols'])=={'TextOutputString','TextQuery','GoTextConsole'},'Missing text entry points')
     for row in model['cases']:
@@ -38,9 +42,9 @@ def validate_reports(model,static,digest):
                     base<=int(row['textInterfaceOffered'],16)<base+row['gopImageBytes'],
                     'Text interface and methods must belong to the display image')
         if case in POSITIVE:
-            require(row['glyphUploads']==28 and row['eyesMatch'] is True and row['consoleCrcVerified'] is True
-                    and row['textLines']==['EDK2 GO','UEFI 42'] and row['outputStringReturns']==[0,0]
-                    and row['eyeRgbSha256']==EXPECTED_RASTER and re.fullmatch('[a-f0-9]{64}',row['eyePngSha256'])
+            require(row['glyphUploads']==2*sum(map(len,lines)) and row['eyesMatch'] is True and row['consoleCrcVerified'] is True
+                    and row['textLines']==lines and row['outputStringReturns']==[0,0]
+                    and row['eyeRgbSha256']==raster and re.fullmatch('[a-f0-9]{64}',row['eyePngSha256'])
                     and int(row['displayHandle'],16)!=0,
                     'Text observation differs')
         else:
@@ -50,6 +54,13 @@ def validate_reports(model,static,digest):
 
 
 def reviewed_inputs(root, review):
+    verify_captures(root, review)
+    return verify_terminal_inputs(root,review,scope='terminal-edk2-dxe-text',build_prefix='DEBUG-DXE_TEXT-',
+                                  sec_sources=SOURCES,required=REQUIRED,previous_record=PREVIOUS,
+                                  validate_reports=validate_reports)
+
+
+def verify_captures(root, review):
     model_path,model_data = checked_file(root,review['model'],('build',))
     capture_digests = {row['el']:row['eyePngSha256'] for row in json.loads(model_data)['cases'] if row['case']=='valid'}
     captures = review['eyeCaptures']
@@ -58,9 +69,7 @@ def reviewed_inputs(root, review):
         path,data = checked_file(root,record,('build',))
         require(path == model_path.parent/f'eye-el{el}.png' and
                 sha(data)==capture_digests[el] and len(data)==record['size'], 'Unexpected console capture')
-    return verify_terminal_inputs(root,review,scope='terminal-edk2-dxe-text',build_prefix='DEBUG-DXE_TEXT-',
-                                  sec_sources=SOURCES,required=REQUIRED,previous_record=PREVIOUS,
-                                  validate_reports=validate_reports)
+
 
 def measure(root, image, tool, serial, preflight, report, output):
     measure_once(root,LEDGER,image,tool,serial,preflight,report,output)

@@ -21,9 +21,10 @@ CORE_CASES = gop.CORE_CASES + CONTROLS
 EXTRA_CASES = gop.EXTRA_CASES + CONTROLS
 TEXT = UUID('387477c2-69c7-11d2-8e39-00a0c969723b')
 FONT = Path(__file__).resolve().parents[1] / 'edk2/MdeModulePkg/Universal/Console/GraphicsConsoleDxe/LaffStd.c'
-LINES = ('EDK2 GO', 'UEFI 42')
-# Physical X follows logical Y; physical Y runs opposite logical X.
-X0, Y0, WIDTH, HEIGHT = 663, 592, 112, 76
+LINES = ('1 EDK2 GO 2', '3 UEFI 42 4')
+# Native scanout rectangle for the marked message, before applying the optics.
+# In the physical DXE_TEXT trial rotating the headset half a turn restored reading order.
+X0, Y0, WIDTH, HEIGHT = 701, 544, 176, 76
 WHITE, CYAN = bytes.fromhex('ffffff'), bytes.fromhex('ffff55')  # packed BGR
 
 
@@ -40,7 +41,7 @@ def display_ranges():
 
 
 def pixel_offset(eye,u,v):
-    return GUARD + (eye*1280 + Y0 + WIDTH-1-u)*STRIDE + (X0+v)*3
+    return GUARD + (eye*1280 + Y0 + u)*STRIDE + (X0+HEIGHT-1-v)*3
 
 
 def expected_surface(data):
@@ -101,12 +102,12 @@ def observe_console(g,read,stop,arrive,row,case,address,symbols):
         expected=(string+'\0').encode('utf-16le')
         require(read(g.register(1),len(expected))==expected,'Unexpected UTF-16 input')
         resume=g.register(30)
-        for col in range(7):
+        for col in range(len(LINES[line])):
             for eye in (0,1):
                 stop(blt,'glyph upload through GOP')
                 regs=[g.register(i) for i in range(8)]
                 require(regs[0]==int(row['gopInterface'],16) and tuple(regs[2:])==
-                        (2,0,0,X0+38*line,eye*1280+Y0+16*(6-col),38)
+                        (2,0,0,X0+38*(1-line),eye*1280+Y0+16*col,38)
                         and gop.word(read,g.register(31))==16 and gop.word(read,g.register(31)+8)==0,
                         f'Unexpected glyph BLT at line {line}, column {col}, eye {eye}: {regs[2:]}')
                 uploads+=1
@@ -125,6 +126,13 @@ def observe_console(g,read,stop,arrive,row,case,address,symbols):
     data=read(FB_BASE-GUARD,SURFACE_BYTES+2*GUARD)
     left,right=(eye_rgb(data,eye) for eye in (0,1))
     require(left==right and len(set(left))>1,'Eyes differ or empty glyphs')
+    # Crop in native packed-BGR row order as an independent check on the viewing rotation.
+    def native(eye):
+        base = GUARD + (eye*1280+Y0)*STRIDE + X0*3
+        return b''.join(data[base+y*STRIDE:base+y*STRIDE+HEIGHT*3] for y in range(WIDTH))
+    native_left = native(0)
+    require(native_left == native(1), 'Raw scanout differs between eyes')
+    row['nativeBgrSha256'] = sha256(native_left).hexdigest()
     capture=png(left)
     target=os.environ.get('DXE_TEXT_CAPTURE')
     if target and case=='valid':
