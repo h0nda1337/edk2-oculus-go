@@ -21,13 +21,15 @@ La aplicación de pruebas reserva la dirección exacta en AAVMF y conecta los pr
 
 Los cuatro resultados fueron `00 11 FF FF 00 00 10 00`. Un LUN virtual con un bloque menos fue rechazado. El backend de solo lectura carece de contenido de disco. La traza UFS confirma que el único opcode SCSI fue `0x25` en el LUN 4 y que no hubo lecturas de sectores. El banco SEC independiente también verificó asignaciones contiguas y dispersas en la SMMU virtual, además del rechazo de una dirección equivocada. [Resultados de DXE](evidence/ufs-capacity-provider-20261121.json) · [Cobertura de traducciones en SEC](evidence/ufs-data-window-qemu-20261121.json)
 
-## Próxima prueba física: UFS_BOUNCE
+## UFS_BOUNCE en el Go
 
 La sonda usa cuatro consultas independientes. En cada una, la única dirección de datos que se programa en la PRDT es `0x918EEF80`. Una vez completada la petición, SEC captura el contenido recibido, restaura las colas de LK y copia por CPU esos ocho bytes al inicio de la página elegida. Verifica todos los bytes de guarda antes y después de la copia. Al terminar muestra `UFS LK COPY DONE`, `COPY MASK 0000000F` y `FD DIRECT UNTESTED`. Este modo ofrece un camino indirecto para entregar respuestas pequeñas a búferes de EDK2. La capacidad de una transferencia completa de bloque y la dirección DMA directa de cada página permanecen pendientes. [Código SEC](../OculusGoPkg/SecMem/UfsData.c)
 
+En el Go, el operador leyó `UFS LK COPY DONE`, `COPY MASK 0000000F`, `OCS 00000000`, `SCSI 00000000` y `FD DIRECT UNTESTED`. Los cuatro bits se activaron después de que la CPU copiara y verificara cada respuesta. `LAST 0011FFFF` y `SIZE 00001000` coinciden con la geometría medida en Android. La sonda sólo consultó la capacidad del LUN. [Transcripción y hashes del arranque temporal](evidence/ufs-bounce-transfer-20261121.json)
+
 QEMU ejecutó el FD con una única página visible para DMA UFS, la de LK. El banco observó la PRDT y la respuesta en esa página en cada doorbell, verificó el instante previo a cada copia y leyó los cuatro destinos por CPU antes de la restauración. Una segunda geometría dejó la máscara en cero. En EL1 y EL2 se cotejaron las dos mitades del panel y la memoria final. El banco de este FD emite ocasionalmente una advertencia de GLib sobre `g_timer_elapsed`; la comprobación de datos, el framebuffer y la traza se verifican de forma independiente. [Informe del FD](evidence/ufs-bounce-fd-qemu-20261121.json)
 
-Imagen temporal de 385 024 bytes. SHA-256 `64de5d43b9089bb2befaab37976a29744a92b6318edafd966b19a7ad484b5ad6`. Permanece bajo `local/`. El siguiente arranque requiere el visor; el verificador sin argumentos revisa el paquete sin usar USB. [Expediente del paquete](evidence/ufs-bounce-review-20261121.json)
+Imagen temporal de 385 024 bytes. SHA-256 `64de5d43b9089bb2befaab37976a29744a92b6318edafd966b19a7ad484b5ad6`. Permanece bajo `local/`. El intento físico quedó registrado. El verificador sin argumentos permite revisar el paquete sin usar USB. [Expediente del paquete](evidence/ufs-bounce-review-20261121.json)
 
 ## Reproducción
 

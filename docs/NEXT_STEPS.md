@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de Pacific.** La próxima prueba física preparada es `UFS_BOUNCE`: recibir cuatro respuestas de capacidad en la página DMA de LK y entregarlas por CPU a las cuatro páginas de EDK2. Para ensayar DMA directo en esas páginas sigue pendiente identificar la traducción del maestro UFS bajo LK. El ensayo de la GPT requiere además un destino válido para un bloque completo de 4096 bytes. [Investigación y paquete temporal](UFS_BUS_PAGES.md) · [Control físico de LK](evidence/ufs-data-transfer-20261121.json)
+**UFS de Pacific.** El Go confirmó las cuatro copias de ocho bytes desde la memoria DMA de LK. Para la primera lectura de un bloque, identificar un búfer o una lista de segmentos DMA con 4096 bytes utilizables, sin solapamiento con las colas activas. Probar en QEMU sus límites y la restauración de memoria antes de intentar la cabecera GPT del LUN 4. La traducción DMA directa de las cuatro páginas de EDK2 sigue pendiente. [Panel físico](evidence/ufs-bounce-transfer-20261121.json) · [Direcciones de bus](UFS_BUS_PAGES.md)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 

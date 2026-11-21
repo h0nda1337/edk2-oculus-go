@@ -1,8 +1,8 @@
 # Status
 
-**Ventana UFS de 16 KiB.** DXE obtuvo del proveedor UEFI las cuatro direcciones de bus en QEMU y recibió la capacidad del LUN 4 en cada página. Las direcciones directas del Go siguen **UNKNOWN**. Está disponible la sonda física de copia por CPU desde la página DMA de LK. [Resultados por página y paquete](UFS_BUS_PAGES.md)
+**Ventana UFS de 16 KiB.** DXE obtuvo del proveedor UEFI las cuatro direcciones de bus en QEMU y recibió la capacidad del LUN 4 en cada página. Las direcciones directas del Go siguen **UNKNOWN**. En el Go, `UFS_BOUNCE` entregó ocho bytes a cada página mediante cuatro copias por CPU desde la dirección DMA de LK. El panel terminó en `UFS LK COPY DONE` con máscara `0x0F`. [Panel físico](evidence/ufs-bounce-transfer-20261121.json) [Resultados por página y paquete](UFS_BUS_PAGES.md)
 
-**Primer DMA de datos UFS confirmado en el Go.** La sonda recibió los ocho bytes de capacidad del LUN 4 en la página de LK. El último LBA fue `0x0011FFFF` y el bloque lógico mide 4096 bytes. Las cuatro páginas propias en `0x80440000` siguen probadas únicamente en QEMU. [Panel físico](evidence/ufs-data-transfer-20261121.json) · [Alcance de la prueba](UFS_DATA.md)
+**Primer DMA de datos UFS confirmado en el Go.** La sonda recibió los ocho bytes de capacidad del LUN 4 en la página de LK. El último LBA fue `0x0011FFFF` y el bloque lógico mide 4096 bytes. El DMA directo a las cuatro páginas propias se ha probado en QEMU. [Panel físico](evidence/ufs-data-transfer-20261121.json) · [Alcance de la prueba](UFS_DATA.md)
 
 **Primer NOP UFS confirmado en el Go.** En el slot 1 de las colas heredadas de LK, el controlador devolvió `NOP IN` con tag 1 y `OCS 00000000`. El visor mostró `RAM RESTORED` después de que la sonda cotejara las dos asignaciones. La dirección DMA de la ventana propia de 16 KiB y la primera lectura de un sector del LUN 4 siguen pendientes. [Registro físico](evidence/ufs-nop11-transfer-20261121.json) · [Sonda y pruebas QEMU](UFS_NOP11.md)
 
