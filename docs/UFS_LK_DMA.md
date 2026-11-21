@@ -1,6 +1,17 @@
 # Cómo entrega LK la memoria a UFS
 
-**CONFIRMED en el binario original.** El inicializador de UFS entrega a los registros del host los punteros bajos de sus propias listas, extendidos con cero. El camino de preparación de datos también conserva el puntero recibido en la primera entrada PRD. LK configura por separado una traducción para la CPU ARM de 32 bits. La accesibilidad desde UFS de `[0x80440000, 0x80444000)` en el Go sigue **UNKNOWN**. [Informe de LK](evidence/ufs-lk-dma-stock-20261121.json) · [Última lectura de las bases en el visor](evidence/ufs-queues-transfer-20261121.json)
+**CONFIRMED en el binario original.** El inicializador de UFS entrega a los registros del host los punteros bajos de sus propias listas, extendidos con cero. El camino de preparación de datos también conserva el puntero recibido en la primera entrada PRD. LK configura por separado una traducción para la CPU ARM de 32 bits. La accesibilidad desde UFS de `[0x80440000, 0x80444000)` en el Go sigue **UNKNOWN**. [Informe de LK](evidence/ufs-lk-dma-stock-20261121.json) · [Medición anterior de las colas](evidence/ufs-queues-transfer-20261121.json)
+
+## Prueba en el Oculus Go
+
+El operador leyó `UFS LK MAP MATCH`. HBA mostró `0x00624000`. Las bases de las listas guardadas en el contexto de LK coincidieron con UTRLBA y UTMRLBA al final del ensayo. En dos muestras, la entrada L1 señaló la tabla de segundo nivel en `0x918E5000`. [Lectura del visor](evidence/ufs-lk-map-transfer-20261121.json)
+
+| Fila | Descriptor retenido | Rango de identidad para la CPU, fin exclusivo |
+| --- | --- | --- |
+| FD | `0x0040000080400451` | `[0x80400000, 0x80600000)`, incluye los 16 KiB en `0x80440000` |
+| LK | `0x0000000091800451` | `[0x91800000, 0x91A00000)`, incluye UTR en `0x918EE400` y UTM en `0x918EEC00` |
+
+La última fila fue `DMA WINDOW UNTESTED`. Queda pendiente comprobar la ruta del maestro UFS hasta la ventana. La sonda terminó antes de emitir un NOP o leer el LUN 4. Android volvió a arrancar en el mismo Go, en el slot `_a`. Los hashes SHA-256 de ambas particiones `aboot` y ambas `boot` coincidieron con los respaldos antes y después de la prueba. [Informe de la prueba y del retorno](evidence/ufs-lk-map-transfer-20261121.json)
 
 ## Qué se pudo reconstruir
 
@@ -40,7 +51,7 @@ El mismo FD destinado al Go pasó 30 casos en QEMU, 15 en EL1 y 15 en EL2. Se co
 | `MISMATCH`, `UNKNOWN`, `CHANGED` o `FAULT` | El campo indicado delimita la discrepancia. Conviene copiar también las filas disponibles. |
 | `DMA WINDOW UNTESTED` | La ventana sigue pendiente de una respuesta del controlador físico. |
 
-Hace falta el Go para obtener esa lectura. Se hace un arranque temporal atendido desde Android, con los cuatro hashes del procedimiento habitual, y se transcribe el panel. El retorno usa Power y **Boot device** como en la prueba anterior. Para una prueba física activa se debe establecer el destino del DMA UFS sobre esta asignación y mantener sus descriptores propios mientras exista una solicitud pendiente. El primer intercambio de dispositivo previsto es un NOP, antes de cualquier lectura del LUN 4. [Procedimiento de recuperación](RECOVERY.md)
+Para una prueba física activa se debe establecer el destino del DMA UFS sobre esta asignación y mantener sus descriptores propios mientras exista una solicitud pendiente. El primer intercambio de dispositivo previsto es un NOP, antes de cualquier lectura del LUN 4. [Procedimiento de recuperación](RECOVERY.md)
 
 ## Reproducción offline
 

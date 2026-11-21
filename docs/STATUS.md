@@ -1,6 +1,6 @@
 # Status
 
-El análisis del LK original siguió las direcciones desde su asignador hasta UTRLBA y UTMRLBA. El banco ARM64 completó un NOP por página de la ventana de 16 KiB y reprodujo un rechazo de DMA en una SMMUv3 virtual. La siguiente imagen temporal, `UFS_LK_MAP`, comprueba las tablas que LK dejó en RAM. [Resultados y prueba en el visor](UFS_LK_DMA.md)
+El análisis del LK original siguió las direcciones desde su asignador hasta UTRLBA y UTMRLBA. El banco ARM64 completó un NOP por página de la ventana de 16 KiB y reprodujo un rechazo de DMA en una SMMUv3 virtual. La imagen temporal `UFS_LK_MAP` llegó a `MATCH` en el Go. Las tablas retenidas de la CPU mapean a identidad la ventana y las colas. El acceso DMA físico a la ventana sigue pendiente. [Resultados y prueba en el visor](UFS_LK_DMA.md)
 
 **UFS.** QEMU recuperó el logo con la GPT y la geometría medidas del LUN 4. La sonda SEC llegó a `UFS DONE` en el Go. LK entregó el host UFSHCI 1.1 habilitado y ambas listas en marcha, con los dos doorbells a cero. La [sonda de colas](UFS_QUEUES.md) llegó a `UFS QUEUES DONE` en el visor. UTR estaba en `0x918EE400` y UTM en `0x918EEC00`. Siguen pendientes el mapeo DMA del Go y la primera lectura del LUN 4 desde EDK2. [Resultados y procedimiento](UFS_HANDOFF.md)
 
