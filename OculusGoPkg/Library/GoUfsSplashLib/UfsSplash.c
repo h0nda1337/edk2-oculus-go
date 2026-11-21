@@ -19,6 +19,7 @@ typedef struct {
   UINT8 Target[TARGET_MAX_BYTES];
   UINT64 Lun;
   UINT8 *Window;
+  UINT8 *Sense;
   UINT32 BlockSize;
   UINT32 LastBlock;
   UINT64 First;
@@ -50,17 +51,34 @@ ReadCommand (GO_UFS_LUN *Disk, BOOLEAN Capacity, UINT32 Lba, UINT16 Blocks)
   Packet.CdbLength = sizeof (Cdb);
   Packet.DataDirection = EFI_EXT_SCSI_DATA_DIRECTION_READ;
   Packet.InDataBuffer = Disk->Window;
-  Packet.InTransferLength = Bytes;
-  EFI_STATUS Status = Disk->Bus->PassThru (Disk->Bus, Disk->Target, Disk->Lun, &Packet, NULL);
-  if (EFI_ERROR (Status)) {
-    return Status;
+  Packet.SenseData = Disk->Sense;
+  // A device may report a power-on unit attention on its first command.
+  // Retry that one read once with a fresh transfer length and sense buffer.
+  for (UINTN Attempt = 0; Attempt < 2; ++Attempt) {
+    ZeroMem (Disk->Sense, 18);
+    Packet.SenseDataLength = 18;
+    Packet.InTransferLength = Bytes;
+    Packet.HostAdapterStatus = 0;
+    Packet.TargetStatus = 0;
+    EFI_STATUS Status = Disk->Bus->PassThru (Disk->Bus, Disk->Target, Disk->Lun, &Packet, NULL);
+    if ((EFI_ERROR (Status) && Status != EFI_DEVICE_ERROR) ||
+        Packet.HostAdapterStatus != EFI_EXT_SCSI_STATUS_HOST_ADAPTER_OK) {
+      return EFI_ERROR (Status) ? Status : EFI_DEVICE_ERROR;
+    }
+    if (Packet.TargetStatus == EFI_EXT_SCSI_STATUS_TARGET_GOOD) {
+      return !EFI_ERROR (Status) && Packet.InTransferLength == Bytes ? EFI_SUCCESS : EFI_DEVICE_ERROR;
+    }
+    UINT8 Format = Disk->Sense[0] & 0x7f;
+    BOOLEAN Attention = Packet.SenseDataLength >= 3 && (Format == 0x70 || Format == 0x71) &&
+                        (Disk->Sense[2] & 0xf) == EFI_SCSI_SK_UNIT_ATTENTION;
+    if (Packet.SenseDataLength >= 2 && (Format == 0x72 || Format == 0x73)) {
+      Attention = (Disk->Sense[1] & 0xf) == EFI_SCSI_SK_UNIT_ATTENTION;
+    }
+    if (Packet.TargetStatus != EFI_EXT_SCSI_STATUS_TARGET_CHECK_CONDITION || !Attention) {
+      break;
+    }
   }
-  if (Packet.TargetStatus != EFI_EXT_SCSI_STATUS_TARGET_GOOD ||
-      Packet.HostAdapterStatus != EFI_EXT_SCSI_STATUS_HOST_ADAPTER_OK ||
-      Packet.InTransferLength != Bytes) {
-    return EFI_DEVICE_ERROR;
-  }
-  return EFI_SUCCESS;
+  return EFI_DEVICE_ERROR;
 }
 
 STATIC EFI_STATUS
@@ -155,10 +173,12 @@ VisitController (EFI_EXT_SCSI_PASS_THRU_PROTOCOL *Bus, GO_DECODE_SPLASH Decode, 
   if (Alignment > WINDOW_BYTES || (Alignment != 0 && (Alignment & (Alignment - 1)) != 0)) {
     return FALSE;
   }
-  Disk.Window = AllocateAlignedPages (EFI_SIZE_TO_PAGES (WINDOW_BYTES), MAX (EFI_PAGE_SIZE, Alignment));
+  UINTN Pages = EFI_SIZE_TO_PAGES (WINDOW_BYTES + 18);
+  Disk.Window = AllocateAlignedPages (Pages, MAX (EFI_PAGE_SIZE, Alignment));
   if (Disk.Window == NULL) {
     return FALSE;
   }
+  Disk.Sense = Disk.Window + WINDOW_BYTES;
   BOOLEAN Found = FALSE;
   UINT8 TargetId[TARGET_MAX_BYTES];
   SetMem (TargetId, sizeof (TargetId), 0xff);
@@ -178,7 +198,7 @@ VisitController (EFI_EXT_SCSI_PASS_THRU_PROTOCOL *Bus, GO_DECODE_SPLASH Decode, 
       break;
     }
   }
-  FreeAlignedPages (Disk.Window, EFI_SIZE_TO_PAGES (WINDOW_BYTES));
+  FreeAlignedPages (Disk.Window, Pages);
   return Found;
 }
 
