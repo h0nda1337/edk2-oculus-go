@@ -136,5 +136,9 @@ GoUfsCaptureQueues (CONST VOID *Fdt)
     }
   }
   GoUfsDraw (0, 6, "CPU WINDOW CLEAN");
+#ifdef GO_UFS_LK_MAP
+  GoUfsLkMap (Tr, Tm);
+#else
   GoUfsHeading ("QUEUES", "DONE");
+#endif
 }

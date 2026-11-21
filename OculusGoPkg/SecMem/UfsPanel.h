@@ -14,6 +14,9 @@ BOOLEAN GoUfsValidatePacificFdt (CONST VOID *Fdt);
 #define GO_QUEUE_WINDOW_START  0x80440000U
 #define GO_QUEUE_WINDOW_END    0x80444000U
 BOOLEAN GoUfsWindowClearInFdt (CONST VOID *Fdt);
+#ifdef GO_UFS_LK_MAP
+VOID GoUfsLkMap (UINT64 Tr, UINT64 Tm);
+#endif
 VOID GoUfsCaptureQueues (CONST VOID *Fdt);
 #endif
 #endif
