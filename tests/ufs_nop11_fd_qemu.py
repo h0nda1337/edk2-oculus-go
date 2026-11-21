@@ -42,7 +42,7 @@ def inspect_fd(fd, elf, guid=GUID):
             "window or hardware entry changed")
     return report | {"registerStore":"0x624058","value":2,**({"windowSubmission":False} if guid == GUID else {})}
 
-def setup_bus(bus):
+def setup_bus(bus, leaves=None):
     cfg = 0x3f000000+(1<<15)
     require(bus.read32(cfg+8)>>8 == 0x010901,"PCI class")
     bus.write32(cfg+0x10,BAR)
@@ -52,7 +52,7 @@ def setup_bus(bus):
     bus.wait_bits(BAR+0x30,8,8)
     bus.write32(BAR+0x90,0x16)
     bus.wait_bits(BAR+0x30,15,15)
-    set_translation(bus)
+    set_translation(bus, leaves)
     seed_lk(bus)
 
 def run_cpu(g, bus, pc, el, after_ring, at_window=None):

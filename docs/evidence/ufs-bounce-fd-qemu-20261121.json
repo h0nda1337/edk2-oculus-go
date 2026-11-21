@@ -1,0 +1,182 @@
+{
+  "outcome": "PASS-QEMU-FD-BOUNCE",
+  "fdSha256": "5ffaa2a2b04f77775ad1ba8bd10aa41d1085b7992d7b854c5b77f1bb5b3554d9",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "physicalWindowDma": "UNKNOWN",
+  "mediaReads": 0,
+  "mediaWrites": 0,
+  "cases": [
+    {
+      "el": 1,
+      "case": "lk-only",
+      "panel": [
+        "UFS LK COPY   DONE",
+        "LUN4 READ CAPACITY",
+        "COPY MASK 0000000F",
+        "OCS  00000000",
+        "SCSI 00000000",
+        "LAST 0011FFFF",
+        "SIZE 00001000",
+        "FD DIRECT UNTESTED"
+      ],
+      "completions": [
+        {
+          "bus": "0x918eef80",
+          "status": 2,
+          "bytes": "a5a5a5a5a5a5a5a5",
+          "copiedBeforeCpuResumed": 0
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000",
+          "copiedBeforeCpuResumed": 0
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000",
+          "copiedBeforeCpuResumed": 1
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000",
+          "copiedBeforeCpuResumed": 2
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000",
+          "copiedBeforeCpuResumed": 3
+        }
+      ],
+      "dmaPages": [
+        "0x918ee000"
+      ],
+      "directWindowMappings": 0,
+      "cpuCopies": 4,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "wrong-geometry",
+      "panel": [
+        "UFS STOP      CAPACITY",
+        "LUN4 READ CAPACITY",
+        "COPY MASK 00000000",
+        "OCS  00000000",
+        "SCSI 00000000",
+        "LAST 0011FFFE",
+        "SIZE 00001000",
+        "FD DIRECT UNTESTED"
+      ],
+      "completions": [
+        {
+          "bus": "0x918eef80",
+          "status": 2,
+          "bytes": "a5a5a5a5a5a5a5a5",
+          "copiedBeforeCpuResumed": 0
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011fffe00001000",
+          "copiedBeforeCpuResumed": 0
+        }
+      ],
+      "dmaPages": [
+        "0x918ee000"
+      ],
+      "directWindowMappings": 0,
+      "cpuCopies": 0,
+      "restored": true
+    },
+    {
+      "el": 2,
+      "case": "lk-only",
+      "panel": [
+        "UFS LK COPY   DONE",
+        "LUN4 READ CAPACITY",
+        "COPY MASK 0000000F",
+        "OCS  00000000",
+        "SCSI 00000000",
+        "LAST 0011FFFF",
+        "SIZE 00001000",
+        "FD DIRECT UNTESTED"
+      ],
+      "completions": [
+        {
+          "bus": "0x918eef80",
+          "status": 2,
+          "bytes": "a5a5a5a5a5a5a5a5",
+          "copiedBeforeCpuResumed": 0
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000",
+          "copiedBeforeCpuResumed": 0
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000",
+          "copiedBeforeCpuResumed": 1
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000",
+          "copiedBeforeCpuResumed": 2
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000",
+          "copiedBeforeCpuResumed": 3
+        }
+      ],
+      "dmaPages": [
+        "0x918ee000"
+      ],
+      "directWindowMappings": 0,
+      "cpuCopies": 4,
+      "restored": true
+    },
+    {
+      "el": 2,
+      "case": "wrong-geometry",
+      "panel": [
+        "UFS STOP      CAPACITY",
+        "LUN4 READ CAPACITY",
+        "COPY MASK 00000000",
+        "OCS  00000000",
+        "SCSI 00000000",
+        "LAST 0011FFFE",
+        "SIZE 00001000",
+        "FD DIRECT UNTESTED"
+      ],
+      "completions": [
+        {
+          "bus": "0x918eef80",
+          "status": 2,
+          "bytes": "a5a5a5a5a5a5a5a5",
+          "copiedBeforeCpuResumed": 0
+        },
+        {
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011fffe00001000",
+          "copiedBeforeCpuResumed": 0
+        }
+      ],
+      "dmaPages": [
+        "0x918ee000"
+      ],
+      "directWindowMappings": 0,
+      "cpuCopies": 0,
+      "restored": true
+    }
+  ]
+}
