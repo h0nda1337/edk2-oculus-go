@@ -1,0 +1,32 @@
+{
+  "scope": "terminal-ufs-handoff",
+  "testedRevision": "46bf2b91bce5f2e8311b6785a622e9173d973ed4",
+  "reviewSha256": "796ff59c4343f3c42db356e53541224e55aea911d1b3568f97d5e5a0bc100584",
+  "preflightReportSha256": "6ffc77bdf5ca85a0fa4ccc10ce4ff8384cbbe232c3b41980e3e9c15fe173f947",
+  "preflightStartUtc": "2026-11-21T06:06:13+00:00",
+  "matchedOriginalsBefore": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-21T06:07:45.696760+00:00",
+  "transferReportSha256": "c0d5eae65090f120c5f4aa8b2640871dd6ff03953382812279c6a0ddfd93e31f",
+  "fastbootBootStderrSha256": "f4b510181be94030b0f858b1e492cd05d6bcf9cd221d46d0696e0289e52aa39e",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "imageSha256": "4d69faefaa0808724ddf45850b28d3a0b31be0e9c8a6da3313f37326f4782a91",
+  "fdSha256": "a4bcf36f87840b7ad45954a1b702f3a40ccf0802d1b28233e7bfa058b086ca69",
+  "fastbootResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "temporaryBootCommandIssued": true,
+  "partitionWriteCommandIssued": false,
+  "physicalPanel": "AWAITING-OPERATOR",
+  "postBootAndroid": "AWAITING-RECOVERY"
+}
