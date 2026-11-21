@@ -1,0 +1,84 @@
+{
+  "scope": "pacific-oculus-logo",
+  "decision": "ONE-ATTENDED-TEMPORARY-BOOT",
+  "maxAttempts": 1,
+  "dateMexicoCity": "2026-11-20",
+  "platformRevision": "45b88a086c7df6c3508006d45c66b995c7e69874",
+  "physicalShellExecution": "UNKNOWN",
+  "physicalOculusEmblem": "UNKNOWN",
+  "fd": {
+    "file": "build/DEBUG-NORMAL-20261121-043835/OCULUS_GO_DIRECT.fd",
+    "size": 20971520,
+    "sha256": "c454b231b432009a6cfeaf5894652baa29656663a5dfe7f6c6096f4e921008ab"
+  },
+  "image": {
+    "file": "local/OculusGo-CENTER-LOGO-c454b231b432.img",
+    "size": 688128,
+    "sha256": "907f78f1c497fa06d4d6c571d869526b23c54a4982ad4df13d88a1aff5a22fde"
+  },
+  "model": {
+    "1": {
+      "file": "docs/evidence/oculus-logo-qemu-el1-20261120.json",
+      "size": 3617,
+      "sha256": "3f8606d3a96c7abc56cf1467a0da140c78dc43476fe5880d2d54a6470e599855"
+    },
+    "2": {
+      "file": "docs/evidence/oculus-logo-qemu-el2-20261120.json",
+      "size": 3616,
+      "sha256": "787152f976509bc1a7bed22b00f84a450f88e1c6991f814e4c8be620787c9638"
+    }
+  },
+  "modelFdSha256": "73b08979d72b503ce3152046cb0e4153c9035228cade809dd7eee7ecd521e322",
+  "pacificPrompt": {
+    "file": "docs/evidence/oculus-logo-pacific-el1-20261120.json",
+    "size": 3645,
+    "sha256": "f691d76b4f9abc76987d41f2e3a326361112a63ed108618e048d0a1f716dcc4e"
+  },
+  "noSplashPrompt": {
+    "file": "docs/evidence/oculus-logo-pacific-blank-20261120.json",
+    "size": 2769,
+    "sha256": "cb698a90c45ccdf898f88cd465851bf62b80d99c15b92fde5eb4ba3bff3c855f"
+  },
+  "physicalStatic": {
+    "file": "docs/evidence/oculus-logo-pacific-static-20261120.json",
+    "size": 1728,
+    "sha256": "335334c6d0fb27f9fafb2482a4b398dc52c4368a93e4df6064a8aca38e09d8ab"
+  },
+  "arena": {
+    "file": "docs/evidence/oculus-logo-pacific-arena-20261120.json",
+    "size": 1812,
+    "sha256": "e00cd195bcec33a9d120e19bca0d42e27eed777e0197494a83f86bdc955d3a86"
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-NORMAL-20261121-043835/SOURCES.json",
+    "size": 196099,
+    "sha256": "583584254a35dd667acbecc1079cd7ff95b362d528cb405eaa480a2dc42d3110"
+  },
+  "modelSourceAudit": {
+    "file": "build/DEBUG-SHELL_QEMU-20261121-045346/SOURCES.json",
+    "size": 200232,
+    "sha256": "1461517042939c05fd31bab8b9276039e7ee66d2ad7a26b0a853dce395d54f46"
+  },
+  "priorReadback": {
+    "file": "local/readonly-preflight-20261121-040239/REPORT.json",
+    "size": 7738,
+    "sha256": "1c1e0f72b71f15a37755300c3069b00d7b9630fa4df3b6efebecc47c2d686688"
+  },
+  "packedKernelSpan": [
+    "0x80080000",
+    "0x81480000"
+  ],
+  "allocatorSpan": [
+    "0x80480000",
+    "0x81480000"
+  ],
+  "physicalImageSource": "NORMAL",
+  "variableStore": "RAM only",
+  "transfer": "attended fastboot boot",
+  "operatorReturn": "stock Power and USB Update Mode recovery, then four fresh readbacks",
+  "diskReadTest": {
+    "file": "docs/evidence/oculus-logo-virtual-gpt-20261120.json",
+    "size": 395,
+    "sha256": "599e810fd2e9eebd8ada8a0c11285adfb2acc25c35f34dbd114676b48d7afebd"
+  }
+}
