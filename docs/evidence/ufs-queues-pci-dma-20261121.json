@@ -1,0 +1,46 @@
+{
+  "outcome": "PASS-QEMU-PCI-DMA",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "windowCpuPa": "0x80440000",
+  "bytes": 16384,
+  "model": "PCI DMA identity, no IOMMU, stopped guest CPU",
+  "diskBackends": 0,
+  "scsiCommands": 0,
+  "ufsQueries": 0,
+  "nopTransfers": [
+    {
+      "ucd": "0x80440000",
+      "utrdl": "0x80441000",
+      "response": "0x80440200",
+      "tag": 80,
+      "responseType": "NOP IN",
+      "ocs": 0
+    },
+    {
+      "ucd": "0x80441000",
+      "utrdl": "0x80442000",
+      "response": "0x80441200",
+      "tag": 81,
+      "responseType": "NOP IN",
+      "ocs": 0
+    },
+    {
+      "ucd": "0x80442000",
+      "utrdl": "0x80443000",
+      "response": "0x80442200",
+      "tag": 82,
+      "responseType": "NOP IN",
+      "ocs": 0
+    },
+    {
+      "ucd": "0x80443000",
+      "utrdl": "0x80440000",
+      "response": "0x80443200",
+      "tag": 83,
+      "responseType": "NOP IN",
+      "ocs": 0
+    }
+  ],
+  "traceSha256": "ac54f34a88f0d3a086606dd7d0b5170b50ef52dc9014d563e24f3f8e190f874b",
+  "pacificDmaMapping": "UNKNOWN"
+}

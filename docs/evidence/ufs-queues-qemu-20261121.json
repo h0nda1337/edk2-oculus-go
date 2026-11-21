@@ -1,0 +1,478 @@
+{
+  "outcome": "PASS-QEMU",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "fdSha256": "dd103d56f33f64dbd90a8cbfaff01a20ba26b9bd9aac7b4fd52f9617bc31c2ea",
+  "windowCpuPa": "0x80440000",
+  "windowBytes": 16384,
+  "pacificDmaMapping": "UNKNOWN",
+  "cases": [
+    {
+      "el": 1,
+      "case": "stable32",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "one-slot",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "stable64",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "last-32-bit-block",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "adjacent-lists",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "window-boundary",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "gated",
+      "loads": 1,
+      "state": "GATED",
+      "label": "PWR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "hce-off",
+      "loads": 8,
+      "state": "DISABLED",
+      "label": "HCE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "unsupported-version",
+      "loads": 7,
+      "state": "VERSION",
+      "label": "VER",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "host-error",
+      "loads": 9,
+      "state": "NOT READY",
+      "label": "HCS",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "list-stopped",
+      "loads": 10,
+      "state": "NOT READY",
+      "label": "TRR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "busy",
+      "loads": 13,
+      "state": "BUSY",
+      "label": "TMD",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "base-changed",
+      "loads": 21,
+      "state": "CHANGED",
+      "label": "TRH",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "door-changed",
+      "loads": 27,
+      "state": "CHANGED",
+      "label": "TRD",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "bad-cap",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "CAP",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "zero-base",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "UTR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "alignment",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "UTM",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "32-bit-high",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "UTR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "end-overflow",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "UTR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "overlap",
+      "loads": 29,
+      "state": "OVERLAP",
+      "label": "LISTS",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "fd-alias",
+      "loads": 29,
+      "state": "OVERLAP",
+      "label": "FD",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "reserved-node",
+      "loads": 29,
+      "state": "CONFLICT",
+      "label": "FDT",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "reservation-block",
+      "loads": 29,
+      "state": "CONFLICT",
+      "label": "FDT",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "last-word-dirty",
+      "loads": 29,
+      "state": "DIRTY",
+      "label": "FD",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "load-abort",
+      "loads": 17,
+      "state": "FAULT",
+      "label": "TML",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 1,
+      "case": "wrong-board",
+      "loads": 0,
+      "state": "",
+      "label": "",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "stable32",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "one-slot",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "stable64",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "last-32-bit-block",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "adjacent-lists",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "window-boundary",
+      "loads": 29,
+      "state": "QUEUES",
+      "label": "DONE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "gated",
+      "loads": 1,
+      "state": "GATED",
+      "label": "PWR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "hce-off",
+      "loads": 8,
+      "state": "DISABLED",
+      "label": "HCE",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "unsupported-version",
+      "loads": 7,
+      "state": "VERSION",
+      "label": "VER",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "host-error",
+      "loads": 9,
+      "state": "NOT READY",
+      "label": "HCS",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "list-stopped",
+      "loads": 10,
+      "state": "NOT READY",
+      "label": "TRR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "busy",
+      "loads": 13,
+      "state": "BUSY",
+      "label": "TMD",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "base-changed",
+      "loads": 21,
+      "state": "CHANGED",
+      "label": "TRH",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "door-changed",
+      "loads": 27,
+      "state": "CHANGED",
+      "label": "TRD",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "bad-cap",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "CAP",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "zero-base",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "UTR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "alignment",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "UTM",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "32-bit-high",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "UTR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "end-overflow",
+      "loads": 29,
+      "state": "INVALID",
+      "label": "UTR",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "overlap",
+      "loads": 29,
+      "state": "OVERLAP",
+      "label": "LISTS",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "fd-alias",
+      "loads": 29,
+      "state": "OVERLAP",
+      "label": "FD",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "reserved-node",
+      "loads": 29,
+      "state": "CONFLICT",
+      "label": "FDT",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "reservation-block",
+      "loads": 29,
+      "state": "CONFLICT",
+      "label": "FDT",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "last-word-dirty",
+      "loads": 29,
+      "state": "DIRTY",
+      "label": "FD",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "load-abort",
+      "loads": 17,
+      "state": "FAULT",
+      "label": "TML",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    },
+    {
+      "el": 2,
+      "case": "wrong-board",
+      "loads": 0,
+      "state": "",
+      "label": "",
+      "writesToController": 0,
+      "unapprovedRamStores": 0
+    }
+  ]
+}
