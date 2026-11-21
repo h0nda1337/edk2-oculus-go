@@ -1,6 +1,6 @@
 # Next steps
 
-**Siguiente prueba física: lectura de la consola.** Tras el patrón BGR observado en el Go, QEMU ya dibuja dos líneas mediante `gST->ConOut->OutputString()`. En un arranque temporal de `DXE_TEXT`, comprobar por separado si cada ojo puede leer ambas líneas y en qué orientación. [GOP en el visor](evidence/dxe-gop-transfer-20261120.json) · [Consola en QEMU](DXE_TEXT.md)
+**Siguiente paso hacia la Shell.** El operador leyó las dos líneas de `DXE_TEXT` al girar el Go. Corregir la orientación por ojo, probar en QEMU con un patrón asimétrico que distinga las cuatro esquinas y después verificar que ambas líneas se leen con el visor puesto normalmente. [Observación física](evidence/dxe-text-transfer-20261120.json) · [Consola en QEMU](DXE_TEXT.md)
 
 Para llegar al prompt, queda integrar la selección de consola en el arranque normal y lanzar la Shell ARM64 desde el volumen con los servicios de carga de imágenes. Para probar comandos hará falta además una fuente de entrada que publique `ConIn`.
 

@@ -65,7 +65,7 @@ orange, green, orange and white after the driver's GetDevicePathSize call.
 
 In `DXE_GOP`, InheritedGopDxe starts second after DevicePathDxe publishes its protocol. At EL1 and EL2 in QEMU, DXE called the published GOP 24 times to fill and read back two bands. The resulting packed BGR pattern is blue, red, yellow, red, blue. On November 20 the owner saw the same pattern in the Go, confirming M3, visible UEFI graphics through GOP. [Physical observation](docs/evidence/dxe-gop-transfer-20261120.json) [Reproduction and visual checkpoints](docs/DXE_GOP.md)
 
-The `DXE_TEXT` diagnostic publishes the graphical console on the GOP handle. ARM64 DXE calls `SystemTable->ConOut->OutputString()` twice. The QEMU framebuffer shows “EDK2 GO” in white and “UEFI 42” in cyan in both eye views. The physical test will establish whether the text reads upright through the Go optics. [Capture and reproduction](docs/DXE_TEXT.md)
+The `DXE_TEXT` diagnostic publishes the graphical console on the GOP handle. ARM64 DXE calls `SystemTable->ConOut->OutputString()` twice. The QEMU framebuffer shows “EDK2 GO” in white and “UEFI 42” in cyan in both eye views. On the Go, the owner read both lines after turning the headset. Text appeared upside down in the normal wearing position. [Physical observation](docs/evidence/dxe-text-transfer-20261120.json) [Capture and reproduction](docs/DXE_TEXT.md)
 
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)

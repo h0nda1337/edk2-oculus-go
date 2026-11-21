@@ -8,7 +8,7 @@ El punto de entrada que prueba la imagen es `SystemTable->ConOut->OutputString()
 
 El modo 0 ofrece 80 columnas y 25 filas. Cada celda lógica ocupa 16×38 píxeles y duplica cada píxel del glifo 8×19 de EDK2. El backend rota las celdas hacia el scanout nativo y las sube dos veces con `EfiBltBufferToVideo`. Cada carga se limita a 38×16 píxeles físicos. La fuente cubre ASCII imprimible y los 50 caracteres gráficos de UEFI. La consola admite retorno de carro, salto de línea, retroceso, salto a la línea siguiente por ancho y desplazamiento vertical. El cursor lógico es invisible. El perfil físico escribe solamente las celdas de las dos líneas sobre la señal del GOP. [Implementación](../OculusGoPkg/Drivers/InheritedGopDxe/TextConsole.c) · [Origen de la fuente](../THIRD_PARTY_NOTICES.md#console-font)
 
-Las dos mitades de 1280×1440 y el sentido de giro son una hipótesis de presentación para la lectura con el visor puesto. La superficie heredada y su stride proceden de las capturas originales. La consola de este perfil trabaja con la fuente de EDK2 y el GOP ya localizado. La consola genérica GraphicsConsoleDxe de upstream necesita los servicios HII de base de datos y fuentes. Este paso mantiene la arena de DXE y los dos drivers de la prueba física anterior. [Referencias](REFERENCES.md#dxe_text)
+El perfil representa cada ojo con una mitad lógica de 1280×1440. El recorte de QEMU aplica el mismo giro previsto por el perfil. La observación física de abajo sitúa las letras al revés en la posición habitual del visor. La superficie heredada y su stride proceden de las capturas originales. La consola de este perfil trabaja con la fuente de EDK2 y el GOP ya localizado. La consola genérica GraphicsConsoleDxe de upstream necesita los servicios HII de base de datos y fuentes. Este paso mantiene la arena de DXE y los dos drivers de la prueba física anterior. [Referencias](REFERENCES.md#dxe_text)
 
 ## Reproducir en Debian o WSL
 
@@ -37,8 +37,12 @@ En QEMU AArch64 pasaron los 86 casos del contenedor revisado, 43 en EL1 y 43 en 
 
 El recorte muestra 112 × 76 píxeles de un ojo en coordenadas de lectura. El segundo ojo contiene los mismos píxeles. El SHA-256 del RGB sin comprimir es `857bfdb8401e795369bce60028a9b123bcececae3fd3b61cdee7eeac5ab7a5dd`. Las dos llamadas a `OutputString()` devolvieron `EFI_SUCCESS`. Las dos líneas ocuparon 14 celdas por ojo, incluidos los dos espacios. [Resultados por caso](evidence/dxe-text-qemu-20261120.json)
 
-## Observación física pendiente
+## Observación física del 20 de noviembre
 
 La revisión local se puede repetir con `python tools/run_dxe_text_once.py` desde la raíz del proyecto. Ese modo compara el contenedor, el FD, los informes, los dos PNG y las fuentes con el manifiesto. [Manifiesto de la prueba temporal](evidence/dxe-text-review-20261120.json)
 
-El arranque temporal requerirá una sesión con el visor a mano. El operador deberá leer el texto de cada línea y describir la orientación, el color y cualquier diferencia entre los ojos. La legibilidad bajo las lentes, la entrada de teclado y el arranque de la Shell siguen pendientes. [Procedimiento de recuperación](RECOVERY.md)
+El gestor original de Pacific aceptó la imagen en RAM con Secure Boot activo. El operador vio el patrón azul, rojo, amarillo, rojo y azul y reconoció texto invertido al ponerse el visor en su posición habitual. Al girarlo pudo leer ambas líneas completas: «EDK2 GO» en blanco y «UEFI 42» en azul según su percepción. El programa solicitó `EFI_LIGHTCYAN` para la segunda línea. Esta lectura demuestra que la consola UEFI dibujó caracteres reconocibles en el Go. [Registro de la prueba física](evidence/dxe-text-transfer-20261120.json)
+
+La lectura tras girar el visor respalda corregir la orientación con media vuelta dentro de cada vista lógica. La transformación debe mantener la posición del cursor, el salto de línea y el desplazamiento de pantalla en el mismo sistema de coordenadas. La entrada de teclado y el arranque de la Shell quedan pendientes. [Procedimiento de recuperación](RECOVERY.md)
+
+Android volvió a completar el arranque en el mismo Go y en el slot A. La lectura completa posterior de `boot_a`, `boot_b`, `aboot_a` y `aboot_b` abarcó 136 314 880 bytes. Los cuatro SHA-256 coincidieron con la lectura previa y los respaldos originales. El operador confirmó las cadenas y sus colores. La cobertura por ojo quedó sin informar. [Hashes y recuperación](evidence/dxe-text-transfer-20261120.json)
