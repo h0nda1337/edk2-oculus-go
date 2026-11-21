@@ -1,0 +1,32 @@
+{
+  "dateMexicoCity": "2026-11-20",
+  "scope": "pacific-welcome-repeat",
+  "maxAttempts": 1,
+  "reason": "Operator requested a new observation after missing the first animation. Send after operator confirms the headset is on.",
+  "originalReview": {
+    "file": "docs/evidence/welcome-review-20261120.json",
+    "sha256": "44426be4a5c4c047b6eafdb3ebdf3b630f942c0dc3d27fa8cafa71df0f1ddd3c"
+  },
+  "firstAttempt": {
+    "file": "local/physical-attempts/welcome-shell-20261120.json",
+    "sha256": "4436ba456efce13d3e0b9b08ae9f5d3c7960e5d5475079c164d004d59e24e7e2"
+  },
+  "firstTrial": {
+    "file": "docs/evidence/welcome-transfer-20261120.json",
+    "sha256": "880f33ff329d3c439469b6efc6bb039b21023039a87dcf60c8afe1f5f76ee09b"
+  },
+  "firstRecovery": {
+    "file": "local/readonly-preflight-20261121-035716/REPORT.json",
+    "sha256": "f824fa0249bb14844c61886d9a801c1d74633623323493a753d172f6e3d60408"
+  },
+  "image": {
+    "file": "local/OculusGo-PYRAMID-d849f538099c.img",
+    "size": 684032,
+    "sha256": "10070578236364e171eee002d5a32fef44e1be7baafcc879f71a9e166b1004b6"
+  },
+  "fd": {
+    "file": "build/DEBUG-NORMAL-20261121-030001/OCULUS_GO_DIRECT.fd",
+    "size": 20971520,
+    "sha256": "d849f538099cf5349c770b23a145d0a6c479bc85b2438684bbf26a468c8eac01"
+  }
+}
