@@ -1,0 +1,11 @@
+--- a/UfsPassThru.c
++++ b/UfsPassThru.c
+@@ -990 +989,0 @@
+-  UnitDescriptorSize = sizeof (UFS_UNIT_DESC);
+@@ -991,0 +991 @@
++    UnitDescriptorSize = sizeof (UFS_UNIT_DESC);
+@@ -998 +998,3 @@
+-    if (UnitDescriptor.LunEn == 0x1) {
++    if ((UnitDescriptorSize > OFFSET_OF (UFS_UNIT_DESC, LunEn)) &&
++        (UnitDescriptor.DescType == UfsUnitDesc) && (UnitDescriptor.UnitIdx == Index) &&
++        (UnitDescriptor.LunEn == 0x1)) {

@@ -20,8 +20,11 @@ ROOT = Path(__file__).resolve().parents[1]
 BDS = ROOT / "OculusGoPkg/Drivers/GoBdsDxe"
 
 
-def disk(path, payload, label):
-    sector, start = 512, 2048
+def disk(path, payload, label, sector=512):
+    if sector not in (512, 4096) or not payload or len(payload) % sector:
+        raise ValueError("Fixture must contain whole logical blocks")
+    start = 2048
+    table_blocks = 128 * 128 // sector
     end = start + len(payload) // sector - 1
     last = end + 2048
     entries = bytearray(128 * 128)
@@ -49,8 +52,8 @@ def disk(path, payload, label):
                 0,
                 at,
                 backup,
-                34,
-                last - 33,
+                2 + table_blocks,
+                last - 1 - table_blocks,
                 UUID("7bcb9530-f2e9-4a2f-95c4-e3707c44221e").bytes_le,
                 table,
                 128,
@@ -66,14 +69,14 @@ def disk(path, payload, label):
         mbr = bytearray(sector)
         mbr[450] = 0xEE
         struct.pack_into("<II", mbr, 454, 1, last)
-        mbr[-2:] = b"\x55\xaa"
+        mbr[510:512] = b"\x55\xaa"
         for lba, data in [
             (0, mbr),
             (1, header(1, last, 2)),
             (2, entries),
             (start, payload),
-            (last - 32, entries),
-            (last, header(last, 1, last - 32)),
+            (last - table_blocks, entries),
+            (last, header(last, 1, last - table_blocks)),
         ]:
             f.seek(lba * sector)
             f.write(data)

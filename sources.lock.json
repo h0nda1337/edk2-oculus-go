@@ -12,5 +12,15 @@
     "use": "hardware and ARM64 boot ABI evidence only"
   },
   "userRepositoryImports": [],
-  "driverImports": []
+  "driverImports": [],
+  "edk2DriverAdaptations": [{
+    "repository": "https://github.com/tianocore/edk2",
+    "commit": "e7aac7fc137e247edad22f7ee53b9a1fba227397",
+    "file": "MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThru.c",
+    "gitBlob": "ae593ff03a0d6df7d236610e17268b8de937c1c8",
+    "license": "BSD-2-Clause-Patent",
+    "patch": "tests/UfsSplashApp/ufs-sparse-units.patch",
+    "changes": "Reset the descriptor size per LUN and validate returned unit identity and length.",
+    "scope": "AAVMF test ESP only"
+  }]
 }
