@@ -1,0 +1,61 @@
+{
+  "dateMexicoCity": "2026-11-20",
+  "scope": "pacific-welcome-repeat",
+  "revision": "d8fe8cb57f68fce94c795138355513eceee7b23d",
+  "reviewSha256": "3b2740ae2bad24af16f466ada8961117777e5cc4004f2570f1857cf7f83164e6",
+  "priorTrial": {
+    "file": "docs/evidence/welcome-transfer-20261120.json",
+    "sha256": "880f33ff329d3c439469b6efc6bb039b21023039a87dcf60c8afe1f5f76ee09b"
+  },
+  "preflightStartUtc": "2026-11-21T03:57:16+00:00",
+  "preflightReportSha256": "f824fa0249bb14844c61886d9a801c1d74633623323493a753d172f6e3d60408",
+  "matchedBeforeAndOriginals": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-21T04:00:37.152824+00:00",
+  "transferReportSha256": "8fa5abf3e46b0327ef1476cc1dd51273941c68606da3e6197be2a4a9bdc6fc2c",
+  "fastbootBootStderrSha256": "7256f8bf90b296235252abac53c9da69718663b38dd4041e5cfa1ed0ac544840",
+  "imageSha256": "10070578236364e171eee002d5a32fef44e1be7baafcc879f71a9e166b1004b6",
+  "imageBytes": 684032,
+  "fdSha256": "d849f538099cf5349c770b23a145d0a6c479bc85b2438684bbf26a468c8eac01",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "transportResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "operatorObservation": {
+    "welcomeReactionSpanish": "quedo hermoso",
+    "shellReportSpanish": "Si, veo Shell",
+    "shellVisibleAfterWelcome": true,
+    "stereoDepth": "UNKNOWN",
+    "perceivedSmoothness": "UNKNOWN",
+    "greetingTranscription": "UNKNOWN",
+    "promptLegibilityPerEyeThisRun": "UNKNOWN"
+  },
+  "recovery": {
+    "operatorReportedAndroidAndUsb": true,
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-21T04:02:39+00:00",
+    "reportSha256": "1c1e0f72b71f15a37755300c3069b00d7b9630fa4df3b6efebecc47c2d686688",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}
