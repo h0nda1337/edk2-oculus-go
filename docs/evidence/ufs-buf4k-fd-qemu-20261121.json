@@ -1,0 +1,95 @@
+{
+  "outcome": "PASS-QEMU-BUF4K",
+  "fdSha256": "fef820519de3c74d3f53292c8094a18aebd7c4f035de646ce7e444ef5f1f22cc",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "capturedHeaderSha256": "f8bfbc7cc9846c7f648f67e27f6d7552c05e00638dac852e18e9b310d6c88d50",
+  "candidate": "0x918d7e80",
+  "bytes": 4096,
+  "physicalGptRead": "UNKNOWN",
+  "cases": [
+    {
+      "el": 1,
+      "case": "valid",
+      "panel": [
+        "UFS BUF4K     DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  90C8CEA7",
+        "BOOT A",
+        "",
+        "TWO SAMPLES MATCH",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 2,
+      "case": "valid",
+      "panel": [
+        "UFS BUF4K     DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  90C8CEA7",
+        "BOOT A",
+        "",
+        "TWO SAMPLES MATCH",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "unknown",
+      "panel": [
+        "UFS BUF4K     DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  C71C0011",
+        "OTHER",
+        "",
+        "TWO SAMPLES MATCH",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "wrong-size",
+      "panel": [
+        "UFS STOP      LKPG",
+        "BUF  918D7E80",
+        "LKPG 00000800",
+        "OLD",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    }
+  ]
+}
