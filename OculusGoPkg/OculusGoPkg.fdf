@@ -52,6 +52,18 @@ DATA = { 0x47,0x4f,0x44,0x58,0x45,0x46,0x44,0x31 }
 !endif
 0x003BE000|0x00042000
 DATA = { 0x47,0x4f,0x53,0x54,0x41,0x43,0x4b,0x31 }
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsQueues
+0x00001000|0x003BD000
+gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
+FV = FVCOMPACT
+0x003BE000|0x00002000
+DATA = { 0x47,0x4f,0x53,0x54,0x41,0x43,0x4b,0x31 }
+# Private inspection window 0x80440000..0x80443fff. No allocations or stack here.
+0x003C0000|0x00004000
+DATA = { 0xff }
+# Stack grows from 0x8047f000, upper guard occupies the final 4 KiB.
+0x003C4000|0x0003C000
+DATA = { 0xff }
 !elseif $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff
 0x00001000|0x003BD000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
@@ -108,6 +120,8 @@ WRITE_STATUS = TRUE
 !endif
 !elseif $(GO_BUILD_FLAVOR) == OculusGoSecMmu
   INF OculusGoPkg/SecMmu/SecMmu.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsQueues
+  INF OculusGoPkg/SecMem/UfsQueues.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff
   INF OculusGoPkg/SecMem/UfsHandoff.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoSecStack

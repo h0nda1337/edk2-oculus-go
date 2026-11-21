@@ -4,6 +4,9 @@
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 #include <Base.h>
+#ifdef GO_UFS_QUEUES
+#include "UfsPanel.h"
+#endif
 
 #define MAX_FDT_BYTES  (512U * 1024U)
 #define POOL_SAMPLE    0x94000000ULL
@@ -45,7 +48,7 @@ IsMemoryNode (CONST UINT8 *Start, CONST UINT8 *Terminator)
 }
 
 STATIC BOOLEAN
-ClearOfSamples (CONST UINT8 *Range)
+ClearOfSamples (CONST UINT8 *Range, BOOLEAN CheckWindow)
 {
   UINT64 Base;
   UINT64 Size;
@@ -57,6 +60,13 @@ ClearOfSamples (CONST UINT8 *Range)
     return FALSE;
   }
   End = Base + Size;
+#ifdef GO_UFS_QUEUES
+  if (CheckWindow && (Base < GO_QUEUE_WINDOW_END) && (GO_QUEUE_WINDOW_START < End)) {
+    return FALSE;
+  }
+#else
+  (VOID)CheckWindow;
+#endif
   return ((End <= POOL_SAMPLE) || (Base >= POOL_SAMPLE + 8)) &&
          ((End <= STACK_SAMPLE) || (Base >= STACK_SAMPLE + 8));
 }
@@ -70,7 +80,7 @@ enum {
 STATIC BOOLEAN
 CheckProperty (
   UINT32 Depth, UINT32 Branch, CONST UINT8 *Name, CONST UINT8 *NamesEnd,
-  CONST UINT8 *Value, UINT32 Bytes, UINT32 *Seen
+  CONST UINT8 *Value, UINT32 Bytes, UINT32 *Seen, BOOLEAN CheckWindow
   )
 {
   UINT32 Flag;
@@ -112,7 +122,7 @@ CheckProperty (
       return FALSE;
     }
     for (Idx = 0; Idx < Bytes; Idx += 16) {
-      if (!ClearOfSamples (Value + Idx)) {
+      if (!ClearOfSamples (Value + Idx, CheckWindow)) {
         return FALSE;
       }
     }
@@ -134,7 +144,7 @@ CheckProperty (
 // Traversal is iterative. The capture uses the v17 layout: header, reservations,
 // structure, strings. Reject unsupported layouts before following any offset.
 STATIC BOOLEAN
-ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific)
+ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific, IN BOOLEAN CheckWindow)
 {
   CONST UINT8 *Data = Fdt;
   CONST UINT8 *Name;
@@ -172,7 +182,7 @@ ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific)
     if ((Be64 (Data + Pos) == 0) && (Be64 (Data + Pos + 8) == 0)) {
       break;
     }
-    if (!ClearOfSamples (Data + Pos)) {
+    if (!ClearOfSamples (Data + Pos, CheckWindow)) {
       return FALSE;
     }
     Pos += 16;
@@ -236,7 +246,7 @@ ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific)
         Pos += 8;
         if ((Bytes > End - Pos) || (NameOffset >= StringsSize) ||
             !CheckProperty (Depth, Branch, Data + Strings + NameOffset,
-                            Data + Strings + StringsSize, Data + Pos, Bytes, &Seen)) {
+                            Data + Strings + StringsSize, Data + Pos, Bytes, &Seen, CheckWindow)) {
           return FALSE;
         }
         if (RequirePacific && (Depth == 1) &&
@@ -265,11 +275,19 @@ ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific)
 BOOLEAN
 OculusGoSecMemValidateFdt (IN CONST VOID *Fdt)
 {
-  return ValidateFdt (Fdt, FALSE);
+  return ValidateFdt (Fdt, FALSE, FALSE);
 }
 
 BOOLEAN
 GoUfsValidatePacificFdt (IN CONST VOID *Fdt)
 {
-  return ValidateFdt (Fdt, TRUE);
+  return ValidateFdt (Fdt, TRUE, FALSE);
 }
+
+#ifdef GO_UFS_QUEUES
+BOOLEAN
+GoUfsWindowClearInFdt (CONST VOID *Fdt)
+{
+  return ValidateFdt (Fdt, TRUE, TRUE);
+}
+#endif

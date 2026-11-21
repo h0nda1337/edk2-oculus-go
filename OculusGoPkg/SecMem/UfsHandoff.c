@@ -5,8 +5,7 @@
 #include <Display/Framebuffer.h>
 #include <third-party/edk2/ConsoleFont.h>
 
-BOOLEAN GoUfsRead32 (UINTN Address, UINT32 *Value);
-BOOLEAN GoUfsValidatePacificFdt (CONST VOID *Fdt);
+#include "UfsPanel.h"
 
 enum { Power, Reset, Ahb, Axi, SysNoc, Aggre, Version, Enable, Status,
        TransferRun, TransferDoor, TaskRun, TaskDoor, SampleCount };
@@ -22,8 +21,8 @@ STATIC_ASSERT (ARRAY_SIZE (mSamples) == SampleCount, "register inventory");
 
 // 29 columns x 8 lines inside the optically confirmed central viewport.
 // Coordinates increase right and down in worn orientation.
-STATIC VOID
-Draw (UINTN Col, UINTN Row, CONST CHAR8 *Text)
+VOID
+GoUfsDraw (UINTN Col, UINTN Row, CONST CHAR8 *Text)
 {
   while (*Text != 0) {
     CONST UINT8 *Glyph = mAsciiFont[(UINT8)*Text++ - ' '];
@@ -46,13 +45,24 @@ Draw (UINTN Col, UINTN Row, CONST CHAR8 *Text)
   __asm__ volatile ("dsb sy" ::: "memory");
 }
 
-STATIC VOID
-Heading (CONST CHAR8 *State, CONST CHAR8 *Name)
+VOID
+GoUfsHeading (CONST CHAR8 *State, CONST CHAR8 *Name)
 {
-  Draw (0, 0, "                             ");
-  Draw (0, 0, "UFS");
-  Draw (4, 0, State);
-  Draw (14, 0, Name);
+  GoUfsDraw (0, 0, "                             ");
+  GoUfsDraw (0, 0, "UFS");
+  GoUfsDraw (4, 0, State);
+  GoUfsDraw (14, 0, Name);
+}
+
+VOID
+GoUfsDrawHex (UINTN Col, UINTN Row, UINT32 Value)
+{
+  CHAR8 Hex[9];
+  for (UINTN N = 0; N < 8; ++N) {
+    Hex[N] = "0123456789ABCDEF"[(Value >> (28 - N * 4)) & 15];
+  }
+  Hex[8] = 0;
+  GoUfsDraw (Col, Row, Hex);
 }
 
 STATIC BOOLEAN
@@ -66,7 +76,6 @@ VOID
 GoUfsSnapshot (CONST VOID *Fdt)
 {
   UINT32 Value;
-  CHAR8 Hex[9];
   CONST CHAR8 *Name;
   CONST CHAR8 *Stop;
   if (!GoUfsValidatePacificFdt (Fdt)) {
@@ -74,23 +83,19 @@ GoUfsSnapshot (CONST VOID *Fdt)
     return;
   }
   for (UINTN Row = 1; Row < 8; ++Row) {
-    Draw (0, Row, "                             ");
+    GoUfsDraw (0, Row, "                             ");
   }
   for (UINTN I = 0; I < SampleCount; ++I) {
     Name = mSamples[I].Name;
-    Heading ("READ", Name);
+    GoUfsHeading ("READ", Name);
     if (!GoUfsRead32 (mSamples[I].Address, &Value)) {
-      Heading ("FAULT", Name);
+      GoUfsHeading ("FAULT", Name);
       return;
     }
-    for (UINTN N = 0; N < 8; ++N) {
-      Hex[N] = "0123456789ABCDEF"[(Value >> (28 - N * 4)) & 15];
-    }
-    Hex[8] = 0;
     UINTN Col = (I % 2) * 15;
     UINTN Row = 1 + I / 2;
-    Draw (Col, Row, Name);
-    Draw (Col + 4, Row, Hex);
+    GoUfsDraw (Col, Row, Name);
+    GoUfsDrawHex (Col + 4, Row, Value);
     Stop = NULL;
     if ((Value == MAX_UINT32) || ((I == Version) && (Value == 0))) {
       Stop = "INVALID";
@@ -101,10 +106,24 @@ GoUfsSnapshot (CONST VOID *Fdt)
     } else if ((I == Enable) && ((Value & BIT0) == 0)) {
       Stop = "DISABLED";
     }
+#ifdef GO_UFS_QUEUES
+    if ((I == Version) && (Value != 0x00010100)) {
+      Stop = "VERSION";
+    } else if (((I == Status) && ((Value & 0x3f) != 0x0f)) ||
+               (((I == TransferRun) || (I == TaskRun)) && (Value != 1))) {
+      Stop = "NOT READY";
+    } else if (((I == TransferDoor) || (I == TaskDoor)) && (Value != 0)) {
+      Stop = "BUSY";
+    }
+#endif
     if (Stop != NULL) {
-      Heading (Stop, Name);
+      GoUfsHeading (Stop, Name);
       return;
     }
   }
-  Heading ("DONE", "");
+#ifdef GO_UFS_QUEUES
+  GoUfsCaptureQueues (Fdt);
+#else
+  GoUfsHeading ("DONE", "");
+#endif
 }
