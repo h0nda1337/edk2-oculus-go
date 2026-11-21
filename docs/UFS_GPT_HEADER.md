@@ -1,6 +1,6 @@
 # Primera lectura de un bloque UFS en el búfer de cabecera de LK
 
-**CONFIRMED en QEMU.** SEC recibió los 4096 bytes de la cabecera GPT primaria del LUN 4 por DMA en `[0x918D7E80, 0x918D8E80)`. El bloque coincidió byte por byte con la captura privada del visor. **UNKNOWN en el Go.** LK usa esa dirección como destino de lectura en el firmware original. Queda por medir el estado de ese espacio al salir de Fastboot y su accesibilidad DMA en ese instante. [Informe de QEMU](evidence/ufs-gpt-header-fd-qemu-20261121.json) · [Auditoría del binario de LK](evidence/ufs-header-buffer-stock-20261121.json)
+**CONFIRMED en QEMU.** SEC recibió los 4096 bytes de la cabecera GPT primaria del LUN 4 por DMA en `[0x918D7E80, 0x918D8E80)`. El bloque coincidió byte por byte con la captura privada del visor. **CONFIRMED por CPU en el Go.** Dos lecturas completas al salir de Fastboot fueron idénticas. La dirección de bus efectiva y la lectura física del LBA 1 desde EDK2 siguen **UNKNOWN**. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) [Informe de QEMU](evidence/ufs-gpt-header-fd-qemu-20261121.json) · [Auditoría del binario de LK](evidence/ufs-header-buffer-stock-20261121.json)
 
 ## Por qué esta dirección
 
@@ -25,9 +25,11 @@ En EL1 y EL2 se observó un único bloque leído y cero escrituras por arranque 
 
 La reconstrucción de `UFS_DATA` y `UFS_BOUNCE` produjo FD idénticos byte por byte a sus compilaciones anteriores. También pasaron los diez casos previos de DMA de datos. QEMU emitió avisos de GLib sobre `g_timer_elapsed` al cerrar instancias. El banco comprobó el contenido de RAM, el panel y la traza de cada caso antes de aceptar el resultado.
 
-## Siguiente medición en el visor
+## Medición física en el Go
 
-El contenedor temporal preparado corresponde a **`UFS_BUF4K`**. Este SEC lee por CPU el tamaño que dejó LK. Si vale 4096, toma dos muestras completas y compara todas sus palabras. El panel muestra `BUF`, `LKPG`, el CRC32 en `OLD`, la clasificación de la cabecera y `CPU ONLY`. `BOOT A` y `BOOT B` significan que coinciden la firma, el tamaño y el CRC32 con el respaldo correspondiente. `OTHER` también es una observación válida. La sonda carece de rutina de envío de comandos UFS. Esos resultados permitirán decidir cómo verificar la ruta DMA física. [Código de la medición](../OculusGoPkg/SecMem/UfsHeaderBuffer.c) · [Pruebas de su FD](evidence/ufs-buf4k-fd-qemu-20261121.json) · [Revisión del paquete](evidence/ufs-buf4k-review-20261121.json)
+La imagen temporal **`UFS_BUF4K`** se ejecutó en el Go. Este SEC lee por CPU el tamaño que dejó LK. Si vale 4096, toma dos muestras completas y compara todas sus palabras. El panel muestra `BUF`, `LKPG`, el CRC32 en `OLD`, la clasificación de la cabecera y `CPU ONLY`. `BOOT A` y `BOOT B` significan que coinciden la firma, el tamaño y el CRC32 con el respaldo correspondiente. `OTHER` también es una observación válida. La sonda carece de rutina de envío de comandos UFS. El intento de arranque temporal de esta imagen quedó consumido. [Código de la medición](../OculusGoPkg/SecMem/UfsHeaderBuffer.c) · [Pruebas de su FD](evidence/ufs-buf4k-fd-qemu-20261121.json) · [Revisión del paquete](evidence/ufs-buf4k-review-20261121.json)
+
+El operador leyó `UFS BUF4K DONE`, `BUF 918D7E80`, `LKPG 00001000`, `OLD C71C0011`, `OTHER`, `TWO SAMPLES MATCH` y `CPU ONLY`. La comparación palabra por palabra demuestra igualdad entre las muestras durante la prueba. Un bloque de 4096 bytes en cero produce ese mismo CRC32. La imagen no comparó cada palabra contra cero. En QEMU se reprodujo el mismo panel con un bloque en cero y el perfil activo se detuvo en `STOP ORIGINAL` antes de enviar comandos. El valor del CRC por sí solo tampoco establece que LK haya cedido el búfer. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) · [Casos del modelo](evidence/ufs-gpt-header-fd-qemu-20261121.json)
 
 ## Reproducción sin USB
 

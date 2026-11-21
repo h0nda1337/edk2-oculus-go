@@ -1,6 +1,6 @@
 # Status
 
-**Cabecera GPT del LUN 4.** SEC leyó el LBA 1 completo en QEMU en el búfer de cabecera de LK de `0x918D7E80`. Los 4096 bytes coincidieron con el respaldo de Android. En el Go sigue pendiente medir ese búfer al salir de Fastboot. [Resultado y sonda física](UFS_GPT_HEADER.md)
+**Cabecera GPT del LUN 4.** SEC leyó el LBA 1 completo en QEMU en el búfer de cabecera de LK de `0x918D7E80`. Los 4096 bytes coincidieron con el respaldo de Android. En el Go, la CPU leyó dos veces los 4096 bytes en ese intervalo. Las dos muestras coincidieron y dieron CRC32 `C71C0011` y clasificación `OTHER`. El acceso DMA a ese búfer sigue pendiente. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) [Resultado y sonda física](UFS_GPT_HEADER.md)
 
 **Ventana UFS de 16 KiB.** DXE obtuvo del proveedor UEFI las cuatro direcciones de bus en QEMU y recibió la capacidad del LUN 4 en cada página. Las direcciones directas del Go siguen **UNKNOWN**. En el Go, `UFS_BOUNCE` entregó ocho bytes a cada página mediante cuatro copias por CPU desde la dirección DMA de LK. El panel terminó en `UFS LK COPY DONE` con máscara `0x0F`. [Panel físico](evidence/ufs-bounce-transfer-20261121.json) [Resultados por página y paquete](UFS_BUS_PAGES.md)
 

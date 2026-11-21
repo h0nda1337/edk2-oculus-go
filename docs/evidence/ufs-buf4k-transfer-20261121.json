@@ -1,0 +1,80 @@
+{
+  "scope": "terminal-ufs-buf4k",
+  "testedRevision": "a4c782579693f88aef3e1f89fd2a957025716a28",
+  "reviewSha256": "5062e1ef051ff8003f020b1f2a320759b9816a02cdce09c45f906b38b629c7a1",
+  "preflightReportSha256": "b65b582d2c514e254cbfb93486ad98f15f1b87d58d8d213ea013f1452e61ed9d",
+  "matchedOriginalsBefore": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-21T23:42:24.962095+00:00",
+  "transferReportSha256": "37690c163298b840a62f2592dc94a5ecb0859cc806377299f0d5c9ae5f614bfe",
+  "fastbootBootStderrSha256": "84c6917a4b3215cc8e8b3360b11dccc2607e9151073060c4d28a723612162354",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "imageSha256": "e59da9765f8d777ac421ad9d4dcbc5a91337d7129d5fd1f1ab188ab3187f2ce4",
+  "fdSha256": "fef820519de3c74d3f53292c8094a18aebd7c4f035de646ce7e444ef5f1f22cc",
+  "fastbootResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "temporaryBootCommandIssued": true,
+  "partitionWriteCommandIssued": false,
+  "physicalProbeExecution": "CONFIRMED by operator transcription",
+  "physicalPanel": {
+    "source": "Operator transcription following the reviewed temporary boot",
+    "rawLines": [
+      "UFS BUF4K DONE",
+      "BUF 918D7E80",
+      "LKPG 00001000",
+      "OLD C71C0011",
+      "OTHER",
+      "TWO SAMPLES MATCH",
+      "CPU ONLY"
+    ]
+  },
+  "cpuObservation": {
+    "base": "0x918d7e80",
+    "endExclusive": "0x918d8e80",
+    "lkPageBytes": 4096,
+    "samples": 2,
+    "comparison": "All 1024 32-bit words matched between samples",
+    "crc32": "c71c0011",
+    "classification": "OTHER",
+    "zeroFilledReferenceCrc32": "c71c0011",
+    "allBytesZero": "UNKNOWN",
+    "bufferOwnershipAtHandoff": "UNKNOWN"
+  },
+  "physicalBufferDma": "UNKNOWN",
+  "physicalGptReadFromEdk2": "UNKNOWN",
+  "scsiCommandsByProbe": 0,
+  "mediaSectorsReadByProbe": 0,
+  "qemuComparison": {
+    "passiveFixture": "unknown (4096 zero bytes)",
+    "visiblePanelMatched": true,
+    "activeFixtureHeading": "UFS STOP ORIGINAL",
+    "activeFixtureScsiCommands": 0
+  },
+  "recovery": {
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-21T23:46:15+00:00",
+    "reportSha256": "4fa0cb6dc8d32abd06ed41f28da21aeff06d982a420830a3fe2609145da2603b",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  },
+  "postBootAndroid": "CONFIRMED by operator and via ADB"
+}

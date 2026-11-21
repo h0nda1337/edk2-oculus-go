@@ -1,6 +1,6 @@
 # Memory evidence and candidate layout
 
-LK usa `[0x918D7E80, 0x918D8E80)` en su BSS para leer la cabecera de arranque. El primer fragmento mide 384 bytes y el segundo 3712. El UFS virtual transfirió allí el LBA 1 completo del LUN 4. El estado del búfer a la entrada de EDK2 en el Go y su traducción para DMA físico siguen **UNKNOWN**. [Auditoría y prueba del bloque](UFS_GPT_HEADER.md)
+LK usa `[0x918D7E80, 0x918D8E80)` en su BSS para leer la cabecera de arranque. El primer fragmento mide 384 bytes y el segundo 3712. El UFS virtual transfirió allí el LBA 1 completo del LUN 4. En el arranque temporal del Go, el tamaño leído fue `0x1000`, las dos muestras CPU coincidieron y su CRC32 fue `C71C0011`. La propiedad del intervalo al salir de Fastboot y su accesibilidad DMA siguen **UNKNOWN**. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) [Auditoría y prueba del bloque](UFS_GPT_HEADER.md)
 
 El diagnóstico `UFS_QUEUES` reserva en su propio FD la ventana CPU `[0x80440000, 0x80444000)`. La CPU del Go verificó el patrón completo de esa ventana en la ejecución física. Las bases DMA observadas de las colas caen numéricamente en la página `0x918EE000`; su correspondencia con direcciones CPU sigue abierta. El controlador virtual de QEMU completó un NOP con cada página. La traducción DMA del Go para esa ventana está pendiente. En `NORMAL`, este intervalo pertenece al volumen de firmware. [Mapa y pruebas de colas](UFS_QUEUES.md)
 
