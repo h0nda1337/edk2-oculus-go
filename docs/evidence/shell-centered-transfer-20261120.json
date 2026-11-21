@@ -1,0 +1,63 @@
+{
+  "dateMexicoCity": "2026-11-20",
+  "scope": "pacific-centered-shell",
+  "revision": "041991267904cb196bc127030b0cee2d2d21e5f9",
+  "reviewSha256": "2db9a40c2a43f9e70b12e83b51899c42548a090bb6c0f007705dfa23e132b794",
+  "preflightStartUtc": "2026-11-21T02:26:25+00:00",
+  "preflightReportSha256": "3259772b301d5363516cc1fe5d89fde44379fce0ea26c9e7420d81a8b896492f",
+  "matchedBeforeAndOriginals": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-21T02:27:46.706567+00:00",
+  "transferReportSha256": "5e1ca558b3dbaaedf49410a2164e3fe4b7496659fef2bfcb9ff050c303146034",
+  "fastbootBootStderrSha256": "e43ab4e074f7ba9bcb7f2bb14f5906c15b3ab85d8002b32e8285dc471c211159",
+  "imageSha256": "8e4d3b7851fd6d3afb301e7da8dbf33e9f359240ba12c116cb78b3653356fbd6",
+  "imageBytes": 684032,
+  "fdSha256": "fc01ed1ae08361a4153777009c454496fbdbf23c1b7190d0ffd2d819dc46819d",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "transportResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "operatorObservation": {
+    "initialReportedSpanish": "si, ya lo veo bien",
+    "eyeComparisonReportedSpanish": "Completo en ambos ojos, también las líneas de arriba",
+    "leftEye": "Shell> complete",
+    "rightEye": "Shell> complete",
+    "upperLines": "Complete in both eyes as reported; individual lines were not transcribed.",
+    "completePromptBothEyes": true
+  },
+  "physicalFindings": {
+    "centeredShellPrompt": "CONFIRMED-DEVICE",
+    "bothEyesCheckedIndividually": true,
+    "upperLinesFullyVisible": true,
+    "physicalKeyboardInput": "UNTESTED",
+    "physicalExceptionLevel": "UNKNOWN"
+  },
+  "recovery": {
+    "operatorReportedSpanish": "listo",
+    "preflightStartUtc": "2026-11-21T02:30:26+00:00",
+    "reportSha256": "c7a19bb60801a78120db2655b2d2da825c4704c1aa176aa50bd93bb19252df08",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}
