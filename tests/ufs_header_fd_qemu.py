@@ -31,7 +31,18 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def profile(fd, elf, passive):
+ZERO_GUID = "497f6dc9-8be0-4fc9-8b68-a4c489645b66"
+# Each fixture specifies a starting offset and the contiguous bytes to insert.
+# The five-byte IEEE CRC generator crosses the 384-byte page split.
+ZERO_FIXTURES = {
+    "zero": (0, b""), "first": (0, b"\x01"), "last": (PAGE-1, b"\x80"),
+    "split-left": (SECOND-BUF-1, b"\xa5"), "split-right": (SECOND-BUF, b"\x5a"),
+    "crc-collision": (SECOND-BUF-2, bytes.fromhex("410671db01")),
+    "full": (0, bytes([255])*PAGE), "changing": (0, b""), "wrong-size": (0, b""),
+}
+
+
+def profile(fd, elf, passive, passive_guid=PASSIVE_GUID):
     raw = fd.read_bytes()
     names = symbols(elf)
     bias = int(verify(raw)["secEntryAddress"], 16) - names["_ModuleEntryPoint"]
@@ -40,7 +51,7 @@ def profile(fd, elf, passive):
     if passive:
         require(not ({"GoUfsRingNopSlot", "GoUfsModelReadPrimary", "GoUfsModelTransfer"} & names.keys()),
                 "transport present in the passive SEC")
-        audit = inspect(raw, elf, PASSIVE_GUID, {"mSamples":REGS, "mQueueRegs":QUEUE,
+        audit = inspect(raw, elf, passive_guid, {"mSamples":REGS, "mQueueRegs":QUEUE,
                         "mFinalRegs":[(ADDR[k],k,0) for k in FINAL]})
         audit["transportLinked"] = False
         pc["ring"] = -1
@@ -50,7 +61,7 @@ def profile(fd, elf, passive):
     return pc, audit
 
 
-def test_case(tmp, fd, setup, dt, regs, pc, passive, original, header, el, case):
+def test_case(tmp, fd, setup, dt, regs, pc, passive, original, header, el, case, zero=False):
     disk = None
     source = bytearray(header)
     if case == "bad-crc":
@@ -70,6 +81,14 @@ def test_case(tmp, fd, setup, dt, regs, pc, passive, original, header, el, case)
         disk.chmod(0o400)
     if case == "unknown":
         original = bytes(PAGE)
+    if zero:
+        offset, pattern = ZERO_FIXTURES[case]
+        data = bytearray(PAGE)
+        data[offset:offset+len(pattern)] = pattern
+        original = bytes(data)
+        if case == "crc-collision":
+            require(any(original) and zlib.crc32(original) == zlib.crc32(bytes(PAGE)),
+                    "invalid nonzero CRC collision fixture")
     page_size = 2048 if case == "wrong-size" else PAGE
     prefix = bytes((i*17+11)&255 for i in range(BUF-FIRST))
     suffix = bytes((i*11+19)&255 for i in range(SECOND+PAGE-BUF-PAGE))
@@ -115,7 +134,14 @@ def test_case(tmp, fd, setup, dt, regs, pc, passive, original, header, el, case)
                     require(sample == CAPACITY, "wrong capacity DMA")
             transfers.append(event)
 
-        rings = run_cpu(g,bus,pc,el,completed)
+        mutation = None
+        if zero and case == "changing":
+            # The CPU already sampled byte 0 at the first read of the last word.
+            def change_first_byte(device):
+                device.write(BUF, b"\x42")
+            mutation = (BUF + PAGE - 4, change_first_byte)
+            initial = prefix + b"\x42" + original[1:] + suffix
+        rings = run_cpu(g,bus,pc,el,completed, on_first_read=mutation)
         require(bus.read(FIRST,2*PAGE)==initial and bus.read(TR & -PAGE,PAGE)==old_queue,
                 "LK workspace, guards or queues not restored")
         read_sector = not passive and case not in ("unknown","denied-second")
@@ -129,6 +155,14 @@ def test_case(tmp, fd, setup, dt, regs, pc, passive, original, header, el, case)
         lines = ["","BUF  918D7E80",f"LKPG {page_size:08X}","OLD","","","","CPU ONLY"]
         if case == "wrong-size":
             state, label = "STOP","LKPG"
+        elif zero and case == "changing":
+            state, label = "CHANGED", "BUFFER"
+        elif zero:
+            state, label = "ZERO4K", "DONE"
+            changed = [i for i, byte in enumerate(original) if byte]
+            lines[3:7] = [f"OLD  {zlib.crc32(original):08X}", f"NZ   {len(changed):08X}",
+                          f"OFF  {changed[0]:08X}" if changed else "FIRST NONE",
+                          "NONZERO" if changed else "ZERO EXACT"]
         else:
             lines[3] = f"OLD  {zlib.crc32(original):08X}"
             lines[4] = "OTHER" if case=="unknown" else "BOOT A"
@@ -165,23 +199,35 @@ def test_case(tmp, fd, setup, dt, regs, pc, passive, original, header, el, case)
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--passive",action="store_true")
-    for name in ("fd","sec-elf","runtime-fdt","boot-a","gpt-header","report","static-report"):
+    modes=ap.add_mutually_exclusive_group()
+    modes.add_argument("--passive",action="store_true")
+    modes.add_argument("--zero",action="store_true")
+    for name in ("boot-a", "gpt-header"):
+        ap.add_argument("--"+name, type=Path)
+    for name in ("fd","sec-elf","runtime-fdt","report","static-report"):
         ap.add_argument("--"+name,type=Path,required=True)
     args=ap.parse_args()
-    pc, audit=profile(args.fd,args.sec_elf,args.passive)
+    passive = args.passive or args.zero
+    pc, audit=profile(args.fd,args.sec_elf,passive,ZERO_GUID if args.zero else PASSIVE_GUID)
     args.static_report.write_text(json.dumps(audit,indent=2)+"\n")
-    boot=args.boot_a.read_bytes()
-    header=args.gpt_header.read_bytes()
     dt=args.runtime_fdt.read_bytes()
-    require(sha(boot)==BOOT_SHA and sha(header)==SECTOR_SHA and len(header)==PAGE and sha(dt)==RUNTIME_SHA,
-            "unexpected private evidence")
+    require(sha(dt)==RUNTIME_SHA, "unexpected runtime FDT")
+    boot = header = b""
+    if not args.zero:
+        if args.boot_a is None or args.gpt_header is None:
+            ap.error("this profile requires --boot-a and --gpt-header")
+        boot=args.boot_a.read_bytes()
+        header=args.gpt_header.read_bytes()
+        require(sha(boot)==BOOT_SHA and sha(header)==SECTOR_SHA and len(header)==PAGE,
+                "unexpected storage evidence")
     capture=json.loads((ROOT/"docs/evidence/ufs-handoff-transfer-20261121.json").read_bytes())
     regs={k:int(v,16) for k,v in capture["physicalPanel"]["registersHex"].items()}
     regs.update(CAP=0x0107001f,TRL=TR,TRH=0,TML=TM,TMH=0)
     cases=[(1,"valid"),(2,"valid")]
     cases.extend((1,name) for name in (("unknown","wrong-size") if args.passive else
                                        ("unknown","bad-crc","bad-geometry","bad-tail","denied-second")))
+    if args.zero:
+        cases = [(1, name) for name in ZERO_FIXTURES] + [(2, "zero")]
     with tempfile.TemporaryDirectory() as folder:
         tmp=Path(folder)
         setup=tmp/"entry.bin"
@@ -190,15 +236,17 @@ def main():
         def one(pair):
             el,name=pair
             case_dir=tmp/f"{el}-{name}"; case_dir.mkdir()
-            row=test_case(case_dir,args.fd,setup,dt,regs,pc,args.passive,boot[:PAGE],header,el,name)
+            row=test_case(case_dir,args.fd,setup,dt,regs,pc,passive,boot[:PAGE],header,el,name,args.zero)
             print(el,name,row["panel"][0],flush=True)
             return row
         with ThreadPoolExecutor(max_workers=2) as pool:
             rows=list(pool.map(one,cases))
-    report=dict(outcome="PASS-QEMU-BUF4K" if args.passive else "PASS-QEMU-GPT-READ",
+    report=dict(outcome="PASS-QEMU-ZERO4K" if args.zero else "PASS-QEMU-BUF4K" if args.passive else "PASS-QEMU-GPT-READ",
                 fdSha256=audit["fdSha256"],qemu=subprocess.check_output(["qemu-system-aarch64","--version"],
-                text=True).splitlines()[0],capturedHeaderSha256=SECTOR_SHA,candidate=hex(BUF),
+                text=True).splitlines()[0],candidate=hex(BUF),
                 bytes=PAGE,physicalGptRead="UNKNOWN",cases=rows)
+    if not args.zero:
+        report["capturedHeaderSha256"] = SECTOR_SHA
     args.report.write_text(json.dumps(report,indent=2)+"\n")
 
 if __name__=="__main__":

@@ -52,7 +52,7 @@ DATA = { 0x47,0x4f,0x44,0x58,0x45,0x46,0x44,0x31 }
 !endif
 0x003BE000|0x00042000
 DATA = { 0x47,0x4f,0x53,0x54,0x41,0x43,0x4b,0x31 }
-!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsQueues || $(GO_BUILD_FLAVOR) == OculusGoUfsLkMap || $(GO_BUILD_FLAVOR) == OculusGoUfsData || $(GO_BUILD_FLAVOR) == OculusGoUfsGptModel || $(GO_BUILD_FLAVOR) == OculusGoUfsBuf4k || $(GO_BUILD_FLAVOR) == OculusGoUfsBounce || $(GO_BUILD_FLAVOR) == OculusGoUfsNop11
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsQueues || $(GO_BUILD_FLAVOR) == OculusGoUfsLkMap || $(GO_BUILD_FLAVOR) == OculusGoUfsData || $(GO_BUILD_FLAVOR) == OculusGoUfsGptModel || $(GO_BUILD_FLAVOR) == OculusGoUfsZero4k || $(GO_BUILD_FLAVOR) == OculusGoUfsBuf4k || $(GO_BUILD_FLAVOR) == OculusGoUfsBounce || $(GO_BUILD_FLAVOR) == OculusGoUfsNop11
 0x00001000|0x003BD000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVCOMPACT
@@ -126,6 +126,8 @@ WRITE_STATUS = TRUE
   INF OculusGoPkg/SecMem/UfsLkMap.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsGptModel
   INF OculusGoPkg/SecMem/UfsGptModel.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsZero4k
+  INF OculusGoPkg/SecMem/UfsZero4k.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsBuf4k
   INF OculusGoPkg/SecMem/UfsBuf4k.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsBounce

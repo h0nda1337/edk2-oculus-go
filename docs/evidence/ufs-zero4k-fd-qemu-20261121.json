@@ -1,0 +1,220 @@
+{
+  "outcome": "PASS-QEMU-ZERO4K",
+  "fdSha256": "ec57889730618834097ae09cf6344a0592478ab86d2241e600a8e85b48784e6d",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "candidate": "0x918d7e80",
+  "bytes": 4096,
+  "physicalGptRead": "UNKNOWN",
+  "cases": [
+    {
+      "el": 1,
+      "case": "zero",
+      "panel": [
+        "UFS ZERO4K    DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  C71C0011",
+        "NZ   00000000",
+        "FIRST NONE",
+        "ZERO EXACT",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "first",
+      "panel": [
+        "UFS ZERO4K    DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  9DC4A93D",
+        "NZ   00000001",
+        "OFF  00000000",
+        "NONZERO",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "last",
+      "panel": [
+        "UFS ZERO4K    DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  2AA48331",
+        "NZ   00000001",
+        "OFF  00000FFF",
+        "NONZERO",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "split-left",
+      "panel": [
+        "UFS ZERO4K    DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  D2DBF277",
+        "NZ   00000001",
+        "OFF  0000017F",
+        "NONZERO",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "split-right",
+      "panel": [
+        "UFS ZERO4K    DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  702A2665",
+        "NZ   00000001",
+        "OFF  00000180",
+        "NONZERO",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "crc-collision",
+      "panel": [
+        "UFS ZERO4K    DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  C71C0011",
+        "NZ   00000005",
+        "OFF  0000017E",
+        "NONZERO",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "full",
+      "panel": [
+        "UFS ZERO4K    DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  F154670A",
+        "NZ   00001000",
+        "OFF  00000000",
+        "NONZERO",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "changing",
+      "panel": [
+        "UFS CHANGED   BUFFER",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "wrong-size",
+      "panel": [
+        "UFS STOP      LKPG",
+        "BUF  918D7E80",
+        "LKPG 00000800",
+        "OLD",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 2,
+      "case": "zero",
+      "panel": [
+        "UFS ZERO4K    DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  C71C0011",
+        "NZ   00000000",
+        "FIRST NONE",
+        "ZERO EXACT",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [],
+      "mediaWrites": 0,
+      "restored": true
+    }
+  ]
+}

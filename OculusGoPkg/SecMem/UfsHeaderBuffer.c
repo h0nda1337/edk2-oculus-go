@@ -54,6 +54,30 @@ GoUfsHeaderBuffer (VOID)
 
   UINT32 Crc = CalculateCrc32 ((UINT8 *)Words, sizeof (Words));
   GoUfsDrawHex (5, 3, Crc);
+#ifdef GO_UFS_ZERO4K
+  CONST UINT8 *Bytes = (CONST UINT8 *)Words;
+  UINTN Nonzero = 0;
+  UINTN First = sizeof (Words);
+  for (UINTN Index = 0; Index < sizeof (Words); ++Index) {
+    if (Bytes[Index] != 0) {
+      if (Nonzero == 0) {
+        First = Index;
+      }
+      ++Nonzero;
+    }
+  }
+  GoUfsDraw (0, 4, "NZ");
+  GoUfsDrawHex (5, 4, (UINT32)Nonzero);
+  if (Nonzero == 0) {
+    GoUfsDraw (0, 5, "FIRST NONE");
+    GoUfsDraw (0, 6, "ZERO EXACT");
+  } else {
+    GoUfsDraw (0, 5, "OFF");
+    GoUfsDrawHex (5, 5, (UINT32)First);
+    GoUfsDraw (0, 6, "NONZERO");
+  }
+  GoUfsHeading ("ZERO4K", "DONE");
+#else
   BOOLEAN Android = Words[0] == 0x52444e41U && Words[1] == 0x2144494fU && Words[9] == PageSize;
   CONST CHAR8 *Kind = "OTHER";
   if (Android && Crc == 0x90c8cea7U) {
@@ -73,5 +97,6 @@ GoUfsHeaderBuffer (VOID)
 #else
   GoUfsDraw (0, 6, "TWO SAMPLES MATCH");
   GoUfsHeading ("BUF4K", "DONE");
+#endif
 #endif
 }

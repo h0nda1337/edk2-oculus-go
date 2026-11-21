@@ -2,7 +2,7 @@
 param(
     [ValidateSet('DEBUG', 'RELEASE')][string]$Target = 'DEBUG',
     [ValidateRange(1,128)][int]$Jobs = 4,
-    [ValidateSet('NORMAL', 'SHELL_QEMU', 'SEC_VISUAL', 'GOP_MODEL', 'SEC_C', 'SEC_MEM', 'SEC_STACK', 'SEC_MMU', 'SEC_DXE', 'DXE_MEM', 'DXE_GCD', 'DXE_TABLES', 'DXE_DEBUG', 'DXE_DISPATCH', 'DXE_GOP', 'DXE_TEXT', 'DXE_APP', 'UFS_HANDOFF', 'UFS_QUEUES', 'UFS_LK_MAP', 'UFS_NOP11', 'UFS_DATA', 'UFS_BOUNCE', 'UFS_BUF4K', 'UFS_GPT_MODEL')][string]$Mode = 'NORMAL',
+    [ValidateSet('NORMAL', 'SHELL_QEMU', 'SEC_VISUAL', 'GOP_MODEL', 'SEC_C', 'SEC_MEM', 'SEC_STACK', 'SEC_MMU', 'SEC_DXE', 'DXE_MEM', 'DXE_GCD', 'DXE_TABLES', 'DXE_DEBUG', 'DXE_DISPATCH', 'DXE_GOP', 'DXE_TEXT', 'DXE_APP', 'UFS_HANDOFF', 'UFS_QUEUES', 'UFS_LK_MAP', 'UFS_NOP11', 'UFS_DATA', 'UFS_BOUNCE', 'UFS_ZERO4K', 'UFS_BUF4K', 'UFS_GPT_MODEL')][string]$Mode = 'NORMAL',
     [string]$Distribution = 'Debian'
 )
 Set-StrictMode -Version Latest

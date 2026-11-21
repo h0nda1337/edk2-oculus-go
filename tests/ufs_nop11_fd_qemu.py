@@ -55,7 +55,7 @@ def setup_bus(bus, leaves=None):
     set_translation(bus, leaves)
     seed_lk(bus)
 
-def run_cpu(g, bus, pc, el, after_ring, at_window=None):
+def run_cpu(g, bus, pc, el, after_ring, at_window=None, on_first_read=None):
     rings = 0
     for cmd in ("qSupported:qXfer:features:read+","qXfer:features:read:target.xml:0,fff","Hg0","?"):
         g.command(cmd)
@@ -65,6 +65,9 @@ def run_cpu(g, bus, pc, el, after_ring, at_window=None):
     g.set_register(20,BASE)
     g.set_register(32,0x41000000+(64 if el==2 else 0))
     until(g,pc["entry"])
+    if on_first_read:
+        watched, callback = on_first_read
+        watch(g,3,watched,watched+4)
     if at_window is not None:
         require(g.command(f"Z1,{pc['window']:x},4") == "OK", "window entry breakpoint")
     # Reads from physical clocks, CAP, VER, HCS and TMR use recorded board inputs.
@@ -75,6 +78,11 @@ def run_cpu(g, bus, pc, el, after_ring, at_window=None):
     while True:
         msg=g.command("c")
         addr,insn=g.register(0),g.register(32)
+        if on_first_read and insn == pc["load"] and addr == watched and "watch:" in msg:
+            watch(g,3,watched,watched+4,False)
+            callback(bus)
+            on_first_read = None
+            continue
         if at_window is not None and insn == pc['window']:
             require(g.command(f"z1,{insn:x},4") == "OK", "remove window breakpoint")
             at_window(g, bus)
