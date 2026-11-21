@@ -1,0 +1,92 @@
+{
+  "scope": "terminal-ufs-data",
+  "testedRevision": "08d922899cd776ac10ed0ce265c62958ca07e17e",
+  "reviewSha256": "e4ca5058b34ee41ea5947389c63eee4e044869ce04ac89761bf733c083edcb05",
+  "preflightReportSha256": "4ad4eb24d3a2dcb1e2e41a0daa9128e0af563e9ef45873142817d909fdb515ce",
+  "matchedOriginalsBefore": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-21T17:58:15.608957+00:00",
+  "transferReportSha256": "ff0ed5a134db669f550387127b7dd0bccc2843d288d86cef121fc36d19d81196",
+  "fastbootBootStderrSha256": "6ff83f035b9542e7355883dc8609d3c43be59d1ebdeb1d0f827f735332205857",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "imageSha256": "50f52e6b7ce079abc81ef0405304606936bd063594272ae4afb9497eba6934de",
+  "fdSha256": "859ce9de5877b7d1ba64adae4a5cfb7f4a7c7c8400d1c053e0ff4c0142dea9e4",
+  "fastbootResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "temporaryBootCommandIssued": true,
+  "partitionWriteCommandIssued": false,
+  "physicalProbeExecution": "CONFIRMED by operator transcription",
+  "physicalPanel": {
+    "source": "Operator transcription following the reviewed temporary boot",
+    "rawLines": [
+      "UFS LK DATA DONE",
+      "LUN4 READ CAPACITY",
+      "PAGE MASK 00000000",
+      "OCS 00000000",
+      "SCSI 00000000",
+      "LAST 0011FFFF",
+      "SIZE 00001000",
+      "WINDOW DMA UNTESTED"
+    ],
+    "windowPageMask": 0,
+    "overallCommandStatus": 0,
+    "scsiStatus": 0,
+    "lastLbaInclusive": 1179647,
+    "logicalBlockBytes": 4096
+  },
+  "capacity": {
+    "lun": 4,
+    "command": "READ CAPACITY(10)",
+    "returnedBytesFromPanelBigEndian": "0011ffff00001000",
+    "logicalBlocks": 1179648,
+    "lunBytes": 4831838208,
+    "agreesWithAndroid": true
+  },
+  "lkDataIn": {
+    "result": "CONFIRMED",
+    "controlDataAddressFromReviewedFirmware": "0x918EEF80",
+    "transferBytes": 8,
+    "ramRestoration": "Firmware verified both 1024-byte LK allocations before the terminal heading"
+  },
+  "physicalWindowDma": "UNKNOWN",
+  "physicalFdPagesTested": 0,
+  "mediaSectorsReadByProbe": 0,
+  "androidHost": {
+    "reportSha256": "801958f330753976dadc001713ff000652dfad6cf065e9a2c19052f40030c02e",
+    "driver": "ufshcd",
+    "fieldsUnavailable": [
+      "deviceTreeNode",
+      "iommuGroup",
+      "dmaMaskBits",
+      "consistentDmaMaskBits",
+      "groupType"
+    ]
+  },
+  "recovery": {
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-21T18:02:01+00:00",
+    "reportSha256": "6c4ea41c32fbc6106c71a93f016c8fca21a24dc5945cfa4d9e75ab87334782ce",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  },
+  "postBootAndroid": "CONFIRMED by operator and via ADB"
+}

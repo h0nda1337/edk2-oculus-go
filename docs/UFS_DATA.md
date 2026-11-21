@@ -26,11 +26,15 @@ El banco conecta un controlador UFS PCI de QEMU a una SMMUv3 con traducciones ex
 
 QEMU 10.0.13 también emitió una advertencia de GLib sobre `g_timer_elapsed` al ejecutar el banco del FD. Las cuatro máquinas alcanzaron el punto de parada, los datos se observaron en RAM y la traza de comandos se cotejó en cada caso.
 
-## Sesión física pendiente
+## Resultado físico en Pacific
 
-**UNKNOWN** para DMA a `0x80440000` en el Go. LK ha demostrado la traducción de la CPU y un intercambio UFS en la página de sus colas. Falta una traducción de bus atribuible al controlador del visor para las cuatro páginas del FD. La imagen física ejecuta el control de datos en la página de LK. Sus filas esperadas son `PAGE MASK 00000000`, `LAST 0011FFFF`, `SIZE 00001000` y `WINDOW DMA UNTESTED`. Ese control comprueba por primera vez que la PRDT recibe datos del LUN 4 en hardware, incluso mientras se investiga el mapa propio. La captura de solo lectura de `624000.ufshc` recoge el driver, el grupo IOMMU y las máscaras DMA que sysfs exponga. Cada atributo ausente queda registrado como `UNAVAILABLE`. [Colector para la sesión atendida](../tools/collect_ufs_dma_sysfs.py) Para usarlo en SEC hay que vincularlo con el estado heredado de LK. [Análisis de LK](UFS_LK_DMA.md)
+El operador transcribió `UFS LK DATA DONE`, `OCS 00000000`, `SCSI 00000000`, `LAST 0011FFFF` y `SIZE 00001000`. La sonda había llenado de `A5` los ocho bytes de destino en `0x918EEF80`. La respuesta recibida equivale a 1 179 648 bloques de 4096 bytes, un total de 4 831 838 208 bytes (4,5 GiB). Coincide con el inventario independiente de Android. El encabezado final indica que SEC repuso y cotejó las dos asignaciones de LK. [Panel completo y registro del arranque](evidence/ufs-data-transfer-20261121.json) · [Geometría de Android](evidence/ufs-splash-physical-layout-20261120.json)
+
+El panel mostró `PAGE MASK 00000000` y `WINDOW DMA UNTESTED`. El alcance físico se limita a los ocho bytes en la página de LK. El acceso DMA a las cuatro páginas en `0x80440000` sigue **UNKNOWN**. La lectura previa de sysfs identificó el driver `ufshcd` para `624000.ufshc`. El grupo IOMMU y las máscaras DMA quedaron sin determinar con esa interfaz. Falta vincular las direcciones de bus de la ventana con el estado heredado de LK antes de probarlas en el Go. [Colector Android](../tools/collect_ufs_dma_sysfs.py) · [Evidencia de LK](UFS_LK_DMA.md)
 
 La imagen Android v0 ocupa 385 024 bytes y su SHA-256 es `50f52e6b7ce079abc81ef0405304606936bd063594272ae4afb9497eba6934de`. El empaquetador volvió a extraer y cotejar el FD completo y el DTB de Pacific. El perfil carga únicamente SEC. La consola Shell y el acceso a sectores corresponden a etapas posteriores. El paquete se verifica localmente con `python -B tools/run_ufs_data_once.py`. En la sesión atendida se verifican los cuatro hashes de arranque, se envía únicamente la imagen temporal y se transcribe el panel antes de regresar a Android. [Revisión del paquete](evidence/ufs-data-review-20261121.json)
+
+El operador volvió a Android y ADB confirmó el arranque del mismo Go en el slot `_a`. Los SHA-256 de `aboot_a`, `aboot_b`, `boot_a` y `boot_b` coincidieron con la lectura previa y los respaldos originales. Las cuatro particiones sumaron 136 314 880 bytes en cada comparación. [Verificación del retorno](evidence/ufs-data-transfer-20261121.json)
 
 ## Reproducción sin visor
 

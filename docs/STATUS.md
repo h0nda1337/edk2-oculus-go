@@ -1,10 +1,10 @@
 # Status
 
-**DMA de datos verificado en QEMU.** `READ CAPACITY(10)` del LUN 4 dejó ocho bytes de geometría en cada una de las cuatro páginas de la ventana de EDK2. Está preparada la imagen para comprobar el primer Data In físico en la página de LK. La dirección DMA de la ventana en el Go sigue **UNKNOWN**. [Pruebas y alcance](UFS_DATA.md)
+**Primer DMA de datos UFS confirmado en el Go.** La sonda recibió los ocho bytes de capacidad del LUN 4 en la página de LK. El último LBA fue `0x0011FFFF` y el bloque lógico mide 4096 bytes. Las cuatro páginas propias en `0x80440000` siguen probadas únicamente en QEMU. [Panel físico](evidence/ufs-data-transfer-20261121.json) · [Alcance de la prueba](UFS_DATA.md)
 
-**Primer NOP UFS confirmado en el Go.** En el slot 1 de las colas heredadas de LK, el controlador devolvió `NOP IN` con tag 1 y `OCS 00000000`. El visor mostró `RAM RESTORED` después de que la sonda cotejara las dos asignaciones. La dirección DMA de la ventana propia de 16 KiB y la primera lectura del LUN 4 siguen pendientes. [Registro físico](evidence/ufs-nop11-transfer-20261121.json) · [Sonda y pruebas QEMU](UFS_NOP11.md)
+**Primer NOP UFS confirmado en el Go.** En el slot 1 de las colas heredadas de LK, el controlador devolvió `NOP IN` con tag 1 y `OCS 00000000`. El visor mostró `RAM RESTORED` después de que la sonda cotejara las dos asignaciones. La dirección DMA de la ventana propia de 16 KiB y la primera lectura de un sector del LUN 4 siguen pendientes. [Registro físico](evidence/ufs-nop11-transfer-20261121.json) · [Sonda y pruebas QEMU](UFS_NOP11.md)
 
-**UFS.** QEMU recuperó el logo con la GPT y la geometría medidas del LUN 4. La sonda SEC llegó a `UFS DONE` en el Go. LK entregó el host UFSHCI 1.1 habilitado y ambas listas en marcha, con los dos doorbells a cero. La [sonda de colas](UFS_QUEUES.md) llegó a `UFS QUEUES DONE` en el visor. UTR estaba en `0x918EE400` y UTM en `0x918EEC00`. Siguen pendientes el mapeo DMA del Go y la primera lectura del LUN 4 desde EDK2. [Resultados y procedimiento](UFS_HANDOFF.md)
+**UFS.** QEMU recuperó el logo con la GPT y la geometría medidas del LUN 4. La sonda SEC llegó a `UFS DONE` en el Go. LK entregó el host UFSHCI 1.1 habilitado y ambas listas en marcha, con los dos doorbells a cero. La [sonda de colas](UFS_QUEUES.md) llegó a `UFS QUEUES DONE` en el visor. UTR estaba en `0x918EE400` y UTM en `0x918EEC00`. Siguen pendientes el mapeo DMA del Go y la primera lectura de un sector del LUN 4 desde EDK2. [Resultados y procedimiento](UFS_HANDOFF.md)
 
 Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 
