@@ -1,0 +1,82 @@
+{
+  "dateMexicoCity": "2026-11-20",
+  "scope": "terminal-edk2-dxe-app",
+  "revision": "cb8bae273022d7c03be30dea9e1a57812002bfc1",
+  "reviewSha256": "eccc1ea07d62b56fc01a81f084aa0f56caa2c83f33d4b4f887ee115119460563",
+  "preflightStartUtc": "2026-11-21T01:28:32+00:00",
+  "preflightReportSha256": "ea9c9a132e09497f23b445e79349ace6d0c6139dd2c89c7c607c10b9e43f41e4",
+  "preflightResult": "PASS-READONLY",
+  "partitionsMatchedBefore": [
+    "aboot_a",
+    "aboot_b",
+    "boot_a",
+    "boot_b"
+  ],
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferSessionStartUtc": "2026-11-21T01:29:54.113488+00:00",
+  "transferReportSha256": "4e68400f0a40165c08a622aa80d0d5206f1e16c18ca7489a314602b5a962630c",
+  "fastbootBootStderrSha256": "7ef11ac3addc357f8e6ae1e86378d921dfb8b4fba7b404fa0e1c4e5a5fa6b056",
+  "imageSha256": "077e897847fae765cefbcba39d15caefc2959a2ea8abeb8eebe203629651dd9e",
+  "fdSha256": "0b199c89b4c7846fef3eeeca13b26fabea930e8847bdcc60d33f19f5deffc436",
+  "imageBytes": 487424,
+  "fastbootReport": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "physicalDxeAppExecutionAtHostCommandExit": "UNKNOWN",
+  "operatorObservationAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "1 EDK2 GO 2 en blanco, 5 APP EFI 6 en verde",
+    "transcribedStrings": [
+      "1 EDK2 GO 2",
+      "5 APP EFI 6"
+    ],
+    "lineColors": [
+      "blanco",
+      "verde"
+    ],
+    "eyeComparisonReportedSpanish": "Sí, en ambos ojos",
+    "leftEye": "Both rows upright and complete",
+    "rightEye": "Both rows upright and complete"
+  },
+  "physicalFindings": {
+    "result": "CONFIRMED-DEVICE-FV-APPLICATION-OUTPUT",
+    "application": "ConsoleProbe.efi",
+    "fileGuid": "a63728d5-057a-43bb-88f7-89aa3e5856e9",
+    "protocol": "EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL",
+    "entry": "SystemTable->ConOut->OutputString",
+    "secondLineProgrammedAttribute": "EFI_LIGHTGREEN",
+    "basis": "The observed second row is drawn by the independently packaged application after DXE loads the image from the FV and starts it.",
+    "startImageReturnStatusOnDevice": "UNKNOWN",
+    "imageUnloadOnDevice": "UNKNOWN",
+    "physicalExceptionLevel": "UNKNOWN",
+    "shellExecuted": false,
+    "bothEyesConfirmedIndividually": true
+  },
+  "recovery": {
+    "operatorReportedSpanish": "Android arrancó y reconecté USB",
+    "preflightStartUtc": "2026-11-21T01:32:49+00:00",
+    "reportSha256": "8a91db7be2de96fe0345ac250bb765cc5c8146fb77712d604a79f4169bb579ab",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "root": true,
+    "product": "pacific",
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}

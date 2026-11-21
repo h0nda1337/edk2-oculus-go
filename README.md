@@ -67,7 +67,7 @@ In `DXE_GOP`, InheritedGopDxe starts second after DevicePathDxe publishes its pr
 
 The `DXE_TEXT` diagnostic publishes the graphical console on the GOP handle. ARM64 DXE calls `SystemTable->ConOut->OutputString()` twice. The QEMU framebuffer shows “EDK2 GO” in white and “UEFI 42” in cyan in both eye views. On the Go, the owner read both lines after turning the headset. Text appeared upside down in the normal wearing position. [Physical observation](docs/evidence/dxe-text-transfer-20261120.json) [Capture and reproduction](docs/DXE_TEXT.md) The corrected image ran on the Go. Wearing it normally and checking both eyes separately, the owner read “1 EDK2 GO 2” on top and “3 UEFI 42 4” below. [Corrected console](docs/DXE_TEXT_UPRIGHT.md)
 
-In the `DXE_APP` profile, DXE loads ConsoleProbe.efi by its firmware-volume file path and starts it through UEFI Boot Services. In QEMU the application's own ConOut call writes “5 APP EFI 6” in green in both views and returns to the launcher. Optical observation on the Go is pending. [Application trial](docs/DXE_APP.md)
+In the `DXE_APP` profile, DXE loads ConsoleProbe.efi by its firmware-volume file path and starts it through UEFI Boot Services. In QEMU the application's own ConOut call writes “5 APP EFI 6” in green in both views and returns to the launcher. On the Go, the owner read the white DXE line and the green application line. [Application trial](docs/DXE_APP.md)
 
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
