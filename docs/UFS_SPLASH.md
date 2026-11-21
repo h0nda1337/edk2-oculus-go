@@ -23,6 +23,8 @@ El arranque de AAVMF utiliza una ESP VirtIO que sólo contiene tres ejecutables 
 
 En la traza SCSI sólo aparecen las órdenes de capacidad y lectura. En la traza de gestión UFS se ven lectura de descriptor, lectura de bandera y ajuste de bandera. El proveedor EDK2 inicializa el dispositivo virtual mediante `fDeviceInit`. Esta prueba distingue las operaciones sobre el controlador de las escrituras de datos al medio.
 
+El FD `NORMAL` de Pacific compiló en DEBUG, pasó la auditoría de procedencia y arrancó en el modelo EL1 con framebuffer vacío. El observador verificó la bienvenida y leyó `Shell>` en las dos vistas sin emblema cuando faltaba el transporte de almacenamiento. Esta ejecución comprueba la continuidad del arranque. El ensayo AAVMF anterior comprueba la lectura desde UFS. [Resultado del FD de Pacific](evidence/ufs-splash-pacific-shell-20261120.json)
+
 ### Dos fallos reproducidos durante el ensayo
 
 En el primer comando después del encendido, QEMU devolvió `UNIT ATTENTION` con ASC/ASCQ `29/00`. El lector comprueba la información de sense devuelta por el transporte y repite esa lectura una sola vez. Exige una transferencia completa para aceptar sus datos.

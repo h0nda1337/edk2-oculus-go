@@ -1,0 +1,95 @@
+{
+  "shellPeSha256": "30f92b9a31d8efb18f622ace99c693e2eedd1c835f75e53b69237ee12c7d107d",
+  "shellPeBytes": 368640,
+  "innerFvSha256": "0d0526f13a6b676e56cc9dbf1041f4926cc027d3a94715d256f81854b9409943",
+  "modules": {
+    "DevicePathDxe": "9b680fce-ad6b-4f3a-b60b-f59899003443",
+    "InheritedGopDxe": "8cd15dc8-f091-4917-b779-342c1e0aa2de",
+    "HiiDatabase": "348c4d62-bfbd-4882-9ece-c80bb1c4783b",
+    "EnglishDxe": "cd3bafb6-50fb-4fe8-8e4e-ab74d2c1a600",
+    "VariableRuntimeDxe": "cbd2e4d5-7068-4ff5-b462-9822b4ad8d60",
+    "CapsuleRuntimeDxe": "42857f0a-13f2-4b21-8a23-53d3f714b840",
+    "WatchdogTimer": "f099d67f-71ae-4c36-b2a3-dceb0eb2b7d8",
+    "RealTimeClock": "b336f62d-4135-4a55-ae4e-4971bbf0885d",
+    "ConSplitterDxe": "408edcec-cf6d-477c-a5a8-b4844e3de281",
+    "GoBdsDxe": "e1227d54-0dfa-4363-b714-4b580ac97c88",
+    "Shell": "7c04a583-9e3e-4f1c-ad65-e05268d0b4d1",
+    "DxeCore": "d6a2cb7f-6a18-4e2f-b43b-9920a733700a",
+    "PcdDxe": "80cf7257-87ab-47f9-a3fe-d50b76d89541",
+    "TrustMeBroDxe": "54ccb903-e352-4144-a204-2cc03d743e48",
+    "ArmGicDxe": "de371f7c-dec4-4d21-adf1-593abcc15882",
+    "ArmCpuDxe": "b8d9777e-d72a-451f-9bdb-bafb52a68415",
+    "ArmTimerDxe": "49ea041e-6752-42ca-b0b1-7344fe2546b7",
+    "MetronomeDxe": "4c6e0267-c77d-410d-8100-1495911a989d",
+    "EmbeddedMonotonicCounter": "fcabe6a7-7953-4a84-b7ec-d29e89b62e87",
+    "RuntimeDxe": "b601f8c4-43b7-4784-95b1-f4226cb40cee",
+    "ResetSystemRuntimeDxe": "4b28e4c7-ff36-4e10-93cf-a82159e777c5",
+    "SecurityStubDxe": "f80697e9-7fd6-4665-8646-88e33ef71dfc"
+  },
+  "el": 1,
+  "machine": "virt,gic-version=3,secure=off,virtualization=on",
+  "fdSha256": "415ca200f1fd898cf1c147e53107f9e65b7fb2088207783aab3e4facfad419a4",
+  "shellFileGuid": "7c04a583-9e3e-4f1c-ad65-e05268d0b4d1",
+  "screenRows": [
+    "UEFI Basic Shell v2.2",
+    "EDK II",
+    "UEFI v2.70 (OculusGo UEFI, 0x00000002)",
+    "map: No mapping found.",
+    "",
+    "Shell>",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "eyeGeometry": {
+    "perEyeDimensions": [
+      1280,
+      1440
+    ],
+    "viewportXYWH": [
+      315,
+      557,
+      650,
+      325
+    ],
+    "promptCellBoundsXYWH": [
+      315,
+      682,
+      60,
+      25
+    ]
+  },
+  "eyesMatch": true,
+  "eyeNativeBgrSha256": "92c02d35319625797c82baa19293ae5e95fee4fa6547c3853fc3042fdd7651ec",
+  "eyePngSha256": "f15a8392926b4ca4d73b11dc327220e766c6f124015f59439f88f62b83209841",
+  "uartLoadMessages": [],
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "welcome": {
+    "observedFrames": 78,
+    "observedMs": 8759,
+    "enteredFromBelow": true,
+    "observedQuarterTurnsDegrees": [
+      0,
+      90,
+      180,
+      270,
+      360
+    ],
+    "unwrappedRotationEstimateDegrees": 363,
+    "mesh": "square-based pyramid, one apex and four corners",
+    "progressiveGlyphIllumination": true,
+    "messageInBothEyes": "Welcome to EDK2 Go!",
+    "distinctStereoViewsAtFullText": true,
+    "stereoContourRowsAtFullText": 22,
+    "fullyLitEyePngSha256": "08855365c028ea6e3e0bdc670c52e62c44a1f3f3e91e1386a836e93726e1a5f0"
+  },
+  "stockEmblemAbsent": true,
+  "pacificFdAtEl1": true,
+  "dtbSha256": "70ae171c99befc564acec661f3afc4365a831ebd1d6e01ca0e53035a4d8b1f35",
+  "counterHz": 19200000,
+  "el2FixtureSha256": "3851ce8543f634065fae932aa04c1339a61b21d9e2c66449810f398bd4762083"
+}
