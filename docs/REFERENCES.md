@@ -134,3 +134,12 @@ only. Any binary distribution requires review of the individual package terms.
 | [EDK2 SimpleTextOut.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/SimpleTextOut.h) | ABI de `EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL`, orden de los métodos, modos, atributos y estados. | CONFIRMED-SOURCE |
 | [EDK2 GraphicsConsoleDxe.inf](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/Console/GraphicsConsoleDxe/GraphicsConsoleDxe.inf) y [LaffStd.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/Console/GraphicsConsoleDxe/LaffStd.c) | Dependencias HII y Driver Binding de la consola genérica, y bitmaps estrechos 8×19 de los 95 caracteres ASCII imprimibles y los 50 caracteres gráficos de UEFI. | CONFIRMED-SOURCE |
 | [Captura anterior de GOP en el Go](evidence/dxe-gop-transfer-20261120.json) | Salida física del segundo driver y orden BGR observados en la unidad Pacific. La colocación del texto y su orientación bajo las lentes se comprobarán en el visor. | CONFIRMED-DEVICE para el GOP, HYPOTHESIS para la orientación óptica |
+
+### DXE_APP
+
+| Fuente y versión | Qué aporta | Confianza |
+| --- | --- | --- |
+| [UEFI 2.10, §7.4 Image Services](https://uefi.org/specs/UEFI/2.10/07_Services_Boot_Services.html#image-services) | Contrato de LoadImage, StartImage y retorno de una aplicación. | CONFIRMED-SPEC |
+| [EDK2 Image.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Core/Dxe/Image/Image.c) y [DxeServicesLib.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Library/DxeServicesLib/DxeServicesLib.c) | Carga por ruta del volumen, lectura de la sección PE32, ejecución, CoreExit y descarga. | CONFIRMED-SOURCE |
+| [EDK2 ArmVirtRules.fdf.inc](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/ArmVirtPkg/ArmVirtRules.fdf.inc) y [ApplicationEntryPoint.c](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Library/UefiApplicationEntryPoint/ApplicationEntryPoint.c) | Regla FFS de aplicación y punto de entrada que llama al código propio. | CONFIRMED-SOURCE |
+| [Consola del Go en ambos ojos](evidence/dxe-text-upright-transfer-20261120.json) | Identifica el modo y la orientación ya observados en esta unidad. | CONFIRMED-DEVICE para el dibujo previo |

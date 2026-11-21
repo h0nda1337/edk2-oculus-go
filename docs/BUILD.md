@@ -114,3 +114,5 @@ byte-identical to its November 13 baseline, as verified on November 18.
 The `DXE_GOP` profile packages DevicePathDxe and InheritedGopDxe in the same firmware volume. Its offline check extracts the firmware from the Android boot container and observes the two drivers and the BGR scanout. [Commands and expected display](DXE_GOP.md)
 
 The [DXE_TEXT trial](DXE_TEXT.md) exercises both output strings through the UEFI system table and exports a pixel crop in logical reading coordinates from each modeled exception level. For the current headset orientation use the [marked text trial and AArch64 scrolling test](DXE_TEXT_UPRIGHT.md).
+
+The `DXE_APP` mode packages a separately linked AArch64 EFI application. The audit compares its compiled PE with the section returned by the running guest firmware volume. [Reproduction and results](DXE_APP.md)
