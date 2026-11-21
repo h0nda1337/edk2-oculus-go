@@ -235,13 +235,18 @@ class WelcomeObserver:
                 if previous is None and min(degree, 90 - degree) <= 9:
                     previous = degree
                 if previous is not None:
-                    angle += (degree - previous + 45) % 90 - 45
+                    prior_angle = angle
+                    step = (degree - previous + 45) % 90 - 45
+                    angle += step
                     previous = degree
-                    if (
-                        len(observed) < len(targets)
-                        and abs(angle - targets[len(observed)]) <= 10
-                    ):
-                        observed.append(targets[len(observed)])
+                    if len(observed) < len(targets):
+                        target = targets[len(observed)]
+                        # QMP samples are asynchronous: e.g. 168° then 192°
+                        # brackets 180°. Only interpolate a small forward step,
+                        # well below the 45° silhouette unwrapping ambiguity.
+                        crossed = 0 < step <= 30 and prior_angle < target < angle
+                        if abs(angle - target) <= 10 or crossed:
+                            observed.append(target)
             if 0 < sum(v > 0 for v in levels) < len(levels) and any(
                 32 <= v < 245 for v in levels
             ):

@@ -391,6 +391,10 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="wide", observe_wel
                                           "reducedLumaSha256": sha(mark), "exactPixelsBothEyes": True,
                                           "welcomeTopInTile": 355, "shellTopInEye": 699, "shellLeftInEye": 606,
                                           "size": [68, 42]}
+                if dtb is None:
+                    if "Go BDS: Oculus emblem source = inherited framebuffer" not in serial:
+                        raise ValueError("BDS did not identify the inherited source")
+                    report["oculusEmblem"]["bdsSource"] = "inherited framebuffer"
             if mark is None and layout == "wide":
                 from oculus_logo import LOGO_H, LOGO_W, check_center_mark
                 check_center_mark(frame, bytes(LOGO_W * LOGO_H))
