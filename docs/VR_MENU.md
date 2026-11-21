@@ -8,13 +8,15 @@ recuperación. El texto debe seguir siendo legible al ajustar el tamaño, la
 distancia o la posición del monitor y al recentrarlo. La estabilidad visual,
 el contraste y la latencia tienen prioridad sobre las animaciones.
 
+La primera escena del arranque es una pirámide de vidrio azul de base cuadrada. BDS la dibuja antes de mostrar la Shell centrada. [Escena y reproducción](WELCOME.md)
+
 ## Punto de partida
 
 | Componente | Evidencia actual |
 | --- | --- |
 | Pantalla en el visor | En SEC, la función C dibujó tras comprobar su pila. El primer byte del píxel produjo azul y el tercero rojo en el framebuffer heredado. La disposición de las vistas y la óptica por ojo siguen por medir. [Observación física](evidence/sec-c-transfer-20261118.json) |
 | Gráficos en DXE | Confirmado en el Go. El GOP publicado por InheritedGopDxe dibujó las cinco franjas del ensayo M3. El perfil de texto coloca una copia de cada glifo en cada mitad del framebuffer. La orientación y el encaje bajo las lentes se medirán por ojo. [Prueba física del GOP](evidence/dxe-gop-transfer-20261120.json) · [Consola de texto](DXE_TEXT.md) |
-| Arranque e interacción | El volumen actual contiene SEC y DXE. Están pendientes el administrador de arranque, la Shell, el acceso al almacenamiento desde UEFI, la entrada del mando y el compositor. [Composición del firmware](../OculusGoPkg/OculusGoPkg.fdf) · [Matriz de controladores](DRIVER_MATRIX.md) |
+| Arranque e interacción | BDS carga la Shell del volumen y el operador confirmó el prompt en las dos lentes. El acceso al almacenamiento desde UEFI, la entrada del mando y el compositor del menú siguen pendientes. [Composición del firmware](../OculusGoPkg/OculusGoPkg.fdf) · [Matriz de controladores](DRIVER_MATRIX.md) |
 
 ## Integración prevista
 

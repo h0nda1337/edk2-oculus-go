@@ -101,7 +101,7 @@ def reviewed_inputs(root, review, *, scope="pacific-normal-shell", previous=PREV
         and "Shell>" in prompt["screenRows"],
         "The model did not show the Shell prompt with the packaged device FD",
     )
-    centered = scope == "pacific-centered-shell"
+    centered = scope in ("pacific-centered-shell", "pacific-welcome-shell")
     if centered:
         require_centered_prompt(prompt)
     for el in (1, 2):

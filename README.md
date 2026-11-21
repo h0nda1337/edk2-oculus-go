@@ -75,6 +75,8 @@ The normal boot path now selects the Go text console in BDS and starts the upstr
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
 
+The current welcome scene renders a blue square-based pyramid in stereo before opening the centered Shell. [Animation, source and QEMU evidence](docs/WELCOME.md)
+
 The planned VR boot menu puts the boot entries, UEFI Shell, settings and
 diagnostics on a floating stereo monitor. The first compositor can be tested
 in software with simulated orientation. [Menu design and dependencies](docs/VR_MENU.md)

@@ -4,6 +4,8 @@ El núcleo DXE de EDK2 despacha los drivers y entrega el control al protocolo BD
 
 BDS forma una ruta de archivo con el handle del volumen del que se cargó y el GUID oficial de la aplicación Shell. Llama a `LoadImage()` con la ruta y un búfer nulo y después a `StartImage()`. BDS publica el fabricante en memoria de ejecución y la revisión de la plataforma en la tabla del sistema antes de emitir EndOfDxe. El volumen contiene la aplicación AArch64 compilada desde `ShellPkg/Application/Shell/Shell.inf`. HII suministra los textos. La Shell de nivel básico tiene habilitado el prompt y usa el almacén de variables emulado en RAM durante esta sesión. El reloj virtual usa el contador arquitectónico y toma como fecha inicial la de compilación de su biblioteca. Una recompilación limpia puede generar otro SHA-256. El registro identifica los binarios exactos usados en la prueba. [Shell y servicios de plataforma](REFERENCES.md#shell-en-el-arranque-normal)
 
+El arranque actual puede presentar una pirámide de vidrio en 3D antes de cargar la Shell. [Bienvenida y captura](WELCOME.md)
+
 ## Memoria y hardware del modelo
 
 El encabezado ARM64 declara 20 MiB a partir de `0x80080000`. La cabecera y el volumen comprimido ocupan los primeros 4 MiB. Los 16 MiB restantes, `[0x80480000, 0x81480000)`, forman parte de los bytes entregados por el cargador. SEC verifica la posición del código y lee dos firmas y el relleno completo antes de escribir la pila. El asignador recibe sólo la zona dentro de la imagen. El framebuffer queda reservado por separado. [Entrada SEC](../OculusGoPkg/PrePi/Entry.S) · [Mapa](../OculusGoPkg/PrePi/Memory.c)
