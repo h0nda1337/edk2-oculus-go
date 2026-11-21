@@ -4,7 +4,7 @@
 
 `HCS=0000010F` indica presencia del dispositivo y disponibilidad de la lista de transferencias, la lista de tareas y el canal UIC. Los indicadores de error de host y de dispositivo en HCS estaban a cero. Los bits 10–8 valían 1 (`PWR_LOCAL`, estado de la solicitud de cambio de modo de energía). El operador transcribió la etiqueta como `HSC`. En esa posición el código de la imagen muestra `HCS`, dirección `0x624030`. [Definiciones del kernel del Go](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/scsi/ufs/ufshci.h) · [Etiquetas en SEC](../OculusGoPkg/SecMem/UfsHandoff.c)
 
-Ambas listas tenían el bit Run a uno y sus registros de solicitudes pendientes estaban a cero en las lecturas respectivas. El siguiente paso técnico es identificar las bases de las listas y establecer qué memoria DMA puede utilizar EDK2 antes de enviar la primera lectura al LUN 4. La recuperación del emblema desde el medio físico sigue pendiente.
+Ambas listas tenían el bit Run a uno y sus registros de solicitudes pendientes estaban a cero en las lecturas respectivas. La [medición posterior de las colas](UFS_QUEUES.md) identificó las dos bases DMA. Queda por establecer qué memoria propia puede usar EDK2 para DMA antes de enviar la primera lectura al LUN 4. La recuperación del emblema desde el medio físico sigue pendiente.
 
 ## Ensayo del logo con la geometría del Go
 

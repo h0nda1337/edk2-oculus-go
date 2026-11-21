@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de Pacific.** La [captura en Android](evidence/ufs-splash-physical-layout-20261120.json) confirmó la geometría de `splash` en el LUN 4. La [sonda física](UFS_HANDOFF.md) confirmó HCE activo y ambas listas en marcha. La siguiente prueba física es el arranque temporal de [UFS_QUEUES](UFS_QUEUES.md) para registrar CAP, las bases de ambas listas y la comprobación CPU de la ventana propia. El mapeo DMA real queda pendiente antes de preparar la primera orden al LUN 4. [Integración UFS](UFS_SPLASH.md)
+**UFS de Pacific.** La [captura en Android](evidence/ufs-splash-physical-layout-20261120.json) confirmó la geometría de `splash` en el LUN 4. La [sonda física](UFS_HANDOFF.md) confirmó HCE activo y ambas listas en marcha. La [medición de colas](UFS_QUEUES.md) dio UTR `0x918EE400` y UTM `0x918EEC00`. El siguiente paso es determinar cómo se traducen las direcciones DMA en la entrega de LK y qué asignación propia podría usar el controlador. Sigue pendiente esa verificación antes de la primera orden al LUN 4. [Integración UFS](UFS_SPLASH.md)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 

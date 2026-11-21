@@ -27,7 +27,66 @@
   "fastbootResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
   "temporaryBootCommandIssued": true,
   "partitionWriteCommandIssued": false,
-  "physicalPanel": "AWAITING-OPERATOR",
+  "physicalPanel": {
+    "source": "Operator transcription on the physical Pacific during this temporary boot",
+    "rawLines": [
+      "UFS QUEUES DONE",
+      "CAP 0107001F ADDR 64",
+      "UTR 00000000 918EE400",
+      "UTM 00000000 918EEC00",
+      "LEN 00000400 00000280",
+      "FD 80440000 00004000",
+      "CPU WINDOW CLEAN",
+      "DMA MAP UNKNOWN"
+    ],
+    "cap": "0x0107001F",
+    "addressBitsAdvertised": 64,
+    "transferList": {
+      "dmaBase": "0x918EE400",
+      "endExclusive": "0x918EE800",
+      "bytesFromCapacity": 1024,
+      "slotsFromCapacity": 32
+    },
+    "taskManagementList": {
+      "dmaBase": "0x918EEC00",
+      "endExclusive": "0x918EEE80",
+      "bytesFromCapacity": 640,
+      "slotsFromCapacity": 8
+    },
+    "gapBytesBetweenCalculatedExtents": 1024,
+    "fdCpuWindow": {
+      "start": "0x80440000",
+      "endExclusive": "0x80444000",
+      "bytes": 16384,
+      "observed": "CPU WINDOW CLEAN"
+    }
+  },
   "physicalDmaMapping": "UNKNOWN",
-  "postBootAndroid": "AWAITING-RECOVERY"
+  "postBootAndroid": "CONFIRMED via ADB",
+  "physicalQueueProbeExecution": "CONFIRMED: UFS QUEUES DONE",
+  "cpuAddressComparison": {
+    "interpretation": "Numeric comparison only; CPU-to-DMA mapping and queue memory ownership remain unknown",
+    "common4KiBNumericPageBase": "0x918EE000",
+    "androidSystemRamStart": "0x91700000",
+    "androidSystemRamEndExclusive": "0x13EAC0000",
+    "archivedIomemSha256": "12bc1c23f7d8cde6e06089ddaa238fbb48608082a379e98851f1f841d3e51248",
+    "aboot_aPtLoadStart": "0x91800000",
+    "aboot_aPtLoadEndExclusive": "0x918E84AC"
+  },
+  "physicalLun4Read": "NOT EXERCISED: passive probe",
+  "recovery": {
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-21T06:43:01+00:00",
+    "reportSha256": "111cbcecae2cfa1c0708b56d99f6b76af372f4b1fe61dbc28bb01305278e2f79",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
 }

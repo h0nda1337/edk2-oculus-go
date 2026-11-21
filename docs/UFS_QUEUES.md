@@ -1,6 +1,15 @@
 # Colas UFS tras LK y memoria para DMA
 
-**Resultado en QEMU.** El FD de Pacific observa las direcciones de las dos listas y examina 16 KiB propios desde la CPU. En un ensayo separado, un controlador UFS PCI emulado completó una transacción NOP con descriptores en cada una de las cuatro páginas. **En el visor siguen pendientes las bases que programó LK y el mapeo DMA de esta ventana.** El panel de la [prueba física anterior](evidence/ufs-handoff-transfer-20261121.json) confirmó UFSHCI 1.1, ambas listas en marcha y ambos registros de solicitudes pendientes a cero.
+**CONFIRMED en el Go.** El operador leyó `UFS QUEUES DONE`. En este arranque coincidieron las dos lecturas de CAP y de las bases de las listas. `CAP=0107001F` anuncia direccionamiento de 64 bits, 32 slots de transferencia y 8 de gestión de tareas. [Transcripción física completa](evidence/ufs-queues-transfer-20261121.json)
+
+| Lista | Dirección DMA observada | Fin exclusivo calculado | Capacidad |
+| --- | --- | --- | --- |
+| UTR, transferencias | `0x918EE400` | `0x918EE800` | 32 × 32 = 1024 bytes |
+| UTM, gestión de tareas | `0x918EEC00` | `0x918EEE80` | 8 × 80 = 640 bytes |
+
+Las dos extensiones calculadas caben en la página numérica de 4 KiB que comienza en `0x918EE000`, con 1024 bytes entre ellas. Si se comparan los números con direcciones CPU, ambas caen en un rango que Android registra como `System RAM` y por encima del fin exclusivo del segmento ELF `PT_LOAD` de `aboot_a` (`0x918E84AC`). La comparación deja abierta la traducción efectiva entre bus y CPU y la propiedad de los descriptores. [Mapa y procedencia](MEMORY_MAP.md)
+
+La CPU comprobó en el visor el patrón de los 16 KiB propios en `[0x80440000, 0x80444000)`. El panel terminó con `CPU WINDOW CLEAN` y `DMA MAP UNKNOWN`. En QEMU el controlador PCI virtual completó un NOP en cada una de las cuatro páginas. Para el Go siguen pendientes la accesibilidad DMA de una asignación propia y la primera lectura de `splash` desde EDK2.
 
 ## Qué mide la imagen temporal
 
@@ -47,4 +56,4 @@ python3 tests/ufs_queues_static.py --fd "$fd" --sec-elf "$elf" --report "$run/ST
 python3 tests/ufs_queue_dma_model.py --report "$run/PCI-DMA.json"
 ```
 
-En Windows, el modo de compilación es `UFS_QUEUES`. El comando `python tools/run_ufs_queues_once.py` verifica el expediente y el contenedor privado sin contactar el visor. El siguiente paso físico es un arranque temporal atendido de esa imagen. [Revisión del contenedor](evidence/ufs-queues-review-20261121.json)
+En Windows, el modo de compilación es `UFS_QUEUES`. El comando `python tools/run_ufs_queues_once.py` verifica el expediente y el contenedor privado sin contactar el visor. El intento atendido de esa imagen quedó registrado en la [captura física](evidence/ufs-queues-transfer-20261121.json). [Revisión del contenedor](evidence/ufs-queues-review-20261121.json)

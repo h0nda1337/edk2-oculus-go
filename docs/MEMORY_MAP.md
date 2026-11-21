@@ -1,6 +1,6 @@
 # Memory evidence and candidate layout
 
-El diagnóstico `UFS_QUEUES` reserva en su propio FD la ventana CPU `[0x80440000, 0x80444000)`. El controlador virtual de QEMU completó un NOP con cada página. La traducción DMA del Go para esa ventana está pendiente. En `NORMAL`, este intervalo pertenece al volumen de firmware. [Mapa y pruebas de colas](UFS_QUEUES.md)
+El diagnóstico `UFS_QUEUES` reserva en su propio FD la ventana CPU `[0x80440000, 0x80444000)`. La CPU del Go verificó el patrón completo de esa ventana en la ejecución física. Las bases DMA observadas de las colas caen numéricamente en la página `0x918EE000`; su correspondencia con direcciones CPU sigue abierta. El controlador virtual de QEMU completó un NOP con cada página. La traducción DMA del Go para esa ventana está pendiente. En `NORMAL`, este intervalo pertenece al volumen de firmware. [Mapa y pruebas de colas](UFS_QUEUES.md)
 
 For the normal Shell build, the image owns a 16 MiB arena from `0x80480000` up to the exclusive end `0x81480000`. This replaces the prototype high-RAM pool described below. SEC scans the delivered bytes before changing SP. Physical validation of the enlarged image is pending. [Current layout and model](SHELL_BOOT.md)
 
