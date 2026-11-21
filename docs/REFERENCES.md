@@ -209,6 +209,13 @@ Estos archivos del kernel se consultaron como referencia. La sonda y el muestreo
 | [Modelo UFS](https://github.com/qemu/qemu/blob/v10.0.0/hw/ufs/ufs.c) y [disco SCSI de QEMU](https://github.com/qemu/qemu/blob/v10.0.0/hw/scsi/scsi-disk.c) | Tag `v10.0.0`, `hw/ufs/ufs.c` y `hw/scsi/scsi-disk.c`. Versión ejecutada en el [informe del FD](evidence/ufs-data-fd-qemu-20261121.json). | CONFIRMED en QEMU para respuesta de capacidad, transferencia PRDT y límites observados en los ensayos. |
 | [Medición de Android](evidence/ufs-splash-physical-layout-20261120.json) y [panel de LK](evidence/ufs-nop11-transfer-20261121.json) | Capturas del 20 y 21 de noviembre de 2026 | CONFIRMED para la geometría del LUN 4 y la página del primer NOP físico. Direcciones DMA de las cuatro páginas de EDK2 en Pacific **UNKNOWN**. |
 
+## Contenido y duración del búfer después de LK
+
+| Origen | Revisión / archivo | Aporte | Confianza |
+| --- | --- | --- | --- |
+| Respaldo privado de `aboot_a`, inventario `/proc/iomem` de Android | SHA-256 y sitios ARM en el [informe](evidence/ufs-header-lifetime-20261121.json) | Inicialización de BSS, límites del asignador, referencias interiores, argumentos al entrar en ARM64 y clasificación posterior de la RAM | CONFIRMED para los sitios revisados. Exclusividad al salir de LK UNKNOWN |
+| [Linux, Dynamic DMA mapping Guide](https://docs.kernel.org/core-api/dma-api-howto.html#cpu-and-dma-addresses) | Documentación en línea consultada el 21-11-2026, `Documentation/core-api/dma-api-howto.rst`, sección CPU and DMA addresses | Distinción entre direcciones físicas de CPU y de bus | Referencia conceptual. Mapeo de Pacific UNKNOWN |
+
 ## Cabecera de LK y lectura GPT del LUN 4
 
 | Fuente | Revisión y archivo | Uso y confianza |

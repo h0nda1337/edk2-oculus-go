@@ -1,0 +1,85 @@
+{
+  "androidIomemSha256": "12bc1c23f7d8cde6e06089ddaa238fbb48608082a379e98851f1f841d3e51248",
+  "androidCoveringResourceInclusive": [
+    "0x91700000",
+    "0x13eabffff",
+    "System RAM"
+  ],
+  "stockElfSha256": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+  "cpuBuffer": "0x918d7e80",
+  "endExclusive": "0x918d8e80",
+  "bssClearedAtEntry": [
+    "0x918cd2ac",
+    "0x918e84ac"
+  ],
+  "allocatorInitialRange": [
+    "0x918e84ac",
+    "0x91c00000"
+  ],
+  "baseInstructionPairs": [
+    [
+      "0x91838588",
+      "0x91838590"
+    ],
+    [
+      "0x918390d0",
+      "0x918390d8"
+    ],
+    [
+      "0x918391f8",
+      "0x918391fc"
+    ],
+    [
+      "0x9183ae94",
+      "0x9183ae9c"
+    ],
+    [
+      "0x9183b0c8",
+      "0x9183b0cc"
+    ],
+    [
+      "0x9183b284",
+      "0x9183b2ac"
+    ],
+    [
+      "0x9183b318",
+      "0x9183b320"
+    ],
+    [
+      "0x9183b4b4",
+      "0x9183b4b8"
+    ],
+    [
+      "0x9183b71c",
+      "0x9183b724"
+    ],
+    [
+      "0x9183bc74",
+      "0x9183bc78"
+    ],
+    [
+      "0x9183bf40",
+      "0x9183bfdc"
+    ]
+  ],
+  "filesystemInfoInteriorPointers": [
+    "0x918d82f8",
+    "0x918d8308"
+  ],
+  "fastbootHandler": "0x9183cd7c",
+  "fastbootHeader": "handler argument r1 saved in r5",
+  "arm64HandoffArgumentBlock": "0x918d3000",
+  "endpointCpuRanges": [
+    [
+      "0x918d7e80",
+      "0x918d7e88"
+    ],
+    [
+      "0x918d8e78",
+      "0x918d8e80"
+    ]
+  ],
+  "exclusiveAfterHandoff": "UNKNOWN",
+  "retainedEndpointDma": "UNKNOWN",
+  "scope": "Selected synchronous paths in the pinned ELF. Indirect calls, other masters and retained IOMMU mappings are not exhaustively covered."
+}
