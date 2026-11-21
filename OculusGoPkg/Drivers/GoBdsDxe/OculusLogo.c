@@ -90,14 +90,8 @@ ReadPartition (EFI_HANDLE Handle, GO_OCULUS_LOGO *Logo)
 }
 
 BOOLEAN
-GoReadOculusLogo (GO_OCULUS_LOGO *Logo)
+GoReadPartitionLogo (GO_OCULUS_LOGO *Logo)
 {
-  CONST UINT8 *Frame = (CONST UINT8 *)(UINTN)GO_FB_BASE;
-  for (UINTN Eye = 0; Eye < ARRAY_SIZE (mFirstRow); ++Eye) {
-    if (SampleCrop (Frame + CropOffset (Eye), Logo, Eye)) {
-      return TRUE;
-    }
-  }
   EFI_HANDLE *Handles;
   UINTN Count;
   if (EFI_ERROR (gBS->LocateHandleBuffer (ByProtocol, &gEfiPartitionInfoProtocolGuid, NULL, &Count, &Handles))) {
@@ -109,4 +103,19 @@ GoReadOculusLogo (GO_OCULUS_LOGO *Logo)
   }
   FreePool (Handles);
   return Found;
+}
+
+GO_LOGO_SOURCE
+GoReadOculusLogo (GO_OCULUS_LOGO *Logo)
+{
+  if (GoReadPartitionLogo (Logo)) {
+    return GoLogoPartition;
+  }
+  CONST UINT8 *Frame = (CONST UINT8 *)(UINTN)GO_FB_BASE;
+  for (UINTN Eye = 0; Eye < ARRAY_SIZE (mFirstRow); ++Eye) {
+    if (SampleCrop (Frame + CropOffset (Eye), Logo, Eye)) {
+      return GoLogoFramebuffer;
+    }
+  }
+  return GoLogoAbsent;
 }

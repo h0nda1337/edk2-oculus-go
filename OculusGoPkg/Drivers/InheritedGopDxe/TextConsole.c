@@ -65,12 +65,51 @@ FillRows (UINTN First, UINTN Count)
   return EFI_SUCCESS;
 }
 
+STATIC EFI_GRAPHICS_OUTPUT_BLT_PIXEL mEmblem[GO_LOGO_WIDTH][GO_LOGO_HEIGHT];
+STATIC BOOLEAN mHaveEmblem, mEmblemVisible;
+#define EMBLEM_X  ((GO_FB_WIDTH - GO_LOGO_HEIGHT) / 2)
+#define EMBLEM_Y  ((EYE_W - GO_LOGO_WIDTH) / 2)
+
+STATIC VOID EFIAPI
+SetEmblem (CONST GO_OCULUS_LOGO *Logo)
+{
+  for (UINTN X = 0; X < GO_LOGO_WIDTH; ++X) {
+    for (UINTN Y = 0; Y < GO_LOGO_HEIGHT; ++Y) {
+      UINT8 V = Logo->Luma[Y][X];
+      mEmblem[X][GO_LOGO_HEIGHT-1-Y] = (EFI_GRAPHICS_OUTPUT_BLT_PIXEL){V,V,V,0};
+    }
+  }
+  mHaveEmblem = TRUE;
+}
+
+GO_CONSOLE_EMBLEM_PROTOCOL gGoConsoleEmblem = { SetEmblem };
+
+STATIC EFI_STATUS
+PresentEmblem (BOOLEAN Show)
+{
+  EFI_GRAPHICS_OUTPUT_BLT_PIXEL Black = {0,0,0,0};
+  // A failed second-eye update may leave the first eye visible.
+  mEmblemVisible = TRUE;
+  for (UINTN Eye = 0; Eye < 2; ++Eye) {
+    EFI_STATUS Status = mGop->Blt (mGop, Show ? &mEmblem[0][0] : &Black,
+      Show ? EfiBltBufferToVideo : EfiBltVideoFill, 0, 0, EMBLEM_X, Eye*EYE_W + EMBLEM_Y,
+      GO_LOGO_HEIGHT, GO_LOGO_WIDTH, 0);
+    if (EFI_ERROR (Status)) { return Status; }
+  }
+  mEmblemVisible = Show;
+  return EFI_SUCCESS;
+}
+
 STATIC EFI_STATUS
 LineFeed (VOID)
 {
   if ((UINTN)mMode.CursorRow < GRID.Rows - 1) {
     ++mMode.CursorRow;
     return EFI_SUCCESS;
+  }
+  if (mEmblemVisible) {
+    EFI_STATUS Status = PresentEmblem (FALSE);
+    if (EFI_ERROR (Status)) { return Status; }
   }
   for (UINTN Eye = 0; Eye < 2; ++Eye) {
     UINTN Y = EyeLeft (Eye);
@@ -100,6 +139,15 @@ Glyph (CHAR16 Ch)
 STATIC EFI_STATUS
 DrawGlyph (CONST UINT8 *GlyphRows)
 {
+  // Remove the entire boot mark before the first overlapping cell. Text and
+  // scrolling must remain authoritative over every pixel of the console.
+  UINTN NativeX = ScanoutX (mMode.CursorRow, 1);
+  UINTN NativeY = EyeLeft (0) + mMode.CursorColumn * CELL_W;
+  if (mEmblemVisible && NativeX < EMBLEM_X + GO_LOGO_HEIGHT && NativeX + CELL_H > EMBLEM_X &&
+      NativeY < EMBLEM_Y + GO_LOGO_WIDTH && NativeY + CELL_W > EMBLEM_Y) {
+    EFI_STATUS Status = PresentEmblem (FALSE);
+    if (EFI_ERROR (Status)) { return Status; }
+  }
   // Rotate the 8x19 raster into the panel's native column/row order.
   EFI_GRAPHICS_OUTPUT_BLT_PIXEL Tile[16 * 38];
   for (UINTN V = 0; V < CELL_H; ++V) {
@@ -234,6 +282,12 @@ TextClear (EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This)
   EFI_STATUS Status = FillRows (0, GRID.Rows);
   if (!EFI_ERROR (Status) && mMode.Mode == GO_TEXT_MODE_WIDE) {
     Status = DrawWideFrame ();
+    mEmblemVisible = FALSE;
+    if (!EFI_ERROR (Status) && mHaveEmblem && (mMode.Attribute >> 4) == 0) {
+      Status = PresentEmblem (TRUE);
+    }
+  } else if (!EFI_ERROR (Status)) {
+    mEmblemVisible = FALSE;
   }
   if (!EFI_ERROR (Status)) {
     mMode.CursorRow = mMode.CursorColumn = 0;

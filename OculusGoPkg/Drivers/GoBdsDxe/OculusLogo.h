@@ -4,14 +4,14 @@
 
 #include <Protocol/GraphicsOutput.h>
 
-#define GO_LOGO_WIDTH   68
-#define GO_LOGO_HEIGHT  42
+#include <Protocol/GoConsoleEmblem.h>
 
-typedef struct {
-  UINT8 Luma[GO_LOGO_HEIGHT][GO_LOGO_WIDTH];
-} GO_OCULUS_LOGO;
+typedef enum { GoLogoAbsent, GoLogoPartition, GoLogoFramebuffer } GO_LOGO_SOURCE;
 
 BOOLEAN
+GoReadPartitionLogo (OUT GO_OCULUS_LOGO *Logo);
+
+GO_LOGO_SOURCE
 GoReadOculusLogo (OUT GO_OCULUS_LOGO *Logo);
 
 #endif

@@ -107,6 +107,27 @@ int main (void)
     assert (scroll->Op==EfiBltVideoToVideo && scroll->Sx==558 && scroll->Dx==583);
     assert (scroll->Sy==315+1280*eye && scroll->Dy==scroll->Sy && scroll->W==300 && scroll->H==650);
   }
+  GO_OCULUS_LOGO mark = {0};
+  mark.Luma[41][0] = 99;
+  gGoConsoleEmblem.Set (&mark);
+  assert (t->SetAttribute (t, EFI_LIGHTGRAY) == EFI_SUCCESS);
+  Count=0;
+  assert (t->ClearScreen (t) == EFI_SUCCESS && Count == 12);
+  for (UINTN eye=0; eye<2; ++eye) {
+    CALL *c = &Calls[10+eye];
+    assert (c->Op==EfiBltBufferToVideo && c->Dx==699 && c->Dy==606+1280*eye);
+    assert (c->W==42 && c->H==68 && c->Color.Red==99);
+  }
+  Count=0;
+  assert (t->OutputString (t,L"x")==EFI_SUCCESS && Count==2);
+  Count=0;
+  assert (t->SetCursorPosition (t,30,6)==EFI_SUCCESS && t->OutputString (t,L"x")==EFI_SUCCESS);
+  assert (Count==4 && Calls[0].Op==EfiBltVideoFill && Calls[0].Dx==699 && Calls[0].Dy==606);
+  Count=0;
+  assert (t->ClearScreen (t)==EFI_SUCCESS && Count==12);
+  Count=0;
+  assert (t->SetCursorPosition (t,0,12)==EFI_SUCCESS && t->OutputString (t,L"\n")==EFI_SUCCESS);
+  assert (Count==6 && Calls[0].Op==EfiBltVideoFill && Calls[2].Op==EfiBltVideoToVideo);
   Count=0;
   assert (t->Reset (t,FALSE)==EFI_SUCCESS && Count==3);
   Count=0;

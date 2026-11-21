@@ -27,11 +27,6 @@ VOID *EFIAPI AllocatePool (UINTN N) {
   ++Pools;
   return malloc (N);
 }
-VOID *EFIAPI AllocateZeroPool (UINTN N) {
-  VOID *P = AllocatePool (N);
-  if (P != NULL) { memset (P, 0, N); }
-  return P;
-}
 VOID EFIAPI FreePool (VOID *P) { assert (Pools == 1); --Pools; free (P); }
 
 STATIC EFI_STATUS EFIAPI

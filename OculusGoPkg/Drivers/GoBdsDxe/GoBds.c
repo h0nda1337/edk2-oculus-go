@@ -72,7 +72,13 @@ BootShell (VOID)
   EFI_HANDLE Child = NULL;
   MEDIA_FW_VOL_FILEPATH_DEVICE_PATH Node;
   GO_OCULUS_LOGO Logo;
-  BOOLEAN HasLogo = FixedPcdGetBool (PcdGoWelcomeEnabled) && GoReadOculusLogo (&Logo);
+  GO_LOGO_SOURCE Source = GoLogoAbsent;
+  if (FixedPcdGetBool (PcdGoWelcomeEnabled)) {
+    Source = GoReadOculusLogo (&Logo);
+    DEBUG ((DEBUG_INFO, "Go BDS: Oculus emblem source = %a\n",
+            Source == GoLogoPartition ? "GPT splash" : Source == GoLogoFramebuffer ? "inherited framebuffer" : "absent"));
+  }
+  BOOLEAN HasLogo = Source != GoLogoAbsent;
   EFI_STATUS Status = SelectDisplay ();
   if (EFI_ERROR (Status) || gST->ConIn == NULL || gST->ConsoleInHandle == NULL) {
     return EFI_ERROR (Status) ? Status : EFI_NOT_READY;
@@ -101,11 +107,14 @@ BootShell (VOID)
       }
       // The shorter text window no longer covers the outer rows of the intro.
       ClearPanel (Gop);
-      gST->ConOut->ClearScreen (gST->ConOut);
       if (HasLogo) {
-        EFI_STATUS Badge = GoShowShellLogo (Gop, &Logo);
-        DEBUG ((DEBUG_INFO, "Go BDS: Shell emblem returned %r\n", Badge));
+        GO_CONSOLE_EMBLEM_PROTOCOL *Emblem;
+        if (!EFI_ERROR (gBS->HandleProtocol (gST->ConsoleOutHandle, &gOculusGoConsoleEmblemProtocolGuid,
+                                             (VOID **)&Emblem))) {
+          Emblem->Set (&Logo);
+        }
       }
+      gST->ConOut->ClearScreen (gST->ConOut);
     }
     DEBUG ((DEBUG_INFO, "Go BDS: welcome scene returned %r\n", Intro));
   }

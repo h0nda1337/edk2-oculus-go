@@ -3,7 +3,6 @@
     SPDX-License-Identifier: BSD-2-Clause-Patent **/
 #include <Uefi.h>
 #include <Display/Framebuffer.h>
-#include <Display/TextModes.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/TimerLib.h>
@@ -311,26 +310,6 @@ PaintLogo (PIXEL *BottomLeft, UINTN Stride, CONST GO_OCULUS_LOGO *Logo, INT32 Li
       }
     }
   }
-}
-
-EFI_STATUS
-GoShowShellLogo (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop, CONST GO_OCULUS_LOGO *Logo)
-{
-  // Leave a 12-pixel gutter beneath the boot console.
-  CONST UINTN Top = (GO_FB_WIDTH + GO_TEXT_WIDE_ROWS * GO_TEXT_WIDE_CELL_H)/2 + 12;
-  PIXEL *Badge = AllocateZeroPool (GO_LOGO_WIDTH * GO_LOGO_HEIGHT * sizeof (*Badge));
-  if (Badge == NULL) {
-    return EFI_OUT_OF_RESOURCES;
-  }
-  PaintLogo (Badge, GO_LOGO_HEIGHT, Logo, 1024);
-  EFI_STATUS Status = EFI_SUCCESS;
-  for (UINTN Eye = 0; Eye < 2 && !EFI_ERROR (Status); ++Eye) {
-    Status = Gop->Blt (Gop, Badge, EfiBltBufferToVideo, 0, 0, GO_FB_WIDTH - Top - GO_LOGO_HEIGHT,
-                       Eye * (GO_FB_HEIGHT/2) + (GO_FB_HEIGHT/2 - GO_LOGO_WIDTH)/2,
-                       GO_LOGO_HEIGHT, GO_LOGO_WIDTH, 0);
-  }
-  FreePool (Badge);
-  return Status;
 }
 
 EFI_STATUS

@@ -46,7 +46,8 @@ def matches_tile(rgb, mark):
     return True
 
 
-def check_footer(frame, mark, top):
+def check_center_mark(frame, mark):
+    top = (1440 - LOGO_H) // 2
     # Verify every channel of both marks, then mask only their exact rectangle so
     # the usual Shell oracle can still reject any other pixels in the margins.
     masked = bytearray(frame)
@@ -58,6 +59,6 @@ def check_footer(frame, mark, top):
                 )
                 assert (
                     frame[offset : offset + 3] == bytes([mark[y * LOGO_W + x]]) * 3
-                ), "Shell footer differs"
+                ), "Centered Shell emblem differs"
                 masked[offset : offset + 3] = bytes(3)
     return masked

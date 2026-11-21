@@ -20,6 +20,7 @@
   UefiBootServicesTableLib
   UefiDriverEntryPoint
 [Protocols]
+  gOculusGoConsoleEmblemProtocolGuid
   gEfiGraphicsOutputProtocolGuid
   gEfiDevicePathProtocolGuid
   gEfiDevicePathUtilitiesProtocolGuid

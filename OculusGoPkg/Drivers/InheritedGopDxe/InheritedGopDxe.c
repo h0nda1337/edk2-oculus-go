@@ -218,6 +218,7 @@ InheritedGopDxeEntry (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTabl
                                                     &gEfiDevicePathProtocolGuid, Path,
 #ifdef OCULUS_GO_TEXT
                                                     &gEfiSimpleTextOutProtocolGuid, Text,
+                                                    &gOculusGoConsoleEmblemProtocolGuid, &gGoConsoleEmblem,
 #endif
                                                     NULL);
   if (EFI_ERROR (Status)) {

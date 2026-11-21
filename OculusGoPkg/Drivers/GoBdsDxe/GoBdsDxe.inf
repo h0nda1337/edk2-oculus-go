@@ -29,6 +29,7 @@
   UefiDriverEntryPoint
   UefiLib
 [Protocols]
+  gOculusGoConsoleEmblemProtocolGuid
   gEfiPartitionInfoProtocolGuid
   gEfiBlockIoProtocolGuid
   gEfiDiskIoProtocolGuid

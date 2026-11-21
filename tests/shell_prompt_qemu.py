@@ -194,7 +194,7 @@ def request(wire, command, args=None):
             return reply["return"]
 
 
-def wait_for_prompt(wire, log, surface, deadline, trace_loader, layout, welcome=None):
+def wait_for_prompt(wire, log, surface, deadline, trace_loader, layout, welcome=None, mark=None):
     previous = None
     serial = ""
     while time.monotonic() < deadline:
@@ -214,7 +214,15 @@ def wait_for_prompt(wire, log, surface, deadline, trace_loader, layout, welcome=
         if frame[: SIZE // 2] != frame[SIZE // 2 :]:
             previous = None
             continue
-        rows = decode_grid(frame, *LAYOUTS[layout])
+        text_frame = frame
+        if mark is not None:
+            from oculus_logo import check_center_mark
+            try:
+                text_frame = check_center_mark(frame, mark)
+            except AssertionError:
+                previous = None
+                continue
+        rows = decode_grid(text_frame, *LAYOUTS[layout])
         if (
             "Shell>" in rows
             and any(row.startswith("UEFI Basic Shell v") for row in rows)
@@ -343,7 +351,7 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="wide", observe_wel
                 with channel.makefile("rwb", buffering=0) as wire:
                     assert "QMP" in json.loads(wire.readline())
                     request(wire, "qmp_capabilities")
-                    frame, rows, serial = wait_for_prompt(wire, log, surface, deadline, dtb is None, layout, welcome)
+                    frame, rows, serial = wait_for_prompt(wire, log, surface, deadline, dtb is None, layout, welcome, mark)
             loads = re.findall(r"Loading driver at [^\r\n]+ (?:GoBdsDxe|Shell)\.efi", serial)
             if dtb is None and [line.split()[-1] for line in loads] != [
                 "GoBdsDxe.efi",
@@ -355,12 +363,11 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="wide", observe_wel
             png = eye_png(frame)
             (output / "eye.png").write_bytes(png)
             if layout == "wide":
-                (output / "console.png").write_bytes(eye_png(frame, (291, 533, 698, 427), step=1))
+                (output / "console.png").write_bytes(eye_png(frame, (291, 533, 698, 373), step=1))
             viewport_frame = frame
             if mark is not None:
-                from oculus_logo import check_footer
-                footer_y = 894 if layout == "wide" else 960
-                viewport_frame = check_footer(frame, mark, footer_y)
+                from oculus_logo import check_center_mark
+                viewport_frame = check_center_mark(frame, mark)
             report = {
                 **evidence,
                 "el": el,
@@ -382,7 +389,7 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="wide", observe_wel
             if mark is not None:
                 report["oculusEmblem"] = {"source": "stock pixels preloaded into inherited scanout",
                                           "reducedLumaSha256": sha(mark), "exactPixelsBothEyes": True,
-                                          "welcomeTopInTile": 355, "shellTopInEye": footer_y,
+                                          "welcomeTopInTile": 355, "shellTopInEye": 699, "shellLeftInEye": 606,
                                           "size": [68, 42]}
             if dtb is not None:
                 report["pacificFdAtEl1"] = True
