@@ -6,6 +6,7 @@
   MODULE_TYPE = UEFI_APPLICATION
   ENTRY_POINT = UefiMain
 [Sources]
+  ConnectProvider.c
   Test.c
   LogoUnderTest.c
 [Packages]

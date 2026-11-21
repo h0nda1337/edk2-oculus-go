@@ -1,0 +1,26 @@
+## QEMU only. SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = UfsCapacityMap
+  FILE_GUID = fc1ef687-3abf-490a-b11b-f624cdff5142
+  MODULE_TYPE = UEFI_APPLICATION
+  ENTRY_POINT = UefiMain
+[Sources]
+  CapacityMap.c
+  ConnectProvider.c
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+[LibraryClasses]
+  BaseMemoryLib
+  DevicePathLib
+  MemoryAllocationLib
+  UefiApplicationEntryPoint
+  UefiBootServicesTableLib
+  UefiLib
+[Protocols]
+  gEfiDriverBindingProtocolGuid
+  gEfiLoadedImageProtocolGuid
+  gEfiPciIoProtocolGuid
+  gEdkiiUfsHostControllerProtocolGuid
+  gEfiExtScsiPassThruProtocolGuid
