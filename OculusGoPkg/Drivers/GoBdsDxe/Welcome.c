@@ -3,6 +3,7 @@
     SPDX-License-Identifier: BSD-2-Clause-Patent **/
 #include <Uefi.h>
 #include <Display/Framebuffer.h>
+#include <Display/TextModes.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/TimerLib.h>
@@ -315,8 +316,8 @@ PaintLogo (PIXEL *BottomLeft, UINTN Stride, CONST GO_OCULUS_LOGO *Logo, INT32 Li
 EFI_STATUS
 GoShowShellLogo (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop, CONST GO_OCULUS_LOGO *Logo)
 {
-  // The centered console ends at worn y=948. Leave a 12-pixel black gutter.
-  CONST UINTN Top = 960;
+  // Leave a 12-pixel gutter beneath the boot console.
+  CONST UINTN Top = (GO_FB_WIDTH + GO_TEXT_WIDE_ROWS * GO_TEXT_WIDE_CELL_H)/2 + 12;
   PIXEL *Badge = AllocateZeroPool (GO_LOGO_WIDTH * GO_LOGO_HEIGHT * sizeof (*Badge));
   if (Badge == NULL) {
     return EFI_OUT_OF_RESOURCES;

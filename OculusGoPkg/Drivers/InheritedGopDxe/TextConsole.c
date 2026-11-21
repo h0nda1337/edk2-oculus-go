@@ -7,25 +7,27 @@
 #include "TextConsole.h"
 #include <third-party/edk2/ConsoleFont.h>
 
-#define SCALE   2
-#define CELL_W  (8 * SCALE)
-#define CELL_H  (19 * SCALE)
 #define EYE_W   (GO_FB_HEIGHT / 2)
 
 typedef struct {
   UINTN Columns;
   UINTN Rows;
+  UINTN CellWidth;
+  UINTN CellHeight;
 } GO_TEXT_GRID;
 
 STATIC CONST GO_TEXT_GRID mGrids[] = {
-  { 80, 25 }, { 0, 0 }, { 24, 12 }
+  { 80, 25, 16, 38 }, { 0, 0, 0, 0 }, { 24, 12, 16, 38 },
+  { GO_TEXT_WIDE_COLUMNS, GO_TEXT_WIDE_ROWS, GO_TEXT_WIDE_CELL_W, GO_TEXT_WIDE_CELL_H }
 };
-STATIC_ASSERT (ARRAY_SIZE (mGrids) == GO_TEXT_MODE_CENTERED + 1, "text mode index");
-STATIC_ASSERT (80 * CELL_W <= EYE_W && 25 * CELL_H <= GO_FB_WIDTH, "text viewport");
+STATIC_ASSERT (ARRAY_SIZE (mGrids) == GO_TEXT_MODE_WIDE + 1, "text mode index");
+STATIC_ASSERT (GO_TEXT_WIDE_CELL_W <= 16 && GO_TEXT_WIDE_CELL_H <= 38, "text viewport");
 
 STATIC EFI_GRAPHICS_OUTPUT_PROTOCOL *mGop;
 STATIC EFI_SIMPLE_TEXT_OUTPUT_MODE mMode = {ARRAY_SIZE (mGrids), 0, EFI_LIGHTGRAY, 0, 0, FALSE};
 #define GRID  (mGrids[mMode.Mode])
+#define CELL_W  GRID.CellWidth
+#define CELL_H  GRID.CellHeight
 
 STATIC UINTN
 EyeLeft (UINTN Eye)
@@ -45,7 +47,7 @@ STATIC CONST EFI_GRAPHICS_OUTPUT_BLT_PIXEL mPalette[16] = {
 STATIC UINTN
 ScanoutX (UINTN FirstRow, UINTN RowCount)
 {
-  UINTN Margin = (GO_FB_WIDTH - GRID.Rows * CELL_H) / 2;
+  UINTN Margin = (GO_FB_WIDTH - GRID.Rows * CELL_H + 1) / 2;
   return Margin + (GRID.Rows - FirstRow - RowCount) * CELL_H;
 }
 
@@ -99,17 +101,18 @@ STATIC EFI_STATUS
 DrawGlyph (CONST UINT8 *GlyphRows)
 {
   // Rotate the 8x19 raster into the panel's native column/row order.
-  EFI_GRAPHICS_OUTPUT_BLT_PIXEL Tile[CELL_W][CELL_H];
+  EFI_GRAPHICS_OUTPUT_BLT_PIXEL Tile[16 * 38];
   for (UINTN V = 0; V < CELL_H; ++V) {
-    UINT8 Bits = GlyphRows[V / SCALE];
+    UINT8 Bits = GlyphRows[((2 * V + 1) * 19) / (2 * CELL_H)];
     for (UINTN U = 0; U < CELL_W; ++U) {
-      Tile[U][CELL_H - 1 - V] = mPalette[(Bits & (0x80 >> (U / SCALE))) ?
+      UINTN FontX = ((2 * U + 1) * 8) / (2 * CELL_W);
+      Tile[U * CELL_H + CELL_H - 1 - V] = mPalette[(Bits & (0x80 >> FontX)) ?
                                            (mMode.Attribute & 15) : (mMode.Attribute >> 4)];
     }
   }
   for (UINTN Eye = 0; Eye < 2; ++Eye) {
     UINTN Y = EyeLeft (Eye) + mMode.CursorColumn * CELL_W;
-    EFI_STATUS Status = mGop->Blt (mGop, &Tile[0][0], EfiBltBufferToVideo, 0, 0,
+    EFI_STATUS Status = mGop->Blt (mGop, Tile, EfiBltBufferToVideo, 0, 0,
       ScanoutX (mMode.CursorRow, 1), Y, CELL_H, CELL_W, 0);
     if (EFI_ERROR (Status)) {
       return Status;

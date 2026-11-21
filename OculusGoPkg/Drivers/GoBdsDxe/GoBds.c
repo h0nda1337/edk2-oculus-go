@@ -43,7 +43,7 @@ SelectDisplay (VOID)
     if (EFI_ERROR (Status)) {
       break;
     }
-    Status = Text->SetMode (Text, GO_TEXT_MODE_CENTERED);
+    Status = Text->SetMode (Text, GO_TEXT_MODE_WIDE);
     if (EFI_ERROR (Status)) {
       break;
     }
@@ -88,7 +88,10 @@ BootShell (VOID)
                                              &gEfiGraphicsOutputProtocolGuid, (VOID **)&Gop);
     if (!EFI_ERROR (Intro)) {
       Intro = GoPlayWelcome (Gop, HasLogo ? &Logo : NULL);
-      // The whole intro tile lies inside the active text viewport.
+      // The shorter text window no longer covers the outer rows of the intro.
+      EFI_GRAPHICS_OUTPUT_BLT_PIXEL Black = {0, 0, 0, 0};
+      Gop->Blt (Gop, &Black, EfiBltVideoFill, 0, 0, 0, 0,
+                Gop->Mode->Info->HorizontalResolution, Gop->Mode->Info->VerticalResolution, 0);
       gST->ConOut->ClearScreen (gST->ConOut);
       if (HasLogo) {
         EFI_STATUS Badge = GoShowShellLogo (Gop, &Logo);

@@ -26,11 +26,11 @@ from verify_fd import SHELL_FD_SIZE, verify
 from verify_fd import SIZE as FIRMWARE_BYTES
 
 FB = 0x83401000
-NATIVE_WIDTH, EYE_WIDTH, CELL_W, CELL_H = 1440, 1280, 16, 38
+NATIVE_WIDTH, EYE_WIDTH = 1440, 1280
 SIZE = NATIVE_WIDTH * EYE_WIDTH * 2 * 3
 # Logical per-eye coordinates, origin at the top left when worn.
 # Keep the original layout for replay of the first physical Shell image.
-LAYOUTS = {"centered": (24, 12), "legacy": (80, 25)}
+LAYOUTS = {"wide": (56, 15, 10, 25), "centered": (24, 12, 16, 38), "legacy": (80, 25, 16, 38)}
 SHELL_GUID = "7c04a583-9e3e-4f1c-ad65-e05268d0b4d1"
 
 
@@ -122,7 +122,7 @@ def inspect_pacific(fd, reference):
     }
 
 
-def decode_grid(scan, columns, height):
+def decode_grid(scan, columns, height, cell_w, cell_h):
     """Decode visible 8x19 ASCII glyphs from native clockwise panel coordinates."""
     header = (ROOT / "OculusGoPkg/Include/third-party/edk2/ConsoleFont.h").read_text()
     font = {
@@ -134,19 +134,21 @@ def decode_grid(scan, columns, height):
     if left != right:
         raise ValueError("Frame is changing or left/right eye pixels differ")
     rows = []
-    left_margin = (EYE_WIDTH - columns * CELL_W) // 2
-    top_margin = (NATIVE_WIDTH - height * CELL_H) // 2
+    left_margin = (EYE_WIDTH - columns * cell_w) // 2
+    top_margin = (NATIVE_WIDTH - height * cell_h) // 2
     for row in range(height):
-        top_x = NATIVE_WIDTH - 1 - top_margin - row * CELL_H
+        top_x = NATIVE_WIDTH - 1 - top_margin - row * cell_h
         chars = []
         for col in range(columns):
-            base = 3 * ((left_margin + col * CELL_W) * NATIVE_WIDTH + top_x)
+            base = 3 * ((left_margin + col * cell_w) * NATIVE_WIDTH + top_x)
             bits = bytearray()
             for v in range(19):
-                pos = base - v * 6
+                raster_y = (2*v + 1)*cell_h // (2*19)
+                pos = base - 3*raster_y
                 value = 0
                 for u in range(8):
-                    dot = pos + 6 * u * NATIVE_WIDTH
+                    raster_x = (2*u + 1)*cell_w // (2*8)
+                    dot = pos + 3*raster_x*NATIVE_WIDTH
                     value = (value << 1) | (left[dot : dot + 3] != b"\x00\x00\x00")
                 bits.append(value)
             chars.append(font.get(bytes(bits), "\ufffd"))
@@ -227,33 +229,34 @@ def wait_for_prompt(wire, log, surface, deadline, trace_loader, layout, welcome=
 
 
 def verify_viewport(frame, rows, layout):
-    columns, height = LAYOUTS[layout]
-    left = (EYE_WIDTH - columns * CELL_W) // 2
-    top = (NATIVE_WIDTH - height * CELL_H) // 2
-    prompt_y = top + rows.index("Shell>") * CELL_H
-    if layout == "centered":
+    columns, height, cell_w, cell_h = LAYOUTS[layout]
+    left = (EYE_WIDTH - columns * cell_w) // 2
+    top = (NATIVE_WIDTH - height * cell_h) // 2
+    prompt_y = top + rows.index("Shell>") * cell_h
+    if layout in ("centered", "wide"):
         # Test the physical crop regression directly in worn per-eye pixels.
-        if left < 440 or prompt_y < 570 or prompt_y + CELL_H > 870:
+        if (left != (360 if layout == "wide" else 448)
+                or prompt_y < 570 or prompt_y + cell_h > 870):
             raise ValueError("Prompt fell outside the proposed central reading area")
         for u in range(EYE_WIDTH):
             column = frame[3 * u * NATIVE_WIDTH : 3 * (u + 1) * NATIVE_WIDTH]
-            if left <= u < left + columns * CELL_W:
-                if any(column[: 3 * top]) or any(column[3 * (NATIVE_WIDTH - top) :]):
+            if left <= u < left + columns * cell_w:
+                if any(column[: 3 * (NATIVE_WIDTH-top-height*cell_h)]) or any(column[3 * (NATIVE_WIDTH - top) :]):
                     raise ValueError("Pixels above or below the viewport")
             elif any(column):
                 raise ValueError("Pixels beyond a horizontal margin")
     return {
         "perEyeDimensions": [EYE_WIDTH, NATIVE_WIDTH],
-        "viewportXYWH": [left, top, columns * CELL_W, height * CELL_H],
-        "promptCellBoundsXYWH": [left, prompt_y, len("Shell>") * CELL_W, CELL_H],
+        "viewportXYWH": [left, top, columns * cell_w, height * cell_h],
+        "promptCellBoundsXYWH": [left, prompt_y, len("Shell>") * cell_w, cell_h],
     }
 
 
-def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe_welcome=False, stock_splash=None):
+def run(fd, reference, output, timeout, el, dtb=None, layout="wide", observe_welcome=False, stock_splash=None):
     welcome = None
     stock = mark = None
     if stock_splash is not None:
-        if not observe_welcome or layout != "centered":
+        if not observe_welcome or layout not in ("wide", "centered"):
             raise ValueError("Stock emblem requires the centered welcome observer")
         from oculus_logo import stock_frame, stock_mark
         stock = stock_frame(stock_splash)
@@ -341,7 +344,8 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe
             viewport_frame = frame
             if mark is not None:
                 from oculus_logo import check_footer
-                viewport_frame = check_footer(frame, mark)
+                footer_y = 919 if layout == "wide" else 960
+                viewport_frame = check_footer(frame, mark, footer_y)
             report = {
                 **evidence,
                 "el": el,
@@ -363,7 +367,7 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe
             if mark is not None:
                 report["oculusEmblem"] = {"source": "stock pixels preloaded into inherited scanout",
                                           "reducedLumaSha256": sha(mark), "exactPixelsBothEyes": True,
-                                          "welcomeTopInTile": 355, "shellTopInEye": 960,
+                                          "welcomeTopInTile": 355, "shellTopInEye": footer_y,
                                           "size": [68, 42]}
             if dtb is not None:
                 report["pacificFdAtEl1"] = True
@@ -392,7 +396,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--pacific-dtb", type=Path, help="Boot the real Pacific FD using the EL2 QEMU GIC map"
     )
-    parser.add_argument("--layout", choices=LAYOUTS, default="centered")
+    parser.add_argument("--layout", choices=LAYOUTS, default="wide")
     parser.add_argument("--observe-welcome", action="store_true", help="Validate the 3D intro before the prompt")
     parser.add_argument("--stock-splash", type=Path, help="Seed inherited scanout from the private stock splash dump")
     args = parser.parse_args()

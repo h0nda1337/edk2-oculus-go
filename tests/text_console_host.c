@@ -92,6 +92,24 @@ int main (void)
   Count=0;
   assert (t->Reset (t,FALSE)==EFI_SUCCESS && t->Mode->Mode==0 && Count==3);
   Count=0;
+  assert (t->QueryMode (t,3,&cols,&rows)==EFI_SUCCESS && cols==56 && rows==15);
+  assert (t->SetMode (t,3)==EFI_SUCCESS && Count==3);
+  for (UINTN eye=0; eye<2; ++eye) {
+    CALL *c=&Calls[1+eye];
+    assert (c->Dx==533 && c->Dy==360+1280*eye && c->W==375 && c->H==560);
+  }
+  Count=0;
+  assert (t->SetCursorPosition (t,55,14)==EFI_SUCCESS && t->OutputString (t,L"x")==EFI_SUCCESS);
+  assert (t->Mode->CursorRow==14 && t->Mode->CursorColumn==0 && Count==6);
+  for (UINTN eye=0; eye<2; ++eye) {
+    CALL *glyph=&Calls[eye], *scroll=&Calls[2+eye];
+    assert (glyph->Op==EfiBltBufferToVideo && glyph->W==25 && glyph->H==10);
+    assert (scroll->Op==EfiBltVideoToVideo && scroll->Sx==533 && scroll->Dx==558);
+    assert (scroll->Sy==360+1280*eye && scroll->Dy==scroll->Sy && scroll->W==350 && scroll->H==560);
+  }
+  Count=0;
+  assert (t->Reset (t,FALSE)==EFI_SUCCESS && Count==3);
+  Count=0;
   FailAt=2;
   assert (t->SetMode (t,2)==EFI_DEVICE_ERROR && t->Mode->Mode==0);
   return 0;

@@ -46,7 +46,7 @@ def matches_tile(rgb, mark):
     return True
 
 
-def check_footer(frame, mark):
+def check_footer(frame, mark, top):
     # Verify every channel of both marks, then mask only their exact rectangle so
     # the usual Shell oracle can still reject any other pixels in the margins.
     masked = bytearray(frame)
@@ -54,7 +54,7 @@ def check_footer(frame, mark):
         for x in range(LOGO_W):
             for y in range(LOGO_H):
                 offset = 3 * (
-                    (eye * 1280 + (1280 - LOGO_W) // 2 + x) * 1440 + 1439 - 960 - y
+                    (eye * 1280 + (1280 - LOGO_W) // 2 + x) * 1440 + 1439 - top - y
                 )
                 assert (
                     frame[offset : offset + 3] == bytes([mark[y * LOGO_W + x]]) * 3
