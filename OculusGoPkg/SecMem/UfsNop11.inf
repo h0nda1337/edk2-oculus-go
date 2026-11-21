@@ -1,0 +1,26 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = OculusGoUfsNop11
+  FILE_GUID      = c965ead6-00b2-46b9-a899-324437c63682
+  MODULE_TYPE    = SEC
+  VERSION_STRING = 1.0
+
+[Sources.AARCH64]
+  UfsEntry.S | GCC
+  UfsHandoff.c
+  UfsQueues.c
+  UfsLkMap.c
+  UfsNop11.c
+  UfsNop11Ring.S | GCC
+  Fdt.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[BuildOptions]
+  GCC:*_*_AARCH64_CC_FLAGS = -DGO_UFS_QUEUES -DGO_UFS_LK_MAP -DGO_UFS_NOP11

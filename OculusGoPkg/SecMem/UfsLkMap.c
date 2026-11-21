@@ -108,6 +108,10 @@ GoUfsLkMap (UINT64 Tr, UINT64 Tm)
   } else if (!IdentityBlock (Data[9], Data[10], LK_HEAP_VA)) {
     GoUfsHeading ("UNKNOWN", "LK MAP");
   } else {
+#ifdef GO_UFS_NOP11
+    GoUfsNop11 (Tr, Tm);
+#else
     GoUfsHeading ("LK MAP", "MATCH");
+#endif
   }
 }

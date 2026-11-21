@@ -27,6 +27,7 @@ case "$build_mode" in
   DXE_MEM) build_flavor=OculusGoDxeMem ;;
   SEC_DXE) build_flavor=OculusGoSecDxe ;;
   SEC_MMU) build_flavor=OculusGoSecMmu ;;
+  UFS_NOP11) build_flavor=OculusGoUfsNop11 ;;
   UFS_LK_MAP) build_flavor=OculusGoUfsLkMap ;;
   UFS_QUEUES) build_flavor=OculusGoUfsQueues ;;
   UFS_HANDOFF) build_flavor=OculusGoUfsHandoff ;;
