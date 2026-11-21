@@ -1,7 +1,7 @@
 {
   "outcome": "PASS-QEMU-TRANSLATED-NOP11",
   "ordinaryLuns": 0,
-  "guestSha256": "b62a679a71e1cd3074393ec995260df199e1d72bcba74b1a89badb3173017250",
+  "guestSha256": "ba0b24780baa0437b9c013e33530386c345ff9ce02f0ffd0c0d472455cdfd4a7",
   "pacificWindowDma": "UNKNOWN",
   "modelIova": "0x88000000",
   "cpuPa": "0x80440000",

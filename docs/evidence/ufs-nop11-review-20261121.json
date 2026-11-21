@@ -45,7 +45,7 @@
   "virtualDma": {
     "file": "docs/evidence/ufs-nop11-window-qemu-20261121.json",
     "size": 1909,
-    "sha256": "0c2491b04d6825a2899f316f03fff6ed3a710780ae01899011a445d311278aba"
+    "sha256": "4cf55a601b1f8c432a3246671922d9830df9b176d7aca2132385508a3c782e80"
   },
   "lkHandoff": {
     "file": "docs/evidence/ufs-lk-map-transfer-20261121.json",
@@ -195,8 +195,8 @@
     },
     {
       "file": "tests/ufs_nop11_window_qemu.py",
-      "size": 5531,
-      "sha256": "c5456a8271095922df59ffc0fd7831dda4b9ad6429c456d8887ec92fb3d0cf54"
+      "size": 5662,
+      "sha256": "0d8ae207ae1c8bf4feb4c09269f41c9cddc74ec734c9031aa3c883e9181056ad"
     },
     {
       "file": "tests/ufs_queue_dma_model.py",

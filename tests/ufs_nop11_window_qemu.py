@@ -86,7 +86,9 @@ def main():
         inc=ROOT/"edk2/MdePkg/Include"
         subprocess.run(["aarch64-linux-gnu-gcc","-nostdlib","-static","-ffreestanding","-mgeneral-regs-only","-mstrict-align",
                         "-fno-stack-protector","-fshort-wchar","-O2","-Werror","-DGO_UFS11_VIRTUAL_MAP","-DGO_UFS_QUEUES",
-                        "-I",inc,"-I",inc/"AArch64","-Wl,-Ttext=0x40200000,--build-id=none",entry,
+                        "-I",inc,"-I",inc/"AArch64",
+                        # GCC records a random temporary object name in the ELF symbol table.
+                        "-Wl,-Ttext=0x40200000,--build-id=none,--strip-all",entry,
                         ROOT/"tests/ufs_nop11_window_guest.c",ROOT/"OculusGoPkg/SecMem/UfsNop11.c","-o",elf],check=True)
         rows=[]
         for case,page in [("translated",n) for n in range(4)]+[("wrong-identity",0),("missing-map",0)]:

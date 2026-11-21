@@ -21,6 +21,8 @@ Si el controlador retira la petición y las listas coinciden con el estado previ
 - **Imagen de Pacific.** QEMU ejecutó el FD en EL1 y EL2. En cada nivel probó un NOP correcto, un tag incorrecto, una cola ocupada, un slot 0 sin evidencia previa y una traducción de CPU distinta. El banco reproduce los registros de placa necesarios y enlaza el doorbell con el controlador UFS PCI virtual, que genera la respuesta mediante DMA. El ensayo comprueba los caracteres de ambos ojos y compara la página de las colas antes y después. [Diez resultados del FD](evidence/ufs-nop11-fd-qemu-20261121.json)
 - **Ventana de EDK2.** En una prueba independiente, la SMMUv3 de QEMU tradujo cuatro páginas consecutivas desde la dirección de bus `0x88000000` a RAM en `0x80440000`. Cada página recibió la respuesta esperada. Al usar la dirección física como dirección de bus, la solicitud quedó pendiente. Al omitir el mapa, la sonda se detuvo antes del envío. La dirección de bus pertenece a ese modelo virtual. [Seis resultados de traducción](evidence/ufs-nop11-window-qemu-20261121.json)
 
+La repetición desde el firmware descomprimido produjo los mismos diez resultados y la misma auditoría estática. Dos compilaciones limpias del auxiliar de traducción produjeron el mismo ELF y los mismos seis resultados. El enlazador descarta la tabla de símbolos del auxiliar, donde GCC incluía un nombre de objeto temporal aleatorio.
+
 ## Paquete para arranque temporal
 
 | Archivo local | Bytes | SHA-256 |
