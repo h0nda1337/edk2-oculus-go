@@ -11,6 +11,9 @@
 #include <Protocol/GraphicsOutput.h>
 #ifdef OCULUS_GO_GOP_DEVICE_PATH
 #include <Protocol/DevicePathUtilities.h>
+#ifdef OCULUS_GO_TEXT
+#include "TextConsole.h"
+#endif
 #endif
 
 STATIC EFI_GRAPHICS_OUTPUT_MODE_INFORMATION mInfo = {
@@ -208,8 +211,15 @@ InheritedGopDxeEntry (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTabl
   if (Path == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
+#ifdef OCULUS_GO_TEXT
+  EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *Text = GoTextConsole (&mGop);
+#endif
   Status = gBS->InstallMultipleProtocolInterfaces (&Handle, &gEfiGraphicsOutputProtocolGuid, &mGop,
-                                                    &gEfiDevicePathProtocolGuid, Path, NULL);
+                                                    &gEfiDevicePathProtocolGuid, Path,
+#ifdef OCULUS_GO_TEXT
+                                                    &gEfiSimpleTextOutProtocolGuid, Text,
+#endif
+                                                    NULL);
   if (EFI_ERROR (Status)) {
     FreePool (Path);
   }

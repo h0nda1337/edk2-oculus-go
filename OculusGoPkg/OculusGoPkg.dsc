@@ -14,7 +14,7 @@
 !include MdePkg/MdeLibs.dsc.inc
 
 [BuildOptions.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
   # Keep the PI handoff calls visible in the ELF used by the measurement.
   GCC:*_*_AARCH64_CC_FLAGS = -march=armv8-a -mgeneral-regs-only -fno-jump-tables -fno-lto -fno-stack-protector
   # GCC5's EDK2 link recipe always forwards an option to the GCC linker
@@ -89,7 +89,7 @@
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
 
 [PcdsFeatureFlag.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
   gEfiMdeModulePkgTokenSpaceGuid.PcdDevicePathSupportDevicePathToText|FALSE
   gEfiMdeModulePkgTokenSpaceGuid.PcdDevicePathSupportDevicePathFromText|FALSE
 !endif
@@ -119,7 +119,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVendor|L"OculusGo UEFI"
   gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString|L"DIRECT-ENTRY-OFFLINE-ONLY"
   gEfiMdeModulePkgTokenSpaceGuid.PcdResetOnMemoryTypeInformationChange|FALSE
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
   gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x2F
 !else
   gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x0F
@@ -133,14 +133,19 @@
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0
 
 [Components.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
   MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf {
     <LibraryClasses>
       PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   }
 !endif
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeText
+  OculusGoPkg/Drivers/InheritedGopDxe/InheritedGopText.inf {
+    <LibraryClasses>
+      PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
+  }
+!elseif $(GO_BUILD_FLAVOR) == OculusGoDxeGop
   OculusGoPkg/Drivers/InheritedGopDxe/InheritedGopDisplay.inf {
     <LibraryClasses>
       PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
@@ -148,7 +153,7 @@
 !endif
   OculusGoPkg/SecMmu/SecDxe.inf {
     <BuildOptions>
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
       GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_SEC_DXE=1 -DOCULUS_GO_DXE_MEMORY=1 -DOCULUS_GO_DXE_GCD=1 -DOCULUS_GO_DXE_DEBUG=1 -DOCULUS_GO_DXE_DISPATCH=1 -DOCULUS_GO_DXE_GOP=1
 !elseif $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch
       GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_SEC_DXE=1 -DOCULUS_GO_DXE_MEMORY=1 -DOCULUS_GO_DXE_GCD=1 -DOCULUS_GO_DXE_DEBUG=1 -DOCULUS_GO_DXE_DISPATCH=1
@@ -161,7 +166,7 @@
 !else
       GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_SEC_DXE=1
 !endif
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
       GCC:*_*_AARCH64_PP_FLAGS = -DOCULUS_GO_SEC_DXE=1 -DOCULUS_GO_DXE_DEBUG=1 -DOCULUS_GO_DXE_GOP=1
 !elseif $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch
       GCC:*_*_AARCH64_PP_FLAGS = -DOCULUS_GO_SEC_DXE=1 -DOCULUS_GO_DXE_DEBUG=1
@@ -171,7 +176,9 @@
   }
   MdeModulePkg/Core/Dxe/DxeMain.inf {
     <LibraryClasses>
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeText
+      DebugAgentLib|OculusGoPkg/DxeCheckpoint/TextCheckpoint.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoDxeGop
       DebugAgentLib|OculusGoPkg/DxeCheckpoint/GopCheckpoint.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch
       DebugAgentLib|OculusGoPkg/DxeCheckpoint/DispatchCheckpoint.inf
@@ -187,7 +194,7 @@
       DebugAgentLib|OculusGoPkg/DxeCheckpoint/DxeCheckpoint.inf
 !endif
     <BuildOptions>
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
       GCC:*_*_AARCH64_DLINK_FLAGS = -Wl,--wrap=CoreInitializeImageServices,--wrap=CoreInitializeGcdServices,--wrap=ProcessLibraryConstructorList,--wrap=CoreInitializeDebugImageInfoTable,--wrap=CoreNewDebugImageInfoEntry,--wrap=CoreStartImage,--wrap=CoreDispatcher
 !elseif $(GO_BUILD_FLAVOR) == OculusGoDxeDebug
       GCC:*_*_AARCH64_DLINK_FLAGS = -Wl,--wrap=CoreInitializeImageServices,--wrap=CoreInitializeGcdServices,--wrap=ProcessLibraryConstructorList,--wrap=CoreInitializeDebugImageInfoTable,--wrap=CoreNewDebugImageInfoEntry

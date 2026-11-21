@@ -8,6 +8,10 @@
 #include <Display/Framebuffer.h>
 #include <Trial/DxeLayout.h>
 
+#ifdef OCULUS_GO_TEXT
+VOID TrialTextOutput (UINTN Start, UINTN Limit, EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop);
+#endif
+
 STATIC CONST UINTN Rows[] = { 640, 1920 };
 #define BAND_HEIGHT 32
 #define BLOCK_WIDTH (GO_FB_WIDTH / 5)
@@ -81,6 +85,11 @@ TrialGopBlt (UINTN Start, UINTN Limit, CONST EFI_GUID *File)
       TrialGopRejected ();
     }
   }
+#ifdef OCULUS_GO_TEXT
+  __asm__ volatile ("dsb sy\n.global TrialGopComplete\nTrialGopComplete:" ::: "memory");
+  TrialTextOutput (Start, Limit, Gop);
+#else
   __asm__ volatile ("dsb sy\n.global TrialGopComplete\nTrialGopComplete: b TrialGopComplete" ::: "memory");
+#endif
   __builtin_unreachable ();
 }

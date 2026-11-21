@@ -28,3 +28,7 @@ The DXE_DISPATCH trial links upstream DevicePathDxe unchanged from
 The driver sources are `MdeModulePkg/Universal/DevicePathDxe/DevicePath.c`
 and `DevicePathDxe.inf`, under BSD-2-Clause-Patent. The platform selects
 Device Path Utilities and disables the optional text conversion interfaces.
+
+## Console font
+
+The 95 printable ASCII bitmaps and 50 standard UEFI drawing glyphs in `OculusGoPkg/Include/third-party/edk2/ConsoleFont.h` come from TianoCore EDK2, commit `e7aac7fc137e247edad22f7ee53b9a1fba227397`, file `MdeModulePkg/Universal/Console/GraphicsConsoleDxe/LaffStd.c`. Copyright (c) 2006–2008, Intel Corporation. Licensed under BSD-2-Clause-Patent. The adaptation keeps the 19 bitmap bytes per glyph for U+0020 through U+007E and the 50 UEFI drawing characters, removes the HII metadata and orders the drawing entries by code point. The font test compares every byte with the pinned source. The text protocol, rotation and dual-view renderer are original to this project. [Original bitmaps](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Universal/Console/GraphicsConsoleDxe/LaffStd.c) · [License](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/License.txt)
