@@ -209,6 +209,14 @@ Estos archivos del kernel se consultaron como referencia. La sonda y el muestreo
 | [Modelo UFS](https://github.com/qemu/qemu/blob/v10.0.0/hw/ufs/ufs.c) y [disco SCSI de QEMU](https://github.com/qemu/qemu/blob/v10.0.0/hw/scsi/scsi-disk.c) | Tag `v10.0.0`, `hw/ufs/ufs.c` y `hw/scsi/scsi-disk.c`. Versión ejecutada en el [informe del FD](evidence/ufs-data-fd-qemu-20261121.json). | CONFIRMED en QEMU para respuesta de capacidad, transferencia PRDT y límites observados en los ensayos. |
 | [Medición de Android](evidence/ufs-splash-physical-layout-20261120.json) y [panel de LK](evidence/ufs-nop11-transfer-20261121.json) | Capturas del 20 y 21 de noviembre de 2026 | CONFIRMED para la geometría del LUN 4 y la página del primer NOP físico. Direcciones DMA de las cuatro páginas de EDK2 en Pacific **UNKNOWN**. |
 
+## Cabecera de LK y lectura GPT del LUN 4
+
+| Fuente | Revisión y archivo | Uso y confianza |
+| --- | --- | --- |
+| [Auditoría del ELF original](evidence/ufs-header-buffer-stock-20261121.json) | `aboot_a` del Go identificado por SHA-256. Los rangos de instrucciones, huellas y archivos de entrada constan en el [auditor](../tools/audit_lk_header_buffer.py). | CONFIRMED para el puntero CPU, la variable de longitud y los sitios que llaman al lector. El bus heredado en el Go sigue UNKNOWN. |
+| [Especificación GPT](https://uefi.org/specs/UEFI/2.10/05_GUID_Partition_Table_Format.html) · [Estructura de EDK2](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Uefi/UefiGpt.h) | UEFI 2.10 §5.3, EDK2 `e7aac7fc137e247edad22f7ee53b9a1fba227397`, `UefiGpt.h`. | CONFIRMED para la posición primaria, campos y cálculo de CRC32. Se usan el encabezado GPT, las [constantes SCSI](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/IndustryStandard/Scsi.h) y la rutina [CalculateCrc32](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Library/BaseLib/CheckSum.c) de ese commit. Los tres archivos se usan sin cambios bajo BSD-2-Clause-Patent. |
+| [FD de modelo](evidence/ufs-gpt-header-fd-qemu-20261121.json) · [FD pasivo](evidence/ufs-buf4k-fd-qemu-20261121.json) | QEMU 10.0.13, `tests/ufs_header_fd_qemu.py`, 21 de noviembre de 2026. | CONFIRMED en QEMU para el destino DMA del modelo, los bytes del sector, las operaciones observadas y la restauración de memoria. |
+
 ## Bus de las cuatro páginas y respuesta READ CAPACITY
 
 | Fuente | Revisión y archivo | Uso y confianza |

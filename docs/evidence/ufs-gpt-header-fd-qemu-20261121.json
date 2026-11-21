@@ -1,0 +1,456 @@
+{
+  "outcome": "PASS-QEMU-GPT-READ",
+  "fdSha256": "8c5e6f7a438fd465ff5c7d5fccd861981c744c7cdb891ee79579a64e81aeccdc",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "capturedHeaderSha256": "f8bfbc7cc9846c7f648f67e27f6d7552c05e00638dac852e18e9b310d6c88d50",
+  "candidate": "0x918d7e80",
+  "bytes": 4096,
+  "physicalGptRead": "UNKNOWN",
+  "cases": [
+    {
+      "el": 1,
+      "case": "valid",
+      "panel": [
+        "UFS GPT       DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  90C8CEA7",
+        "ENDS 00000003",
+        "HCRC 4C32247E",
+        "FULL DF7E0B12",
+        "RAM RESTORED"
+      ],
+      "transfers": [
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 2,
+          "receivedHex": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d7e80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d8e78",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x28",
+          "bus": "0x918d7e80",
+          "bytes": 4096,
+          "ocs": 0,
+          "scsi": 0,
+          "blockSha256": "f8bfbc7cc9846c7f648f67e27f6d7552c05e00638dac852e18e9b310d6c88d50"
+        }
+      ],
+      "firmwareDoorbells": 5,
+      "gptSectorSha256": [
+        "f8bfbc7cc9846c7f648f67e27f6d7552c05e00638dac852e18e9b310d6c88d50"
+      ],
+      "readExtents": [
+        {
+          "lun": 4,
+          "lba": 1,
+          "blocks": 1
+        }
+      ],
+      "mappedCandidateLeaves": [
+        "0x918d7000",
+        "0x918d8000"
+      ],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 2,
+      "case": "valid",
+      "panel": [
+        "UFS GPT       DONE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  90C8CEA7",
+        "ENDS 00000003",
+        "HCRC 4C32247E",
+        "FULL DF7E0B12",
+        "RAM RESTORED"
+      ],
+      "transfers": [
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 2,
+          "receivedHex": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d7e80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d8e78",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x28",
+          "bus": "0x918d7e80",
+          "bytes": 4096,
+          "ocs": 0,
+          "scsi": 0,
+          "blockSha256": "f8bfbc7cc9846c7f648f67e27f6d7552c05e00638dac852e18e9b310d6c88d50"
+        }
+      ],
+      "firmwareDoorbells": 5,
+      "gptSectorSha256": [
+        "f8bfbc7cc9846c7f648f67e27f6d7552c05e00638dac852e18e9b310d6c88d50"
+      ],
+      "readExtents": [
+        {
+          "lun": 4,
+          "lba": 1,
+          "blocks": 1
+        }
+      ],
+      "mappedCandidateLeaves": [
+        "0x918d7000",
+        "0x918d8000"
+      ],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "unknown",
+      "panel": [
+        "UFS STOP      ORIGINAL",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  C71C0011",
+        "OTHER",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "transfers": [],
+      "firmwareDoorbells": 0,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [
+        "0x918d7000",
+        "0x918d8000"
+      ],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "bad-crc",
+      "panel": [
+        "UFS BAD GPT   CRC",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  90C8CEA7",
+        "ENDS 00000003",
+        "HCRC 4C32247E",
+        "FULL 9921004C",
+        "RAM RESTORED"
+      ],
+      "transfers": [
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 2,
+          "receivedHex": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d7e80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d8e78",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x28",
+          "bus": "0x918d7e80",
+          "bytes": 4096,
+          "ocs": 0,
+          "scsi": 0,
+          "blockSha256": "781a3e0b46d999388db0b66af6119853467812f1f0d6999c29f5e6c02378ad42"
+        }
+      ],
+      "firmwareDoorbells": 5,
+      "gptSectorSha256": [
+        "781a3e0b46d999388db0b66af6119853467812f1f0d6999c29f5e6c02378ad42"
+      ],
+      "readExtents": [
+        {
+          "lun": 4,
+          "lba": 1,
+          "blocks": 1
+        }
+      ],
+      "mappedCandidateLeaves": [
+        "0x918d7000",
+        "0x918d8000"
+      ],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "bad-geometry",
+      "panel": [
+        "UFS BAD GPT   GEOMETRY",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  90C8CEA7",
+        "ENDS 00000003",
+        "HCRC 86E1AAF1",
+        "FULL 39B8F1AB",
+        "RAM RESTORED"
+      ],
+      "transfers": [
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 2,
+          "receivedHex": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d7e80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d8e78",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x28",
+          "bus": "0x918d7e80",
+          "bytes": 4096,
+          "ocs": 0,
+          "scsi": 0,
+          "blockSha256": "3d9576375102556e90368e6487ff9ac9698592f1601ccf6227cd7bc813ca29e3"
+        }
+      ],
+      "firmwareDoorbells": 5,
+      "gptSectorSha256": [
+        "3d9576375102556e90368e6487ff9ac9698592f1601ccf6227cd7bc813ca29e3"
+      ],
+      "readExtents": [
+        {
+          "lun": 4,
+          "lba": 1,
+          "blocks": 1
+        }
+      ],
+      "mappedCandidateLeaves": [
+        "0x918d7000",
+        "0x918d8000"
+      ],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "bad-tail",
+      "panel": [
+        "UFS BAD GPT   BASELINE",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  90C8CEA7",
+        "ENDS 00000003",
+        "HCRC 4C32247E",
+        "FULL A8793B84",
+        "RAM RESTORED"
+      ],
+      "transfers": [
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 2,
+          "receivedHex": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d7e80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d8e78",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x28",
+          "bus": "0x918d7e80",
+          "bytes": 4096,
+          "ocs": 0,
+          "scsi": 0,
+          "blockSha256": "7865fb0c28a401cd8e891b5903a9125704a594f3c44d470b0833eda1b556e518"
+        }
+      ],
+      "firmwareDoorbells": 5,
+      "gptSectorSha256": [
+        "7865fb0c28a401cd8e891b5903a9125704a594f3c44d470b0833eda1b556e518"
+      ],
+      "readExtents": [
+        {
+          "lun": 4,
+          "lba": 1,
+          "blocks": 1
+        }
+      ],
+      "mappedCandidateLeaves": [
+        "0x918d7000",
+        "0x918d8000"
+      ],
+      "mediaWrites": 0,
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "denied-second",
+      "panel": [
+        "UFS STOP      CAPACITY",
+        "BUF  918D7E80",
+        "LKPG 00001000",
+        "OLD  90C8CEA7",
+        "ENDS 00000001",
+        "HCRC",
+        "FULL",
+        ""
+      ],
+      "transfers": [
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 2,
+          "receivedHex": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918eef80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d7e80",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "0011ffff00001000"
+        },
+        {
+          "opcode": "0x25",
+          "bus": "0x918d8e78",
+          "bytes": 8,
+          "ocs": 0,
+          "scsi": 0,
+          "receivedHex": "a5a5a5a5a5a5a5a5"
+        }
+      ],
+      "firmwareDoorbells": 4,
+      "gptSectorSha256": [],
+      "readExtents": [],
+      "mappedCandidateLeaves": [
+        "0x918d7000"
+      ],
+      "mediaWrites": 0,
+      "restored": true
+    }
+  ]
+}
