@@ -1,0 +1,229 @@
+{
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "splashSha256": "d8ba4434e87f8bfc55f33091c2d78401fcea22a068105942285edb2da6869d4a",
+  "sectorBytes": 4096,
+  "cases": {
+    "stock": {
+      "guestResult": "FOUND 93104DC6",
+      "gopPixelReadback": true,
+      "queryCommands": {
+        "0x01": 21,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "3bb0fa2c8be071cb64227034f9e1955af7401ea62d438e8b25f9775f6afdc929",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN1/0x25": 2,
+        "LUN1/0x28": 1,
+        "LUN2/0x25": 2,
+        "LUN2/0x28": 1,
+        "LUN3/0x25": 2,
+        "LUN3/0x28": 1,
+        "LUN4/0x25": 2,
+        "LUN4/0x28": 17
+      }
+    },
+    "moved": {
+      "guestResult": "FOUND 93104DC6",
+      "gopPixelReadback": true,
+      "queryCommands": {
+        "0x01": 29,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "3bb0fa2c8be071cb64227034f9e1955af7401ea62d438e8b25f9775f6afdc929",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN1/0x25": 2,
+        "LUN1/0x28": 1,
+        "LUN2/0x25": 2,
+        "LUN2/0x28": 17
+      }
+    },
+    "sparse": {
+      "guestResult": "FOUND 93104DC6",
+      "gopPixelReadback": true,
+      "queryCommands": {
+        "0x01": 33,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "3bb0fa2c8be071cb64227034f9e1955af7401ea62d438e8b25f9775f6afdc929",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN4/0x25": 2,
+        "LUN4/0x28": 17
+      }
+    },
+    "wrong-label": {
+      "guestResult": "ABSENT 00000000",
+      "gopPixelReadback": false,
+      "queryCommands": {
+        "0x01": 21,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "4bfbe98d3549a24283db55b7e3881198ae27cbea90d256ce4cf3d9163fb72a5a",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN1/0x25": 2,
+        "LUN1/0x28": 1,
+        "LUN2/0x25": 2,
+        "LUN2/0x28": 1,
+        "LUN3/0x25": 2,
+        "LUN3/0x28": 1,
+        "LUN4/0x25": 2,
+        "LUN4/0x28": 2
+      }
+    },
+    "bad-header-crc": {
+      "guestResult": "ABSENT 00000000",
+      "gopPixelReadback": false,
+      "queryCommands": {
+        "0x01": 21,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "0939ba59a6faa16a6b143571a1521739eb404f43cf6550626b22f15c8b72f560",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN1/0x25": 2,
+        "LUN1/0x28": 1,
+        "LUN2/0x25": 2,
+        "LUN2/0x28": 1,
+        "LUN3/0x25": 2,
+        "LUN3/0x28": 1,
+        "LUN4/0x25": 2,
+        "LUN4/0x28": 1
+      }
+    },
+    "bad-entries-crc": {
+      "guestResult": "ABSENT 00000000",
+      "gopPixelReadback": false,
+      "queryCommands": {
+        "0x01": 21,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "f93a4ab34f0b7c56dffcbfc2b19bf654e1782fdd5f74db3ed2c1b5450bfbd130",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN1/0x25": 2,
+        "LUN1/0x28": 1,
+        "LUN2/0x25": 2,
+        "LUN2/0x28": 1,
+        "LUN3/0x25": 2,
+        "LUN3/0x28": 1,
+        "LUN4/0x25": 2,
+        "LUN4/0x28": 2
+      }
+    },
+    "outside-range": {
+      "guestResult": "ABSENT 00000000",
+      "gopPixelReadback": false,
+      "queryCommands": {
+        "0x01": 21,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "37aeb2cea9c37f33425abf0d0f6e6c4897d3e253a7a6a04d138c480bc9663d28",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN1/0x25": 2,
+        "LUN1/0x28": 1,
+        "LUN2/0x25": 2,
+        "LUN2/0x28": 1,
+        "LUN3/0x25": 2,
+        "LUN3/0x28": 1,
+        "LUN4/0x25": 2,
+        "LUN4/0x28": 2
+      }
+    },
+    "duplicate": {
+      "guestResult": "ABSENT 00000000",
+      "gopPixelReadback": false,
+      "queryCommands": {
+        "0x01": 21,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "ec6ddf12ad4fa965aa592778180c2052b74be50a33cf385c5812e7edcd1d864d",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN1/0x25": 2,
+        "LUN1/0x28": 1,
+        "LUN2/0x25": 2,
+        "LUN2/0x28": 1,
+        "LUN3/0x25": 2,
+        "LUN3/0x28": 1,
+        "LUN4/0x25": 2,
+        "LUN4/0x28": 2
+      }
+    },
+    "bad-logo": {
+      "guestResult": "ABSENT 00000000",
+      "gopPixelReadback": false,
+      "queryCommands": {
+        "0x01": 21,
+        "0x05": 1,
+        "0x06": 1
+      },
+      "stationaryBackingSha256": {
+        "gpt.raw": "9c0d9ddd15e7f396cb074ce2563c7a108796f45349846a864c540f211a5799d7",
+        "blank.raw": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      },
+      "scsiCommands": {
+        "LUN0/0x25": 2,
+        "LUN0/0x28": 1,
+        "LUN1/0x25": 2,
+        "LUN1/0x28": 1,
+        "LUN2/0x25": 2,
+        "LUN2/0x28": 1,
+        "LUN3/0x25": 2,
+        "LUN3/0x28": 1,
+        "LUN4/0x25": 2,
+        "LUN4/0x28": 17
+      }
+    }
+  },
+  "efiSha256": {
+    "BOOTAA64.EFI": "f282a677ff7f2fc90f9793b8483ef2a2ba83cf34afaac885f1905176c5105b47",
+    "UfsPciHcDxe.efi": "fc72ce301d3f6b3c268f9439bcb41769553b3d2bd91290daf4866a780e1f87c2",
+    "UfsPassThruDxe.efi": "5813c936a01deac4f9cf8b252f7cb93909de4eda44de20833163782460fef4dc"
+  },
+  "aavmfSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3",
+  "status": "PASS"
+}

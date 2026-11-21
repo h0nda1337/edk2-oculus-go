@@ -160,6 +160,16 @@ La sección *Head Mounted Displays* del estudio experimental con Oculus Go y Que
 
 La observación local de la primera Shell sitúa el recorte en la primera columna. La aplicación de prueba anterior permitió leer filas cortas cerca del centro de cada lente con glifos de 16 × 38 píxeles. El modo de consola de 24 × 12 celdas conserva ese tamaño de letra y centra la ventana como hipótesis de trabajo. [Lectura de la aplicación anterior](evidence/dxe-app-transfer-20261120.json) · [Registro de la primera Shell](evidence/shell-transfer-20261120.json)
 
+### Pacific UFS storage
+
+| Fuente | Revisión y archivo | Aporte | Confianza |
+| --- | --- | --- | --- |
+| [Kernel oficial del Go](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/scsi/ufs/ufs-qcom.c) | `9475755`, `drivers/scsi/ufs/ufs-qcom.c`, GPL-2.0-only | Secuencia de PHY y relojes de vía, callbacks del controlador Qualcomm. Referencia de placa. | Alta para la secuencia Linux. Estado en LK desconocido |
+| [Proveedor de transporte EDK2](https://github.com/tianocore/edk2/tree/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Bus/Ufs/UfsPassThruDxe) y [proveedor PCI](https://github.com/tianocore/edk2/tree/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdeModulePkg/Bus/Pci/UfsPciHcDxe) | `e7aac7fc`, ambos módulos INF y sus fuentes, BSD-2-Clause-Patent. El proveedor PCI se usa intacto. El transporte tiene el [ajuste de enumeración](../tests/UfsSplashApp/ufs-sparse-units.patch) en `UfsPassThru.c` | Transporte del invitado QEMU, enumeración de LUN y formato de dirección. | Alta para estos binarios |
+| [Definición GPT](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Uefi/UefiGpt.h) | `e7aac7fc`, mismo archivo, BSD-2-Clause-Patent | Estructura de cabecera y entradas usadas por el lector original. | Alta |
+| [QEMU UFS](https://www.qemu.org/docs/master/system/devices/ufs.html) y [consulta de descriptores](https://github.com/qemu/qemu/blob/v10.0.0/hw/ufs/ufs.c) | Documentación del modelo y etiqueta de referencia `v10.0.0`. El informe de prueba identifica el binario Debian instalado. | Montaje de unidades y diferencias de PHY frente al Go. Referencia de la herramienta de prueba. | Alta para el modelo |
+| DT de ejecución y dmesg de Pacific archivados en privado | `ufshc@624000`, `ufsphy@627000`, `ufsice@630000`, `ufshcd_print_pwr_info` | Recursos MMIO, variante Qualcomm y régimen de enlace observado en Android. | CONFIRMED para Android |
+
 ### Stock Oculus emblem and wide Shell
 
 | Source | Revision or evidence | Contribution | Confidence |

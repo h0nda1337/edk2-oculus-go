@@ -34,4 +34,6 @@ El mismo resultado de búsqueda alimenta la bienvenida y la consola. La ausencia
 
 ### Qué falta para leer la UFS del Go
 
+El lector directo de la GPT por UFS y su prueba ARM64 se describen en [Lectura de splash desde UFS](UFS_SPLASH.md).
+
 El kernel del visor describe un controlador UFS integrado en `624000.ufshc`. En el EDK2 fijado, `UfsPassThruDxe` consume `EDKII_UFS_HOST_CONTROLLER_PROTOCOL` y publica el paso de órdenes SCSI. El proveedor `UfsPciHcDxe` requiere un controlador PCI. En Pacific falta el proveedor para el controlador integrado y validar el estado de relojes, PHY y DMA que deja LK. Después habrá que conectar los drivers de bloques, enumerar el LUN correcto, localizar la partición por su nombre GPT y verificar la huella leída del dispositivo. Ver el emblema por el framebuffer heredado sólo demuestra esa vía. [Hardware inventariado](HARDWARE.md) · [Contrato de UfsPassThruDxe](../edk2/MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThruDxe.inf) · [Proveedor PCI](../edk2/MdeModulePkg/Bus/Pci/UfsPciHcDxe/UfsPciHcDxe.inf)

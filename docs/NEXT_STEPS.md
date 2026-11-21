@@ -1,5 +1,7 @@
 # Next steps
 
+**UFS de Pacific.** La siguiente sesión física empieza en Android por ADB root. Cotejar la unidad SCSI de `splash`, su tamaño de bloque y los límites de su GPT con el inventario. El estado que deja LK para EDK2 requiere una medición posterior. [Lector y captura preparada](UFS_SPLASH.md)
+
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 
 BDS selecciona ahora la consola del Go y lanza la Shell ARM64 desde el volumen. El primer arranque físico mostró `hell>` por el ojo izquierdo y parte de la consola por el derecho. En el arranque temporal de la imagen de 24 × 12 celdas se leyeron el prompt entero y las líneas superiores con cada ojo. [Prueba en el visor](evidence/shell-centered-transfer-20261120.json) Para introducir comandos habrá que conectar una fuente de teclas a la entrada de ConSplitter. [Arranque normal y prueba visual](SHELL_BOOT.md)
