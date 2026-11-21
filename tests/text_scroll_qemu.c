@@ -103,6 +103,32 @@ int main (void)
     memcpy (Dest + 283 * 3, Src + 245 * 3, 912 * 3);
   }
   assert (memcmp (Expected, Video, GO_FB_SIZE) == 0);
+  // A synthetic asymmetric mark proves orientation and pixel ownership during
+  // console writes. The full-boot test separately checks the stock emblem.
+  GO_OCULUS_LOGO Mark = {0};
+  Mark.Luma[0][0] = 91;
+  Mark.Luma[41][67] = 201;
+  assert (Text->SetAttribute (Text, EFI_LIGHTGRAY) == EFI_SUCCESS);
+  assert (Text->SetMode (Text, 3) == EFI_SUCCESS);
+  memcpy (Expected, Video, GO_FB_SIZE);
+  gGoConsoleEmblem.Set (&Mark);
+  assert (Text->ClearScreen (Text) == EFI_SUCCESS);
+  for (UINTN Eye = 0; Eye < 2; ++Eye) {
+    memset (Expected + (Eye*1280 + 606) * GO_FB_STRIDE + 740*3, 91, 3);
+    memset (Expected + (Eye*1280 + 673) * GO_FB_STRIDE + 699*3, 201, 3);
+  }
+  assert (memcmp (Expected, Video, GO_FB_SIZE) == 0);
+  assert (Text->SetCursorPosition (Text,30,6) == EFI_SUCCESS);
+  assert (Text->OutputString (Text,L" ") == EFI_SUCCESS);
+  for (UINTN Eye = 0; Eye < 2; ++Eye) {
+    memset (Expected + (Eye*1280 + 606) * GO_FB_STRIDE + 740*3, 0, 3);
+    memset (Expected + (Eye*1280 + 673) * GO_FB_STRIDE + 699*3, 0, 3);
+  }
+  assert (memcmp (Expected, Video, GO_FB_SIZE) == 0);
+  assert (Text->ClearScreen (Text) == EFI_SUCCESS);
+  assert (Text->SetCursorPosition (Text,0,12) == EFI_SUCCESS);
+  assert (Text->OutputString (Text,L"\n") == EFI_SUCCESS);
+  assert (memcmp (Expected, Video, GO_FB_SIZE) == 0);
   free (BeforeScroll);
   free (Expected);
   assert (munmap (Video, GO_FB_SIZE) == 0);
