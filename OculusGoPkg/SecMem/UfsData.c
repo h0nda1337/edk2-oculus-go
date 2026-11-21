@@ -53,6 +53,7 @@ Mark (UINTN Offset)
   return (UINT8)(0x5aU ^ (Offset >> 12) ^ Offset);
 }
 
+#ifndef GO_UFS_BOUNCE
 STATIC BOOLEAN
 CheckWindow (UINTN Destination)
 {
@@ -67,8 +68,10 @@ CheckWindow (UINTN Destination)
   return TRUE;
 }
 
+#endif
+
 STATIC RESULT
-Capacity (UINTN Data, UINT64 Bus, UINT64 Freq)
+Capacity (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned)
 {
   UINT32 OldTr[LIST_BYTES / 4], OldTm[LIST_BYTES / 4];
   UINT32 Request[8] = { 0x01044001U, 0, 0, 0x08000000U, EFI_SCSI_OP_READ_CAPACITY, 0, 0, 0 };
@@ -140,7 +143,11 @@ Capacity (UINTN Data, UINT64 Bus, UINT64 Freq)
   }
   __asm__ volatile ("dsb sy" ::: "memory");
   UINT32 Ocs = WORD_AT (TR + SLOT_OFFSET + 8);
-  UINT32 Last = Big32 (Data), Block = Big32 (Data + 4);
+  UINT8 Sample[8];
+  for (UINTN I = 0; I < sizeof (Sample); ++I) {
+    Sample[I] = BYTE_AT (Data + I);
+  }
+  UINT32 Last = Big32 ((UINTN)Sample), Block = Big32 ((UINTN)(Sample + 4));
   UINT8 Status = BYTE_AT (RESPONSE + 7);
   GoUfsDrawHex (5, 3, Ocs);
   GoUfsDrawHex (5, 4, Status);
@@ -195,42 +202,55 @@ Capacity (UINTN Data, UINT64 Bus, UINT64 Freq)
       return Hold;
     }
   }
+  if (Result == Good && Returned != NULL) {
+    for (UINTN I = 0; I < sizeof (Sample); ++I) {
+      Returned[I] = Sample[I];
+    }
+  }
   if (Result == Bad) GoUfsHeading ("STOP", "CAPACITY");
   return Result;
 }
 
 STATIC RESULT
-ReadGeometry (UINTN Data, UINT64 Bus, UINT64 Freq)
+ReadGeometry (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned)
 {
-  RESULT Result = Capacity (Data, Bus, Freq);
+  RESULT Result = Capacity (Data, Bus, Freq, Returned);
   if (Result == Attention) {
-    Result = Capacity (Data, Bus, Freq);
+    Result = Capacity (Data, Bus, Freq, Returned);
     if (Result == Attention) GoUfsHeading ("STOP", "ATTENTION");
   }
   return Result;
 }
 
-// Keep the same implementation and ABI in the exact FD and in the translated QEMU test.
-__attribute__((noipa)) VOID
-GoUfsDataWindow (CONST UINT64 BusPages[4])
+STATIC UINT64
+StartDataPanel (CONST CHAR8 *MaskLabel)
 {
   UINT64 Freq;
   __asm__ volatile ("mrs %0, cntfrq_el0" : "=r"(Freq));
   if (Freq == 0 || Freq > 1000000000) {
     GoUfsHeading ("STOP", "TIMER");
-    return;
+    return 0;
   }
   (VOID)Ticks ();
   for (UINTN I = 1; I < 8; ++I) GoUfsDraw (0, I, "                             ");
   GoUfsDraw (0, 1, "LUN4 READ CAPACITY");
-  GoUfsDraw (0, 2, "PAGE MASK");
+  GoUfsDraw (0, 2, MaskLabel);
   GoUfsDrawHex (10, 2, 0);
   GoUfsDraw (0, 3, "OCS");
   GoUfsDraw (0, 4, "SCSI");
   GoUfsDraw (0, 5, "LAST");
   GoUfsDraw (0, 6, "SIZE");
   GoUfsHeading ("DATA", "CONTROL");
-  if (ReadGeometry (CONTROL_DATA, CONTROL_DATA, Freq) != Good) return;
+  return Freq;
+}
+
+#ifndef GO_UFS_BOUNCE
+// The QEMU bus fixture supplies the mapping at this ABI boundary.
+__attribute__((noipa)) VOID
+GoUfsDataWindow (CONST UINT64 BusPages[4])
+{
+  UINT64 Freq = StartDataPanel ("PAGE MASK");
+  if (Freq == 0 || ReadGeometry (CONTROL_DATA, CONTROL_DATA, Freq, NULL) != Good) return;
   if (BusPages == NULL) {
     GoUfsDraw (0, 7, "WINDOW DMA UNTESTED");
     GoUfsHeading ("LK DATA", "DONE");
@@ -261,7 +281,7 @@ GoUfsDataWindow (CONST UINT64 BusPages[4])
     UINTN Offset = (P & 1) ? PAGE_BYTES - 8 : 0;
     UINTN Dest = WINDOW + P*PAGE_BYTES + Offset;
     GoUfsHeading ("DATA", "WINDOW");
-    RESULT Result = ReadGeometry (Dest, BusPages[P]+Offset, Freq);
+    RESULT Result = ReadGeometry (Dest, BusPages[P]+Offset, Freq, NULL);
     if (Result == Hold) return;
     if (!CheckWindow (Dest)) {
       GoUfsHeading ("HOLD", "FD GUARD");
@@ -286,6 +306,90 @@ GoUfsDataWindow (CONST UINT64 BusPages[4])
   if (Complete) GoUfsHeading ("FD DATA", "DONE");
 }
 
+#else
+STATIC BOOLEAN
+BounceWindowIntact (CONST UINT8 Samples[4][8], UINTN Completed)
+{
+  for (UINTN I = 0; I < WINDOW_SIZE; ++I) {
+    UINTN Page = I / PAGE_BYTES;
+    UINTN Offset = I % PAGE_BYTES;
+    UINT8 Expected = Mark (I);
+    if (Page < Completed && Offset < 8) {
+      Expected = Samples[Page][Offset];
+    }
+    if (BYTE_AT (WINDOW + I) != Expected) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+// Called only after the last synchronous request has settled and guards matched.
+// The host test can observe every sample before the firmware restores the window.
+__attribute__((noipa)) STATIC BOOLEAN
+RestoreBounceWindow (VOID)
+{
+  for (UINTN I = 0; I < WINDOW_SIZE; ++I) {
+    BYTE_AT (WINDOW + I) = 0xff;
+  }
+  __asm__ volatile ("dsb sy" ::: "memory");
+  for (UINTN I = 0; I < WINDOW_SIZE; ++I) {
+    if (BYTE_AT (WINDOW + I) != 0xff) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+STATIC VOID
+GoUfsBounceWindow (VOID)
+{
+  UINT8 Samples[4][8];
+  UINT64 Freq = StartDataPanel ("COPY MASK");
+  if (Freq == 0) {
+    return;
+  }
+  GoUfsDraw (0, 7, "FD DIRECT UNTESTED");
+  for (UINTN I = 0; I < WINDOW_SIZE; ++I) {
+    if (BYTE_AT (WINDOW + I) != 0xff) {
+      GoUfsHeading ("STOP", "FD DIRTY");
+      return;
+    }
+  }
+  for (UINTN I = 0; I < WINDOW_SIZE; ++I) {
+    BYTE_AT (WINDOW + I) = Mark (I);
+  }
+  UINTN Page;
+  for (Page = 0; Page < 4; ++Page) {
+    RESULT Result = ReadGeometry (CONTROL_DATA, CONTROL_DATA, Freq, Samples[Page]);
+    if (Result == Hold) {
+      return;
+    }
+    // At device completion only the witnessed LK allocation may have received DMA.
+    if (!BounceWindowIntact (Samples, Page)) {
+      GoUfsHeading ("HOLD", "FD GUARD");
+      return;
+    }
+    if (Result != Good) {
+      break;
+    }
+    for (UINTN I = 0; I < sizeof (Samples[Page]); ++I) {
+      BYTE_AT (WINDOW + Page * PAGE_BYTES + I) = Samples[Page][I];
+    }
+    if (!BounceWindowIntact (Samples, Page + 1)) {
+      GoUfsHeading ("HOLD", "COPY GUARD");
+      return;
+    }
+    GoUfsDrawHex (10, 2, (1U << (Page + 1)) - 1);
+  }
+  if (!RestoreBounceWindow ()) {
+    GoUfsHeading ("HOLD", "FD RESTORE");
+  } else if (Page == 4) {
+    GoUfsHeading ("LK COPY", "DONE");
+  }
+}
+#endif
+
 VOID
 GoUfsDataControl (UINT64 Tr, UINT64 Tm)
 {
@@ -293,6 +397,9 @@ GoUfsDataControl (UINT64 Tr, UINT64 Tm)
     GoUfsHeading ("STOP", "BASE");
     return;
   }
-  // LK has a witnessed DMA allocation. No platform mapping for the FD has been delivered yet.
+#ifdef GO_UFS_BOUNCE
+  GoUfsBounceWindow ();
+#else
   GoUfsDataWindow (NULL);
+#endif
 }
