@@ -1,0 +1,176 @@
+{
+  "scope": "stock-LK-static-analysis",
+  "stockAbootSha256": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+  "ptLoad": {
+    "va": "0x91800000",
+    "pa": "0x91800000",
+    "fileOffset": "0x8000",
+    "fileBytes": "0xcd2ac",
+    "memoryBytes": "0xe84ac"
+  },
+  "ufsHbaVa": "0x918e3230",
+  "cpuTtbr0": "0x918e4000",
+  "cpuTablePool": "0x918e5000",
+  "cpuTablePoolPages": 3,
+  "fixedCpuMappings": [
+    {
+      "va": "0x0",
+      "pa": "0x0",
+      "lengthMiB": 512,
+      "attributes": "0x60000000000344"
+    },
+    {
+      "va": "0x91800000",
+      "pa": "0x91800000",
+      "lengthMiB": 4,
+      "attributes": "0x50"
+    },
+    {
+      "va": "0x83400000",
+      "pa": "0x83400000",
+      "lengthMiB": 40,
+      "attributes": "0x50"
+    },
+    {
+      "va": "0x91e00000",
+      "pa": "0x91e00000",
+      "lengthMiB": 64,
+      "attributes": "0x40000000000050"
+    },
+    {
+      "va": "0x95e00000",
+      "pa": "0x95e00000",
+      "lengthMiB": 672,
+      "attributes": "0x40000000000050"
+    },
+    {
+      "va": "0x86000000",
+      "pa": "0x86000000",
+      "lengthMiB": 2,
+      "attributes": "0x4000000000005c"
+    },
+    {
+      "va": "0x91c00000",
+      "pa": "0x91c00000",
+      "lengthMiB": 2,
+      "attributes": "0x60000000000344"
+    }
+  ],
+  "reviewedCode": [
+    {
+      "meaning": "board fills HBA context",
+      "firstVa": "0x91800ed0",
+      "endExclusiveVa": "0x91800eec",
+      "sha256": "e73eb61c20038b7d276600d77913fcc5f2f39dcde46a02a51b69cb8e65b4d71c"
+    },
+    {
+      "meaning": "CPU dynamic mapping arguments and fixed table loop",
+      "firstVa": "0x9180422c",
+      "endExclusiveVa": "0x91804284",
+      "sha256": "e6402d722e694979ee7a50e28d214eb302d8e2ab7ec60f0f6e7203657f348616"
+    },
+    {
+      "meaning": "3 GiB reported DRAM case chooses low identity mapping",
+      "firstVa": "0x91804304",
+      "endExclusiveVa": "0x91804328",
+      "sha256": "beca7520e9412456caef35d19bb8eaf259572715c35c5de4f3ba4347a0aeddfc"
+    },
+    {
+      "meaning": "transfer allocation saved at HBA+0x178",
+      "firstVa": "0x9182ba08",
+      "endExclusiveVa": "0x9182ba70",
+      "sha256": "3c23e7d61381dcb22da8fa00a94024d4c9f74f8ca7a5548e96ccf4bf436ed1ee"
+    },
+    {
+      "meaning": "both lists programmed and enabled",
+      "firstVa": "0x9182bac0",
+      "endExclusiveVa": "0x9182bb04",
+      "sha256": "6dbebf48b87f3e5405b3cdb7236cba0ad95dd4f6cfa3902181f0ed1a11a0c139"
+    },
+    {
+      "meaning": "allocation of transfer list",
+      "firstVa": "0x9182cee4",
+      "endExclusiveVa": "0x9182cf4c",
+      "sha256": "c2aa40b02f8b3df2eeb583facfc62f7ea959b077a537abc1b10e6c7f4d895062"
+    },
+    {
+      "meaning": "allocation of task list",
+      "firstVa": "0x9182cf4c",
+      "endExclusiveVa": "0x9182cfa8",
+      "sha256": "03eea3e7f82ce4e9689e8fca2f1dd6d919328f14499c8a2152f2257fdfa0bc5e"
+    },
+    {
+      "meaning": "allocate, maintain cache, return same pointer",
+      "firstVa": "0x9184daa0",
+      "endExclusiveVa": "0x9184daf0",
+      "sha256": "6972110f55f045283c333300a08b6e4c98af91541dae98b97d1b7a0db896113f"
+    },
+    {
+      "meaning": "use same allocation for CPU-side transfer slot",
+      "firstVa": "0x9182c054",
+      "endExclusiveVa": "0x9182c088",
+      "sha256": "71f90e50643ab91ae8564db3c77c670f153f38db279e3016d394357132fecf7f"
+    },
+    {
+      "meaning": "UCD address bytes in UTRD",
+      "firstVa": "0x9182c0c4",
+      "endExclusiveVa": "0x9182c0ec",
+      "sha256": "d5d0e4676f7ccade36b9a81a7e38b8460effe289e70c25bbd7e7b74dde138844"
+    },
+    {
+      "meaning": "boot image staging base accessor",
+      "firstVa": "0x91801468",
+      "endExclusiveVa": "0x918014a0",
+      "sha256": "024f62753f40e9468b1a27d4a445cc1f133b3bbb08a21754128d011b8cab071c"
+    },
+    {
+      "meaning": "boot selects that staging base",
+      "firstVa": "0x9183b0c0",
+      "endExclusiveVa": "0x9183b0d8",
+      "sha256": "cf683f139c3b3b6588969c379475292ca989d85fdae257b9945bb795148fa0ae"
+    },
+    {
+      "meaning": "boot reads image body into staging plus header",
+      "firstVa": "0x9183b190",
+      "endExclusiveVa": "0x9183b1b0",
+      "sha256": "1bcb1608d38931cf7447c34ef86e1f1ec3c49cd27e4b17f4e2608560663dd822"
+    },
+    {
+      "meaning": "UFS block read receives caller buffer",
+      "firstVa": "0x91811008",
+      "endExclusiveVa": "0x91811064",
+      "sha256": "ec2fddb9fa2145bad1b74151d5ad236b19e3e4101ef87cea9f8c8c4f4db94dd6"
+    },
+    {
+      "meaning": "first PRD address, high half, length",
+      "firstVa": "0x9182c240",
+      "endExclusiveVa": "0x9182c29c",
+      "sha256": "4963c2f6f594064e75df570fe4ad441afdfbf025fea2f683fbd6082e450edbdb"
+    },
+    {
+      "meaning": "submission barriers",
+      "firstVa": "0x9182c12c",
+      "endExclusiveVa": "0x9182c13c",
+      "sha256": "17061e54365b0768f38f459cdf6f738b86585a36e4895deef61d172dd4d7227e"
+    },
+    {
+      "meaning": "cache operations with 128-byte steps",
+      "firstVa": "0x9183476c",
+      "endExclusiveVa": "0x918347b8",
+      "sha256": "86a1e7fe077e0035164f93a10b9ddedf4da040aabd02817fb5fc23cd0fefc876"
+    },
+    {
+      "meaning": "CPU TTBR0 and TTBCR arguments",
+      "firstVa": "0x91835194",
+      "endExclusiveVa": "0x918351c8",
+      "sha256": "e50e1d7c882e0b5f55b27fea32a42ae506303a4d143a30424a601bb7ae687af3"
+    },
+    {
+      "meaning": "CPU L2 table pool and 2 MiB leaf builder",
+      "firstVa": "0x91834ec8",
+      "endExclusiveVa": "0x91835004",
+      "sha256": "792716e279b6ce79c3531c2ff0d8520842bc85e3ebfaf7187132d57c25e74566"
+    }
+  ],
+  "physicalUfsAccessTo80440000": "UNKNOWN"
+}
