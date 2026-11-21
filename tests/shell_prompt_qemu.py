@@ -30,7 +30,7 @@ NATIVE_WIDTH, EYE_WIDTH = 1440, 1280
 SIZE = NATIVE_WIDTH * EYE_WIDTH * 2 * 3
 # Logical per-eye coordinates, origin at the top left when worn.
 # Keep the original layout for replay of the first physical Shell image.
-LAYOUTS = {"wide": (56, 15, 10, 25), "centered": (24, 12, 16, 38), "legacy": (80, 25, 16, 38)}
+LAYOUTS = {"wide": (65, 13, 10, 25), "centered": (24, 12, 16, 38), "legacy": (80, 25, 16, 38)}
 SHELL_GUID = "7c04a583-9e3e-4f1c-ad65-e05268d0b4d1"
 
 
@@ -156,15 +156,16 @@ def decode_grid(scan, columns, height, cell_w, cell_h):
     return rows
 
 
-def eye_png(frame):
-    # Exactly one pixel per glyph sample, preserving the real BGR colors.
-    w, h = EYE_WIDTH // 2, NATIVE_WIDTH // 2
+def eye_png(frame, bounds=(0, 0, EYE_WIDTH, NATIVE_WIDTH), step=2):
+    # Worn-orientation capture. A step of one preserves every rendered font pixel.
+    left, top, width, height = bounds
+    w, h = width // step, height // step
     pixels = bytearray()
     for y in range(h):
         pixels.append(0)
-        x_native = NATIVE_WIDTH - 1 - 2 * y
+        x_native = NATIVE_WIDTH - 1 - top - step * y
         for x in range(w):
-            pos = 3 * (2 * x * NATIVE_WIDTH + x_native)
+            pos = 3 * ((left + step*x) * NATIVE_WIDTH + x_native)
             pixels.extend(frame[pos : pos + 3][::-1])
 
     def chunk(kind, data):
@@ -235,11 +236,23 @@ def verify_viewport(frame, rows, layout):
     prompt_y = top + rows.index("Shell>") * cell_h
     if layout in ("centered", "wide"):
         # Test the physical crop regression directly in worn per-eye pixels.
-        if (left != (360 if layout == "wide" else 448)
+        if (left != (315 if layout == "wide" else 448)
                 or prompt_y < 570 or prompt_y + cell_h > 870):
             raise ValueError("Prompt fell outside the proposed central reading area")
+        raw = bytearray(frame[:SIZE//2])
+        if layout == "wide":
+            # Independently require the exact colored perimeter around the text grid.
+            for y in range(top-6, top+height*cell_h+6):
+                for x in range(left-6, left+columns*cell_w+6):
+                    if (left-4 <= x < left+columns*cell_w+4
+                            and top-4 <= y < top+height*cell_h+4):
+                        continue
+                    pos = 3*(x*NATIVE_WIDTH + NATIVE_WIDTH-1-y)
+                    if raw[pos:pos+3] != bytes((72, 49, 28)):
+                        raise ValueError("Incomplete panoramic console frame")
+                    raw[pos:pos+3] = bytes(3)
         for u in range(EYE_WIDTH):
-            column = frame[3 * u * NATIVE_WIDTH : 3 * (u + 1) * NATIVE_WIDTH]
+            column = raw[3 * u * NATIVE_WIDTH : 3 * (u + 1) * NATIVE_WIDTH]
             if left <= u < left + columns * cell_w:
                 if any(column[: 3 * (NATIVE_WIDTH-top-height*cell_h)]) or any(column[3 * (NATIVE_WIDTH - top) :]):
                     raise ValueError("Pixels above or below the viewport")
@@ -341,10 +354,12 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="wide", observe_wel
                 raise RuntimeError("Entry exception level differs")
             png = eye_png(frame)
             (output / "eye.png").write_bytes(png)
+            if layout == "wide":
+                (output / "console.png").write_bytes(eye_png(frame, (291, 533, 698, 427), step=1))
             viewport_frame = frame
             if mark is not None:
                 from oculus_logo import check_footer
-                footer_y = 919 if layout == "wide" else 960
+                footer_y = 894 if layout == "wide" else 960
                 viewport_frame = check_footer(frame, mark, footer_y)
             report = {
                 **evidence,

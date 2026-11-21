@@ -203,10 +203,38 @@ TextQuery (EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This, UINTN Mode, UINTN *Cols, UINTN
   return EFI_SUCCESS;
 }
 
+// Outline the writable area so its aspect ratio remains visible at an empty prompt.
+STATIC EFI_STATUS
+DrawWideFrame (VOID)
+{
+  CONST UINTN Gap = 4, Line = 2;
+  EFI_GRAPHICS_OUTPUT_BLT_PIXEL Ink = { 72, 49, 28, 0 };
+  UINTN NativeX = ScanoutX (0, GRID.Rows) - Gap - Line;
+  UINTN W = GRID.Rows * CELL_H + 2*(Gap + Line);
+  UINTN H = GRID.Columns * CELL_W + 2*(Gap + Line);
+  for (UINTN Eye = 0; Eye < 2; ++Eye) {
+    UINTN NativeY = EyeLeft (Eye) - Gap - Line;
+    CONST UINTN Rect[][4] = {
+      { NativeX, NativeY, W, Line }, { NativeX, NativeY + H-Line, W, Line },
+      { NativeX, NativeY + Line, Line, H-2*Line },
+      { NativeX + W-Line, NativeY + Line, Line, H-2*Line }
+    };
+    for (UINTN I = 0; I < ARRAY_SIZE (Rect); ++I) {
+      EFI_STATUS Status = mGop->Blt (mGop, &Ink, EfiBltVideoFill, 0, 0,
+                                     Rect[I][0], Rect[I][1], Rect[I][2], Rect[I][3], 0);
+      if (EFI_ERROR (Status)) { return Status; }
+    }
+  }
+  return EFI_SUCCESS;
+}
+
 STATIC EFI_STATUS EFIAPI
 TextClear (EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This)
 {
   EFI_STATUS Status = FillRows (0, GRID.Rows);
+  if (!EFI_ERROR (Status) && mMode.Mode == GO_TEXT_MODE_WIDE) {
+    Status = DrawWideFrame ();
+  }
   if (!EFI_ERROR (Status)) {
     mMode.CursorRow = mMode.CursorColumn = 0;
   }

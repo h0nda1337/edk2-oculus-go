@@ -58,6 +58,14 @@ SelectDisplay (VOID)
 }
 
 STATIC EFI_STATUS
+ClearPanel (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop)
+{
+  EFI_GRAPHICS_OUTPUT_BLT_PIXEL Black = {0, 0, 0, 0};
+  return Gop->Blt (Gop, &Black, EfiBltVideoFill, 0, 0, 0, 0,
+                   Gop->Mode->Info->HorizontalResolution, Gop->Mode->Info->VerticalResolution, 0);
+}
+
+STATIC EFI_STATUS
 BootShell (VOID)
 {
   EFI_LOADED_IMAGE_PROTOCOL *Parent;
@@ -87,11 +95,12 @@ BootShell (VOID)
     EFI_STATUS Intro = gBS->HandleProtocol (gST->ConsoleOutHandle,
                                              &gEfiGraphicsOutputProtocolGuid, (VOID **)&Gop);
     if (!EFI_ERROR (Intro)) {
-      Intro = GoPlayWelcome (Gop, HasLogo ? &Logo : NULL);
+      Intro = ClearPanel (Gop);
+      if (!EFI_ERROR (Intro)) {
+        Intro = GoPlayWelcome (Gop, HasLogo ? &Logo : NULL);
+      }
       // The shorter text window no longer covers the outer rows of the intro.
-      EFI_GRAPHICS_OUTPUT_BLT_PIXEL Black = {0, 0, 0, 0};
-      Gop->Blt (Gop, &Black, EfiBltVideoFill, 0, 0, 0, 0,
-                Gop->Mode->Info->HorizontalResolution, Gop->Mode->Info->VerticalResolution, 0);
+      ClearPanel (Gop);
       gST->ConOut->ClearScreen (gST->ConOut);
       if (HasLogo) {
         EFI_STATUS Badge = GoShowShellLogo (Gop, &Logo);
