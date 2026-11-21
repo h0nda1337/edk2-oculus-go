@@ -1,0 +1,60 @@
+{
+  "dateMexicoCity": "2026-11-20",
+  "scope": "pacific-oculus-logo",
+  "revision": "f7f3cd1fb443c54af2165ee05dd84f0579c0fa9a",
+  "reviewSha256": "7bf7b60300f36e80c50afa34950c571649e22cf070278bd9392bffeddf429e79",
+  "preflightStartUtc": "2026-11-21T05:07:48+00:00",
+  "preflightReportSha256": "9454d045077f646e795cdd6fe687713880aa41ef2ba8fbeb906d0e8218744eea",
+  "matchedBeforeAndOriginals": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-21T05:09:18.986143+00:00",
+  "transferReportSha256": "7d2fafde4c0c7d8a11d1606beaad47b31bb1f0c0c50cfc05103049e2199732d8",
+  "fastbootBootStderrSha256": "d6969c71fa0c03e5df61f37f2d35506e5aafed98ffd8de8b6b7f8b40b7fee82d",
+  "imageSha256": "907f78f1c497fa06d4d6c571d869526b23c54a4982ad4df13d88a1aff5a22fde",
+  "imageBytes": 688128,
+  "fdSha256": "c454b231b432009a6cfeaf5894652baa29656663a5dfe7f6c6096f4e921008ab",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "transportResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "operatorObservation": {
+    "shellVisibleLeftEye": true,
+    "shellVisibleRightEye": true,
+    "centeredShellEmblemVisible": false,
+    "welcomeEmblemVisible": false,
+    "reportedShellSpanish": "Veo la Shell en ambos, pero falta el logo",
+    "reportedWelcomeSpanish": "Tampoco apareció durante la bienvenida",
+    "perCharacterPromptReadback": "NOT_RECORDED"
+  },
+  "physicalLogoSource": "UNKNOWN",
+  "physicalUfsRead": "NOT_DEMONSTRATED",
+  "sourceDiagnosis": "Both the animation and the console receive the same successful lookup. No source trace or inherited crop fingerprints were captured on this run.",
+  "recovery": {
+    "operatorReportedAndroidAndUsb": true,
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-21T05:11:10+00:00",
+    "reportSha256": "e44d1288af76233e260167da811a872a142973f20e1e9bf779331757398d16f4",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}

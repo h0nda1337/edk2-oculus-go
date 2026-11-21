@@ -28,7 +28,9 @@ El anfitrión construye un disco GPT temporal con el contenido intacto del respa
 
 ### Imagen de prueba
 
-El FD de Pacific extraído del contenedor Android mostró el emblema en ambos ojos dentro del marco panorámico y llegó a `Shell>`. El mismo FD con el framebuffer inicialmente vacío llegó al prompt con el centro vacío. Los modelos instrumentados de EL1 y EL2 registraron `inherited framebuffer` y verificaron los píxeles del saludo y de la Shell. La comprobación offline del contenedor es `python tools/run_oculus_logo_once.py`. La visibilidad a través de las lentes y el contenido que deja LK en esta unidad siguen pendientes. [Revisión y SHA-256 del contenedor](evidence/oculus-logo-review-20261120.json) · [FD de Pacific con el splash original](evidence/oculus-logo-pacific-el1-20261120.json)
+El FD de Pacific extraído del contenedor Android mostró el emblema en ambos ojos dentro del marco panorámico y llegó a `Shell>`. El mismo FD con el framebuffer inicialmente vacío llegó al prompt con el centro vacío. Los modelos instrumentados de EL1 y EL2 registraron `inherited framebuffer` y verificaron los píxeles del saludo y de la Shell. La comprobación offline del contenedor es `python tools/run_oculus_logo_once.py`. En el arranque temporal del Go, el operador vio la Shell con cada ojo. El emblema faltó tanto bajo el saludo como en el centro del marco. Android volvió al slot `_a` y los cuatro hashes de `boot_a/b` y `aboot_a/b` coincidieron con los respaldos. [Prueba física](evidence/oculus-logo-transfer-20261120.json) [Revisión y SHA-256 del contenedor](evidence/oculus-logo-review-20261120.json) · [FD de Pacific con el splash original](evidence/oculus-logo-pacific-el1-20261120.json)
+
+El mismo resultado de búsqueda alimenta la bienvenida y la consola. La ausencia del símbolo en ambas es compatible con una búsqueda sin coincidencias. La prueba física no capturó la fuente elegida ni las huellas de las dos regiones de pantalla. Una comprobación que muestre estos datos antes de limpiar la pantalla permitiría distinguir un fallo de reconocimiento de uno de dibujo.
 
 ### Qué falta para leer la UFS del Go
 
