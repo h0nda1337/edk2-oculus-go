@@ -1,0 +1,96 @@
+{
+  "stockBootSha256": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+  "embeddedConfigSha256": "b74fb9d425308c82b01b807026a5c7a95d8105747bb952b16403f5e898117667",
+  "config": {
+    "IKCONFIG": "y",
+    "IKCONFIG_PROC": "n",
+    "ARM_SMMU": "y",
+    "ARM64_DMA_USE_IOMMU": "y",
+    "SWIOTLB": "y",
+    "DMA_API_DEBUG": "n",
+    "IOMMU_DEBUG_TRACKING": "n",
+    "IOMMU_TESTS": "y",
+    "SCSI_UFSHCD_PLATFORM": "y",
+    "SCSI_UFSHCD_PCI": "n",
+    "SCSI_UFS_QCOM": "y"
+  },
+  "runtimeFdtSha256": "0877ab5ba9149c29af776389796978268c665c51878834f2335405cabef01929",
+  "androidIomemSha256": "12bc1c23f7d8cde6e06089ddaa238fbb48608082a379e98851f1f841d3e51248",
+  "androidKernelCodeInclusive": [
+    "0x80080000",
+    "0x812e0fff"
+  ],
+  "lkCpuDescriptor": "0x0040000080400451",
+  "ufsCompatible": [
+    "jedec,ufs-1.1"
+  ],
+  "mappingProperties": {
+    "/": {
+      "iommus": false,
+      "iommu-map": false,
+      "dma-ranges": false
+    },
+    "/soc": {
+      "iommus": false,
+      "iommu-map": false,
+      "dma-ranges": false
+    },
+    "/soc/ufshc@624000": {
+      "iommus": false,
+      "iommu-map": false,
+      "dma-ranges": false
+    }
+  },
+  "bandwidthMasterSlavePairs": [
+    [
+      1,
+      650
+    ],
+    [
+      95,
+      512
+    ]
+  ],
+  "bandwidthCases": 12,
+  "anoc2": {
+    "node": "/soc/arm,smmu-anoc2@1680000",
+    "compatible": [
+      "qcom,smmu-v2"
+    ],
+    "status": [
+      "ok"
+    ],
+    "regCellsHex": [
+      "1680000",
+      "20000"
+    ],
+    "clocks": [
+      "smmu_aggre2_noc_clk"
+    ],
+    "skipInit": true
+  },
+  "pages": [
+    {
+      "cpuBase": "0x80440000",
+      "identityBusCandidate": "0x80440000",
+      "physicalBus": "UNKNOWN"
+    },
+    {
+      "cpuBase": "0x80441000",
+      "identityBusCandidate": "0x80441000",
+      "physicalBus": "UNKNOWN"
+    },
+    {
+      "cpuBase": "0x80442000",
+      "identityBusCandidate": "0x80442000",
+      "physicalBus": "UNKNOWN"
+    },
+    {
+      "cpuBase": "0x80443000",
+      "identityBusCandidate": "0x80443000",
+      "physicalBus": "UNKNOWN"
+    }
+  ],
+  "physicalUfsStreamId": "UNKNOWN",
+  "physicalTransfersIssued": 0
+}
