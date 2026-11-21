@@ -1,0 +1,88 @@
+{
+  "dateMexicoCity": "2026-11-20",
+  "scope": "terminal-edk2-dxe-text-upright",
+  "revision": "398d60d5595c0b1502e31616b1b0f5a142896ed6",
+  "reviewSha256": "4c062c417b8b1005cd4fdbb8c469748f6f510c21c176f573a5d9aac9e3af0857",
+  "preflightStartUtc": "2026-11-21T00:59:51Z",
+  "preflightReportSha256": "dfc1ebf37183662d3282a951be91dc71b12bf3e634ec95a8b7ce5503d8d73c4f",
+  "preflightResult": "PASS-READONLY",
+  "partitionsMatchedBefore": [
+    "aboot_a",
+    "aboot_b",
+    "boot_a",
+    "boot_b"
+  ],
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferSessionStartUtc": "2026-11-21T01:01:09.064785Z",
+  "transferReportSha256": "5ebf0a5009933b3e1b601a69b49ca750a4212c938d65dfc1f65bf98fb3e7628c",
+  "fastbootBootStderrSha256": "2d304f91908c6f271d864af250c1a2c3d6226cb4b4c13188eb413291c7779969",
+  "imageSha256": "aace39fe4e1dcbd6cd2b4273499706df20e77bc97c9acf6620adb87c759b909c",
+  "fdSha256": "bbfe56cb227d92dc13b7061871420c913b0cd0407712895f3a2be492510ab0bd",
+  "imageBytes": 487424,
+  "fastbootReport": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "sending": "OKAY",
+  "booting": "OKAY",
+  "attemptConsumed": true,
+  "partitionWriteCommandIssued": false,
+  "physicalDxeTextUprightExecutionAtHostCommandExit": "UNKNOWN",
+  "operatorObservationAtHostCommandExit": "PENDING",
+  "operatorObservation": {
+    "reportedSpanish": "los mismos colores de antes, las letras ya bien, 1 EDK2 GO 2 en blanco 3 UEFI 42 4 en azul",
+    "normalWearingPosition": true,
+    "transcribedStrings": [
+      "1 EDK2 GO 2",
+      "3 UEFI 42 4"
+    ],
+    "lineColors": [
+      "blanco",
+      "azul"
+    ],
+    "cornerDigitsInReadingOrder": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "bothLinesCompleteInObservation": true,
+    "leftEye": "Both marked rows upright and complete",
+    "rightEye": "Both marked rows upright and complete",
+    "eyeComparisonReportedSpanish": "Sí, en ambos ojos"
+  },
+  "physicalFindings": {
+    "result": "CONFIRMED-DEVICE-UPRIGHT-TEXT",
+    "uprightInNormalWearingPosition": true,
+    "protocol": "EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL",
+    "entry": "SystemTable->ConOut->OutputString",
+    "backend": "InheritedGopDxe / EFI_GRAPHICS_OUTPUT_PROTOCOL.Blt",
+    "secondLineProgrammedAttribute": "EFI_LIGHTCYAN",
+    "terminalPc": "UNKNOWN",
+    "physicalExceptionLevel": "UNKNOWN",
+    "shellExecuted": false,
+    "bothEyesConfirmedIndividually": true
+  },
+  "recovery": {
+    "operatorReportedSpanish": "Android arrancó y reconecté USB",
+    "preflightStartUtc": "2026-11-21T01:04:14Z",
+    "reportSha256": "230ff69d06fa9aa89494c4f1de91c77c72fcc0748b9cb27ed6dd78c0d50f1348",
+    "result": "PASS-READONLY",
+    "sameUnitAsPreflight": true,
+    "root": true,
+    "product": "pacific",
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}

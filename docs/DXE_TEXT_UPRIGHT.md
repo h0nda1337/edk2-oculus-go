@@ -21,7 +21,7 @@ La prueba de sistema completo usa el FD reextraído de la imagen Android, el des
 
 QEMU AArch64 10.0.13 completó 86 casos, 43 en EL1 y 43 en EL2. Los seis arranques previstos alcanzaron el punto final tras dos llamadas a `OutputString()` y 44 cargas de glifos por arranque entre las dos vistas. Los 80 casos de fallo terminaron en su punto de rechazo previsto. En todos coincidieron la superficie completa y sus guardas. Al repetir por separado el arranque ordinario en ambos niveles se reprodujeron las mediciones y los PNG byte por byte. [Informe por caso](evidence/dxe-text-upright-qemu-20261120.json)
 
-El recorte de cada ojo en coordenadas de lectura mide 176×76 y tiene SHA-256 RGB `6b62c0ea0c40948228216ccc00ac275b8ee97f9fe36dc3aba589cc4cbb513da6`. En orden de scanout nativo, el mismo recorte ocupa 76×176 píxeles BGR y tiene SHA-256 `4f94cc2d104d32e5d99ac6544e70fdaf723c5e35ad7dae4aaadd2c79b2ce5bb8`. Los dos ojos coinciden en ambas mediciones. El sentido óptico real queda pendiente de comprobar con el visor puesto.
+El recorte de cada ojo en coordenadas de lectura mide 176×76 y tiene SHA-256 RGB `6b62c0ea0c40948228216ccc00ac275b8ee97f9fe36dc3aba589cc4cbb513da6`. En orden de scanout nativo, el mismo recorte ocupa 76×176 píxeles BGR y tiene SHA-256 `4f94cc2d104d32e5d99ac6544e70fdaf723c5e35ad7dae4aaadd2c79b2ce5bb8`. Los dos ojos coinciden en ambas mediciones. La lectura física en posición normal se recoge abajo.
 
 ## Reproducción
 
@@ -45,6 +45,8 @@ bash scripts/test-text-scroll-qemu.sh
 
 Al comparar la auditoría del compilador con la del primer DXE_TEXT, sólo difieren dos fuentes de plataforma: `TextConsole.c` y `TextOutput.c`. La primera aplica la transformación. La segunda añade los números y posiciona el texto. GNU ld volvió a avisar de segmentos LOAD RWX en los ELF intermedios de GOP y DXE Core. La prueba de sistema completo verificó los permisos de las páginas activas del invitado. [Política de fuentes](SOURCE_POLICY.md)
 
-## Lectura física pendiente
+## Lectura física del 20 de noviembre
 
-Con el visor en posición habitual, observar cada ojo por separado y transcribir las dos líneas, la posición de los números y cualquier recorte. Esta observación determinará si la corrección funciona bajo las lentes. El intento del primer DXE_TEXT está registrado por separado. [Procedimiento de recuperación](RECOVERY.md)
+Fastboot informó `Secure boot: true` y aceptó la imagen temporal en el slot A. Con el Go en posición normal, el operador leyó «1 EDK2 GO 2» en blanco en la fila superior y «3 UEFI 42 4» en azul en la inferior. Los cuatro números aparecieron en las posiciones previstas. Al cerrar un ojo cada vez, confirmó que ambas filas se veían derechas y completas por cada lente. En la imagen anterior había tenido que girar el visor para leer el texto. La segunda fila usa `EFI_LIGHTCYAN` en el firmware. [Observación y registro de transferencia](evidence/dxe-text-upright-transfer-20261120.json)
+
+El mismo Go volvió a completar el arranque de Android en el slot A. Se leyeron de nuevo 136 314 880 bytes de `boot_a`, `boot_b`, `aboot_a` y `aboot_b`. Los cuatro SHA-256 coincidieron con la lectura previa y los respaldos originales. [Hashes y recuperación](evidence/dxe-text-upright-transfer-20261120.json)

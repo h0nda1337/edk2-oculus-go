@@ -1,6 +1,6 @@
 # Next steps
 
-**Siguiente paso hacia la Shell.** El operador leyó las dos líneas de `DXE_TEXT` al girar el Go. El candidato corregido gira la cuadrícula dentro de cada ojo. Probarlo con el visor puesto normalmente y comprobar las dos líneas, los cuatro números y la orientación en cada ojo. [Candidato de orientación](DXE_TEXT_UPRIGHT.md) [Observación física](evidence/dxe-text-transfer-20261120.json) · [Consola en QEMU](DXE_TEXT.md)
+**Siguiente paso hacia la Shell.** El operador ya leyó las dos líneas con el visor puesto normalmente. En QEMU, comprobar ahora que DXE puede cargar e iniciar una aplicación EFI del volumen de firmware y que esa aplicación escribe mediante `SystemTable->ConOut`. Esa prueba separa la carga de aplicaciones de las dependencias propias de la Shell. [Lectura física de la consola](evidence/dxe-text-upright-transfer-20261120.json)
 
 Para llegar al prompt, queda integrar la selección de consola en el arranque normal y lanzar la Shell ARM64 desde el volumen con los servicios de carga de imágenes. Para probar comandos hará falta además una fuente de entrada que publique `ConIn`.
 
