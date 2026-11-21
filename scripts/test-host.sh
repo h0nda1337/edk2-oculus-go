@@ -13,4 +13,9 @@ gcc -std=c11 -fshort-wchar -DMDEPKG_NDEBUG -Wall -Wextra -Werror -Wno-unused-par
   -Iedk2/MdePkg/Include -Iedk2/MdePkg/Include/X64 -IOculusGoPkg/Include -I"$console" \
   tests/text_console_host.c "$console/TextConsole.c" -o build/tests/text_console_host
 build/tests/text_console_host
+welcome=OculusGoPkg/Drivers/GoBdsDxe
+gcc -std=c11 -O2 -fshort-wchar -DMDEPKG_NDEBUG -Wall -Wextra -Werror -Wno-unused-parameter \
+  -Iedk2/MdePkg/Include -Iedk2/MdePkg/Include/X64 -IOculusGoPkg/Include -I"$welcome" \
+  tests/welcome_host.c "$welcome/Welcome.c" -o build/tests/welcome_host
+build/tests/welcome_host
 python3 -m unittest discover -s tests -p 'test_*.py' -v

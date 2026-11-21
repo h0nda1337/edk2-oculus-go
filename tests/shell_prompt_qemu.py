@@ -191,21 +191,23 @@ def request(wire, command, args=None):
             return reply["return"]
 
 
-def wait_for_prompt(wire, log, surface, deadline, trace_loader, layout):
+def wait_for_prompt(wire, log, surface, deadline, trace_loader, layout, welcome=None):
     previous = None
     serial = ""
     while time.monotonic() < deadline:
-        time.sleep(0.35)
+        time.sleep(0.09 if welcome else 0.35)
         serial = log.read_text(errors="replace")
         fault = re.search(r"ASSERT \[|Go BDS: Shell returned|Exception at", serial)
         if fault:
             raise RuntimeError("Boot stopped: " + serial[fault.start() : fault.start() + 400])
-        if trace_loader and not re.search(r"Loading driver at .* Shell\.efi", serial):
+        if welcome is None and trace_loader and not re.search(r"Loading driver at .* Shell\.efi", serial):
             continue
         request(wire, "pmemsave", {"val": FB, "size": SIZE, "filename": str(surface)})
         frame = surface.read_bytes()
         if len(frame) != SIZE:
             raise RuntimeError("Incomplete scanout")
+        if welcome:
+            welcome.observe(frame)
         if frame[: SIZE // 2] != frame[SIZE // 2 :]:
             previous = None
             continue
@@ -247,7 +249,12 @@ def verify_viewport(frame, rows, layout):
     }
 
 
-def run(fd, reference, output, timeout, el, dtb=None, layout="centered"):
+def run(fd, reference, output, timeout, el, dtb=None, layout="centered", observe_welcome=False):
+    welcome = None
+    if observe_welcome:
+        from welcome_observer import WelcomeObserver
+        welcome = WelcomeObserver(output / "welcome")
+
     evidence = embedded_shell(fd.read_bytes(), reference)
     output.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
@@ -309,7 +316,7 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="centered"):
                 with channel.makefile("rwb", buffering=0) as wire:
                     assert "QMP" in json.loads(wire.readline())
                     request(wire, "qmp_capabilities")
-                    frame, rows, serial = wait_for_prompt(wire, log, surface, deadline, dtb is None, layout)
+                    frame, rows, serial = wait_for_prompt(wire, log, surface, deadline, dtb is None, layout, welcome)
             loads = re.findall(r"Loading driver at [^\r\n]+ (?:GoBdsDxe|Shell)\.efi", serial)
             if dtb is None and [line.split()[-1] for line in loads] != [
                 "GoBdsDxe.efi",
@@ -336,6 +343,8 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="centered"):
                     ["qemu-system-aarch64", "--version"], text=True
                 ).splitlines()[0],
             }
+            if welcome:
+                report["welcome"] = welcome.finish()
             if dtb is not None:
                 report["pacificFdAtEl1"] = True
                 report["dtbSha256"] = DTB_SHA
@@ -364,6 +373,7 @@ if __name__ == "__main__":
         "--pacific-dtb", type=Path, help="Boot the real Pacific FD using the EL2 QEMU GIC map"
     )
     parser.add_argument("--layout", choices=LAYOUTS, default="centered")
+    parser.add_argument("--observe-welcome", action="store_true", help="Validate the 3D intro before the prompt")
     args = parser.parse_args()
     if args.inspect_only:
         detail = inspect_pacific(args.fd, args.shell_efi)
@@ -371,6 +381,6 @@ if __name__ == "__main__":
         (args.output / "static.json").write_text(json.dumps(detail, indent=2) + "\n")
     else:
         detail = run(
-            args.fd, args.shell_efi, args.output.resolve(), args.timeout, args.el, args.pacific_dtb, args.layout
+            args.fd, args.shell_efi, args.output.resolve(), args.timeout, args.el, args.pacific_dtb, args.layout, args.observe_welcome
         )
     print(json.dumps(detail, indent=2))
