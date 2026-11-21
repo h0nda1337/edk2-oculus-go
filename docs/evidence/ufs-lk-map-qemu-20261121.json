@@ -1,0 +1,277 @@
+{
+  "outcome": "PASS-QEMU",
+  "fdSha256": "d9535930973ca2e8a43b454b3afcc31eca9ae3ff6da6370d4fce513a6a61bdcd",
+  "physicalDma": "UNKNOWN",
+  "cases": [
+    {
+      "el": 1,
+      "case": "identity-5000",
+      "state": "LK MAP",
+      "label": "MATCH",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "identity-6000",
+      "state": "LK MAP",
+      "label": "MATCH",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "identity-7000",
+      "state": "LK MAP",
+      "label": "MATCH",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "changed-context",
+      "state": "MISMATCH",
+      "label": "HBA",
+      "guardedLoads": 34,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "high-queue",
+      "state": "MISMATCH",
+      "label": "HBA",
+      "guardedLoads": 34,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "foreign-table",
+      "state": "UNKNOWN",
+      "label": "L1",
+      "guardedLoads": 36,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "foreign-table-high",
+      "state": "UNKNOWN",
+      "label": "L1",
+      "guardedLoads": 36,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "empty-leaf",
+      "state": "UNKNOWN",
+      "label": "FD MAP",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "fd-alias",
+      "state": "UNKNOWN",
+      "label": "FD MAP",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "heap-alias",
+      "state": "UNKNOWN",
+      "label": "LK MAP",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "above-4g",
+      "state": "UNKNOWN",
+      "label": "FD MAP",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "unstable-leaf",
+      "state": "CHANGED",
+      "label": "LK",
+      "guardedLoads": 51,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "changed-hci",
+      "state": "CHANGED",
+      "label": "HCI",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "busy-before-map",
+      "state": "BUSY",
+      "label": "TRD",
+      "guardedLoads": 11,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 1,
+      "case": "cpu-window-dirty",
+      "state": "DIRTY",
+      "label": "FD",
+      "guardedLoads": 29,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "identity-5000",
+      "state": "LK MAP",
+      "label": "MATCH",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "identity-6000",
+      "state": "LK MAP",
+      "label": "MATCH",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "identity-7000",
+      "state": "LK MAP",
+      "label": "MATCH",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "changed-context",
+      "state": "MISMATCH",
+      "label": "HBA",
+      "guardedLoads": 34,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "high-queue",
+      "state": "MISMATCH",
+      "label": "HBA",
+      "guardedLoads": 34,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "foreign-table",
+      "state": "UNKNOWN",
+      "label": "L1",
+      "guardedLoads": 36,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "foreign-table-high",
+      "state": "UNKNOWN",
+      "label": "L1",
+      "guardedLoads": 36,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "empty-leaf",
+      "state": "UNKNOWN",
+      "label": "FD MAP",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "fd-alias",
+      "state": "UNKNOWN",
+      "label": "FD MAP",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "heap-alias",
+      "state": "UNKNOWN",
+      "label": "LK MAP",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "above-4g",
+      "state": "UNKNOWN",
+      "label": "FD MAP",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "unstable-leaf",
+      "state": "CHANGED",
+      "label": "LK",
+      "guardedLoads": 51,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "changed-hci",
+      "state": "CHANGED",
+      "label": "HCI",
+      "guardedLoads": 55,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "busy-before-map",
+      "state": "BUSY",
+      "label": "TRD",
+      "guardedLoads": 11,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    },
+    {
+      "el": 2,
+      "case": "cpu-window-dirty",
+      "state": "DIRTY",
+      "label": "FD",
+      "guardedLoads": 29,
+      "controllerWrites": 0,
+      "unapprovedRamWrites": 0
+    }
+  ]
+}
