@@ -1,0 +1,73 @@
+{
+  "scope": "pacific-normal-shell",
+  "decision": "ONE-ATTENDED-TEMPORARY-BOOT",
+  "maxAttempts": 1,
+  "dateMexicoCity": "2026-11-20",
+  "platformRevision": "04cf6e27312798907a391218fc64f50d04b8a575",
+  "physicalShellExecution": "UNKNOWN",
+  "fd": {
+    "file": "build/DEBUG-NORMAL-20261121-015454/OCULUS_GO_DIRECT.fd",
+    "size": 20971520,
+    "sha256": "62844e72f9fe7970cbdd1235119486007a230fce20739cc29612f5128df903bc"
+  },
+  "image": {
+    "file": "local/OculusGo-SHELL-62844e72f9fe.img",
+    "size": 684032,
+    "sha256": "3016d03871843546abef8c0ce35b14a4ca136556cc6879f0eb78e6b03362b6d7"
+  },
+  "model": {
+    "1": {
+      "file": "docs/evidence/shell-qemu-el1-20261120.json",
+      "size": 2537,
+      "sha256": "025143f1b278225c1ba9c375ef57c1db7f3ca038165e332bbd11b917f5a3552e"
+    },
+    "2": {
+      "file": "docs/evidence/shell-qemu-el2-20261120.json",
+      "size": 2536,
+      "sha256": "fb24c368082801304b7929bbe5152663ad2dbb67aa5e88bf853117cefd74cd13"
+    }
+  },
+  "modelFdSha256": "26c1d23511860f81c3acd35ab3e9881db8148aa685fd4b70255cd0948685df8d",
+  "pacificPrompt": {
+    "file": "docs/evidence/shell-pacific-el1-20261120.json",
+    "size": 2607,
+    "sha256": "0a7a04fbc9ef138a4d8e22586b25ace62bdd396e5950ed058ab23c0075a5e41f"
+  },
+  "physicalStatic": {
+    "file": "docs/evidence/shell-pacific-static-20261120.json",
+    "size": 1728,
+    "sha256": "1078be43727c8e5f4a0d1fc543e7f1a573bddda25d93e4cc9fa3d85bf312e131"
+  },
+  "arena": {
+    "file": "docs/evidence/shell-pacific-arena-20261120.json",
+    "size": 1812,
+    "sha256": "99cbbdf240de3d2deab5d8a29e5388a2e4b1892cb95b3dace4849dc1b309de12"
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-NORMAL-20261121-015454/SOURCES.json",
+    "size": 194956,
+    "sha256": "f06dbf289797450277dd441a78447847373c16282d9917a7395f0f31892e0c96"
+  },
+  "modelSourceAudit": {
+    "file": "build/DEBUG-SHELL_QEMU-20261121-020338/SOURCES.json",
+    "size": 199089,
+    "sha256": "1ccce0df8b3b3ab58a7309fb65ecc5cfce8bd4858de6a16c37cf49ea655a8bc6"
+  },
+  "priorReadback": {
+    "file": "local/readonly-preflight-20261121-013249/REPORT.json",
+    "size": 7738,
+    "sha256": "8a91db7be2de96fe0345ac250bb765cc5c8146fb77712d604a79f4169bb579ab"
+  },
+  "packedKernelSpan": [
+    "0x80080000",
+    "0x81480000"
+  ],
+  "allocatorSpan": [
+    "0x80480000",
+    "0x81480000"
+  ],
+  "physicalImageSource": "NORMAL",
+  "variableStore": "RAM only",
+  "transfer": "attended fastboot boot",
+  "operatorReturn": "stock Power and USB Update Mode recovery, then four fresh readbacks"
+}

@@ -15,7 +15,9 @@ Existing Qualcomm bootloader (unchanged on headset)
   -> HOB construction, original memory-map handoff, upstream EDK2 MMU library
   -> decompression of the inner FV using EDK2 libraries
   -> EDK2 DXE core
-  -> TrustMeBro protocol
+  -> TrustMeBro, architectural protocols, inherited GOP and text handles
+  -> platform BDS selects ConOut / StdErr
+  -> LoadImage from FV -> StartImage -> upstream Shell prompt
 ```
 
 There is no second copy/relocation bootstrap between the bootloader and SEC.

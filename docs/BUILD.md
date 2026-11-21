@@ -116,3 +116,5 @@ The `DXE_GOP` profile packages DevicePathDxe and InheritedGopDxe in the same fir
 The [DXE_TEXT trial](DXE_TEXT.md) exercises both output strings through the UEFI system table and exports a pixel crop in logical reading coordinates from each modeled exception level. For the current headset orientation use the [marked text trial and AArch64 scrolling test](DXE_TEXT_UPRIGHT.md).
 
 The `DXE_APP` mode packages a separately linked AArch64 EFI application. The audit compares its compiled PE with the section returned by the running guest firmware volume. [Reproduction and results](DXE_APP.md)
+
+The current `NORMAL` build includes the platform BDS, text console and upstream basic Shell. Use `SHELL_QEMU` for the QEMU virt interrupt controller and debug UART. [Run the prompt test](SHELL_BOOT.md)

@@ -1,5 +1,7 @@
 # Memory evidence and candidate layout
 
+For the normal Shell build, the image owns a 16 MiB arena from `0x80480000` up to the exclusive end `0x81480000`. This replaces the prototype high-RAM pool described below. SEC scans the delivered bytes before changing SP. Physical validation of the enlarged image is pending. [Current layout and model](SHELL_BOOT.md)
+
 Hardware evidence is retained in the preceding local project. This document
 records data, not imported implementation. No new physical capture was made.
 
@@ -9,7 +11,7 @@ records data, not imported implementation. No new physical capture was made.
 | Low Linux System RAM `0x80000000..0x85800000` | Unit's `/proc/iomem` | CONFIRMED-DEVICE; contains splash reservations |
 | High System RAM `0x91700000..0x13eac0000` | Same | CONFIRMED-DEVICE; contains further reservations |
 | Initial usable window `0x91700000..0x9ff00000` | Runtime reservations subtracted from prior captures | Candidate subset; new handoff not tested |
-| FD `0x80080000..0x80480000` | Exact stock `aboot_a` sets the ARM64 destination. The SEC_C exact-PC guard and its private stack witness passed on this unit | CONFIRMED-DEVICE for that executed SEC path. Stability of the entire range through DXE is UNKNOWN |
+| Historical 4 MiB FD `0x80080000..0x80480000` | Exact stock `aboot_a` sets the ARM64 destination. The SEC_C exact-PC guard and its private stack witness passed on this unit | CONFIRMED-DEVICE for that executed SEC path. Stability of the entire range through DXE is UNKNOWN |
 | FV `0x80081000..0x80480000` | New FD format at offset `0x1000` | Build-defined; validated structurally |
 | HOB/decompression pool `0x94000000..0x98000000` | Inside selected high RAM window | HYPOTHESIS at physical handoff |
 | Initial stack `0x97fc0000..0x98000000` | Top 256 KiB of pool, removed from HOB allocator | Build-defined; physical stability UNKNOWN |
@@ -17,9 +19,9 @@ records data, not imported implementation. No new physical capture was made.
 | GIC redistributors `0x09c00000`, size `0x100000` | Runtime DT, stride `0x40000` | CONFIRMED-DEVICE address; initialization untested |
 | Generic timer 19.2 MHz; GSIV 29/30/27/26 | Runtime DT and kernel | CONFIRMED-DEVICE; inherited EL access UNKNOWN |
 
-All ends above are exclusive. The occupied FD is reserved. The normal
+All ends above are exclusive. The occupied FD is reserved. The October prototype
 memory map excludes splash `0x83400000..0x85800000`, secure carve-outs
-`0x85800000..0x91700000` and ramoops `0x9ff00000..0xa0000000`. Only the
+`0x85800000..0x91700000` and ramoops `0x9ff00000..0xa0000000`. The
 `GOP_MODEL` emulation profile maps the entire 24-bit surface
 `0x83401000..0x83e8d000` as normal non-cacheable memory and publishes a
 reserved-memory resource HOB for it. It leaves the surrounding reservation

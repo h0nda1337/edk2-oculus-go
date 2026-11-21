@@ -69,6 +69,9 @@ The `DXE_TEXT` diagnostic publishes the graphical console on the GOP handle. ARM
 
 In the `DXE_APP` profile, DXE loads ConsoleProbe.efi by its firmware-volume file path and starts it through UEFI Boot Services. In QEMU the application's own ConOut call writes “5 APP EFI 6” in green in both views and returns to the launcher. On the Go, the owner read the white DXE line and the green application line. [Application trial](docs/DXE_APP.md)
 
+The normal boot path now selects the Go text console in BDS and starts the upstream ARM64 Shell from the embedded firmware volume. QEMU displayed `Shell>` in both eyes using the Pacific firmware recovered from its Android boot image. [Prompt capture and reproduction](docs/SHELL_BOOT.md)
+
+
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
 

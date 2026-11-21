@@ -2,7 +2,7 @@
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 
-Para llegar al prompt, queda integrar la selección de consola en el arranque normal y lanzar la Shell ARM64 desde el volumen con los servicios de carga de imágenes. Para probar comandos hará falta además una fuente de entrada que publique `ConIn`.
+BDS selecciona ahora la consola del Go y lanza la Shell ARM64 desde el volumen. La comprobación física consiste en leer el banner y el prompt con cada ojo. Para introducir comandos habrá que conectar una fuente de teclas a la entrada de ConSplitter. [Arranque normal y prueba visual](SHELL_BOOT.md)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

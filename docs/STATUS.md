@@ -6,7 +6,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | --- | --- |
 | Device evidence/backups | Preserved locally in the preceding project |
 | Allowed-source platform | Original board code + pinned official EDK2; compiler/link inputs audited |
-| Standalone EDK2 build | PASS, DEBUG, 4 MiB FD |
+| Standalone EDK2 build | DEBUG. Historical checkpoint images use a 4 MiB FD. The normal Shell image includes a 16 MiB boot arena in a 20 MiB FD. |
 | TrustMeBro protocol | PASS: 19 host checks; installed, located and queried from real DXE in QEMU EL1/EL2 |
 | Direct-entry image without BootShim | PASS: header/FV/SEC structure; original Android container roundtrip/reproducibility |
 | Early ARM64 entry in QEMU | PASS: 10 cases, stop before first BL |
@@ -18,6 +18,7 @@ Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 | UEFI text output over GOP | CONFIRMED-QEMU at EL1 and EL2. Both calls through `ConOut->OutputString()` returned success. The two framebuffer views matched the expected letter rasters byte for byte. CONFIRMED-DEVICE. The owner read both lines after turning the headset. Text appeared upside down in its usual orientation. [Physical observation](evidence/dxe-text-transfer-20261120.json) [Capture and procedure](DXE_TEXT.md) |
 | Text orientation | CONFIRMED-DEVICE. In the normal wearing position the owner read both lines upright and complete through each eye, with markers 1 and 2 on top and 3 and 4 below. [Orientation trial](DXE_TEXT_UPRIGHT.md) |
 | Standalone FV application | CONFIRMED-QEMU. DXE reads the application PE from the FV, enters it, observes its text in both views and receives its return status. CONFIRMED-DEVICE. During the temporary boot, the owner read the application’s green “5 APP EFI 6” below the white DXE line. [Application trial](DXE_APP.md) |
+| Normal BDS and upstream Shell | CONFIRMED-QEMU. The Pacific FD recovered from the Android container printed `UEFI Basic Shell v2.2` and `Shell>` through the inherited display console in both views. Physical prompt and key input are pending. [Shell trial](SHELL_BOOT.md) |
 | Storage/USB/ACPI/Windows | Pending |
 | SEC stage-1 translation and scanout | SEC_MMU passed 29 QEMU cases across EL1 and EL2. CONFIRMED on the Go. The operator saw the sealed red center after the translated stack witness and full framebuffer readbacks. [Physical record](evidence/sec-mmu-transfer-20261118.json) |
 | HOB arena and compressed DXE FV inside the FD | SEC_DXE passed 18 packaged-image QEMU cases. Four reached the terminal checkpoint inside upstream DXE Core across EL1 and EL2. CONFIRMED on the Go. The operator saw the five-block signal with green sides and a purple center from inside upstream DXE Core after the HOB checks. Stock Android recovered on slot A and all four partition hashes matched the originals and preflight. [Attended trial](evidence/sec-dxe-transfer-20261119.json) · [Image review](evidence/sec-dxe-review-20261118.json) · [Trace results](evidence/sec-dxe-qemu-20261118.json) |
