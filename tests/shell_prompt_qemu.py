@@ -1,0 +1,347 @@
+"""Boot the normal Go console/BDS on QEMU virt and read the prompt from both eyes.
+SPDX-License-Identifier: BSD-2-Clause-Patent
+"""
+
+import argparse
+import hashlib
+import json
+import lzma
+import re
+import socket
+import struct
+import subprocess
+import sys
+import tempfile
+import time
+import zlib
+from pathlib import Path
+from uuid import UUID
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools"))
+
+from android_boot import DTB_SHA
+from sec_dxe_static import GUIDED, files, sections, unique
+from verify_fd import SHELL_FD_SIZE, verify
+from verify_fd import SIZE as FIRMWARE_BYTES
+
+FB = 0x83401000
+NATIVE_WIDTH, EYE_WIDTH, CELL_W, CELL_H = 1440, 1280, 16, 38
+SIZE = NATIVE_WIDTH * EYE_WIDTH * 2 * 3
+TOP = (NATIVE_WIDTH - 25 * CELL_H) // 2
+SHELL_GUID = "7c04a583-9e3e-4f1c-ad65-e05268d0b4d1"
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def embedded_shell(fd, reference):
+    verify(fd)
+    if len(fd) != SHELL_FD_SIZE:
+        raise ValueError("Expected the normal boot image with its loader-owned RAM")
+    wrapped = unique(body for kind, _, body in files(fd[0x1000:FIRMWARE_BYTES]) if kind == 11)
+    guided = unique(s for kind, s in sections(wrapped) if kind == 2)
+    offset, flags = struct.unpack_from("<HH", guided, 20)
+    if guided[4:20] != GUIDED.bytes_le or flags != 1 or not 24 <= offset < len(guided):
+        raise ValueError("Unexpected guided FV section")
+    unpacker = lzma.LZMADecompressor(format=lzma.FORMAT_ALONE)
+    payload = unpacker.decompress(guided[offset:], max_length=FIRMWARE_BYTES)
+    if not unpacker.eof or unpacker.unused_data:
+        raise ValueError("Incomplete or oversized inner FV")
+    volume = unique(s[4:] for kind, s in sections(payload) if kind == 0x17)
+    entries = list(files(volume))
+    modules = {}
+    for kind, guid, body in entries:
+        if kind == 0xF0 or (kind == 2 and str(guid) == "fc510ee7-ffdc-11d4-bd41-0080c73c8881"):
+            continue
+        if kind not in (5, 7, 9):
+            raise ValueError("Unexpected executable file type in FV")
+        ui = unique(sec[4:] for tag, sec in sections(body) if tag == 0x15)
+        name = ui.decode("utf-16le").rstrip(chr(0))
+        if name in modules:
+            raise ValueError("Duplicate module in FV")
+        modules[name] = str(guid)
+    body = unique(b for kind, guid, b in entries if kind == 9 and guid == UUID(SHELL_GUID))
+    pe = unique(s[4:] for kind, s in sections(body) if kind == 0x10)
+    if pe != reference.read_bytes():
+        raise ValueError("Shell in packaged FV differs from compiler output")
+    (coff,) = struct.unpack_from("<I", pe, 0x3C)
+    if (
+        pe[coff : coff + 4] != b"PE\0\0"
+        or struct.unpack_from("<H", pe, coff + 4)[0] != 0xAA64
+        or struct.unpack_from("<H", pe, coff + 24)[0] != 0x20B
+        or struct.unpack_from("<H", pe, coff + 24 + 68)[0] != 10
+    ):
+        raise ValueError("Shell is not an AArch64 EFI application")
+    return {
+        "shellPeSha256": sha(pe),
+        "shellPeBytes": len(pe),
+        "innerFvSha256": sha(volume),
+        "modules": modules,
+    }
+
+
+def inspect_pacific(fd, reference):
+    data = fd.read_bytes()
+    report = embedded_shell(data, reference)
+    # The complete executable roster matters for this RAM-only device trial.
+    expected = {
+        "DxeCore",
+        "PcdDxe",
+        "TrustMeBroDxe",
+        "DevicePathDxe",
+        "InheritedGopDxe",
+        "HiiDatabase",
+        "EnglishDxe",
+        "VariableRuntimeDxe",
+        "CapsuleRuntimeDxe",
+        "WatchdogTimer",
+        "RealTimeClock",
+        "ConSplitterDxe",
+        "GoBdsDxe",
+        "Shell",
+        "ArmGicDxe",
+        "ArmCpuDxe",
+        "ArmTimerDxe",
+        "MetronomeDxe",
+        "EmbeddedMonotonicCounter",
+        "RuntimeDxe",
+        "ResetSystemRuntimeDxe",
+        "SecurityStubDxe",
+    }
+    if set(report["modules"]) != expected:
+        raise ValueError("Unexpected modules in Pacific FV")
+    return {
+        **report,
+        "fdSha256": sha(data),
+        "shellFileGuid": SHELL_GUID,
+        "flashBackedStorageDrivers": [],
+    }
+
+
+def decode_grid(scan):
+    """Decode visible 8x19 ASCII glyphs from native clockwise panel coordinates."""
+    header = (ROOT / "OculusGoPkg/Include/third-party/edk2/ConsoleFont.h").read_text()
+    font = {
+        bytes.fromhex(" ".join(re.findall(r"0x([0-9a-f]{2})", bits))): chr(int(code, 16))
+        for bits, code in re.findall(r"\{ ([^{}]+) \},  // U\+([0-9A-Fa-f]{4})", header)
+    }
+    assert len(font) >= 95
+    left, right = scan[: SIZE // 2], scan[SIZE // 2 :]
+    if left != right:
+        raise ValueError("Frame is changing or left/right eye pixels differ")
+    rows = []
+    for row in range(25):
+        top_x = NATIVE_WIDTH - 1 - TOP - row * CELL_H
+        chars = []
+        for col in range(80):
+            base = 3 * (col * CELL_W * NATIVE_WIDTH + top_x)
+            bits = bytearray()
+            for v in range(19):
+                pos = base - v * 6
+                value = 0
+                for u in range(8):
+                    dot = pos + 6 * u * NATIVE_WIDTH
+                    value = (value << 1) | (left[dot : dot + 3] != b"\x00\x00\x00")
+                bits.append(value)
+            chars.append(font.get(bytes(bits), "\ufffd"))
+        rows.append("".join(chars).rstrip())
+    return rows
+
+
+def eye_png(frame):
+    # Exactly one pixel per glyph sample, preserving the real BGR colors.
+    w, h = EYE_WIDTH // 2, 25 * CELL_H // 2
+    pixels = bytearray()
+    for y in range(h):
+        pixels.append(0)
+        x_native = NATIVE_WIDTH - 1 - TOP - 2 * y
+        for x in range(w):
+            pos = 3 * (2 * x * NATIVE_WIDTH + x_native)
+            pixels.extend(frame[pos : pos + 3][::-1])
+
+    def chunk(kind, data):
+        return (
+            struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
+        )
+
+    return (
+        b"\x89PNG\r\n\x1a\n"
+        + chunk(b"IHDR", struct.pack(">2I5B", w, h, 8, 2, 0, 0, 0))
+        + chunk(b"IDAT", zlib.compress(pixels, 9))
+        + chunk(b"IEND", b"")
+    )
+
+
+def request(wire, command, args=None):
+    msg = {"execute": command}
+    if args is not None:
+        msg["arguments"] = args
+    wire.write(json.dumps(msg).encode() + b"\n")
+    while True:
+        reply = json.loads(wire.readline())
+        if "error" in reply:
+            raise RuntimeError(reply["error"])
+        if "return" in reply:
+            return reply["return"]
+
+
+def wait_for_prompt(wire, log, surface, deadline, trace_loader):
+    previous = None
+    serial = ""
+    while time.monotonic() < deadline:
+        time.sleep(0.35)
+        serial = log.read_text(errors="replace")
+        fault = re.search(r"ASSERT \[|Go BDS: Shell returned|Exception at", serial)
+        if fault:
+            raise RuntimeError("Boot stopped: " + serial[fault.start() : fault.start() + 400])
+        if trace_loader and not re.search(r"Loading driver at .* Shell\.efi", serial):
+            continue
+        request(wire, "pmemsave", {"val": FB, "size": SIZE, "filename": str(surface)})
+        frame = surface.read_bytes()
+        if len(frame) != SIZE:
+            raise RuntimeError("Incomplete scanout")
+        if frame[: SIZE // 2] != frame[SIZE // 2 :]:
+            previous = None
+            continue
+        rows = decode_grid(frame)
+        if (
+            "Shell>" in rows
+            and any(row.startswith("UEFI Basic Shell v") for row in rows)
+            and any("OculusGo UEFI, 0x00000002" in row for row in rows)
+        ):
+            if previous == frame:
+                return frame, rows, serial
+            previous = frame
+        else:
+            previous = None
+    regs = request(wire, "human-monitor-command", {"command-line": "info registers"})
+    raise TimeoutError("Prompt not observed. " + regs[:330] + " " + serial[-1700:])
+
+
+def run(fd, reference, output, timeout, el, dtb=None):
+    evidence = embedded_shell(fd.read_bytes(), reference)
+    output.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        log = Path(tmp) / "uart.log"
+        monitor = Path(tmp) / "qmp"
+        surface = Path(tmp) / "frame"
+        command = [
+            "qemu-system-aarch64",
+            "-machine",
+            "virt,gic-version=3,secure=off,virtualization=" + ("on" if el == 2 else "off"),
+            "-accel",
+            "tcg",
+            "-cpu",
+            "cortex-a57",
+            "-smp",
+            "1",
+            "-m",
+            "1536",
+            "-nodefaults",
+            "-display",
+            "none",
+            "-serial",
+            "file:" + str(log),
+            "-qmp",
+            f"unix:{monitor},server=on,wait=off",
+            "-device",
+            f"loader,file={fd.resolve()},addr=0x80080000,cpu-num=0,force-raw=on",
+        ]
+        if dtb is not None:
+            if el != 1 or sha(dtb.read_bytes()) != DTB_SHA:
+                raise ValueError("Pacific model requires EL1 and the verified stock EVT tree")
+            fixture = Path(tmp) / "pacific.elf"
+            obj = fixture.with_suffix(".o")
+            subprocess.run(
+                ["aarch64-linux-gnu-as", "-o", obj, ROOT / "tests/pacific_qemu_el2.S"], check=True
+            )
+            subprocess.run(
+                ["aarch64-linux-gnu-ld", "-Ttext=0x42000000", "-o", fixture, obj], check=True
+            )
+            command[2] = "virt,gic-version=3,secure=off,virtualization=on"
+            command[command.index("-cpu") + 1] = "cortex-a57,cntfrq=19200000"
+            command[-1] = f"loader,file={fd.resolve()},addr=0x80080000,force-raw=on"
+            command += [
+                "-device",
+                f"loader,file={dtb.resolve()},addr=0x82000000,force-raw=on",
+                "-device",
+                f"loader,file={fixture},cpu-num=0",
+            ]
+        child = subprocess.Popen(command)
+        deadline = time.monotonic() + timeout
+        try:
+            with socket.socket(socket.AF_UNIX) as channel:
+                while not monitor.exists():
+                    if child.poll() is not None or time.monotonic() >= deadline:
+                        raise RuntimeError("QEMU monitor did not start")
+                    time.sleep(0.1)
+                channel.settimeout(8)
+                channel.connect(str(monitor))
+                with channel.makefile("rwb", buffering=0) as wire:
+                    assert "QMP" in json.loads(wire.readline())
+                    request(wire, "qmp_capabilities")
+                    frame, rows, serial = wait_for_prompt(wire, log, surface, deadline, dtb is None)
+            loads = re.findall(r"Loading driver at [^\r\n]+ (?:GoBdsDxe|Shell)\.efi", serial)
+            if dtb is None and [line.split()[-1] for line in loads] != [
+                "GoBdsDxe.efi",
+                "Shell.efi",
+            ]:
+                raise RuntimeError("Unexpected BDS / Shell load sequence")
+            if dtb is None and f"TrustMeBro: SEC -> DXE, EL{el}" not in serial:
+                raise RuntimeError("Entry exception level differs")
+            png = eye_png(frame)
+            (output / "eye.png").write_bytes(png)
+            report = {
+                **evidence,
+                "el": el,
+                "machine": command[2],
+                "fdSha256": sha(fd.read_bytes()),
+                "shellFileGuid": SHELL_GUID,
+                "screenRows": rows,
+                "eyesMatch": True,
+                "eyeNativeBgrSha256": sha(frame[: SIZE // 2]),
+                "eyePngSha256": sha(png),
+                "uartLoadMessages": loads,
+                "qemu": subprocess.check_output(
+                    ["qemu-system-aarch64", "--version"], text=True
+                ).splitlines()[0],
+            }
+            if dtb is not None:
+                report["pacificFdAtEl1"] = True
+                report["dtbSha256"] = DTB_SHA
+                report["counterHz"] = 19200000
+                report["el2FixtureSha256"] = sha((ROOT / "tests/pacific_qemu_el2.S").read_bytes())
+            (output / "result.json").write_text(json.dumps(report, indent=2) + "\n")
+            return report
+        finally:
+            child.terminate()
+            child.wait(timeout=10)
+            if log.exists():
+                (output / "uart.log").write_bytes(log.read_bytes())
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("fd", type=Path)
+    parser.add_argument("shell_efi", type=Path)
+    parser.add_argument("output", type=Path)
+    parser.add_argument("--timeout", type=int, default=65)
+    parser.add_argument("--el", type=int, choices=(1, 2), default=1)
+    parser.add_argument(
+        "--inspect-only", action="store_true", help="Check the Pacific FV without booting it"
+    )
+    parser.add_argument(
+        "--pacific-dtb", type=Path, help="Boot the real Pacific FD using the EL2 QEMU GIC map"
+    )
+    args = parser.parse_args()
+    if args.inspect_only:
+        detail = inspect_pacific(args.fd, args.shell_efi)
+        args.output.mkdir(parents=True, exist_ok=True)
+        (args.output / "static.json").write_text(json.dumps(detail, indent=2) + "\n")
+    else:
+        detail = run(
+            args.fd, args.shell_efi, args.output.resolve(), args.timeout, args.el, args.pacific_dtb
+        )
+    print(json.dumps(detail, indent=2))
