@@ -1,6 +1,9 @@
 /** Fixed LUN 4 READ CAPACITY(10) on the inherited queues.
     SPDX-License-Identifier: BSD-2-Clause-Patent **/
 #include "UfsData.h"
+#ifdef GO_UFS_GPT_MODEL
+#include "UfsGptModel.h"
+#endif
 #include <IndustryStandard/Scsi.h>
 
 #define TR                  0x918ee400U
@@ -71,12 +74,27 @@ CheckWindow (UINTN Destination)
 #endif
 
 STATIC RESULT
-Capacity (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned)
+DataIn (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned, BOOLEAN PrimaryHeader)
 {
   UINT32 OldTr[LIST_BYTES / 4], OldTm[LIST_BYTES / 4];
   UINT32 Request[8] = { 0x01044001U, 0, 0, 0x08000000U, EFI_SCSI_OP_READ_CAPACITY, 0, 0, 0 };
   UINT32 Descriptor[8] = { 0x05000000U, 0, 15, 0, UCD, 0, (32U << 16) | 16, (52U << 16) | 1 };
   UINT32 Region[4] = { (UINT32)Bus, (UINT32)(Bus >> 32), 0, 7 };
+  UINTN Bytes = 8;
+#ifdef GO_UFS_GPT_MODEL
+  if (PrimaryHeader) {
+    if (Data != GO_LK_HEADER || Bus != GO_LK_HEADER) {
+      return Bad;
+    }
+    // READ(10), LBA 1, one 4096-byte block. UPIU and CDB fields are big-endian.
+    Bytes = GO_LK_HEADER_SIZE;
+    Request[3] = 0x00100000U;
+    Request[4] = EFI_SCSI_OP_READ10;
+    Request[5] = 0x00000100U;
+    Request[6] = 1;
+    Region[3] = Bytes - 1;
+  }
+#endif
   if (!GoUfsLkIdle ()) {
     GoUfsHeading ("STOP", "BUSY");
     return Bad;
@@ -107,7 +125,7 @@ Capacity (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned)
   for (UINTN I = 0; I < ARRAY_SIZE (Region); ++I) {
     WORD_AT (PRD + I * 4) = Region[I];
   }
-  for (UINTN I = 0; I < 8; ++I) {
+  for (UINTN I = 0; I < Bytes; ++I) {
     BYTE_AT (Data + I) = 0xa5;
   }
   __asm__ volatile ("dsb sy" ::: "memory");
@@ -149,10 +167,12 @@ Capacity (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned)
   }
   UINT32 Last = Big32 ((UINTN)Sample), Block = Big32 ((UINTN)(Sample + 4));
   UINT8 Status = BYTE_AT (RESPONSE + 7);
+#ifndef GO_UFS_GPT_MODEL
   GoUfsDrawHex (5, 3, Ocs);
   GoUfsDrawHex (5, 4, Status);
   GoUfsDrawHex (5, 5, Last);
   GoUfsDrawHex (5, 6, Block);
+#endif
   RESULT Result = Bad;
   if (Ocs == 0 && BYTE_AT (RESPONSE) == 0x21 &&
       BYTE_AT (RESPONSE+2) == 4 && BYTE_AT (RESPONSE+3) == 1) {
@@ -160,10 +180,10 @@ Capacity (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned)
     if (Status == 0 && BYTE_AT (RESPONSE+1) == 0 && BYTE_AT (RESPONSE+6) == 0 &&
         (Segment == 0 || (Segment == 2 && BYTE_AT (RESPONSE+32) == 0 && BYTE_AT (RESPONSE+33) == 0)) &&
         Big32 (RESPONSE+12) == 0 &&
-        Last == CAPACITY_LAST_LBA && Block == CAPACITY_BLOCK_SIZE) {
+        (PrimaryHeader || (Last == CAPACITY_LAST_LBA && Block == CAPACITY_BLOCK_SIZE))) {
       Result = Good;
     } else if (Status == 2 && BYTE_AT (RESPONSE+6) <= 1 &&
-               (BYTE_AT (RESPONSE+1) & ~0x20U) == 0 && Big32 (RESPONSE+12) <= 8 && Segment >= 16 && Segment <= RESPONSE_BYTES-32 &&
+               (BYTE_AT (RESPONSE+1) & ~0x20U) == 0 && Big32 (RESPONSE+12) <= Bytes && Segment >= 16 && Segment <= RESPONSE_BYTES-32 &&
                BYTE_AT (RESPONSE+32) == 0 && BYTE_AT (RESPONSE+33) >= 14 &&
                BYTE_AT (RESPONSE+33) <= Segment-2 && (BYTE_AT (RESPONSE+34) & 0x7f) == 0x70 &&
                (BYTE_AT (RESPONSE+36) & 15) == 6 && BYTE_AT (RESPONSE+46) == 0x29 &&
@@ -207,20 +227,44 @@ Capacity (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned)
       Returned[I] = Sample[I];
     }
   }
-  if (Result == Bad) GoUfsHeading ("STOP", "CAPACITY");
+  if (Result == Bad) GoUfsHeading ("STOP", PrimaryHeader ? "READ10" : "CAPACITY");
   return Result;
 }
 
 STATIC RESULT
 ReadGeometry (UINTN Data, UINT64 Bus, UINT64 Freq, UINT8 *Returned)
 {
-  RESULT Result = Capacity (Data, Bus, Freq, Returned);
+  RESULT Result = DataIn (Data, Bus, Freq, Returned, FALSE);
   if (Result == Attention) {
-    Result = Capacity (Data, Bus, Freq, Returned);
+    Result = DataIn (Data, Bus, Freq, Returned, FALSE);
     if (Result == Attention) GoUfsHeading ("STOP", "ATTENTION");
   }
   return Result;
 }
+
+#ifdef GO_UFS_GPT_MODEL
+// Only the model SEC exposes this entry. Refuse every other address and CDB.
+BOOLEAN
+GoUfsModelTransfer (UINTN Address, BOOLEAN Sector, UINT64 Freq, BOOLEAN *Held)
+{
+  RESULT Result;
+  *Held = FALSE;
+  if (Sector) {
+    if (Address != GO_LK_HEADER) {
+      return FALSE;
+    }
+    Result = DataIn (Address, Address, Freq, NULL, TRUE);
+  } else {
+    if (Address != CONTROL_DATA && Address != GO_LK_HEADER &&
+        Address != GO_LK_HEADER + GO_LK_HEADER_SIZE - 8) {
+      return FALSE;
+    }
+    Result = ReadGeometry (Address, Address, Freq, NULL);
+  }
+  *Held = Result == Hold;
+  return Result == Good;
+}
+#endif
 
 STATIC UINT64
 StartDataPanel (CONST CHAR8 *MaskLabel)

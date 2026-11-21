@@ -108,7 +108,9 @@ GoUfsLkMap (UINT64 Tr, UINT64 Tm)
   } else if (!IdentityBlock (Data[9], Data[10], LK_HEAP_VA)) {
     GoUfsHeading ("UNKNOWN", "LK MAP");
   } else {
-#ifdef GO_UFS_DATA
+#ifdef GO_UFS_HEADER_BUFFER
+    GoUfsHeaderBuffer ();
+#elif defined (GO_UFS_DATA)
     GoUfsDataControl (Tr, Tm);
 #elif defined (GO_UFS_NOP11)
     GoUfsNop11 (Tr, Tm);
