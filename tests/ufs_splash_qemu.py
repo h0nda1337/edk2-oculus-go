@@ -15,6 +15,7 @@ import zlib
 import tempfile
 
 from logo_disk_qemu import disk
+from pacific_lun import write_lun
 from oculus_logo import STOCK_HASH
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,7 +59,7 @@ def change_entry(path, duplicate):
         f.write(header)
 
 
-def run(splash, output):
+def run(splash, output, pacific_layout=None):
     output.mkdir(parents=True, exist_ok=True)
     report = output / "result.json"
     report.write_text(json.dumps({"status": "IN_PROGRESS"}) + "\n")
@@ -83,16 +84,21 @@ def run(splash, output):
         firmware = Path("/usr/share/AAVMF/AAVMF_CODE.fd")
         result["aavmfSha256"] = digest(firmware)
         events = work / "events"
-        events.write_text("ufs_exec_scsi_cmd\nufs_exec_query_cmd\nscsi_req_build_sense\n")
+        events.write_text("ufs_exec_scsi_cmd\nufs_exec_query_cmd\nscsi_req_build_sense\nscsi_disk_dma_command_READ\n")
         # A second user LUN with no GPT checks enumeration before the true volume.
         blank = work / "blank.raw"
         with blank.open("wb") as f:
             f.truncate(1024 * 1024)
-        for case, lun in [("stock", 4), ("moved", 2), ("sparse", 4), ("wrong-label", 4),
+        cases = [("stock", 4), ("moved", 2), ("sparse", 4), ("wrong-label", 4),
                           ("bad-header-crc", 4), ("bad-entries-crc", 4), ("outside-range", 4),
-                          ("duplicate", 4), ("bad-logo", 4)]:
+                          ("duplicate", 4), ("bad-logo", 4)]
+        positive = {"stock", "moved", "sparse", "pacific"}
+        for case, lun in ([("pacific", 4)] if pacific_layout else cases):
             image = work / "gpt.raw"
-            disk(image, source, "other" if case == "wrong-label" else "splash", sector=SECTOR)
+            if pacific_layout:
+                result["geometry"] = write_lun(image, source, pacific_layout)
+            else:
+                disk(image, source, "other" if case == "wrong-label" else "splash", sector=SECTOR)
             if case == "bad-header-crc":
                 flip(image, SECTOR + 16)
             elif case == "bad-entries-crc":
@@ -129,9 +135,9 @@ def run(splash, output):
             with (output / (case + ".log")).open("wb") as log:
                 subprocess.run(cmd, stdout=log, stderr=subprocess.STDOUT, timeout=100, check=True)
             log = (output / (case + ".log")).read_text(errors="replace")
-            expected = "FOUND 93104DC6" if case in {"stock", "moved", "sparse"} else "ABSENT 00000000"
+            expected = "FOUND 93104DC6" if case in positive else "ABSENT 00000000"
             if "GO-UFS-GOP-CLEAR Success" not in log or (
-                case in {"stock", "moved", "sparse"} and "GO-UFS-GOP-READBACK Success" not in log
+                case in positive and "GO-UFS-GOP-READBACK Success" not in log
             ):
                 raise AssertionError((case, log[-2048:]))
             if ("GO-UFS-RESULT " + expected).lower() not in log.lower():
@@ -148,10 +154,22 @@ def run(splash, output):
                 raise AssertionError((case, commands))
             if before != {p.name: digest(p) for p in (image, blank)}:
                 raise AssertionError("UFS backing digest changed")
-            result["cases"][case] = {"guestResult": expected, "gopPixelReadback": case in {"stock", "moved", "sparse"},
+            result["cases"][case] = {"guestResult": expected, "gopPixelReadback": case in positive,
                 "queryCommands": {f"0x{op:02x}": count for op, count in sorted(query_ops.items())},
                 "stationaryBackingSha256": before,
                 "scsiCommands": {f"LUN{unit}/0x{op:02x}": count for (unit, op), count in sorted(commands.items())}}
+            if pacific_layout:
+                # The SCSI target traces the decoded CDB in logical sector units.
+                reads = [(int(lba), int(n)) for lba, n in re.findall(
+                    r"ufs_exec_scsi_cmd slot \d+, lun 0x4, opcode 0x28\n"
+                    r"scsi_disk_dma_command_READ Read \(sector (\d+), count (\d+)\)", trace_text)]
+                geom = result["geometry"]
+                start, end = geom["firstSplashLba"], geom["lastSplashLbaInclusive"]
+                if (len(reads) != commands[(4, 0x28)] or reads[:3] != [(1, 1), (2, 2), (start, 1)]
+                        or len(reads) < 4 or any(n < 1 or lba < start or lba + n - 1 > end
+                                                  for lba, n in reads[3:])):
+                    raise AssertionError(("Unexpected LUN 4 READ(10) extents", reads))
+                result["cases"][case]["lun4Read10LbaAndCount"] = reads
             print(case, expected, flush=True)
     result["status"] = "PASS"
     report.with_suffix(".tmp").write_text(json.dumps(result, indent=2) + "\n")
@@ -162,5 +180,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("splash", type=Path)
     ap.add_argument("output", type=Path)
+    ap.add_argument("--pacific-layout", type=Path, help="Directory with the private primary GPT and layout.json")
     args = ap.parse_args()
-    run(args.splash, args.output)
+    run(args.splash, args.output, args.pacific_layout)

@@ -3,6 +3,7 @@
   "capturedUtc": "2026-11-21T05:48:11Z",
   "scsiAddress": "0:0:0:4",
   "lun": 4,
+  "lunBytes": 4831838208,
   "blockDevice": "/dev/block/sde34",
   "gptEntry": 34,
   "logicalBlockBytes": 4096,
