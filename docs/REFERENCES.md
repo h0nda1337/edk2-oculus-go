@@ -159,3 +159,10 @@ only. Any binary distribution requires review of the individual package terms.
 La sección *Head Mounted Displays* del estudio experimental con Oculus Go y Quest informa de unos 100° de campo binocular y un LCD de 2560 × 1440 para el Go. DOI 10.3389/frvir.2021.582156, versión publicada en 2021. Confianza alta para la descripción del modelo. La zona legible de este usuario, la distorsión por lente y una conversión de grados a píxeles del GOP siguen sin medir. [Artículo original](https://www.frontiersin.org/journals/virtual-reality/articles/10.3389/frvir.2021.582156/full)
 
 La observación local de la primera Shell sitúa el recorte en la primera columna. La aplicación de prueba anterior permitió leer filas cortas cerca del centro de cada lente con glifos de 16 × 38 píxeles. El modo de consola de 24 × 12 celdas conserva ese tamaño de letra y centra la ventana como hipótesis de trabajo. [Lectura de la aplicación anterior](evidence/dxe-app-transfer-20261120.json) · [Registro de la primera Shell](evidence/shell-transfer-20261120.json)
+
+### Stock Oculus emblem and wide Shell
+
+| Source | Revision or evidence | Contribution | Confidence |
+| --- | --- | --- | --- |
+| [Pacific partition inventory](evidence/partitions.json) and local read-only `splash.img` | SHA-256 `d8ba4434e87f8bfc55f33091c2d78401fcea22a068105942285edb2da6869d4a` | Partition identity, header, image geometry and independent pixel samples for each eye. [Offsets and fingerprints](OCULUS_LOGO.md) | CONFIRMED for this unit's backup |
+| [TianoCore PartitionInfo.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/PartitionInfo.h) and [DiskIo.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/DiskIo.h) | Pinned EDK2 commit `e7aac7fc137e247edad22f7ee53b9a1fba227397` | GPT partition metadata and byte-offset read interface. The BDS reader is original project code. | CONFIRMED interface, physical UFS access pending |

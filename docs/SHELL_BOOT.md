@@ -6,6 +6,10 @@ BDS forma una ruta de archivo con el handle del volumen del que se cargó y el G
 
 El arranque actual puede presentar una pirámide de vidrio en 3D antes de cargar la Shell. [Bienvenida y captura](WELCOME.md)
 
+## Consola panorámica
+
+La nueva imagen arranca en modo 3. En cada ojo, la ventana pasa de 384 × 456 a 650 × 325 píxeles centrados. La superficie aumenta un 20,64 %. Las celdas miden 10 × 25 píxeles y ofrecen 65 columnas por 13 filas. El borde de dos píxeles marca la ventana panorámica de proporción 2:1. Cada glifo conserva las ocho columnas y las diecinueve filas de la máscara original. El modo 2 anterior sigue disponible. Para reproducir un FD antiguo del modo 2, indica `--layout centered` al observador. En el nuevo modo se utiliza `--layout wide`, que es el valor predeterminado. [Lector del logo y posición del emblema](OCULUS_LOGO.md)
+
 ## Memoria y hardware del modelo
 
 El encabezado ARM64 declara 20 MiB a partir de `0x80080000`. La cabecera y el volumen comprimido ocupan los primeros 4 MiB. Los 16 MiB restantes, `[0x80480000, 0x81480000)`, forman parte de los bytes entregados por el cargador. SEC verifica la posición del código y lee dos firmas y el relleno completo antes de escribir la pila. El asignador recibe sólo la zona dentro de la imagen. El framebuffer queda reservado por separado. [Entrada SEC](../OculusGoPkg/PrePi/Entry.S) · [Mapa](../OculusGoPkg/PrePi/Memory.c)
