@@ -1,0 +1,83 @@
+{
+  "outcome": "PASS-QEMU-TRANSLATED-NOP11",
+  "ordinaryLuns": 0,
+  "guestSha256": "b62a679a71e1cd3074393ec995260df199e1d72bcba74b1a89badb3173017250",
+  "pacificWindowDma": "UNKNOWN",
+  "modelIova": "0x88000000",
+  "cpuPa": "0x80440000",
+  "bytes": 16384,
+  "cases": [
+    {
+      "case": "translated",
+      "page": 0,
+      "descriptorDma": "0x88000f00",
+      "cpuResponse": "0x80440f80",
+      "doorbells": 1,
+      "result": "ND",
+      "ocs": 0,
+      "response": "0x1000020",
+      "restored": true,
+      "nopsIncludingSeed": 2
+    },
+    {
+      "case": "translated",
+      "page": 1,
+      "descriptorDma": "0x88001f00",
+      "cpuResponse": "0x80441f80",
+      "doorbells": 1,
+      "result": "ND",
+      "ocs": 0,
+      "response": "0x1000020",
+      "restored": true,
+      "nopsIncludingSeed": 2
+    },
+    {
+      "case": "translated",
+      "page": 2,
+      "descriptorDma": "0x88002f00",
+      "cpuResponse": "0x80442f80",
+      "doorbells": 1,
+      "result": "ND",
+      "ocs": 0,
+      "response": "0x1000020",
+      "restored": true,
+      "nopsIncludingSeed": 2
+    },
+    {
+      "case": "translated",
+      "page": 3,
+      "descriptorDma": "0x88003f00",
+      "cpuResponse": "0x80443f80",
+      "doorbells": 1,
+      "result": "ND",
+      "ocs": 0,
+      "response": "0x1000020",
+      "restored": true,
+      "nopsIncludingSeed": 2
+    },
+    {
+      "case": "wrong-identity",
+      "page": 0,
+      "descriptorDma": "0x80440f00",
+      "cpuResponse": "0x80440f80",
+      "doorbells": 1,
+      "result": "HT",
+      "ocs": null,
+      "response": null,
+      "restored": false,
+      "nopsIncludingSeed": 1
+    },
+    {
+      "case": "missing-map",
+      "page": 0,
+      "descriptorDma": null,
+      "cpuResponse": "0x80440f80",
+      "doorbells": 0,
+      "result": "SD",
+      "ocs": null,
+      "response": null,
+      "restored": false,
+      "nopsIncludingSeed": 1
+    }
+  ]
+}

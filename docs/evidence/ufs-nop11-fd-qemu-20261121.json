@@ -1,0 +1,101 @@
+{
+  "outcome": "PASS-QEMU-FD-NOP11",
+  "fdSha256": "de576f5ca9e33e6405c444aded8682f3dbcc626a5ad51359a96d586eedd5268b",
+  "physicalWindowDma": "UNKNOWN",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "ordinaryLuns": 0,
+  "scsiCommands": 0,
+  "queryCommands": 0,
+  "cases": [
+    {
+      "el": 1,
+      "case": "nop",
+      "state": "NOP IN",
+      "label": "DONE",
+      "guestDoorbells": 1,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 1,
+      "case": "bad-tag",
+      "state": "BAD",
+      "label": "RESPONSE",
+      "guestDoorbells": 1,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 1,
+      "case": "software-busy",
+      "state": "STOP",
+      "label": "STATE",
+      "guestDoorbells": 0,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 1,
+      "case": "empty-prior",
+      "state": "STOP",
+      "label": "NO PRIOR OCS",
+      "guestDoorbells": 0,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 1,
+      "case": "different-cpu-map",
+      "state": "UNKNOWN",
+      "label": "FD MAP",
+      "guestDoorbells": 0,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 2,
+      "case": "nop",
+      "state": "NOP IN",
+      "label": "DONE",
+      "guestDoorbells": 1,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 2,
+      "case": "bad-tag",
+      "state": "BAD",
+      "label": "RESPONSE",
+      "guestDoorbells": 1,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 2,
+      "case": "software-busy",
+      "state": "STOP",
+      "label": "STATE",
+      "guestDoorbells": 0,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 2,
+      "case": "empty-prior",
+      "state": "STOP",
+      "label": "NO PRIOR OCS",
+      "guestDoorbells": 0,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    },
+    {
+      "el": 2,
+      "case": "different-cpu-map",
+      "state": "UNKNOWN",
+      "label": "FD MAP",
+      "guestDoorbells": 0,
+      "lkPageRestored": true,
+      "fdWindowUnchanged": true
+    }
+  ]
+}
