@@ -1,0 +1,10 @@
+{
+  "backend": "read-only virtio-blk PCI, GPT, EDK2 Disk I/O",
+  "splashSha256": "d8ba4434e87f8bfc55f33091c2d78401fcea22a068105942285edb2da6869d4a",
+  "readerSha256": "1bf4b1cb5cbfc19ac18e0776515288a96cfa76df27ddbe114ba623681284d189",
+  "edk2TestFirmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3",
+  "cases": {
+    "splash": "PASS",
+    "other": "MISSING"
+  }
+}
