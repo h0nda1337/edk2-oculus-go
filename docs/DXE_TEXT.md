@@ -39,7 +39,7 @@ El recorte muestra 112 × 76 píxeles de un ojo en coordenadas de lectura. El se
 
 ## Observación física del 20 de noviembre
 
-La revisión local se puede repetir con `python tools/run_dxe_text_once.py` desde la raíz del proyecto. Ese modo compara el contenedor, el FD, los informes, los dos PNG y las fuentes con el manifiesto. [Manifiesto de la prueba temporal](evidence/dxe-text-review-20261120.json)
+La imagen histórica y su verificador corresponden a la revisión `0dde2c3`. En ese checkout la revisión local se repite con `python tools/run_dxe_text_once.py` desde la raíz. El nuevo candidato tiene su propio manifiesto. [Corrección de orientación](DXE_TEXT_UPRIGHT.md) Ese modo compara el contenedor, el FD, los informes, los dos PNG y las fuentes con el manifiesto. [Manifiesto de la prueba temporal](evidence/dxe-text-review-20261120.json)
 
 El gestor original de Pacific aceptó la imagen en RAM con Secure Boot activo. El operador vio el patrón azul, rojo, amarillo, rojo y azul y reconoció texto invertido al ponerse el visor en su posición habitual. Al girarlo pudo leer ambas líneas completas: «EDK2 GO» en blanco y «UEFI 42» en azul según su percepción. El programa solicitó `EFI_LIGHTCYAN` para la segunda línea. Esta lectura demuestra que la consola UEFI dibujó caracteres reconocibles en el Go. [Registro de la prueba física](evidence/dxe-text-transfer-20261120.json)
 

@@ -1,6 +1,6 @@
 # Next steps
 
-**Siguiente paso hacia la Shell.** El operador leyó las dos líneas de `DXE_TEXT` al girar el Go. Corregir la orientación por ojo, probar en QEMU con un patrón asimétrico que distinga las cuatro esquinas y después verificar que ambas líneas se leen con el visor puesto normalmente. [Observación física](evidence/dxe-text-transfer-20261120.json) · [Consola en QEMU](DXE_TEXT.md)
+**Siguiente paso hacia la Shell.** El operador leyó las dos líneas de `DXE_TEXT` al girar el Go. El candidato corregido gira la cuadrícula dentro de cada ojo. Probarlo con el visor puesto normalmente y comprobar las dos líneas, los cuatro números y la orientación en cada ojo. [Candidato de orientación](DXE_TEXT_UPRIGHT.md) [Observación física](evidence/dxe-text-transfer-20261120.json) · [Consola en QEMU](DXE_TEXT.md)
 
 Para llegar al prompt, queda integrar la selección de consola en el arranque normal y lanzar la Shell ARM64 desde el volumen con los servicios de carga de imágenes. Para probar comandos hará falta además una fuente de entrada que publique `ConIn`.
 
