@@ -53,7 +53,8 @@ def unique(items):
     return items[0]
 
 
-def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False, debug_image=False, driver_pe=None, gop_pe=None):
+def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False, debug_image=False, driver_pe=None, gop_pe=None, text=False):
+    require(not text or gop_pe is not None, 'Text console requires the GOP profile')
     dispatch = driver_pe is not None
     require(gop_pe is None or dispatch, 'GOP requires DevicePathDxe')
     debug_image = debug_image or dispatch
@@ -107,15 +108,15 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
     require(pe[:2] == b'MZ' and pe[nt:nt+4] == b'PE\0\0' and machine == 0xaa64 and
             struct.unpack_from('<H',pe,opt)[0] == 0x20b and struct.unpack_from('<H',pe,opt+68)[0] == 11,
             'Unexpected DXE PE')
-    text = []
+    executable_sections = []
     for i in range(count):
         pos = opt+opt_size+i*40
         vsize,rva,raw = struct.unpack_from('<III',pe,pos+8)
         flags, = struct.unpack_from('<I',pe,pos+36)
         if flags & 0x20000000:
             require(not flags & 0x80000000 and rva % 4096 == 0, 'Writable or unaligned executable section')
-            text.append((rva,align(rva+max(vsize,raw),4096)))
-    start,end = unique(text)
+            executable_sections.append((rva,align(rva+max(vsize,raw),4096)))
+    start,end = unique(executable_sections)
     core_names = symbols(dxe_elf)
     checkpoints = ('TrialDxeRejected','TrialDxeComplete')
     if memory or gcd:
@@ -143,6 +144,8 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
                     'TrialInitializeDebugPage', '__wrap_CoreNewDebugImageInfoEntry', 'CoreNewDebugImageInfoEntry',
                     'TrialCheckDebugPage', 'TrialDebugRejected')
                 checkpoints += ('CoreDispatcher','__wrap_CoreDispatcher','__wrap_CoreStartImage',('TrialGopComplete' if gop_pe else 'TrialDispatchComplete'),'TrialDispatchRejected') if dispatch else ('TrialDebugComplete',)
+                if text:
+                    checkpoints += ('TrialTextOutput', 'TrialTextComplete', 'TrialTextErrorVisible')
                 page = 0x80400000
                 offset = page - BASE
                 require(page % (4 << 20) == 0 and LIMIT < page-4096 and offset+8192 < 0x3be000
@@ -174,7 +177,7 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
     branch = bias+sec_names['TrialDxeBranch']-BASE
     require(fd[branch:branch+4] == bytes.fromhex('00023fd6') and not any(n in sec_names for n in checkpoints),
             'Missing SEC indirect handoff or duplicated DXE checkpoint')
-    return {**extra,'result':'PASS-STATIC-DXE-GOP' if gop_pe else 'PASS-STATIC-DXE-DISPATCH' if dispatch else 'PASS-STATIC-DXE-DEBUG' if debug_image else 'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
+    return {**extra,'result':'PASS-STATIC-DXE-TEXT' if text else 'PASS-STATIC-DXE-GOP' if gop_pe else 'PASS-STATIC-DXE-DISPATCH' if dispatch else 'PASS-STATIC-DXE-DEBUG' if debug_image else 'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
             'peSha256':digest(pe),'secElfSha256':digest(sec_elf.read_bytes()),'coreElfSha256':digest(dxe_elf.read_bytes()),
             'innerFvBytes':len(fv),'peImageBytes':size,'entryRva':entry,'textRva':[start,end],
             'coreGuid':str(CORE),'lzmaBytes':len(data)}
@@ -184,6 +187,7 @@ def arguments():
     parser=argparse.ArgumentParser(description=__doc__)
     for k in ('fd','fv','pe','sec-elf','dxe-elf','report'):
         parser.add_argument('--'+k,type=Path,required=True)
+    parser.add_argument('--text', action='store_true', help='Verify the headset text console profile')
     parser.add_argument('--gop-pe', type=Path, help='Also verify the second driver and its protocol dependency')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--driver-pe',type=Path,help='Verify first DXE dispatch against this DevicePathDxe PE')
@@ -196,6 +200,6 @@ def arguments():
 
 if __name__ == '__main__':
     a=arguments()
-    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe,a.gop_pe)
+    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe,a.gop_pe,a.text)
     a.report.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result))

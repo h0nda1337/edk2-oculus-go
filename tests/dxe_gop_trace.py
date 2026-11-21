@@ -85,9 +85,18 @@ def observe_driver(g, read, write, stop, screen, arrive, returned, evidence, cas
     require(read(g.register(1),16)==GOP.bytes_le and read(g.register(3),16)==PATH.bytes_le and
             read(g.register(4),24)==bytes.fromhex('01041400')+FILE.bytes_le+bytes.fromhex('7fff0400'),
             'GOP and its vendor device path not installed together')
+    if 'TextOutputString' in driver:
+        from dxe_text_trace import observe_install
+        display_out = g.register(0)
+        observe_install(g,read,evidence,case,address,driver)
     interface = g.register(2)
     query,_,blt,_ = struct.unpack('<4Q',read(interface,32))
     require(query==address+driver['QueryMode'] and blt==address+driver['Blt'],'GOP methods are not from second image')
+    if 'TextOutputString' in driver:
+        returned('install driver interfaces')
+        display_handle = word(read,display_out)
+        require(display_handle != 0 and display_handle != handle,'GOP installed on wrong handle')
+        evidence['displayHandle'] = hex(display_handle)
     stop(resume,'GOP StartImage returned')
     require(g.register(0)==0,'GOP failed to start')
     stop(query,'GOP QueryMode')
@@ -130,4 +139,7 @@ def observe_driver(g, read, write, stop, screen, arrive, returned, evidence, cas
     arrive('TrialGopComplete')
     screen('gop-blt')
     evidence['rawBgrRow'] = [read(FB_BASE+BAND_ROWS[0]*STRIDE+3*288*i,3).hex() for i in range(5)]
+    if 'TextOutputString' in driver:
+        from dxe_text_trace import observe_console
+        return observe_console(g, read, stop, arrive, evidence, case, address, driver)
     return 'TrialGopComplete','gop-blt',evidence

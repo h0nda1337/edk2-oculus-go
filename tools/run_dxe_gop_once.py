@@ -24,7 +24,12 @@ OUTCOMES = {**{k:('TrialGopComplete','gop-blt') for k in POSITIVE},
 
 
 def validate_reports(model, static, digest):
-    validate_dispatch_cases(model,static,digest,'DXE-GOP',OUTCOMES)
+    validate_gop_cases(model,static,digest,'DXE-GOP',{})
+
+
+def validate_gop_cases(model,static,digest,profile,later):
+    outcomes = {**OUTCOMES, **later}
+    validate_dispatch_cases(model,static,digest,profile,outcomes)
     require(model['gopGuid']==static['gopGuid']=='8cd15dc8-f091-4917-b779-342c1e0aa2de' and
             model['gopPeSha256']==static['gopPeSha256'] and re.fullmatch('[0-9a-f]{64}',static['gopPeSha256']),
             'Unexpected second FV image')
@@ -32,7 +37,7 @@ def validate_reports(model, static, digest):
         case = row['case']
         if 'dependencySatisfied' in row:
             require(row['gopWaitedForUtilities'] is True, 'GOP should initially wait')
-        if case not in OUTCOMES:
+        if case not in outcomes:
             require('gopImageBase' not in row, 'GOP loaded before the first driver passed')
             continue
         require(row['gopDependencySatisfied'] is (case!='gop-depex'), 'Wrong second DEPEX result')
@@ -54,7 +59,7 @@ def validate_reports(model, static, digest):
                 and row['gopStarted'] is True and address<=int(row['gopInterface'],16)<end, 'Invalid live GOP')
         count = {'gop-readback':4, 'gop-fill-status':23}.get(case,24)
         require(row['bltCalls']==count,'Wrong number of observed GOP calls')
-        if case in POSITIVE:
+        if case in POSITIVE or case in later:
             require(row['rawBgrRow']==['ff0000','0000ff','00ffff','0000ff','ff0000'],'Unexpected physical BGR bytes')
         else:
             require('rawBgrRow' not in row,'Success pattern after rejection')

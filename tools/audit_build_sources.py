@@ -71,6 +71,8 @@ def main():
             if path.relative_to(root / 'edk2').as_posix() not in tracked:
                 rejected.append(str(path))
                 continue
+        elif path == root / 'OculusGoPkg/Include/third-party/edk2/ConsoleFont.h':
+            origin = 'adapted-edk2-font'
         elif path.is_relative_to(root / 'OculusGoPkg'):
             origin = 'original-project'
         elif path.is_relative_to(build):
@@ -92,7 +94,7 @@ def main():
     host_path(args.output).write_text(json.dumps(result, indent=2) + '\n',
                                      encoding='utf-8', newline='\n')
     counts = {kind: sum(r['origin'] == kind for r in records)
-              for kind in ('original-project', 'upstream-edk2', 'edk2-generated')}
+              for kind in ('original-project', 'upstream-edk2', 'edk2-generated', 'adapted-edk2-font')}
     print(json.dumps({'result': result['result'], 'counts': counts,
         'dependencyLists': len(lists), 'rejected': rejected}, indent=2))
     if rejected:

@@ -36,7 +36,7 @@ def verify_terminal_inputs(root, review, *, scope, build_prefix, sec_sources, re
     require(audit['result'] == 'PASS' and audit['rejected'] == [] and audit['upstreamTreeClean'] is True
             and audit['upstreamInputsTracked'] is True and
             audit['edk2'] == json.loads((root/'sources.lock.json').read_bytes())['edk2'], 'Source audit failed')
-    originals = [r for r in audit['files'] if r['origin'] == 'original-project']
+    originals = [r for r in audit['files'] if r['origin'] in ('original-project','adapted-edk2-font')]
     require({r['file'] for r in originals} == sec_sources, 'Unexpected platform code in SEC')
     require({r['file'] for r in review['checkedSourceFiles']} == required, 'Reviewed inputs incomplete')
     for row in [*originals, *review['checkedSourceFiles']]:

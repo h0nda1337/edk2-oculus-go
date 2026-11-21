@@ -25,6 +25,7 @@ PY
 profile=()
 case "$(basename "$out")" in
   DEBUG-SEC_DXE-*) dir=Build/OculusGoSecDxe/DEBUG_GCC5 ;;
+  DEBUG-DXE_TEXT-*) dir=Build/OculusGoDxeText/DEBUG_GCC5; profile=(--text --driver-pe "$dir/AARCH64/DevicePathDxe.efi" --gop-pe "$dir/AARCH64/InheritedGopDxe.efi") ;;
   DEBUG-DXE_GOP-*) dir=Build/OculusGoDxeGop/DEBUG_GCC5; profile=(--driver-pe "$dir/AARCH64/DevicePathDxe.efi" --gop-pe "$dir/AARCH64/InheritedGopDxe.efi") ;;
   DEBUG-DXE_DISPATCH-*) dir=Build/OculusGoDxeDispatch/DEBUG_GCC5; profile=(--driver-pe "$dir/AARCH64/DevicePathDxe.efi") ;;
   DEBUG-DXE_DEBUG-*) dir=Build/OculusGoDxeDebug/DEBUG_GCC5; profile=(--debug-image) ;;
@@ -37,14 +38,19 @@ args=("${profile[@]}" --fd "$out/container-extracted.fd" --fv "$dir/FV/FVTRIALDX
       --pe "$dir/AARCH64/DxeCore.efi" --sec-elf "$dir/AARCH64/OculusGoSecDxe.debug"
       --dxe-elf "$dir/AARCH64/DxeCore.debug")
 trial_reports=$(mktemp -d)
-trap 'rm -f -- "$trial_reports/STATIC.json" "$trial_reports/QEMU.json"; rmdir -- "$trial_reports"' EXIT
+reports=(STATIC.json QEMU.json)
+if [[ $(basename "$out") == DEBUG-DXE_TEXT-* ]]; then
+  export DXE_TEXT_CAPTURE="$trial_reports"
+  reports+=(eye-el1.png eye-el2.png)
+fi
+trap 'for report in "${reports[@]}"; do rm -f -- "$trial_reports/$report"; done; rmdir -- "$trial_reports"' EXIT
 python3 tests/sec_dxe_static.py "${args[@]}" --report "$trial_reports/STATIC.json"
 python3 tests/sec_dxe_qemu.py "${args[@]}" --report "$trial_reports/QEMU.json"
-for name in STATIC.json QEMU.json; do
+for name in "${reports[@]}"; do
   if [[ -e "$out/$name" ]]; then
     cmp -- "$out/$name" "$trial_reports/$name"
   fi
 done
-for name in STATIC.json QEMU.json; do
+for name in "${reports[@]}"; do
   [[ -e "$out/$name" ]] || cp -- "$trial_reports/$name" "$out/$name"
 done
