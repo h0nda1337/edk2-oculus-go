@@ -283,6 +283,8 @@
   OculusGoPkg/SecMem/UfsQueues.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsLkMap
   OculusGoPkg/SecMem/UfsLkMap.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsData
+  OculusGoPkg/SecMem/UfsData.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsNop11
   OculusGoPkg/SecMem/UfsNop11.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff

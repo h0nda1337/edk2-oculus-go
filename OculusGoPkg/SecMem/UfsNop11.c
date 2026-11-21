@@ -51,6 +51,10 @@ CompletedSlotZero (CONST UINT32 *Saved)
          Saved[5] == 0 && (Saved[6] & 0xffff) != 0 && (Saved[6] >> 16) >= 8;
 }
 
+#ifdef GO_UFS_DATA
+BOOLEAN GoUfsLkIdle (VOID) { return Idle (); }
+BOOLEAN GoUfsLkPrior (CONST UINT32 *Descriptor) { return CompletedSlotZero (Descriptor); }
+#else
 STATIC VOID
 CopyWords (volatile UINT32 *Dest, volatile CONST UINT32 *Src, UINTN Count)
 {
@@ -223,3 +227,4 @@ GoUfsModelWindowNop (UINT64 BusBase, UINTN Bytes, UINTN Page)
   Exchange ((volatile UINT32 *)(UINTN)(GO_QUEUE_WINDOW_START + Offset), BusBase + Offset, TRUE);
 }
 #endif
+#endif // GO_UFS_DATA
