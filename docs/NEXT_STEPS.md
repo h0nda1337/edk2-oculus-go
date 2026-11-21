@@ -2,7 +2,7 @@
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 
-BDS selecciona ahora la consola del Go y lanza la Shell ARM64 desde el volumen. El primer arranque físico mostró `hell>` por el ojo izquierdo y parte de la consola por el derecho. La siguiente prueba debe comprobar que se leen la S inicial y el signo > en ambas lentes. Para introducir comandos habrá que conectar una fuente de teclas a la entrada de ConSplitter. [Arranque normal y prueba visual](SHELL_BOOT.md)
+BDS selecciona ahora la consola del Go y lanza la Shell ARM64 desde el volumen. El primer arranque físico mostró `hell>` por el ojo izquierdo y parte de la consola por el derecho. El candidato de 24 × 12 celdas ya dibuja el prompt a media altura en QEMU. La siguiente prueba física debe comprobar que se leen la S inicial y el signo > en ambas lentes. Para introducir comandos habrá que conectar una fuente de teclas a la entrada de ConSplitter. [Arranque normal y prueba visual](SHELL_BOOT.md)
 
 **M2 is complete.** The stock loader accepted the reviewed temporary image
 with both security indicators active. The owner saw the SEC pattern, Android

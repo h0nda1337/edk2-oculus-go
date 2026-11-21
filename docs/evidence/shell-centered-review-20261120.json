@@ -1,0 +1,73 @@
+{
+  "scope": "pacific-centered-shell",
+  "decision": "ONE-ATTENDED-TEMPORARY-BOOT",
+  "maxAttempts": 1,
+  "dateMexicoCity": "2026-11-20",
+  "platformRevision": "9ae1b320c17d34c8b13c40c275dc78eea78e3a86",
+  "physicalShellExecution": "UNKNOWN",
+  "fd": {
+    "file": "build/DEBUG-NORMAL-20261121-021730/OCULUS_GO_DIRECT.fd",
+    "size": 20971520,
+    "sha256": "fc01ed1ae08361a4153777009c454496fbdbf23c1b7190d0ffd2d819dc46819d"
+  },
+  "image": {
+    "file": "local/OculusGo-SHELL-CENTERED-fc01ed1ae083.img",
+    "size": 684032,
+    "sha256": "8e4d3b7851fd6d3afb301e7da8dbf33e9f359240ba12c116cb78b3653356fbd6"
+  },
+  "model": {
+    "1": {
+      "file": "docs/evidence/shell-centered-qemu-el1-20261120.json",
+      "size": 2662,
+      "sha256": "f3e90cb02e9a7b62ef46688c7221d009dcd5f13e938c35c017677cbd21d7882e"
+    },
+    "2": {
+      "file": "docs/evidence/shell-centered-qemu-el2-20261120.json",
+      "size": 2661,
+      "sha256": "e6528398452f3b6649dd921df7c80cb3222614e31418c0575552421cd47024bd"
+    }
+  },
+  "modelFdSha256": "99642716ae3bd703f7b43e574182d038dcde9d240a676a6f54a09c8172822409",
+  "pacificPrompt": {
+    "file": "docs/evidence/shell-centered-pacific-el1-20261120.json",
+    "size": 2732,
+    "sha256": "bcf311caf81abea8b773d50ef11f2965e42911e31c2254996164ef2180a21890"
+  },
+  "physicalStatic": {
+    "file": "docs/evidence/shell-centered-pacific-static-20261120.json",
+    "size": 1728,
+    "sha256": "801b7f6e24e8217e74ecb49c92f634eec4672e33adb635d0ea3ef785e9a15685"
+  },
+  "arena": {
+    "file": "docs/evidence/shell-centered-pacific-arena-20261120.json",
+    "size": 1812,
+    "sha256": "ca92e28aa178ab1582297c94f2ece5872228b08a7e4833697d781d7333f05f41"
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-NORMAL-20261121-021730/SOURCES.json",
+    "size": 195145,
+    "sha256": "5bb59c60ab248f86f3bef4bc2364742feb0ce71dd98738bf5362d3b3477f5e00"
+  },
+  "modelSourceAudit": {
+    "file": "build/DEBUG-SHELL_QEMU-20261121-022149/SOURCES.json",
+    "size": 199278,
+    "sha256": "0b2f1906972a21b4fb90cef110e5a9ab2621aaa896462b7cecbf28a992e26a80"
+  },
+  "priorReadback": {
+    "file": "local/readonly-preflight-20261121-021901/REPORT.json",
+    "size": 7739,
+    "sha256": "1785fd97da767a0d21a3fdcb8ebea98e2a264cb4f67082e70f2e7d6ffb72b2f2"
+  },
+  "packedKernelSpan": [
+    "0x80080000",
+    "0x81480000"
+  ],
+  "allocatorSpan": [
+    "0x80480000",
+    "0x81480000"
+  ],
+  "physicalImageSource": "NORMAL",
+  "variableStore": "RAM only",
+  "transfer": "attended fastboot boot",
+  "operatorReturn": "stock Power and USB Update Mode recovery, then four fresh readbacks"
+}

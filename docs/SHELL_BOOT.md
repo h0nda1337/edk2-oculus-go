@@ -36,7 +36,7 @@ python3 tests/shell_arena_qemu.py "$normal/OCULUS_GO_DIRECT.fd" \
 
 El observador extrae el PE de la aplicación del volumen comprimido y lo compara con el compilado. Deja correr la CPU desde el encabezado. QMP lee el framebuffer del invitado, compara las dos mitades completas y decodifica las letras en su orientación de lectura. Dos capturas sucesivas deben coincidir después de que aparezcan el banner y el prompt.
 
-La captura muestra el área de texto de un ojo reducida a la mitad. La Shell sitúa el prompt en la primera columna. La prueba física anterior confirmó los caracteres cerca del centro de cada lente. La lectura de esta primera columna queda para la prueba del visor.
+La primera captura histórica muestra el área de texto de un ojo reducida a la mitad. Para reproducir ese primer FD con el observador actual, pasa `--layout legacy`. La Shell sitúa el prompt en la primera columna. La prueba física anterior confirmó los caracteres cerca del centro de cada lente. La lectura de esta primera columna queda para la prueba del visor.
 
 ## Resultado del 20 de noviembre
 
@@ -54,3 +54,13 @@ La entrada de SEC se comprobó en el FD exacto de Pacific en EL1 y EL2. En los d
 | Candidato para arranque temporal | [Manifiesto y hashes](evidence/shell-review-20261120.json) |
 
 El contenedor Android ocupa 684 032 bytes y su SHA-256 es `3016d03871843546abef8c0ce35b14a4ca136556cc6879f0eb78e6b03362b6d7`. Se conserva localmente con el DTB EVT. Para verificarlo en el equipo de compilación se ejecuta `python tools/run_shell_once.py` sin argumentos. Fastboot aceptó esta imagen en el Go con Secure Boot activo. El operador leyó `hell>` en el ojo izquierdo y distinguió parte de la consola en el derecho. La primera letra quedó fuera de su visión. El visor volvió a Android en la ranura A. Las cuatro particiones de arranque coincidieron con los respaldos y con su lectura anterior. [Registro físico](evidence/shell-transfer-20261120.json). [Recuperación comprobada](RECOVERY.md)
+
+## Corrección para leer la primera columna
+
+El primer modo colocaba el rectángulo de `Shell>` en `(0, 435)` en cada vista de 1280 × 1440. El visor confirmó que el borde izquierdo corta la primera letra. El nuevo modo 2 ofrece 24 columnas y 12 filas de 16 × 38 píxeles. BDS lo selecciona antes de entregar la consola a la Shell. Las líneas largas se ajustan al ancho anunciado por `QueryMode` y el desplazamiento vertical opera dentro de la ventana. El modo estándar 0 de 80 × 25 sigue disponible para las aplicaciones que lo seleccionen. [Implementación](../OculusGoPkg/Drivers/InheritedGopDxe/TextConsole.c) · [Investigación óptica](REFERENCES.md#campo-de-visión-y-lectura-de-la-shell-en-el-go)
+
+En coordenadas por ojo con el visor puesto, la ventana comienza en `(448, 492)` y ocupa 384 × 456 píxeles. El prompt comienza en `(448, 720)` y sus seis celdas ocupan 96 × 38 píxeles. La prueba en QEMU decodifica los glifos del framebuffer, compara las vistas completas y verifica el margen negro. La captura de abajo abarca un ojo completo a mitad de resolución. La próxima observación física debe indicar si la S inicial y el signo > se leen completos con cada lente y si el banner está cortado.
+
+![Vista completa de un ojo, con la ventana de texto centrada y el prompt a media altura](evidence/shell-centered-eye-20261120.png)
+
+La imagen local para el siguiente arranque temporal tiene SHA-256 `8e4d3b7851fd6d3afb301e7da8dbf33e9f359240ba12c116cb78b3653356fbd6`. La comprobación offline es `python tools/run_centered_shell_once.py`. La sesión anterior conserva su propio registro de intento consumido. [Evidencia del FD de Pacific](evidence/shell-centered-pacific-el1-20261120.json) · [Revisión de la imagen centrada](evidence/shell-centered-review-20261120.json)

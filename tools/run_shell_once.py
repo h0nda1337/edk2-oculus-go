@@ -19,9 +19,9 @@ LEDGER = "local/physical-attempts/normal-shell-20261120.json"
 PREVIOUS = "docs/evidence/dxe-app-transfer-20261120.json"
 
 
-def reviewed_inputs(root, review):
+def reviewed_inputs(root, review, *, scope="pacific-normal-shell", previous=PREVIOUS):
     require(
-        review["scope"] == "pacific-normal-shell"
+        review["scope"] == scope
         and review["decision"] == "ONE-ATTENDED-TEMPORARY-BOOT"
         and review["maxAttempts"] == 1,
         "Unexpected physical trial",
@@ -101,6 +101,9 @@ def reviewed_inputs(root, review):
         and "Shell>" in prompt["screenRows"],
         "The model did not show the Shell prompt with the packaged device FD",
     )
+    centered = scope == "pacific-centered-shell"
+    if centered:
+        require_centered_prompt(prompt)
     for el in (1, 2):
         _, raw = checked_file(root, review["model"][str(el)], ("docs",))
         run = json.loads(raw)
@@ -111,12 +114,27 @@ def reviewed_inputs(root, review):
             and run["fdSha256"] == review["modelFdSha256"],
             "Missing QEMU prompt evidence",
         )
+        if centered:
+            require_centered_prompt(run)
+            require(run["eyePngSha256"] == prompt["eyePngSha256"], "Different centered console render")
     _, raw = checked_file(root, review["priorReadback"], ("local",))
-    previous = json.loads((root / PREVIOUS).read_bytes())
-    require(sha(raw) == previous["recovery"]["reportSha256"], "Prior device recovery differs")
+    previous_record = json.loads((root / previous).read_bytes())
+    require(sha(raw) == previous_record["recovery"]["reportSha256"], "Prior device recovery differs")
     unit = json.loads(raw)["serial"]
     require(re.fullmatch("[A-Za-z0-9]+", unit), "Unexpected unit identity")
     return image_path, unit
+
+
+def require_centered_prompt(run):
+    geometry = run["eyeGeometry"]
+    x, y, width, height = geometry["promptCellBoundsXYWH"]
+    require(
+        geometry["perEyeDimensions"] == [1280, 1440]
+        and geometry["viewportXYWH"] == [448, 492, 384, 456]
+        and (x, width, height) == (448, 96, 38)
+        and 570 <= y <= 832,
+        "Prompt outside the reviewed central viewport",
+    )
 
 
 def measure(root, image, tool, serial, preflight, report, output):

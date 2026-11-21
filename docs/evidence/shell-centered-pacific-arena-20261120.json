@@ -1,0 +1,89 @@
+{
+  "fdSha256": "fc01ed1ae08361a4153777009c454496fbdbf23c1b7190d0ffd2d819dc46819d",
+  "cases": [
+    {
+      "el": 1,
+      "case": "clean",
+      "stoppedAt": "ArmEnableVFP",
+      "pc": "0x800894a4",
+      "sp": "0x8147ffa0"
+    },
+    {
+      "el": 1,
+      "case": "first-marker",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 1,
+      "case": "middle",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 1,
+      "case": "last-marker",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 1,
+      "case": "last-word",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 1,
+      "case": "overlapping-dtb",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 2,
+      "case": "clean",
+      "stoppedAt": "ArmEnableVFP",
+      "pc": "0x800894a4",
+      "sp": "0x8147ffa0"
+    },
+    {
+      "el": 2,
+      "case": "first-marker",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 2,
+      "case": "middle",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 2,
+      "case": "last-marker",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 2,
+      "case": "last-word",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    },
+    {
+      "el": 2,
+      "case": "overlapping-dtb",
+      "stoppedAt": "EntryRejected",
+      "pc": "0x80088168",
+      "sp": "0x90010000"
+    }
+  ]
+}
