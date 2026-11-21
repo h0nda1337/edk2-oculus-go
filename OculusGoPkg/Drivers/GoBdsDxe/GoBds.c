@@ -63,6 +63,8 @@ BootShell (VOID)
   EFI_LOADED_IMAGE_PROTOCOL *Parent;
   EFI_HANDLE Child = NULL;
   MEDIA_FW_VOL_FILEPATH_DEVICE_PATH Node;
+  GO_OCULUS_LOGO Logo;
+  BOOLEAN HasLogo = FixedPcdGetBool (PcdGoWelcomeEnabled) && GoReadOculusLogo (&Logo);
   EFI_STATUS Status = SelectDisplay ();
   if (EFI_ERROR (Status) || gST->ConIn == NULL || gST->ConsoleInHandle == NULL) {
     return EFI_ERROR (Status) ? Status : EFI_NOT_READY;
@@ -85,9 +87,13 @@ BootShell (VOID)
     EFI_STATUS Intro = gBS->HandleProtocol (gST->ConsoleOutHandle,
                                              &gEfiGraphicsOutputProtocolGuid, (VOID **)&Gop);
     if (!EFI_ERROR (Intro)) {
-      Intro = GoPlayWelcome (Gop);
+      Intro = GoPlayWelcome (Gop, HasLogo ? &Logo : NULL);
       // The whole intro tile lies inside the active text viewport.
       gST->ConOut->ClearScreen (gST->ConOut);
+      if (HasLogo) {
+        EFI_STATUS Badge = GoShowShellLogo (Gop, &Logo);
+        DEBUG ((DEBUG_INFO, "Go BDS: Shell emblem returned %r\n", Badge));
+      }
     }
     DEBUG ((DEBUG_INFO, "Go BDS: welcome scene returned %r\n", Intro));
   }

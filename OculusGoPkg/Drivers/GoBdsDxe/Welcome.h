@@ -3,9 +3,12 @@
 #ifndef GO_WELCOME_H_
 #define GO_WELCOME_H_
 
-#include <Protocol/GraphicsOutput.h>
+#include "OculusLogo.h"
 
 EFI_STATUS
-GoPlayWelcome (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop);
+GoPlayWelcome (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop, CONST GO_OCULUS_LOGO *Logo);
+
+EFI_STATUS
+GoShowShellLogo (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop, CONST GO_OCULUS_LOGO *Logo);
 
 #endif

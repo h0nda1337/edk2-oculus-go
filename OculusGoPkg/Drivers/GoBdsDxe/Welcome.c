@@ -298,8 +298,42 @@ DrawWelcome (PIXEL *Tile, INT32 Time)
   }
 }
 
+// Scanout columns run from bottom to top in worn orientation.
+STATIC VOID
+PaintLogo (PIXEL *BottomLeft, UINTN Stride, CONST GO_OCULUS_LOGO *Logo, INT32 Light)
+{
+  for (UINTN X = 0; X < GO_LOGO_WIDTH; ++X) {
+    for (UINTN Y = 0; Y < GO_LOGO_HEIGHT; ++Y) {
+      UINT8 V = (UINT8)(Logo->Luma[Y][X] * Light / 1024);
+      if (V != 0) {
+        BottomLeft[X * Stride + GO_LOGO_HEIGHT - 1 - Y] = (PIXEL){ V, V, V, 0 };
+      }
+    }
+  }
+}
+
 EFI_STATUS
-GoPlayWelcome (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop)
+GoShowShellLogo (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop, CONST GO_OCULUS_LOGO *Logo)
+{
+  // The centered console ends at worn y=948. Leave a 12-pixel black gutter.
+  CONST UINTN Top = 960;
+  PIXEL *Badge = AllocateZeroPool (GO_LOGO_WIDTH * GO_LOGO_HEIGHT * sizeof (*Badge));
+  if (Badge == NULL) {
+    return EFI_OUT_OF_RESOURCES;
+  }
+  PaintLogo (Badge, GO_LOGO_HEIGHT, Logo, 1024);
+  EFI_STATUS Status = EFI_SUCCESS;
+  for (UINTN Eye = 0; Eye < 2 && !EFI_ERROR (Status); ++Eye) {
+    Status = Gop->Blt (Gop, Badge, EfiBltBufferToVideo, 0, 0, GO_FB_WIDTH - Top - GO_LOGO_HEIGHT,
+                       Eye * (GO_FB_HEIGHT/2) + (GO_FB_HEIGHT/2 - GO_LOGO_WIDTH)/2,
+                       GO_LOGO_HEIGHT, GO_LOGO_WIDTH, 0);
+  }
+  FreePool (Badge);
+  return Status;
+}
+
+EFI_STATUS
+GoPlayWelcome (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop, CONST GO_OCULUS_LOGO *Logo)
 {
   if (Gop == NULL || Gop->Mode == NULL || Gop->Mode->Info == NULL ||
       Gop->Mode->Info->HorizontalResolution != GO_FB_WIDTH ||
@@ -327,7 +361,12 @@ GoPlayWelcome (EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop)
       INT32 EyeOffset = Eye == 0 ? -14 : 14;
       GroundLight (Tile, World, Ms, EyeOffset);
       DrawPyramid (Tile, Rear, Background, World, EyeOffset);
-      DrawWelcome (Tile, Ms - RISE_MS - TURN_MS);
+      INT32 TextMs = Ms - RISE_MS - TURN_MS;
+      DrawWelcome (Tile, TextMs);
+      if (Logo != NULL && TextMs > 1150) {
+        PaintLogo (&Tile[PixelIndex ((WIDTH - GO_LOGO_WIDTH)/2, 355 + GO_LOGO_HEIGHT - 1)],
+                   HEIGHT, Logo, Ease (TextMs - 1150, 950));
+      }
       Status = Gop->Blt (Gop, Tile, EfiBltBufferToVideo, 0, 0,
                          (GO_FB_WIDTH - HEIGHT)/2, Eye*(GO_FB_HEIGHT/2) + (GO_FB_HEIGHT/2 - WIDTH)/2,
                          HEIGHT, WIDTH, 0);

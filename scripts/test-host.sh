@@ -18,4 +18,10 @@ gcc -std=c11 -O2 -fshort-wchar -DMDEPKG_NDEBUG -Wall -Wextra -Werror -Wno-unused
   -Iedk2/MdePkg/Include -Iedk2/MdePkg/Include/X64 -IOculusGoPkg/Include -I"$welcome" \
   tests/welcome_host.c "$welcome/Welcome.c" -o build/tests/welcome_host
 build/tests/welcome_host
+if [[ -n "${1:-}" ]]; then
+  gcc -std=c11 -O2 -fshort-wchar -DMDEPKG_NDEBUG -Wall -Wextra -Werror -Wno-unused-parameter \
+    -Iedk2/MdePkg/Include -Iedk2/MdePkg/Include/X64 -IOculusGoPkg/Include -I"$welcome" \
+    tests/oculus_logo_host.c "$welcome/OculusLogo.c" -lz -o build/tests/oculus_logo_host
+  build/tests/oculus_logo_host "$1"
+fi
 python3 -m unittest discover -s tests -p 'test_*.py' -v

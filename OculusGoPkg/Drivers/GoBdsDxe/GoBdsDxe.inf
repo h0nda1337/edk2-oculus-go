@@ -10,6 +10,8 @@
   GoBds.c
   Welcome.c
   Welcome.h
+  OculusLogo.c
+  OculusLogo.h
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
@@ -27,6 +29,9 @@
   UefiDriverEntryPoint
   UefiLib
 [Protocols]
+  gEfiPartitionInfoProtocolGuid
+  gEfiBlockIoProtocolGuid
+  gEfiDiskIoProtocolGuid
   gEfiBdsArchProtocolGuid
   gEfiGraphicsOutputProtocolGuid
   gEfiSimpleTextOutProtocolGuid

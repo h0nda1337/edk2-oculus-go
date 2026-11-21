@@ -27,6 +27,11 @@ VOID *EFIAPI AllocatePool (UINTN N) {
   ++Pools;
   return malloc (N);
 }
+VOID *EFIAPI AllocateZeroPool (UINTN N) {
+  VOID *P = AllocatePool (N);
+  if (P != NULL) { memset (P, 0, N); }
+  return P;
+}
 VOID EFIAPI FreePool (VOID *P) { assert (Pools == 1); --Pools; free (P); }
 
 STATIC EFI_STATUS EFIAPI
@@ -49,16 +54,16 @@ int main (void)
   Gop.Mode = &Mode;
   Gop.Blt = Present;
   Mode.Info = &Info;
-  assert (GoPlayWelcome (&Gop) == EFI_UNSUPPORTED && Calls == 0);
+  assert (GoPlayWelcome (&Gop, NULL) == EFI_UNSUPPORTED && Calls == 0);
   Info.HorizontalResolution = 1440;
   Info.VerticalResolution = 2560;
   FailPool = TRUE;
-  assert (GoPlayWelcome (&Gop) == EFI_OUT_OF_RESOURCES && Pools == 0 && Calls == 0);
+  assert (GoPlayWelcome (&Gop, NULL) == EFI_OUT_OF_RESOURCES && Pools == 0 && Calls == 0);
   FailPool = FALSE;
   FailBlt = 2;
-  assert (GoPlayWelcome (&Gop) == EFI_DEVICE_ERROR && Pools == 0 && Calls == 2);
+  assert (GoPlayWelcome (&Gop, NULL) == EFI_DEVICE_ERROR && Pools == 0 && Calls == 2);
   FailBlt = Calls = 0;
-  assert (GoPlayWelcome (&Gop) == EFI_SUCCESS && Pools == 0 && Now == 8900000);
+  assert (GoPlayWelcome (&Gop, NULL) == EFI_SUCCESS && Pools == 0 && Now == 8900000);
   assert (Calls == 2 * ((8900 + 32) / 33));
   return 0;
 }
