@@ -28,7 +28,7 @@ TrialTextOutput (UINTN Start, UINTN Limit, EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop)
       Display != Gop || gBS->HandleProtocol (Handles[0], &gEfiSimpleTextOutProtocolGuid, (VOID **)&Text) != EFI_SUCCESS ||
       !TrialSpan ((UINTN)Text->OutputString, 4, Start, Limit) ||
       Text->QueryMode (Text, 0, &Columns, &Rows) != EFI_SUCCESS || Columns != 80 || Rows != 25 ||
-      Text->TestString (Text, L"EDK2 GO\r\nUEFI 42") != EFI_SUCCESS ||
+      Text->TestString (Text, L"1 EDK2 GO 2\r\n3 UEFI 42 4") != EFI_SUCCESS ||
       Text->TestString (Text, L"\x2603") != EFI_UNSUPPORTED) {
     TextRejected ();
   }
@@ -37,14 +37,14 @@ TrialTextOutput (UINTN Start, UINTN Limit, EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop)
   gST->Hdr.CRC32 = 0;
   gST->Hdr.CRC32 = CalculateCrc32 (gST, gST->Hdr.HeaderSize);
   if (gBS->FreePool (Handles) != EFI_SUCCESS ||
-      Text->SetCursorPosition (Text, 36, 11) != EFI_SUCCESS ||
+      Text->SetCursorPosition (Text, 34, 11) != EFI_SUCCESS ||
       Text->SetAttribute (Text, EFI_WHITE) != EFI_SUCCESS ||
-      gST->ConOut->OutputString (gST->ConOut, L"EDK2 GO\r\n") != EFI_SUCCESS ||
+      gST->ConOut->OutputString (gST->ConOut, L"1 EDK2 GO 2\r\n") != EFI_SUCCESS ||
       Text->Mode->CursorRow != 12 || Text->Mode->CursorColumn != 0 ||
-      Text->SetCursorPosition (Text, 36, 12) != EFI_SUCCESS ||
+      Text->SetCursorPosition (Text, 34, 12) != EFI_SUCCESS ||
       Text->SetAttribute (Text, EFI_LIGHTCYAN) != EFI_SUCCESS ||
-      gST->ConOut->OutputString (gST->ConOut, L"UEFI 42") != EFI_SUCCESS ||
-      Text->Mode->CursorRow != 12 || Text->Mode->CursorColumn != 43) {
+      gST->ConOut->OutputString (gST->ConOut, L"3 UEFI 42 4") != EFI_SUCCESS ||
+      Text->Mode->CursorRow != 12 || Text->Mode->CursorColumn != 45) {
     TextRejected ();
   }
   __asm__ volatile ("dsb sy\n.global TrialTextComplete\nTrialTextComplete: wfe\n b TrialTextComplete" ::: "memory");

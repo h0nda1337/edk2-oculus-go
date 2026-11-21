@@ -25,13 +25,21 @@ STATIC CONST EFI_GRAPHICS_OUTPUT_BLT_PIXEL mPalette[16] = {
   {85,85,255,0},   {255,85,255,0},  {85,255,255,0},  {255,255,255,0}
 };
 
+// Topmost native X of a run of logical rows. Pacific's display is portrait
+// and text row zero is at the high-X side when the headset is worn.
+STATIC UINTN
+ScanoutX (UINTN FirstRow, UINTN RowCount)
+{
+  return TOP + (ROWS - FirstRow - RowCount) * CELL_H;
+}
+
 STATIC EFI_STATUS
 FillRows (UINTN First, UINTN Count)
 {
   EFI_GRAPHICS_OUTPUT_BLT_PIXEL Color = mPalette[mMode.Attribute >> 4];
   for (UINTN Eye = 0; Eye < 2; ++Eye) {
     EFI_STATUS Status = mGop->Blt (mGop, &Color, EfiBltVideoFill, 0, 0,
-      TOP + First * CELL_H, Eye * EYE_W + LEFT, Count * CELL_H, COLUMNS * CELL_W, 0);
+      ScanoutX (First, Count), Eye * EYE_W + LEFT, Count * CELL_H, COLUMNS * CELL_W, 0);
     if (EFI_ERROR (Status)) {
       return Status;
     }
@@ -49,7 +57,7 @@ LineFeed (VOID)
   for (UINTN Eye = 0; Eye < 2; ++Eye) {
     UINTN Y = Eye * EYE_W + LEFT;
     EFI_STATUS Status = mGop->Blt (mGop, NULL, EfiBltVideoToVideo,
-      TOP + CELL_H, Y, TOP, Y, (ROWS - 1) * CELL_H, COLUMNS * CELL_W, 0);
+      ScanoutX (1, ROWS - 1), Y, ScanoutX (0, ROWS - 1), Y, (ROWS - 1) * CELL_H, COLUMNS * CELL_W, 0);
     if (EFI_ERROR (Status)) {
       return Status;
     }
@@ -79,14 +87,14 @@ DrawGlyph (CONST UINT8 *GlyphRows)
   for (UINTN V = 0; V < CELL_H; ++V) {
     UINT8 Bits = GlyphRows[V / SCALE];
     for (UINTN U = 0; U < CELL_W; ++U) {
-      Tile[CELL_W - 1 - U][V] = mPalette[(Bits & (0x80 >> (U / SCALE))) ?
+      Tile[U][CELL_H - 1 - V] = mPalette[(Bits & (0x80 >> (U / SCALE))) ?
                                            (mMode.Attribute & 15) : (mMode.Attribute >> 4)];
     }
   }
   for (UINTN Eye = 0; Eye < 2; ++Eye) {
-    UINTN Y = (Eye + 1) * EYE_W - LEFT - (mMode.CursorColumn + 1) * CELL_W;
+    UINTN Y = Eye * EYE_W + LEFT + mMode.CursorColumn * CELL_W;
     EFI_STATUS Status = mGop->Blt (mGop, &Tile[0][0], EfiBltBufferToVideo, 0, 0,
-      TOP + mMode.CursorRow * CELL_H, Y, CELL_H, CELL_W, 0);
+      ScanoutX (mMode.CursorRow, 1), Y, CELL_H, CELL_W, 0);
     if (EFI_ERROR (Status)) {
       return Status;
     }
