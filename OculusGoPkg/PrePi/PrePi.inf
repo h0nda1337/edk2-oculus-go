@@ -39,6 +39,9 @@
   gOculusGoEntryHobGuid
 
 [FixedPcd]
+  gArmTokenSpaceGuid.PcdGicDistributorBase
+  gArmTokenSpaceGuid.PcdGicRedistributorsBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize
   gOculusGoPkgTokenSpaceGuid.PcdStackSize

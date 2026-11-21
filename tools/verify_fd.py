@@ -10,6 +10,7 @@ import struct
 
 BASE = 0x80080000
 SIZE = 0x400000
+SHELL_FD_SIZE = 0x1400000
 FV_OFFSET = 0x1000
 
 
@@ -27,10 +28,10 @@ def branch_destination(blob, offset):
 
 
 def verify(data):
-    if len(data) != SIZE:
-        raise ValueError('Expected a complete 4 MiB FD')
+    if len(data) not in (SIZE, SHELL_FD_SIZE):
+        raise ValueError('Unexpected complete FD size')
     values = struct.unpack_from('<II6QII', data)
-    if values != (0x14000400, 0xD503201F, 0x80000, SIZE,
+    if values != (0x14000400, 0xD503201F, 0x80000, len(data),
                   0, 0, 0, 0, 0x644D5241, 0):
         raise ValueError('Integrated ARM64 header mismatch')
     if branch_destination(data, 0) != FV_OFFSET:
@@ -40,7 +41,14 @@ def verify(data):
     fv_length = struct.unpack_from('<Q', data, FV_OFFSET + 32)[0]
     header_length = struct.unpack_from('<H', data, FV_OFFSET + 48)[0]
     fv_end = FV_OFFSET + fv_length
-    if fv_end == 0x80000:
+    if len(data) == SHELL_FD_SIZE:
+        last = SHELL_FD_SIZE - 4096
+        if (fv_end != SIZE or data[SIZE:SIZE+8] != b'GOARENA1' or
+                data[last:last+8] != b'GOARENA2' or
+                data.count(0xff, SIZE+8, last) != last-SIZE-8 or
+                data.count(0xff, last+8) != 4096-8):
+            raise ValueError('Incomplete boot arena or unexpected FV bounds')
+    elif fv_end == 0x80000:
         guard = 0x3be000
         if (data[fv_end:guard] != b'GODXEFD1' + b'\xff' * (guard-fv_end-8) or
                 data[guard:] != b'GOSTACK1' + b'\xff' * (SIZE-guard-8)):

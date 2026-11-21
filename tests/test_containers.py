@@ -30,6 +30,20 @@ def fixture_fd():
 
 
 class Formats(unittest.TestCase):
+    def test_normal_boot_arena_is_complete_and_owned_by_the_image(self):
+        fd = fixture_fd()
+        fd.extend(b'\xff' * (verify_fd.SHELL_FD_SIZE - len(fd)))
+        struct.pack_into('<Q', fd, 16, len(fd))
+        fd[verify_fd.SIZE:verify_fd.SIZE+8] = b'GOARENA1'
+        fd[-4096:-4088] = b'GOARENA2'
+        self.assertEqual(verify_fd.verify(fd)['size'], len(fd))
+        for address in (verify_fd.SIZE, verify_fd.SIZE+8, len(fd)//2, len(fd)-4096, len(fd)-1):
+            with self.subTest(address=address):
+                fd[address] ^= 1
+                with self.assertRaises(ValueError):
+                    verify_fd.verify(fd)
+                fd[address] ^= 1
+
     def test_integrated_branches(self):
         result = verify_fd.verify(fixture_fd())
         self.assertEqual(result['secEntryAddress'], '0x80082000')

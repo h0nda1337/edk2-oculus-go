@@ -12,6 +12,7 @@ build_flavor=OculusGo
 build_arguments=()
 case "$build_mode" in
   NORMAL) ;;
+  SHELL_QEMU) build_flavor=OculusGoShellQemu ;;
   SEC_VISUAL) build_flavor=OculusGoSecVisual ;;
   GOP_MODEL) build_flavor=OculusGoGopModel ;;
   SEC_C) build_flavor=OculusGoSecC ;;

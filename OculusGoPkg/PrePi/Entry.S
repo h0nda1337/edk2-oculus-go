@@ -121,6 +121,56 @@ SecVisualDrain:
 SecVisualComplete:
   b SecVisualComplete
 #endif
+#if defined (OCULUS_GO_BOOT_CONSOLE)
+  // Compare the actual entry PC with the reset branch in the fixed FV.
+  // Until both arena markers and every filler word match, leave SP untouched.
+  adr x12, _ModuleEntryPoint
+  ldr x15, =FixedPcdGet64 (PcdFvBaseAddress)
+  cmp x12, x15
+  b.lo EntryRejected
+  ldr x16, =FixedPcdGet64 (PcdMemoryPoolBase)
+  cmp x12, x16
+  b.hs EntryRejected
+  ldr w13, [x15]
+  lsr w14, w13, #26
+  cmp w14, #0x5
+  b.ne EntryRejected
+  sbfx x13, x13, #0, #26
+  add x15, x15, x13, lsl #2
+  cmp x12, x15
+  b.ne EntryRejected
+  // Reject a supplied DTB in the destination before claiming any pages.
+  cbz x0, 6f
+  ldr x13, =FixedPcdGet64 (PcdFdBaseAddress)
+  cmp x0, x13
+  b.lo 6f
+  ldr x14, =(FixedPcdGet64 (PcdFdBaseAddress) + FixedPcdGet32 (PcdFdSize))
+  cmp x0, x14
+  b.lo EntryRejected
+6:
+  ldr x13, [x16], #8
+  ldr x14, =0x31414e4552414f47
+  cmp x13, x14
+  b.ne EntryRejected
+  ldr x15, =(FixedPcdGet64 (PcdMemoryPoolBase) + FixedPcdGet32 (PcdMemoryPoolSize) - 4096)
+7:
+  ldr x13, [x16], #8
+  cmn x13, #1
+  b.ne EntryRejected
+  cmp x16, x15
+  b.lo 7b
+  ldr x13, [x16], #8
+  ldr x14, =0x32414e4552414f47
+  cmp x13, x14
+  b.ne EntryRejected
+  add x15, x15, #4096
+8:
+  ldr x13, [x16], #8
+  cmn x13, #1
+  b.ne EntryRejected
+  cmp x16, x15
+  b.lo 8b
+#endif
   mrs x13, daif
   mov x12, sp
   mov x14, x30

@@ -25,6 +25,27 @@
 !endif
 
 [LibraryClasses.common]
+!if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
+  FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
+  SortLib|MdeModulePkg/Library/UefiSortLib/UefiSortLib.inf
+  UefiHiiServicesLib|MdeModulePkg/Library/UefiHiiServicesLib/UefiHiiServicesLib.inf
+  HiiLib|MdeModulePkg/Library/UefiHiiLib/UefiHiiLib.inf
+  ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
+  ShellCommandLib|ShellPkg/Library/UefiShellCommandLib/UefiShellCommandLib.inf
+  HandleParsingLib|ShellPkg/Library/UefiHandleParsingLib/UefiHandleParsingLib.inf
+  UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
+  OrderedCollectionLib|MdePkg/Library/BaseOrderedCollectionRedBlackTreeLib/BaseOrderedCollectionRedBlackTreeLib.inf
+  RealTimeClockLib|EmbeddedPkg/Library/VirtualRealTimeClockLib/VirtualRealTimeClockLib.inf
+  TimeBaseLib|EmbeddedPkg/Library/TimeBaseLib/TimeBaseLib.inf
+  CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
+  TpmMeasurementLib|MdeModulePkg/Library/TpmMeasurementLibNull/TpmMeasurementLibNull.inf
+  AuthVariableLib|MdeModulePkg/Library/AuthVariableLibNull/AuthVariableLibNull.inf
+  VarCheckLib|MdeModulePkg/Library/VarCheckLib/VarCheckLib.inf
+  VariablePolicyHelperLib|MdeModulePkg/Library/VariablePolicyHelperLib/VariablePolicyHelperLib.inf
+  VariablePolicyLib|MdeModulePkg/Library/VariablePolicyLib/VariablePolicyLibRuntimeDxe.inf
+  VariableFlashInfoLib|MdeModulePkg/Library/BaseVariableFlashInfoLib/BaseVariableFlashInfoLib.inf
+  SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
+!endif
   ArmDisassemblerLib|ArmPkg/Library/ArmDisassemblerLib/ArmDisassemblerLib.inf
   ArmGenericTimerCounterLib|ArmPkg/Library/ArmGenericTimerPhyCounterLib/ArmGenericTimerPhyCounterLib.inf
   ArmGicArchLib|ArmPkg/Library/ArmGicArchLib/ArmGicArchLib.inf
@@ -63,7 +84,13 @@
   ReportStatusCodeLib|MdePkg/Library/BaseReportStatusCodeLibNull/BaseReportStatusCodeLibNull.inf
   ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
   SecurityManagementLib|MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib.inf
+!if $(GO_BUILD_FLAVOR) == OculusGoShellQemu
+  SerialPortLib|ArmPlatformPkg/Library/PL011SerialPortLib/PL011SerialPortLib.inf
+  PL011UartLib|ArmPlatformPkg/Library/PL011UartLib/PL011UartLib.inf
+  PL011UartClockLib|ArmPlatformPkg/Library/PL011UartClockLib/PL011UartClockLib.inf
+!else
   SerialPortLib|MdePkg/Library/BaseSerialPortLibNull/BaseSerialPortLibNull.inf
+!endif
   SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
   TimerLib|ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib.inf
   UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
@@ -89,6 +116,10 @@
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
 
 [PcdsFeatureFlag.common]
+!if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
+  gEfiMdeModulePkgTokenSpaceGuid.PcdHiiOsRuntimeSupport|FALSE
+  gEfiShellPkgTokenSpaceGuid.PcdShellForceConsole|TRUE
+!endif
 !if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText || $(GO_BUILD_FLAVOR) == OculusGoDxeApp
   gEfiMdeModulePkgTokenSpaceGuid.PcdDevicePathSupportDevicePathToText|FALSE
   gEfiMdeModulePkgTokenSpaceGuid.PcdDevicePathSupportDevicePathFromText|FALSE
@@ -100,17 +131,39 @@
 
 [PcdsFixedAtBuild.common]
   # Device evidence and staging limitations: docs/MEMORY_MAP.md.
+!if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
+  gArmTokenSpaceGuid.PcdSystemMemoryBase|0x80480000
+  gArmTokenSpaceGuid.PcdSystemMemorySize|0x01000000
+  gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase|0x80480000
+  gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize|0x01000000
+!else
   gArmTokenSpaceGuid.PcdSystemMemoryBase|0x91700000
   gArmTokenSpaceGuid.PcdSystemMemorySize|0x0E800000
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolBase|0x94000000
   gOculusGoPkgTokenSpaceGuid.PcdMemoryPoolSize|0x04000000
+!endif
   gOculusGoPkgTokenSpaceGuid.PcdStackSize|0x00040000
   gOculusGoPkgTokenSpaceGuid.PcdSecVisualDiagnostic|FALSE
   gEmbeddedTokenSpaceGuid.PcdPrePiCpuIoSize|0
+!if $(GO_BUILD_FLAVOR) == OculusGoShellQemu
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x09000000
+  gArmTokenSpaceGuid.PcdGicDistributorBase|0x08000000
+  gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x080A0000
+  gArmTokenSpaceGuid.PcdArmArchTimerFreqInHz|0
+!else
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x09BC0000
   gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x09C00000
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0
   gArmTokenSpaceGuid.PcdArmArchTimerFreqInHz|19200000
+!endif
+!if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
+  gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareRevision|0x00000002
+  gEfiShellPkgTokenSpaceGuid.PcdShellDefaultDelay|0
+  gEfiShellPkgTokenSpaceGuid.PcdShellSupportLevel|2
+  gEfiShellPkgTokenSpaceGuid.PcdShellLibAutoInitialize|FALSE
+!endif
   gArmTokenSpaceGuid.PcdArmArchTimerSecIntrNum|29
   gArmTokenSpaceGuid.PcdArmArchTimerIntrNum|30
   gArmTokenSpaceGuid.PcdArmArchTimerVirtIntrNum|27
@@ -124,7 +177,11 @@
 !else
   gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x0F
 !endif
+!if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x800000c6
+!else
   gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0xFFFFFFFF
+!endif
   gEfiMdePkgTokenSpaceGuid.PcdDebugClearMemoryValue|0xAF
   gEfiMdePkgTokenSpaceGuid.PcdMaximumAsciiStringLength|1000000
   gEfiMdePkgTokenSpaceGuid.PcdMaximumUnicodeStringLength|1000000
@@ -239,7 +296,30 @@
       GCC:*_*_AARCH64_PP_FLAGS = -DOCULUS_GO_SEC_C=1
   }
 !else
+!if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
+  OculusGoPkg/PrePi/PrePi.inf {
+    <BuildOptions>
+      GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_BOOT_CONSOLE=1
+      GCC:*_*_AARCH64_PP_FLAGS = -DOCULUS_GO_BOOT_CONSOLE=1
+  }
+  MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf
+  OculusGoPkg/Drivers/InheritedGopDxe/InheritedGopText.inf
+  MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
+  MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
+  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
+  MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf
+  MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
+  EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
+  MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitterDxe.inf
+  OculusGoPkg/Drivers/GoBdsDxe/GoBdsDxe.inf
+  ShellPkg/Application/Shell/Shell.inf {
+    <LibraryClasses>
+      NULL|ShellPkg/Library/UefiShellLevel1CommandsLib/UefiShellLevel1CommandsLib.inf
+      NULL|ShellPkg/Library/UefiShellLevel2CommandsLib/UefiShellLevel2CommandsLib.inf
+  }
+!else
   OculusGoPkg/PrePi/PrePi.inf
+!endif
 !endif
   MdeModulePkg/Core/Dxe/DxeMain.inf {
     <LibraryClasses>
