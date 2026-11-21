@@ -40,10 +40,10 @@ Con unidades virtuales 0 y 4 y las direcciones intermedias vacías, el transport
 | Una vía por dirección, gear 3 en funcionamiento | DT y mensajes archivados `ufshcd_print_pwr_info` de Android | CONFIRMED después de inicializar Linux |
 | `splash` en `/dev/block/sde34`, 34 226 176 bytes | Inventario por nombre y SHA-256 del respaldo privado | CONFIRMED para el respaldo |
 | H:C:T:L `0:0:0:4`, bloques de 4096 bytes, LBA 1 037 582 a 1 045 937 inclusive | Enlace SCSI de `sde`, sysfs y entrada 34 de la GPT primaria | CONFIRMED en el Go físico |
-| Estado de los relojes, PHY, colas de LK y dominio DMA en la entrada a EDK2 | Datos de Android posteriores al arranque | UNKNOWN a la entrada |
+| Alimentación, cuatro ramas de reloj, versión y colas a la entrada en SEC | [Panel físico tras LK](evidence/ufs-handoff-transfer-20261121.json) | CONFIRMED en este arranque. UFSHCI 1.1 habilitado, ambas listas en marcha y ambos doorbells a cero. PHY, bases y dominio DMA pendientes. |
 
 La versión del registro UFSHCI y la compatibilidad descrita por el DT son datos distintos. El kernel oficial configura la PHY, los relojes de las vías y el enlace mediante callbacks Qualcomm. El proveedor PCI usado en la máquina virtual sólo reconoce dispositivos PCI. Los dos proveedores virtuales y la aplicación de ensayo se compilan fuera del volumen de firmware de Pacific. [Driver del kernel oficial](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/scsi/ufs/ufs-qcom.c) · [Inventario](evidence/partitions.json)
 
 La lectura física situó `splash` entre los bytes `0xFD50E000` y `0xFF5B1FFF` del LUN 4, ambos incluidos. Los 8356 bloques suman 34 226 176 bytes. Se verificaron los CRC de la cabecera GPT y del conjunto de entradas. El inicio y el tamaño de sysfs, expresados en sectores de 512 bytes, dieron exactamente el mismo intervalo. [Medición física](evidence/ufs-splash-physical-layout-20261120.json)
 
-La prueba con la GPT capturada reprodujo esos LBA en QEMU. La sonda de SEC para el siguiente arranque conserva en pantalla el estado de alimentación, relojes y registros UFSHCI que resulte accesible. [LUN 4 y entrega de LK](UFS_HANDOFF.md)
+La prueba con la GPT capturada reprodujo esos LBA en QEMU. En el visor, la sonda de SEC completó las trece lecturas y mostró `UFS DONE`. [LUN 4 y entrega de LK](UFS_HANDOFF.md)

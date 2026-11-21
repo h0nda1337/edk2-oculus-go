@@ -1,6 +1,10 @@
 # UFS al salir de LK
 
-**Estado físico de la entrega: UNKNOWN.** El último inventario procede de Android después de inicializar UFS. La siguiente prueba temporal entra en SEC, valida el modelo EVT y el mapa de memoria de su FDT, y muestra una sola serie de lecturas antes de inicializar ningún driver. Queda detenida con el resultado en ambos ojos. [Imagen revisada y hashes](evidence/ufs-handoff-review-20261121.json)
+**CONFIRMED en el Go tras LK.** El operador leyó `UFS DONE` y los trece registros del panel de SEC. La sonda registró alimentación activa, reset liberado y las cuatro ramas de reloj en estados encendidos. `VER=00010100` identifica UFSHCI 1.1 y `HCE=00000001` indica que el host estaba habilitado. [Transcripción original y valores](evidence/ufs-handoff-transfer-20261121.json) · [Imagen revisada y hashes](evidence/ufs-handoff-review-20261121.json)
+
+`HCS=0000010F` indica presencia del dispositivo y disponibilidad de la lista de transferencias, la lista de tareas y el canal UIC. Los indicadores de error de host y de dispositivo en HCS estaban a cero. Los bits 10–8 valían 1 (`PWR_LOCAL`, estado de la solicitud de cambio de modo de energía). El operador transcribió la etiqueta como `HSC`. En esa posición el código de la imagen muestra `HCS`, dirección `0x624030`. [Definiciones del kernel del Go](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/scsi/ufs/ufshci.h) · [Etiquetas en SEC](../OculusGoPkg/SecMem/UfsHandoff.c)
+
+Ambas listas tenían el bit Run a uno y sus registros de solicitudes pendientes estaban a cero en las lecturas respectivas. El siguiente paso técnico es identificar las bases de las listas y establecer qué memoria DMA puede utilizar EDK2 antes de enviar la primera lectura al LUN 4. La recuperación del emblema desde el medio físico sigue pendiente.
 
 ## Ensayo del logo con la geometría del Go
 
@@ -35,7 +39,7 @@ La sonda lee cada dirección como máximo una vez. Las muestras son sucesivas y 
 
 ## Qué se ejecutó en QEMU
 
-El segundo banco ejecutó el FD físico con el DT de ejecución archivado y bancos de registros sintéticos de sólo lectura. Se vigilaron todos los accesos a los rangos de GCC y del host durante cada caso. Se observaron las direcciones, el orden exacto y la instrucción de carga. Se cotejaron los glifos de las dos vistas contra los valores esperados. En EL1 y EL2 pasaron los trece casos, incluidos un reloj en transición, HCE apagado, identidad de placa distinta y un aborto de alineación inducido en la carga. El perfil contiene un único ejecutable SEC. La inspección binaria comprobó su lista de direcciones, los 16 vectores y el código máquina del acceso. Esta emulación evalúa la lógica de diagnóstico. La accesibilidad del bus Qualcomm tras LK queda pendiente de la prueba física. [Resultados por caso](evidence/ufs-handoff-qemu-20261121.json) · [Inspección del FD](evidence/ufs-handoff-static-20261121.json)
+El segundo banco ejecutó el FD físico con el DT de ejecución archivado y bancos de registros sintéticos de sólo lectura. Se vigilaron todos los accesos a los rangos de GCC y del host durante cada caso. Se observaron las direcciones, el orden exacto y la instrucción de carga. Se cotejaron los glifos de las dos vistas contra los valores esperados. En EL1 y EL2 pasaron los trece casos, incluidos un reloj en transición, HCE apagado, identidad de placa distinta y un aborto de alineación inducido en la carga. El perfil contiene un único ejecutable SEC. La inspección binaria comprobó su lista de direcciones, los 16 vectores y el código máquina del acceso. Esta emulación evalúa la lógica de diagnóstico. [Resultados por caso](evidence/ufs-handoff-qemu-20261121.json) · [Inspección del FD](evidence/ufs-handoff-static-20261121.json)
 
 ## Reproducción offline
 

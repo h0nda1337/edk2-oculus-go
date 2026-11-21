@@ -27,6 +27,51 @@
   "fastbootResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
   "temporaryBootCommandIssued": true,
   "partitionWriteCommandIssued": false,
-  "physicalPanel": "AWAITING-OPERATOR",
-  "postBootAndroid": "AWAITING-RECOVERY"
+  "physicalPanel": {
+    "source": "Operator transcription from the headset during the reviewed temporary boot",
+    "rawLines": [
+      "UFS DONE",
+      "PWR A0222000 RST 00000000",
+      "AHB 20008001 AXI 00004221",
+      "NOC 00000001 AGG 00000001",
+      "VER 00010100 HCE 00000001",
+      "HSC 0000010F TRR 00000001",
+      "TRD 00000000 TMR 00000001",
+      "TMD 00000000"
+    ],
+    "registersHex": {
+      "PWR": "A0222000",
+      "RST": "00000000",
+      "AHB": "20008001",
+      "AXI": "00004221",
+      "NOC": "00000001",
+      "AGG": "00000001",
+      "VER": "00010100",
+      "HCE": "00000001",
+      "HCS": "0000010F",
+      "TRR": "00000001",
+      "TRD": "00000000",
+      "TMR": "00000001",
+      "TMD": "00000000"
+    },
+    "labelNormalization": "The operator wrote HSC. The tested SEC module prints HCS at that position, at 0x624030. All hex digits are preserved."
+  },
+  "postBootAndroid": "CONFIRMED via ADB after operator returned to Android",
+  "physicalUfsHandoffExecution": "CONFIRMED: terminal UFS DONE reported with all 13 samples",
+  "physicalLun4Read": "NOT EXERCISED: the probe performed register reads only",
+  "recovery": {
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-21T06:17:55+00:00",
+    "reportSha256": "709749bd6bf8301e8a5cefda9b9740ab7197aa1f23dc7ab5f8a184aa0a859881",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
 }
