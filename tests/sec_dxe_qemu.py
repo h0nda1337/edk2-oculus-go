@@ -23,6 +23,9 @@ MODULE = UUID('f8e21975-0899-4f58-a4be-5525a9c6d77a')
 
 def screen(stage):
     data = bytearray(b'\xa5' * (SURFACE_BYTES+2*GUARD))
+    if stage == 'app-complete':
+        from dxe_app_trace import expected_surface
+        return expected_surface(screen('gop-blt'))
     if stage == 'text-complete':
         from dxe_text_trace import expected_surface
         return expected_surface(screen('gop-blt'))
@@ -89,7 +92,7 @@ def hobs(read, fv, target, meta):
             break
         offset+=size
     expected = [(0, 0x407 if meta['result'] != 'PASS-STATIC-SEC-DXE' else 0x403, POOL, LIMIT-POOL)]
-    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES','PASS-STATIC-DXE-DEBUG','PASS-STATIC-DXE-DISPATCH','PASS-STATIC-DXE-GOP','PASS-STATIC-DXE-TEXT'):
+    if meta['result'] in ('PASS-STATIC-DXE-GCD','PASS-STATIC-DXE-TABLES','PASS-STATIC-DXE-DEBUG','PASS-STATIC-DXE-DISPATCH','PASS-STATIC-DXE-GOP','PASS-STATIC-DXE-TEXT','PASS-STATIC-DXE-APP'):
         expected.append((5, 0x403, STACK, TOP-STACK))
     require(POOL+offset==end and kind==0xffff and module and resources==expected
             and len(found)==2 and found[0]==(0x80081000,0x7f000),'Missing resource, module, or FV HOB')
@@ -218,6 +221,8 @@ def exercise(path, fd, fv, sec, core, meta, harness, el, case, memory=None):
                     extra.update(driver=meta['driverSymbols'], el=el)
                 if full_fb:
                     extra.update(gop={**meta['gopSymbols'], **meta.get('textSymbols', {})})
+                    if 'appSymbols' in meta:
+                        extra['gop']['application'] = (meta['appSymbols'], meta['appPeSha256'], meta['appPeBytes'])
                 terminal,stage,measurement=memory.observe_services(g,read,write,stop,check_screen,core,base,case,**extra)
             else:
                 terminal='TrialDxeRejected' if case=='bad-module' else 'TrialDxeComplete'
@@ -260,7 +265,9 @@ def main():
     a=arguments()
     fd,fv,pe=(p.read_bytes() for p in (a.fd,a.fv,a.pe))
     memory=None
-    if a.text:
+    if a.application:
+        import dxe_app_trace as memory
+    elif a.text:
         import dxe_text_trace as memory
     elif a.gop_pe:
         import dxe_gop_trace as memory
@@ -274,7 +281,7 @@ def main():
         import dxe_gcd_trace as memory
     elif a.memory:
         import dxe_memory_trace as memory
-    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe,a.gop_pe,a.text)
+    meta=inspect(fd,fv,pe,a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe,a.gop_pe,a.text,a.application)
     if a.driver_pe:
         driver_symbols = symbols(a.driver_pe.with_suffix('.debug'))
         meta['driverSymbols'] = {n:driver_symbols[n] for n in ('_ModuleEntryPoint','DevicePathEntryPoint','GetDevicePathSize')}
@@ -283,6 +290,9 @@ def main():
         meta['gopSymbols'] = {n:sym[n] for n in ('_ModuleEntryPoint','InheritedGopDxeEntry','QueryMode','Blt')}
     if a.text:
         meta['textSymbols'] = {n:sym[n] for n in ('TextOutputString','TextQuery','GoTextConsole')}
+    if a.application:
+        app = symbols(a.application.with_suffix('.debug'))
+        meta['appSymbols'] = {n:app[n] for n in ('_ModuleEntryPoint','ConsoleProbeMain')}
     names=symbols(a.sec_elf)
     bias=int(verify(fd)['secEntryAddress'],16)-names['_ModuleEntryPoint']
     sec={k:v+bias for k,v in names.items()}

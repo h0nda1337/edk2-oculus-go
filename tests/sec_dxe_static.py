@@ -53,7 +53,7 @@ def unique(items):
     return items[0]
 
 
-def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False, debug_image=False, driver_pe=None, gop_pe=None, text=False):
+def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False, debug_image=False, driver_pe=None, gop_pe=None, text=False, application=None):
     require(not text or gop_pe is not None, 'Text console requires the GOP profile')
     dispatch = driver_pe is not None
     require(gop_pe is None or dispatch, 'GOP requires DevicePathDxe')
@@ -95,6 +95,20 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
         require(payload == gop_pe.read_bytes() and dep == bytes([2])+utilities.bytes_le+bytes([8]),
                 'GOP PE or Device Path Utilities dependency differs')
         extra.update(gopGuid=str(gop_guid), gopPeSha256=digest(payload))
+    if application:
+        require(text, 'Application requires the console profile')
+        guid = UUID('a63728d5-057a-43bb-88f7-89aa3e5856e9')
+        expected.append((9, guid))  # EFI_FV_FILETYPE_APPLICATION
+        body = unique(b for t,g,b in inner if (t,g) == expected[-1])
+        parts = list(sections(body))
+        payload = unique(section[4:] for t,section in parts if t == 0x10)
+        require(payload == application.read_bytes() and len(payload) >= 64 and payload[:2] == b'MZ'
+                and all(t != 0x13 for t,_ in parts), 'Invalid packaged application')
+        nt, = struct.unpack_from('<I',payload,60)
+        require(payload[nt:nt+4] == b'PE\0\0' and struct.unpack_from('<H',payload,nt+4)[0] == 0xaa64
+                and struct.unpack_from('<H',payload,nt+24)[0] == 0x20b
+                and struct.unpack_from('<H',payload,nt+24+68)[0] == 10, 'Expected AArch64 EFI application')
+        extra.update(appFileGuid=str(guid), appPeSha256=digest(payload), appPeBytes=len(payload))
     require([(t,g) for t,g,_ in inner] == expected, 'Unexpected DXE FV content')
     require(unique(sec[4:] for t,sec in sections(inner[0][2]) if t == 0x10) == pe, 'Packaged DXE PE mismatch')
     nt, = struct.unpack_from('<I',pe,60)
@@ -172,12 +186,14 @@ def inspect(fd, fv, pe, sec_elf, dxe_elf, memory=False, gcd=False, tables=False,
     require(entry == core_names['_ModuleEntryPoint'] and start <= entry < end <= size and
             all(start <= core_names[n] < end for n in
         ('DxeMain','InitializeDebugAgent',*checkpoints)), 'Checkpoint outside core text')
+    if application:
+        require({'TrialLaunchApplication','TrialAppComplete','TrialAppRejected','__wrap_UnprotectUefiImage'} <= core_names.keys(), 'Application checkpoints missing')
     sec_names = symbols(sec_elf)
     bias = int(info['secEntryAddress'],16)-sec_names['_ModuleEntryPoint']
     branch = bias+sec_names['TrialDxeBranch']-BASE
     require(fd[branch:branch+4] == bytes.fromhex('00023fd6') and not any(n in sec_names for n in checkpoints),
             'Missing SEC indirect handoff or duplicated DXE checkpoint')
-    return {**extra,'result':'PASS-STATIC-DXE-TEXT' if text else 'PASS-STATIC-DXE-GOP' if gop_pe else 'PASS-STATIC-DXE-DISPATCH' if dispatch else 'PASS-STATIC-DXE-DEBUG' if debug_image else 'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
+    return {**extra,'result':'PASS-STATIC-DXE-APP' if application else 'PASS-STATIC-DXE-TEXT' if text else 'PASS-STATIC-DXE-GOP' if gop_pe else 'PASS-STATIC-DXE-DISPATCH' if dispatch else 'PASS-STATIC-DXE-DEBUG' if debug_image else 'PASS-STATIC-DXE-TABLES' if tables else 'PASS-STATIC-DXE-GCD' if gcd else 'PASS-STATIC-DXE-MEM' if memory else 'PASS-STATIC-SEC-DXE','fdSha256':info['sha256'],'innerFvSha256':digest(fv),
             'peSha256':digest(pe),'secElfSha256':digest(sec_elf.read_bytes()),'coreElfSha256':digest(dxe_elf.read_bytes()),
             'innerFvBytes':len(fv),'peImageBytes':size,'entryRva':entry,'textRva':[start,end],
             'coreGuid':str(CORE),'lzmaBytes':len(data)}
@@ -187,6 +203,7 @@ def arguments():
     parser=argparse.ArgumentParser(description=__doc__)
     for k in ('fd','fv','pe','sec-elf','dxe-elf','report'):
         parser.add_argument('--'+k,type=Path,required=True)
+    parser.add_argument('--application',type=Path,help='Verify the ConsoleProbe application in the inner FV')
     parser.add_argument('--text', action='store_true', help='Verify the headset text console profile')
     parser.add_argument('--gop-pe', type=Path, help='Also verify the second driver and its protocol dependency')
     group = parser.add_mutually_exclusive_group()
@@ -200,6 +217,6 @@ def arguments():
 
 if __name__ == '__main__':
     a=arguments()
-    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe,a.gop_pe,a.text)
+    result=inspect(a.fd.read_bytes(),a.fv.read_bytes(),a.pe.read_bytes(),a.sec_elf,a.dxe_elf,a.memory,a.gcd,a.tables,a.debug_image,a.driver_pe,a.gop_pe,a.text,a.application)
     a.report.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result))

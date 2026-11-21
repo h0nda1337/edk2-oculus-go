@@ -44,13 +44,13 @@ def pixel_offset(eye,u,v):
     return GUARD + (eye*1280 + Y0 + u)*STRIDE + (X0+HEIGHT-1-v)*3
 
 
-def expected_surface(data):
+def expected_surface(data, lines=LINES, colors=(WHITE,CYAN)):
     glyphs = font()
     for v in range(HEIGHT):
         line = v//38
         for u in range(WIDTH):
-            bits = glyphs[LINES[line][u//16]][(v%38)//2]
-            color = (WHITE,CYAN)[line] if bits & (0x80 >> ((u%16)//2)) else bytes(3)
+            bits = glyphs[lines[line][u//16]][(v%38)//2]
+            color = colors[line] if bits & (0x80 >> ((u%16)//2)) else bytes(3)
             for eye in (0,1):
                 at = pixel_offset(eye,u,v)
                 data[at:at+3] = color
@@ -135,7 +135,7 @@ def observe_console(g,read,stop,arrive,row,case,address,symbols):
     row['nativeBgrSha256'] = sha256(native_left).hexdigest()
     capture=png(left)
     target=os.environ.get('DXE_TEXT_CAPTURE')
-    if target and case=='valid':
+    if target and case=='valid' and 'application' not in symbols:
         Path(target).joinpath('eye-el'+str((g.register(33)>>2)&3)+'.png').write_bytes(capture)
     row.update(textLines=list(LINES), outputStringReturns=[0,0], glyphUploads=uploads,
                consoleCrcVerified=True, eyesMatch=True, eyeRgbSha256=sha256(left).hexdigest(),

@@ -55,6 +55,8 @@ def observe_services(g, read, write, stop, screen, core, base, case, constructor
             rejections = ('TrialDispatchRejected', 'TrialGopRejected') if gop else ('TrialDispatchRejected',)
             if gop and 'TextOutputString' in gop:
                 rejections += ('TextRejected',)
+            if gop and 'application' in gop:
+                rejections += ('TrialAppRejected',)
             for name in rejections:
                 require(g.command(f'Z1,{base+core[name]:x},4') == 'OK', 'Cannot monitor ' + name)
         arrive('CoreInitializeEventServices')

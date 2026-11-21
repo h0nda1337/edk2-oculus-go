@@ -141,5 +141,10 @@ def observe_driver(g, read, write, stop, screen, arrive, returned, evidence, cas
     evidence['rawBgrRow'] = [read(FB_BASE+BAND_ROWS[0]*STRIDE+3*288*i,3).hex() for i in range(5)]
     if 'TextOutputString' in driver:
         from dxe_text_trace import observe_console
-        return observe_console(g, read, stop, arrive, evidence, case, address, driver)
+        terminal = observe_console(g, read, stop, arrive, evidence, case, address, driver)
+        if 'application' in driver and terminal[0] == 'TrialTextComplete':
+            from dxe_app_trace import observe_application
+            screen('text-complete')
+            return observe_application(g, read, write, stop, arrive, returned, evidence, case, address, driver)
+        return terminal
     return 'TrialGopComplete','gop-blt',evidence

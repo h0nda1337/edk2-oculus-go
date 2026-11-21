@@ -25,6 +25,7 @@ PY
 profile=()
 case "$(basename "$out")" in
   DEBUG-SEC_DXE-*) dir=Build/OculusGoSecDxe/DEBUG_GCC5 ;;
+  DEBUG-DXE_APP-*) dir=Build/OculusGoDxeApp/DEBUG_GCC5; profile=(--application "$dir/AARCH64/ConsoleProbe.efi" --text --driver-pe "$dir/AARCH64/DevicePathDxe.efi" --gop-pe "$dir/AARCH64/InheritedGopDxe.efi") ;;
   DEBUG-DXE_TEXT-*) dir=Build/OculusGoDxeText/DEBUG_GCC5; profile=(--text --driver-pe "$dir/AARCH64/DevicePathDxe.efi" --gop-pe "$dir/AARCH64/InheritedGopDxe.efi") ;;
   DEBUG-DXE_GOP-*) dir=Build/OculusGoDxeGop/DEBUG_GCC5; profile=(--driver-pe "$dir/AARCH64/DevicePathDxe.efi" --gop-pe "$dir/AARCH64/InheritedGopDxe.efi") ;;
   DEBUG-DXE_DISPATCH-*) dir=Build/OculusGoDxeDispatch/DEBUG_GCC5; profile=(--driver-pe "$dir/AARCH64/DevicePathDxe.efi") ;;
@@ -39,7 +40,7 @@ args=("${profile[@]}" --fd "$out/container-extracted.fd" --fv "$dir/FV/FVTRIALDX
       --dxe-elf "$dir/AARCH64/DxeCore.debug")
 trial_reports=$(mktemp -d)
 reports=(STATIC.json QEMU.json)
-if [[ $(basename "$out") == DEBUG-DXE_TEXT-* ]]; then
+if [[ $(basename "$out") == DEBUG-DXE_TEXT-* || $(basename "$out") == DEBUG-DXE_APP-* ]]; then
   export DXE_TEXT_CAPTURE="$trial_reports"
   reports+=(eye-el1.png eye-el2.png)
 fi

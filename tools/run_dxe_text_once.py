@@ -30,18 +30,20 @@ def validate_reports(model,static,digest):
     validate_text_cases(model, static, digest, ['EDK2 GO', 'UEFI 42'], EXPECTED_RASTER)
 
 
-def validate_text_cases(model, static, digest, lines, raster):
-    validate_gop_cases(model,static,digest,'DXE-TEXT',OUTCOMES)
+def validate_text_cases(model, static, digest, lines, raster, *, profile='DXE-TEXT', later=None):
+    later = later or {}
+    outcomes = {**OUTCOMES, **later}
+    validate_gop_cases(model,static,digest,profile,outcomes)
     require(set(model['textSymbols'])=={'TextOutputString','TextQuery','GoTextConsole'},'Missing text entry points')
     for row in model['cases']:
         case = row['case']
-        if case in OUTCOMES:
+        if case in outcomes:
             lo,hi=(int(n,16) for n in row['gopText'])
             base=int(row['gopImageBase'],16)
             require(all(lo<=base+n<hi for n in model['textSymbols'].values()) and
                     base<=int(row['textInterfaceOffered'],16)<base+row['gopImageBytes'],
                     'Text interface and methods must belong to the display image')
-        if case in POSITIVE:
+        if case in POSITIVE or case in later:
             require(row['glyphUploads']==2*sum(map(len,lines)) and row['eyesMatch'] is True and row['consoleCrcVerified'] is True
                     and row['textLines']==lines and row['outputStringReturns']==[0,0]
                     and row['eyeRgbSha256']==raster and re.fullmatch('[a-f0-9]{64}',row['eyePngSha256'])
@@ -60,9 +62,9 @@ def reviewed_inputs(root, review):
                                   validate_reports=validate_reports)
 
 
-def verify_captures(root, review):
+def verify_captures(root, review, field='eyePngSha256'):
     model_path,model_data = checked_file(root,review['model'],('build',))
-    capture_digests = {row['el']:row['eyePngSha256'] for row in json.loads(model_data)['cases'] if row['case']=='valid'}
+    capture_digests = {row['el']:row[field] for row in json.loads(model_data)['cases'] if row['case']=='valid'}
     captures = review['eyeCaptures']
     require(len(captures)==2,'Both EL captures are required')
     for el,record in enumerate(captures,1):
