@@ -1,0 +1,18 @@
+{
+  "source": "Physical Pacific, Android ADB root, read-only GPT and sysfs",
+  "capturedUtc": "2026-11-21T05:48:11Z",
+  "scsiAddress": "0:0:0:4",
+  "lun": 4,
+  "blockDevice": "/dev/block/sde34",
+  "gptEntry": 34,
+  "logicalBlockBytes": 4096,
+  "firstLba": 1037582,
+  "lastLbaInclusive": 1045937,
+  "firstByteInLun": 4249935872,
+  "lastByteInLunInclusive": 4284162047,
+  "blockCount": 8356,
+  "partitionBytes": 34226176,
+  "primaryHeaderCrc32": "4c32247e",
+  "entryArrayCrc32": "5807e7e8",
+  "sysfsExtentMatchesGpt": true
+}

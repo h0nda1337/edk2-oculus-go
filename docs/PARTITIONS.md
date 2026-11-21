@@ -1,5 +1,7 @@
 # Preserved partition inventory
 
+On the physical Go, the by-name link for `splash` resolves to `/dev/block/sde34`. Entry 34 spans logical blocks 1,037,582 through 1,045,937 inclusive on UFS LUN 4, with 4096 bytes per block. [GPT and sysfs readback](evidence/ufs-splash-physical-layout-20261120.json)
+
 The original backup captured 50 partitions, 6,620,180,480 bytes total, excluding
 userdata. Names, block paths, sizes and hashes are retained in the machine-
 readable `evidence/partitions.json`. These are imported backup records, not
