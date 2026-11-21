@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de Pacific.** El Go confirmó las cuatro copias de ocho bytes desde la memoria DMA de LK. La lectura de LBA 1 en el búfer de LK funcionó en QEMU. `UFS_BUF4K` observó dos muestras estables clasificadas como `OTHER`. El modelo activo actual se detiene con esa clasificación. El siguiente paso en QEMU es reproducir el caso, comprobar todas las palabras frente a cero y evaluar la evidencia de propiedad y de mapeo antes de usar los extremos como destino DMA. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) [Prueba del bloque y paquete](UFS_GPT_HEADER.md) La traducción DMA directa de las cuatro páginas de EDK2 sigue pendiente. [Panel físico](evidence/ufs-bounce-transfer-20261121.json) · [Direcciones de bus](UFS_BUS_PAGES.md)
+**UFS de Pacific.** La próxima prueba física es el arranque temporal de `UFS_ZERO4K`. Registrar el estado final y las filas `OLD`, `NZ` y `FIRST` u `OFF`. Una eventual lectura `ZERO EXACT` establece el contenido durante la muestra. El uso exclusivo y el mapeo físico DMA de los dos extremos siguen pendientes. El perfil activo ya reprodujo ambos extremos y el fallo por falta de la segunda página en QEMU. [Pruebas, límites y procedimiento](UFS_GPT_HEADER.md)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 

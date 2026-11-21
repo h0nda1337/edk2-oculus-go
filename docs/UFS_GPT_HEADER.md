@@ -31,6 +31,31 @@ La imagen temporal **`UFS_BUF4K`** se ejecutó en el Go. Este SEC lee por CPU el
 
 El operador leyó `UFS BUF4K DONE`, `BUF 918D7E80`, `LKPG 00001000`, `OLD C71C0011`, `OTHER`, `TWO SAMPLES MATCH` y `CPU ONLY`. La comparación palabra por palabra demuestra igualdad entre las muestras durante la prueba. Un bloque de 4096 bytes en cero produce ese mismo CRC32. La imagen no comparó cada palabra contra cero. En QEMU se reprodujo el mismo panel con un bloque en cero y el perfil activo se detuvo en `STOP ORIGINAL` antes de enviar comandos. El valor del CRC por sí solo tampoco establece que LK haya cedido el búfer. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) · [Casos del modelo](evidence/ufs-gpt-header-fd-qemu-20261121.json)
 
+## ¿Dejó LK libre el búfer?
+
+**CONFIRMED en el binario original.** En la entrada de LK, el bucle de `0x918000E8` a `0x91800100` escribe cero en cada palabra de `[0x918CD2AC, 0x918E84AC)`. El búfer de 4096 bytes está enteramente dentro. Más adelante, la inicialización del asignador usa `[0x918E84AC, 0x91C00000)` para su área inicial. Esto explica por qué el búfer puede contener ceros desde el inicio, incluso sin una operación de liberación al final. El inventario posterior de Android cubre ambos extremos con una sola entrada `System RAM`. [Auditoría del ELF y de iomem](evidence/ufs-header-lifetime-20261121.json)
+
+LK materializa la base en once pares de instrucciones revisados. Además de la lectura de la cabecera de Android, la ruta de información del sistema de archivos pasa dos direcciones interiores, `0x918D82F8` y `0x918D8308`, para presentar campos del volumen. La ruta de arranque temporal guarda en R5 el segundo argumento del handler `boot`, obtiene de ese argumento los campos de la imagen descargada y llama al traspaso en `0x9183D1BC`. La rama ARM64 prepara sus argumentos en otra zona, en `0x918D3000`. En esos tramos revisados no se identificó una cesión del búfer a EDK2. El análisis abarca rutas concretas y deja abiertas las referencias indirectas y la actividad de otros maestros. [Auditor reproducible](../tools/audit_lk_header_lifetime.py)
+
+**UNKNOWN en el Go.** Falta establecer el uso exclusivo del intervalo durante la prueba y la traducción que conserva el maestro UFS para sus dos páginas. La región de RAM publicada posteriormente por Android y la tabla de traducción de CPU pertenecen a observaciones distintas de la vista DMA. Para una prueba activa hay que poder atribuir las dos direcciones de bus al búfer en ese arranque y su uso a EDK2 durante el comando. Otra vía es usar un búfer reservado por EDK2 con una asignación DMA verificable para ese controlador. [Evidencia del bus UFS de Pacific](UFS_BUS_PAGES.md)
+
+## Censo de los 4096 bytes con UFS_ZERO4K
+
+El nuevo SEC toma dos muestras por CPU. Al coincidir las 1024 palabras y mantenerse el tamaño de bloque, recorre cada byte de la copia, cuenta los distintos de cero y conserva el primer desplazamiento. El visor muestra `NZ` en hexadecimal y `FIRST NONE / ZERO EXACT` o `OFF / NONZERO`. Si las muestras difieren aparece `CHANGED BUFFER`. Un tamaño distinto de 4096 produce `STOP LKPG`. El FD pasivo carece de código de envío de comandos UFS. [Implementación](../OculusGoPkg/SecMem/UfsHeaderBuffer.c) · [Revisión de la imagen temporal](evidence/ufs-zero4k-review-20261121.json)
+
+| Prueba sobre el FD en QEMU | Resultado |
+| --- | --- |
+| 4096 ceros a EL1 y EL2 | CRC32 `C71C0011`, `NZ 0`, `ZERO EXACT` |
+| Un byte en los desplazamientos 0, 383, 384 o 4095 | Cada ejecución informó `NZ 1` y su desplazamiento exacto |
+| Cinco bytes distintos de cero desde 382, a caballo entre páginas | Mismo CRC32 `C71C0011`, `NZ 5`, `OFF 0000017E`, `NONZERO` |
+| Todos los bytes a `FF` | `NZ 00001000`, primer desplazamiento 0 |
+| El banco altera el primer byte durante la primera muestra | `CHANGED BUFFER` |
+| LK anuncia 2048 bytes | `STOP LKPG` |
+
+Los diez casos cotejaron el panel, el intervalo completo con sus guardas y la página de colas. La traza de cada invitado mostró cero órdenes de la sonda. El NOP previo pertenece al banco que prepara el controlador virtual. QEMU emitió avisos GLib al cerrar instancias. Pasaron las comprobaciones de RAM, pantalla y traza. [Resultados del FD](evidence/ufs-zero4k-fd-qemu-20261121.json)
+
+Por separado se repitieron los siete casos del perfil activo `UFS_GPT_MODEL`. Con la cabecera de Android conocida y ambas hojas del IOMMU virtual preparadas, `READ CAPACITY(10)` entregó `00 11 FF FF 00 00 10 00` en `0x918D7E80` y en `0x918D8E78`. Sin la segunda hoja, el segundo destino conservó el patrón del banco y el firmware terminó en `STOP CAPACITY` antes de leer el LBA 1. Con el búfer inicial lleno de ceros volvió a `STOP ORIGINAL` y envió cero comandos. El resultado coincide con el informe publicado de los siete casos. La prueba física pendiente mide únicamente el contenido del búfer. [Informe del perfil DMA](evidence/ufs-gpt-header-fd-qemu-20261121.json)
+
 ## Reproducción sin USB
 
 En Debian/WSL, desde la raíz del proyecto, definir `ABOOT`, `BOOT_A`, `BOOT_B`, `HEADER` y `DT` como las rutas a los respaldos originales, la cabecera primaria de 4096 bytes y el FDT de ejecución. Para cada compilación, `OUT` es el directorio de informe que imprime el build y `ELF` es el fichero de símbolos de su SEC.
@@ -45,3 +70,13 @@ python3 -B tests/ufs_header_fd_qemu.py --passive --fd "$OUT/OCULUS_GO_DIRECT.fd"
 ```
 
 En Windows, `python -B tools/run_ufs_buf4k_once.py` comprueba la imagen revisada y su procedencia sin usar USB. La imagen con el DT y las capturas originales se conservan en archivos locales.
+
+Para reproducir el nuevo perfil, `IOMEM` apunta al inventario original de Android. El banco de ceros sólo necesita el FDT verificado como entrada del dispositivo. Tras el build, actualizar `OUT` y `ELF` a los de `UFS_ZERO4K`.
+
+```bash
+python3 -B tools/audit_lk_header_lifetime.py --aboot "$ABOOT" --iomem "$IOMEM" --report build/ufs-header-lifetime.json
+bash scripts/build.sh DEBUG 8 UFS_ZERO4K
+python3 -B tests/ufs_header_fd_qemu.py --zero --fd "$OUT/OCULUS_GO_DIRECT.fd" --sec-elf "$ELF" --runtime-fdt "$DT" --report "$OUT/QEMU.json" --static-report "$OUT/STATIC.json"
+```
+
+En Windows, `python -B tools/run_ufs_zero4k_once.py` coteja localmente el paquete temporal, el FD, la procedencia y las pruebas.

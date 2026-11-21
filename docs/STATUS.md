@@ -1,5 +1,7 @@
 # Status
 
+**Búfer de LK.** `UFS_ZERO4K` pasó diez casos en QEMU, incluido un contenido distinto con el mismo CRC que los 4096 ceros. LK inicializa todo el intervalo a cero dentro de su BSS. No se encontró una cesión explícita en la ruta de arranque temporal revisada. El paquete de observación por CPU está preparado para el visor. [Censo y evidencia de propiedad](UFS_GPT_HEADER.md#censo-de-los-4096-bytes-con-ufs_zero4k)
+
 **Cabecera GPT del LUN 4.** SEC leyó el LBA 1 completo en QEMU en el búfer de cabecera de LK de `0x918D7E80`. Los 4096 bytes coincidieron con el respaldo de Android. En el Go, la CPU leyó dos veces los 4096 bytes en ese intervalo. Las dos muestras coincidieron y dieron CRC32 `C71C0011` y clasificación `OTHER`. El acceso DMA a ese búfer sigue pendiente. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) [Resultado y sonda física](UFS_GPT_HEADER.md)
 
 **Ventana UFS de 16 KiB.** DXE obtuvo del proveedor UEFI las cuatro direcciones de bus en QEMU y recibió la capacidad del LUN 4 en cada página. Las direcciones directas del Go siguen **UNKNOWN**. En el Go, `UFS_BOUNCE` entregó ocho bytes a cada página mediante cuatro copias por CPU desde la dirección DMA de LK. El panel terminó en `UFS LK COPY DONE` con máscara `0x0F`. [Panel físico](evidence/ufs-bounce-transfer-20261121.json) [Resultados por página y paquete](UFS_BUS_PAGES.md)
