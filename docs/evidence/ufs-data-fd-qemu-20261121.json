@@ -1,0 +1,174 @@
+{
+  "outcome": "PASS-QEMU-FD-DATA",
+  "fdSha256": "859ce9de5877b7d1ba64adae4a5cfb7f4a7c7c8400d1c053e0ff4c0142dea9e4",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "physicalWindowDma": "UNKNOWN",
+  "mediaReads": 0,
+  "mediaWrites": 0,
+  "cases": [
+    {
+      "el": 1,
+      "case": "pacific-entry",
+      "panel": [
+        "UFS LK DATA   DONE",
+        "LUN4 READ CAPACITY",
+        "PAGE MASK 00000000",
+        "OCS  00000000",
+        "SCSI 00000000",
+        "LAST 0011FFFF",
+        "SIZE 00001000",
+        "WINDOW DMA UNTESTED"
+      ],
+      "completions": [
+        {
+          "cpu": "0x918eef80",
+          "bus": "0x918eef80",
+          "status": 2,
+          "bytes": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "cpu": "0x918eef80",
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        }
+      ],
+      "restored": true
+    },
+    {
+      "el": 1,
+      "case": "qemu-map",
+      "panel": [
+        "UFS FD DATA   DONE",
+        "LUN4 READ CAPACITY",
+        "PAGE MASK 0000000F",
+        "OCS  00000000",
+        "SCSI 00000000",
+        "LAST 0011FFFF",
+        "SIZE 00001000",
+        "WINDOW RESTORED"
+      ],
+      "completions": [
+        {
+          "cpu": "0x918eef80",
+          "bus": "0x918eef80",
+          "status": 2,
+          "bytes": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "cpu": "0x918eef80",
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80440000",
+          "bus": "0x88000000",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80441ff8",
+          "bus": "0x88001ff8",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80442000",
+          "bus": "0x88002000",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80443ff8",
+          "bus": "0x88003ff8",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        }
+      ],
+      "restored": true
+    },
+    {
+      "el": 2,
+      "case": "pacific-entry",
+      "panel": [
+        "UFS LK DATA   DONE",
+        "LUN4 READ CAPACITY",
+        "PAGE MASK 00000000",
+        "OCS  00000000",
+        "SCSI 00000000",
+        "LAST 0011FFFF",
+        "SIZE 00001000",
+        "WINDOW DMA UNTESTED"
+      ],
+      "completions": [
+        {
+          "cpu": "0x918eef80",
+          "bus": "0x918eef80",
+          "status": 2,
+          "bytes": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "cpu": "0x918eef80",
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        }
+      ],
+      "restored": true
+    },
+    {
+      "el": 2,
+      "case": "qemu-map",
+      "panel": [
+        "UFS FD DATA   DONE",
+        "LUN4 READ CAPACITY",
+        "PAGE MASK 0000000F",
+        "OCS  00000000",
+        "SCSI 00000000",
+        "LAST 0011FFFF",
+        "SIZE 00001000",
+        "WINDOW RESTORED"
+      ],
+      "completions": [
+        {
+          "cpu": "0x918eef80",
+          "bus": "0x918eef80",
+          "status": 2,
+          "bytes": "a5a5a5a5a5a5a5a5"
+        },
+        {
+          "cpu": "0x918eef80",
+          "bus": "0x918eef80",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80440000",
+          "bus": "0x88000000",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80441ff8",
+          "bus": "0x88001ff8",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80442000",
+          "bus": "0x88002000",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80443ff8",
+          "bus": "0x88003ff8",
+          "status": 0,
+          "bytes": "0011ffff00001000"
+        }
+      ],
+      "restored": true
+    }
+  ]
+}

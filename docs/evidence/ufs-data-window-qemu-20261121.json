@@ -1,0 +1,180 @@
+{
+  "outcome": "PASS-QEMU-DATA-IN",
+  "cpuWindow": "0x80440000",
+  "virtualBusBase": "0x88000000",
+  "windowBytes": 16384,
+  "probeBytesPerPage": 8,
+  "virtualGuestSha256": "ec2cd9fcb30e94c8f104cb149600ca673173bf27c0ce3d2356c44273db5d9696",
+  "lun": 4,
+  "mediaReads": 0,
+  "mediaWrites": 0,
+  "physicalWindowDma": "UNKNOWN",
+  "cases": [
+    {
+      "case": "translated",
+      "state": "FD DATA",
+      "label": "DONE",
+      "pageMask": 15,
+      "submissions": 6,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 1179647,
+      "blockSize": 4096,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80",
+        "0x88000000",
+        "0x88001ff8",
+        "0x88002000",
+        "0x88003ff8"
+      ]
+    },
+    {
+      "case": "scattered",
+      "state": "FD DATA",
+      "label": "DONE",
+      "pageMask": 15,
+      "submissions": 6,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 1179647,
+      "blockSize": 4096,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80",
+        "0x88000000",
+        "0x88002ff8",
+        "0x88004000",
+        "0x88006ff8"
+      ]
+    },
+    {
+      "case": "aliased-target",
+      "state": "HOLD",
+      "label": "FD GUARD",
+      "pageMask": 3,
+      "submissions": 5,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 2779096485,
+      "blockSize": 2779096485,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80",
+        "0x88000000",
+        "0x88001ff8",
+        "0x88002000"
+      ]
+    },
+    {
+      "case": "last-page-denied",
+      "state": "STOP",
+      "label": "CAPACITY",
+      "pageMask": 7,
+      "submissions": 6,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 2779096485,
+      "blockSize": 2779096485,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80",
+        "0x88000000",
+        "0x88001ff8",
+        "0x88002000",
+        "0x88003ff8"
+      ]
+    },
+    {
+      "case": "no-window-map",
+      "state": "LK DATA",
+      "label": "DONE",
+      "pageMask": 0,
+      "submissions": 2,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 1179647,
+      "blockSize": 4096,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80"
+      ]
+    },
+    {
+      "case": "alias-list",
+      "state": "STOP",
+      "label": "DMA ALIAS",
+      "pageMask": 0,
+      "submissions": 2,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 1179647,
+      "blockSize": 4096,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80"
+      ]
+    },
+    {
+      "case": "partial-map",
+      "state": "STOP",
+      "label": "DMA MAP",
+      "pageMask": 0,
+      "submissions": 2,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 1179647,
+      "blockSize": 4096,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80"
+      ]
+    },
+    {
+      "case": "dirty-window",
+      "state": "STOP",
+      "label": "FD DIRTY",
+      "pageMask": 0,
+      "submissions": 2,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 1179647,
+      "blockSize": 4096,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80"
+      ]
+    },
+    {
+      "case": "wrong-geometry",
+      "state": "STOP",
+      "label": "CAPACITY",
+      "pageMask": 0,
+      "submissions": 2,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 1179646,
+      "blockSize": 4096,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80"
+      ]
+    },
+    {
+      "case": "wrong-iova",
+      "state": "STOP",
+      "label": "CAPACITY",
+      "pageMask": 0,
+      "submissions": 3,
+      "ocs": 0,
+      "scsiStatus": 0,
+      "lastLba": 2779096485,
+      "blockSize": 2779096485,
+      "prdtBusAddresses": [
+        "0x918eef80",
+        "0x918eef80",
+        "0x80440000"
+      ]
+    }
+  ]
+}

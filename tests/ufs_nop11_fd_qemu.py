@@ -28,8 +28,8 @@ CASES = {"nop":("NOP IN","DONE"), "bad-tag":("BAD","RESPONSE"),
          "software-busy":("STOP","STATE"), "empty-prior":("STOP","NO PRIOR OCS"),
          "different-cpu-map":("UNKNOWN","FD MAP")}
 
-def inspect_fd(fd, elf):
-    report = inspect(fd,elf,GUID,{"mSamples":REGS,"mQueueRegs":QUEUE,
+def inspect_fd(fd, elf, guid=GUID):
+    report = inspect(fd,elf,guid,{"mSamples":REGS,"mQueueRegs":QUEUE,
                     "mFinalRegs":[(ADDR[k],k,0) for k in FINAL]})
     sym = symbols(elf)
     entry = int(verify(fd)["secEntryAddress"],16)
@@ -40,7 +40,7 @@ def inspect_fd(fd, elf):
     require(struct.unpack_from("<Q",fd,pos+((words[0]>>5)&0x7ffff)*4)[0] == HCI+0x58,"doorbell literal")
     require("GoUfsModelWindowNop" not in sym and fd[WINDOW-BASE:WINDOW-BASE+4*PAGE] == b"\xff"*(4*PAGE),
             "window or hardware entry changed")
-    return report | {"registerStore":"0x624058","value":2,"windowSubmission":False}
+    return report | {"registerStore":"0x624058","value":2,**({"windowSubmission":False} if guid == GUID else {})}
 
 def setup_bus(bus):
     cfg = 0x3f000000+(1<<15)
@@ -54,6 +54,49 @@ def setup_bus(bus):
     bus.wait_bits(BAR+0x30,15,15)
     set_translation(bus)
     seed_lk(bus)
+
+def run_cpu(g, bus, pc, el, after_ring, at_window=None):
+    rings = 0
+    for cmd in ("qSupported:qXfer:features:read+","qXfer:features:read:target.xml:0,fff","Hg0","?"):
+        g.command(cmd)
+    g.set_register(33,0x3c9 if el==2 else 0x3c5)
+    g.set_register(0,FDT)
+    g.set_register(18,0)
+    g.set_register(20,BASE)
+    g.set_register(32,0x41000000+(64 if el==2 else 0))
+    until(g,pc["entry"])
+    if at_window is not None:
+        require(g.command(f"Z1,{pc['window']:x},4") == "OK", "window entry breakpoint")
+    # Reads from physical clocks, CAP, VER, HCS and TMR use recorded board inputs.
+    # Bridge other HCI words to the real PCI device. All guest peripheral writes trap.
+    watch(g,2,0x300000,0x390000)
+    watch(g,4,HCI,HCI+0x2500)
+    require(g.command(f"Z1,{pc['stop']:x},4")=="OK","stop bp")
+    while True:
+        msg=g.command("c")
+        addr,insn=g.register(0),g.register(32)
+        if at_window is not None and insn == pc['window']:
+            require(g.command(f"z1,{insn:x},4") == "OK", "remove window breakpoint")
+            at_window(g, bus)
+            continue
+        if insn==pc["stop"]:
+            break
+        require("watch:" in msg and HCI<=addr<HCI+0x2500,"unreviewed board access")
+        off=addr-HCI
+        if insn==pc["ring"]:
+            require(off==0x58 and g.register(1)==2,"unreviewed store")
+            rings+=1
+        else:
+            require(insn==pc["load"],f"unknown MMIO PC {insn:#x}")
+        watch(g,4,HCI,HCI+0x2500,False)
+        if off not in (0,8,0x30,0x80):
+            g.set_register(0,BAR+off)
+        require(g.command("s").startswith(("S","T")),"single step")
+        if insn==pc["ring"]:
+            bus.wait_bits(BAR+0x58,2,0)
+            after_ring(bus, rings)
+        watch(g,4,HCI,HCI+0x2500)
+    return rings
 
 def run_case(tmp,fd,setup,dt,regs,pc,el,name):
     rom = tmp/"regs.rom"
@@ -86,41 +129,12 @@ def run_case(tmp,fd,setup,dt,regs,pc,el,name):
             if name=="empty-prior":
                 bus.write(TR,bytes(32))
             old=bus.read(TR & -PAGE,PAGE)
-            for cmd in ("qSupported:qXfer:features:read+","qXfer:features:read:target.xml:0,fff","Hg0","?"):
-                g.command(cmd)
-            g.set_register(33,0x3c9 if el==2 else 0x3c5)
-            g.set_register(0,FDT)
-            g.set_register(18,0)
-            g.set_register(20,BASE)
-            g.set_register(32,0x41000000+(64 if el==2 else 0))
-            until(g,pc["entry"])
-            # Reads from physical clocks, CAP, VER, HCS and TMR use recorded board inputs.
-            # Bridge other HCI words to the real PCI device. All guest peripheral writes trap.
-            watch(g,2,0x300000,0x390000)
-            watch(g,4,HCI,HCI+0x2500)
-            require(g.command(f"Z1,{pc['stop']:x},4")=="OK","stop bp")
-            while True:
-                msg=g.command("c")
-                addr,insn=g.register(0),g.register(32)
-                if insn==pc["stop"]:
-                    break
-                require("watch:" in msg and HCI<=addr<HCI+0x2500,"unreviewed board access")
-                off=addr-HCI
-                if insn==pc["ring"]:
-                    require(off==0x58 and g.register(1)==2 and rings==0,"unreviewed store")
-                    rings+=1
-                else:
-                    require(insn==pc["load"],f"unknown MMIO PC {insn:#x}")
-                watch(g,4,HCI,HCI+0x2500,False)
-                if off not in (0,8,0x30,0x80):
-                    g.set_register(0,BAR+off)
-                require(g.command("s").startswith(("S","T")),"single step")
-                if insn==pc["ring"]:
-                    bus.wait_bits(BAR+0x58,2,0)
-                    require(bus.read32(TR+32+8)==0 and bus.read32(TM+640+128)==0x01000020,"device NOP IN")
-                    if name=="bad-tag":
-                        bus.write32(TM+640+128,0x02000020)
-                watch(g,4,HCI,HCI+0x2500)
+            def nop_complete(bus, count):
+                require(count == 1 and bus.read32(TR+32+8) == 0 and
+                        bus.read32(TM+640+128) == 0x01000020, "device NOP IN")
+                if name == "bad-tag":
+                    bus.write32(TM+640+128, 0x02000020)
+            rings = run_cpu(g, bus, pc, el, nop_complete)
             state,label=CASES[name]
             lines=[("UFS "+state).ljust(14)+label]
             if name in ("nop","bad-tag"):

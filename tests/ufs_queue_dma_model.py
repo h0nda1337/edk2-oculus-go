@@ -55,11 +55,12 @@ class Bus:
 
 
 @contextmanager
-def controller(tmp, ecam, bar, *, machine=MACHINE, extra=()):
+def controller(tmp, ecam, bar, *, machine=MACHINE, extra=(), units=()):
     events, trace = tmp / "events", tmp / "ufs.trace"
-    events.write_text("ufs_exec_nop_cmd\nufs_exec_scsi_cmd\nufs_exec_query_cmd\n")
-    # No virtual LUN or block backend is attached. PCI function 1 is explicit.
-    cmd = machine + [*extra, "-S", "-device", "ufs,addr=1.0,mcq=off", "-qtest", "stdio",
+    events.write_text("ufs_exec_nop_cmd\nufs_exec_scsi_cmd\nufs_exec_query_cmd\n" +
+                      ("scsi_disk_dma_command_READ\nscsi_disk_dma_command_WRITE\n" if units else ""))
+    # The legacy queue tests omit units. Data-in tests attach a read-only LUN.
+    cmd = machine + [*extra, "-S", "-device", "ufs,addr=1.0,mcq=off", *units, "-qtest", "stdio",
                      "-qtest-log", "/dev/null", "-trace", f"events={events},file={trace}"]
     with subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as proc:
         try:

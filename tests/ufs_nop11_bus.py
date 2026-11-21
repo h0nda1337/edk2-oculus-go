@@ -9,7 +9,7 @@ HBA_WORDS = {4: 0x624000, 0x178: TR, 0x17c: 0, 0x1b8: TM, 0x1bc: 0,
              0x168: HBA+0x168, 0x16c: HBA+0x168, 0x170: 0,
              0x1a8: HBA+0x1a8, 0x1ac: HBA+0x1a8, 0x1b0: 0}
 
-def set_translation(bus):
+def set_translation(bus, window_leaves=None):
     # virt PCI requester 00:01.0 -> SID 8. Map only five 4 KiB leaves.
     smmu, ste, root = 0x9050000, 0x40500000, 0x40510000
     check((bus.read32(smmu) & 1) == 1, "SMMUv3 stage 2 absent")
@@ -21,7 +21,9 @@ def set_translation(bus):
             tables[key] = dest
             bus.write(table + 8 * index, struct.pack("<Q", dest | 3))
         return tables[key]
-    for va, pa in [(TR & -PAGE, TR & -PAGE)] + [(IOVA+n*PAGE, WINDOW+n*PAGE) for n in range(4)]:
+    if window_leaves is None:
+        window_leaves = [(IOVA+n*PAGE, WINDOW+n*PAGE) for n in range(4)]
+    for va, pa in [(TR & -PAGE, TR & -PAGE), *window_leaves]:
         mid = link(root, (va >> 30) & 511)
         leaf = link(mid, (va >> 21) & 511)
         bus.write(leaf + 8*((va >> 12) & 511), struct.pack("<Q", pa | 0x4ff))
