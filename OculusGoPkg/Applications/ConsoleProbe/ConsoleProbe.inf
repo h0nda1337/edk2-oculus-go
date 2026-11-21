@@ -1,0 +1,15 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = ConsoleProbe
+  FILE_GUID = a63728d5-057a-43bb-88f7-89aa3e5856e9
+  MODULE_TYPE = UEFI_APPLICATION
+  VERSION_STRING = 1.0
+  ENTRY_POINT = ConsoleProbeMain
+
+[Sources]
+  ConsoleProbe.c
+[Packages]
+  MdePkg/MdePkg.dec
+[LibraryClasses]
+  UefiApplicationEntryPoint

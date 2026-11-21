@@ -21,12 +21,12 @@ DATA = {
   0x41,0x52,0x4d,0x64, 0x00,0x00,0x00,0x00
 }
 
-!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText || $(GO_BUILD_FLAVOR) == OculusGoDxeApp
 0x00001000|0x0007F000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVCOMPACT
 
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText || $(GO_BUILD_FLAVOR) == OculusGoDxeApp
 0x00080000|0x00300000
 DATA = { 0x47,0x4f,0x44,0x58,0x45,0x46,0x44,0x31 }
 # Aligned EFI_SYSTEM_TABLE_POINTER page in the loaded image. Adjacent pages are guards.
@@ -60,7 +60,7 @@ ERASE_POLARITY     = 1
 MEMORY_MAPPED      = TRUE
 READ_STATUS        = TRUE
 WRITE_STATUS       = TRUE
-!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
+!if $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText || $(GO_BUILD_FLAVOR) == OculusGoDxeApp
   INF OculusGoPkg/SecMmu/SecDxe.inf
   FILE FV_IMAGE = 795b7b9c-616a-4a56-a9fa-f9cfec95bd66 {
     SECTION GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF PROCESSING_REQUIRED = TRUE {
@@ -77,11 +77,14 @@ MEMORY_MAPPED = TRUE
 READ_STATUS = TRUE
 WRITE_STATUS = TRUE
   INF RuleOverride = ALIGNED_DXE MdeModulePkg/Core/Dxe/DxeMain.inf
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText || $(GO_BUILD_FLAVOR) == OculusGoDxeApp
   INF MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf
 !endif
-!if $(GO_BUILD_FLAVOR) == OculusGoDxeText
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeText || $(GO_BUILD_FLAVOR) == OculusGoDxeApp
   INF OculusGoPkg/Drivers/InheritedGopDxe/InheritedGopText.inf
+!if $(GO_BUILD_FLAVOR) == OculusGoDxeApp
+  INF OculusGoPkg/Applications/ConsoleProbe/ConsoleProbe.inf
+!endif
 !elseif $(GO_BUILD_FLAVOR) == OculusGoDxeGop
   INF OculusGoPkg/Drivers/InheritedGopDxe/InheritedGopDisplay.inf
 !endif

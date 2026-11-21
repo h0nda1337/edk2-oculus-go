@@ -1,0 +1,52 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = OculusGoDxeAppCheckpoint
+  FILE_GUID = 89f1a9cb-0a68-46cd-ac30-d09ee4c40d7d
+  MODULE_TYPE = BASE
+  LIBRARY_CLASS = DebugAgentLib|DXE_CORE
+
+[Sources]
+  Checkpoint.c
+  MemoryServices.c
+  ImageGcd.c
+  ConfigTables.c
+  DebugImage.c
+  Dispatch.c
+  GopBlt.c
+  TextOutput.c
+  AppLaunch.c
+
+[BuildOptions]
+  GCC:*_*_AARCH64_CC_FLAGS = -DOCULUS_GO_DXE_MEMORY=1 -DOCULUS_GO_DXE_GCD=1 -DOCULUS_GO_DXE_TABLES=1 -DOCULUS_GO_DXE_DEBUG=1 -DOCULUS_GO_DXE_DISPATCH=1 -DOCULUS_GO_DXE_GOP=1 -DOCULUS_GO_TEXT=1 -DOCULUS_GO_APP=1
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[LibraryClasses]
+  DevicePathLib
+  BaseLib
+  BaseMemoryLib
+  HobLib
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  UefiLib
+  ExtractGuidedSectionLib
+
+[Guids]
+  gOculusGoConsoleProbeFileGuid
+  gEfiDebugImageInfoTableGuid
+  gEfiHobMemoryAllocModuleGuid
+  gEfiDxeServicesTableGuid
+  gEfiHobListGuid
+  gEfiMemoryTypeInformationGuid
+
+[Protocols]
+  gEfiLoadedImageProtocolGuid
+  gEfiDevicePathUtilitiesProtocolGuid
+  gEfiGraphicsOutputProtocolGuid
+  gEfiDevicePathProtocolGuid
+  gEfiSimpleTextOutProtocolGuid

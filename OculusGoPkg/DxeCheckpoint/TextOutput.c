@@ -1,6 +1,9 @@
 /** Select the console on the verified GOP handle and exercise SystemTable->ConOut.
     SPDX-License-Identifier: BSD-2-Clause-Patent **/
 #include <PiDxe.h>
+#ifdef OCULUS_GO_APP
+#include "AppLaunch.h"
+#endif
 #include <Protocol/GraphicsOutput.h>
 #include <Protocol/SimpleTextOut.h>
 #include <Library/BaseLib.h>
@@ -47,6 +50,11 @@ TrialTextOutput (UINTN Start, UINTN Limit, EFI_GRAPHICS_OUTPUT_PROTOCOL *Gop)
       Text->Mode->CursorRow != 12 || Text->Mode->CursorColumn != 45) {
     TextRejected ();
   }
+#ifdef OCULUS_GO_APP
+  __asm__ volatile ("dsb sy\n.global TrialTextComplete\nTrialTextComplete:" ::: "memory");
+  TrialLaunchApplication ();
+#else
   __asm__ volatile ("dsb sy\n.global TrialTextComplete\nTrialTextComplete: wfe\n b TrialTextComplete" ::: "memory");
+#endif
   __builtin_unreachable ();
 }
