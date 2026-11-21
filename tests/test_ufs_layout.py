@@ -3,6 +3,7 @@ import contextlib
 import hashlib
 import io
 import json
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -43,9 +44,11 @@ class PacificLayout(unittest.TestCase):
             def fake(argv, **kwargs):
                 self.assertEqual(argv[:3], [str(fixture), "-s", "TEST"])
                 cmd = tuple(argv[3:])
-                if cmd[:4] == ("exec-out", "dd", "if=/dev/block/sde", "bs=4096"):
-                    self.assertEqual(cmd[6:], ("2>/dev/null",))
-                    skip, count = (int(v.split("=")[1]) for v in cmd[4:6])
+                if cmd[0] == "exec-out":
+                    self.assertEqual(len(cmd), 2)
+                    match = re.fullmatch(r"dd if=/dev/block/sde bs=4096 skip=(\d+) count=(\d+) 2>/dev/null", cmd[1])
+                    self.assertIsNotNone(match)
+                    skip, count = map(int, match.groups())
                     reads.append((skip, count))
                     with medium.open("rb") as f:
                         f.seek(skip * 4096)

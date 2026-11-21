@@ -73,8 +73,9 @@ def collect(adb, serial, out):
     if size != stock["size"] or sector not in (512, 1024, 2048, 4096) or capacity % sector:
         raise ValueError("Unexpected block geometry")
     def blocks(lba, count):
-        data = run("exec-out", "dd", "if=/dev/block/" + drive, f"bs={sector}",
-                   f"skip={lba}", f"count={count}", "2>/dev/null")
+        # exec-out preserves binary data. Pass the redirection as shell syntax,
+        # not as a quoted dd operand. drive is allowlisted and sizes are integers.
+        data = run("exec-out", f"dd if=/dev/block/{drive} bs={sector} skip={lba} count={count} 2>/dev/null")
         if len(data) != count * sector:
             raise ValueError("Short GPT read")
         return data
