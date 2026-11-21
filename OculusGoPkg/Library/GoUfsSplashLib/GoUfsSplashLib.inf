@@ -1,0 +1,21 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = GoUfsSplashLib
+  FILE_GUID = 17cd885d-62cd-45e8-80c2-afce48d060f6
+  MODULE_TYPE = BASE
+  LIBRARY_CLASS = GoUfsSplashLib|DXE_DRIVER UEFI_APPLICATION
+[Sources]
+  UfsSplash.c
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  UefiBootServicesTableLib
+[Protocols]
+  gEdkiiUfsHostControllerProtocolGuid
+  gEfiExtScsiPassThruProtocolGuid

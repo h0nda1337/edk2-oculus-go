@@ -18,6 +18,7 @@
   ShellPkg/ShellPkg.dec
   OculusGoPkg/OculusGoPkg.dec
 [LibraryClasses]
+  GoUfsSplashLib
   BaseLib
   BaseMemoryLib
   DebugLib

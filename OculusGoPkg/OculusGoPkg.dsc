@@ -25,6 +25,7 @@
 !endif
 
 [LibraryClasses.common]
+  GoUfsSplashLib|OculusGoPkg/Library/GoUfsSplashLib/GoUfsSplashLib.inf
 !if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
   SortLib|MdeModulePkg/Library/UefiSortLib/UefiSortLib.inf

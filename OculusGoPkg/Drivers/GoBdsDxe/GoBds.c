@@ -74,9 +74,9 @@ BootShell (VOID)
   GO_OCULUS_LOGO Logo;
   GO_LOGO_SOURCE Source = GoLogoAbsent;
   if (FixedPcdGetBool (PcdGoWelcomeEnabled)) {
-    Source = GoReadOculusLogo (&Logo);
+    Source = GoReadUfsLogo (GoDecodeSplash, &Logo) ? GoLogoUfs : GoReadOculusLogo (&Logo);
     DEBUG ((DEBUG_INFO, "Go BDS: Oculus emblem source = %a\n",
-            Source == GoLogoPartition ? "GPT splash" : Source == GoLogoFramebuffer ? "inherited framebuffer" : "absent"));
+            Source == GoLogoUfs ? "UFS splash" : Source == GoLogoPartition ? "GPT splash" : Source == GoLogoFramebuffer ? "inherited framebuffer" : "absent"));
   }
   BOOLEAN HasLogo = Source != GoLogoAbsent;
   EFI_STATUS Status = SelectDisplay ();

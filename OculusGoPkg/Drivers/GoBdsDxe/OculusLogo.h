@@ -3,10 +3,14 @@
 #define GO_OCULUS_LOGO_H_
 
 #include <Protocol/GraphicsOutput.h>
+#include <Library/GoUfsSplashLib.h>
 
 #include <Protocol/GoConsoleEmblem.h>
 
-typedef enum { GoLogoAbsent, GoLogoPartition, GoLogoFramebuffer } GO_LOGO_SOURCE;
+typedef enum { GoLogoAbsent, GoLogoPartition, GoLogoFramebuffer, GoLogoUfs } GO_LOGO_SOURCE;
+
+BOOLEAN
+GoDecodeSplash (GO_READ_SPLASH_BYTES Read, VOID *Context, UINT64 Bytes, GO_OCULUS_LOGO *Logo);
 
 BOOLEAN
 GoReadPartitionLogo (OUT GO_OCULUS_LOGO *Logo);

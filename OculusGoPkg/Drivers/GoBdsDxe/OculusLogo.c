@@ -51,6 +51,18 @@ SampleCrop (CONST UINT8 *Crop, GO_OCULUS_LOGO *Logo, UINTN Eye)
   return !EFI_ERROR (gBS->CalculateCrc32 (Logo, sizeof (*Logo), &Crc)) && Crc == mLogoCrc[Eye];
 }
 
+typedef struct {
+  EFI_DISK_IO_PROTOCOL *Disk;
+  UINT32 MediaId;
+} GO_EFI_DISK;
+
+STATIC EFI_STATUS
+ReadDiskBytes (VOID *Context, UINT64 Offset, UINTN Size, VOID *Buffer)
+{
+  GO_EFI_DISK *Source = Context;
+  return Source->Disk->ReadDisk (Source->Disk, Source->MediaId, Offset, Size, Buffer);
+}
+
 STATIC BOOLEAN
 ReadPartition (EFI_HANDLE Handle, GO_OCULUS_LOGO *Logo)
 {
@@ -71,10 +83,19 @@ ReadPartition (EFI_HANDLE Handle, GO_OCULUS_LOGO *Logo)
       Media->LastBlock != SPLASH_PARTITION_BYTES / Media->BlockSize - 1) {
     return FALSE;
   }
+  GO_EFI_DISK Source = { Disk, Media->MediaId };
+  return GoDecodeSplash (ReadDiskBytes, &Source, SPLASH_PARTITION_BYTES, Logo);
+}
+
+BOOLEAN
+GoDecodeSplash (GO_READ_SPLASH_BYTES Read, VOID *Context, UINT64 Bytes, GO_OCULUS_LOGO *Logo)
+{
+  if (Bytes != SPLASH_PARTITION_BYTES) {
+    return FALSE;
+  }
   // Width, height, uncompressed type and block count in the verified stock header.
   struct { CHAR8 Magic[8]; UINT32 Width, Height, Type, Blocks; } Header;
-  UINT32 MediaId = Media->MediaId;
-  if (EFI_ERROR (Disk->ReadDisk (Disk, MediaId, 0, sizeof (Header), &Header)) ||
+  if (EFI_ERROR (Read (Context, 0, sizeof (Header), &Header)) ||
       CompareMem (Header.Magic, "SPLASH!!", 8) != 0 || Header.Width != GO_FB_WIDTH ||
       Header.Height != GO_FB_HEIGHT || Header.Type != 0 || Header.Blocks != 0) {
     return FALSE;
@@ -83,7 +104,7 @@ ReadPartition (EFI_HANDLE Handle, GO_OCULUS_LOGO *Logo)
   if (Crop == NULL) {
     return FALSE;
   }
-  EFI_STATUS Status = Disk->ReadDisk (Disk, MediaId, SPLASH_HEADER_BYTES + CropOffset (0), CROP_BYTES, Crop);
+  EFI_STATUS Status = Read (Context, SPLASH_HEADER_BYTES + CropOffset (0), CROP_BYTES, Crop);
   BOOLEAN Found = !EFI_ERROR (Status) && SampleCrop (Crop, Logo, 0);
   FreePool (Crop);
   return Found;
