@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de Pacific.** El Go ya completó el NOP con las colas de LK. El próximo hito es identificar y validar el acceso DMA a un búfer de datos propio. Una vez demostrado, comprobar la capacidad del LUN 4 y cotejar un bloque de su GPT con el respaldo antes de leer `splash`. Para acceder desde la Shell quedará publicar el LUN mediante Block I/O en DXE. [Registro físico](evidence/ufs-nop11-transfer-20261121.json) · [Geometría del LUN 4](evidence/ufs-splash-physical-layout-20261120.json)
+**UFS de Pacific.** El Go ya completó el NOP con las colas de LK. La siguiente sesión física puede documentar el dominio que Android expone para `624000.ufshc` y ejecutar el control `READ CAPACITY(10)` en la asignación de LK. Para probar las cuatro páginas en el visor falta vincular sus direcciones de DMA al estado que hereda SEC. Después se podrá cotejar un bloque de la GPT con el respaldo antes de acceder a `splash`. [Sonda de datos y cobertura](UFS_DATA.md) Para acceder desde la Shell quedará publicar el LUN mediante Block I/O en DXE. [Registro físico](evidence/ufs-nop11-transfer-20261121.json) · [Geometría del LUN 4](evidence/ufs-splash-physical-layout-20261120.json)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 
