@@ -176,3 +176,15 @@ La observación local de la primera Shell sitúa el recorte en la primera column
 | --- | --- | --- | --- |
 | [Pacific partition inventory](evidence/partitions.json) and local read-only `splash.img` | SHA-256 `d8ba4434e87f8bfc55f33091c2d78401fcea22a068105942285edb2da6869d4a` | Partition identity, header, image geometry and independent pixel samples for each eye. [Offsets and fingerprints](OCULUS_LOGO.md) | CONFIRMED for this unit's backup |
 | [TianoCore PartitionInfo.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/PartitionInfo.h) and [DiskIo.h](https://github.com/tianocore/edk2/blob/e7aac7fc137e247edad22f7ee53b9a1fba227397/MdePkg/Include/Protocol/DiskIo.h) | Pinned EDK2 commit `e7aac7fc137e247edad22f7ee53b9a1fba227397` | GPT partition metadata and byte-offset read interface. The BDS reader is original project code. | CONFIRMED interface, physical UFS access pending |
+
+
+## Sonda pasiva de UFS en SEC
+
+| Fuente | Revisión / archivo | Dato incorporado | Confianza |
+| --- | --- | --- | --- |
+| Captura física local de Pacific | DT de ejecución SHA-256 `0877ab5ba9149c29af776389796978268c665c51878834f2335405cabef01929`. Nodos `/soc/qcom,gdsc@375004`, `/soc/qcom,gcc@300000`, `/soc/ufshc@624000` | Bases, tamaños, nombre del regulador, enlace vdd-hba y nombres de relojes. | Alta para el cableado descrito por el Go. Estado de LK pendiente. |
+| [Mapa de registros GCC](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/include/dt-bindings/clock/msm-clocks-hwio-8996.h) y [driver GCC](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/clock-gcc-8996.c) | Kernel oficial `9475755c1a328a7b873721897ef339a8ad35c86a`, rutas enlazadas | Offsets de UFS BCR, AHB, AXI, SYS_NOC y AGGRE2 y asociación de los relojes a esas ramas. | Alta, combinación con el recurso GCC del DT. |
+| [Regulador GDSC](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/gdsc.c) y [estado de ramas y reset](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/clock-local2.c) | Mismo commit, rutas enlazadas | PWR_ON, SW_COLLAPSE, BCR_BLK_ARES y estados ON de CBCR en los bits 31–28. | Alta para el significado usado por el kernel. |
+| [Registros UFSHCI](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/scsi/ufs/ufshci.h) | Mismo commit, `drivers/scsi/ufs/ufshci.h` | VER, HCS, HCE, doorbells y Run/Stop de transferencias y tareas. | Alta para las definiciones. La capacidad de leerlas tras LK se ensayará en el Go. |
+
+Estos archivos del kernel se consultaron como referencia. La sonda y el muestreo por MMIO son código original del proyecto. [Ensayo y evidencias](UFS_HANDOFF.md)

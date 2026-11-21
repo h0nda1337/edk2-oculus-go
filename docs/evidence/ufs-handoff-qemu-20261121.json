@@ -1,0 +1,357 @@
+{
+  "outcome": "PASS-QEMU",
+  "model": "synthetic read-only register values, captured runtime DT",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "fdSha256": "a4bcf36f87840b7ad45954a1b702f3a40ccf0802d1b28233e7bfa058b086ca69",
+  "physicalState": "UNKNOWN",
+  "cases": [
+    {
+      "el": 1,
+      "case": "active",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG",
+        "VER",
+        "HCE",
+        "HCS",
+        "TRR",
+        "TRD",
+        "TMR",
+        "TMD"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS DONE"
+    },
+    {
+      "el": 1,
+      "case": "power-off",
+      "registerLoads": [
+        "PWR"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     PWR"
+    },
+    {
+      "el": 1,
+      "case": "collapse-request",
+      "registerLoads": [
+        "PWR"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     PWR"
+    },
+    {
+      "el": 1,
+      "case": "reset",
+      "registerLoads": [
+        "PWR",
+        "RST"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     RST"
+    },
+    {
+      "el": 1,
+      "case": "ahb-off",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     AHB"
+    },
+    {
+      "el": 1,
+      "case": "axi-transition",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     AXI"
+    },
+    {
+      "el": 1,
+      "case": "noc-off",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     NOC"
+    },
+    {
+      "el": 1,
+      "case": "aggre-off",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     AGG"
+    },
+    {
+      "el": 1,
+      "case": "bad-version",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG",
+        "VER"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   VER"
+    },
+    {
+      "el": 1,
+      "case": "bus-ones",
+      "registerLoads": [
+        "PWR"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   PWR"
+    },
+    {
+      "el": 1,
+      "case": "hce-off",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG",
+        "VER",
+        "HCE"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS DISABLED  HCE"
+    },
+    {
+      "el": 1,
+      "case": "load-abort",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG",
+        "VER"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS FAULT     VER"
+    },
+    {
+      "el": 1,
+      "case": "wrong-board",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "active",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG",
+        "VER",
+        "HCE",
+        "HCS",
+        "TRR",
+        "TRD",
+        "TMR",
+        "TMD"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS DONE"
+    },
+    {
+      "el": 2,
+      "case": "power-off",
+      "registerLoads": [
+        "PWR"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     PWR"
+    },
+    {
+      "el": 2,
+      "case": "collapse-request",
+      "registerLoads": [
+        "PWR"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     PWR"
+    },
+    {
+      "el": 2,
+      "case": "reset",
+      "registerLoads": [
+        "PWR",
+        "RST"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     RST"
+    },
+    {
+      "el": 2,
+      "case": "ahb-off",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     AHB"
+    },
+    {
+      "el": 2,
+      "case": "axi-transition",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     AXI"
+    },
+    {
+      "el": 2,
+      "case": "noc-off",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     NOC"
+    },
+    {
+      "el": 2,
+      "case": "aggre-off",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS GATED     AGG"
+    },
+    {
+      "el": 2,
+      "case": "bad-version",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG",
+        "VER"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   VER"
+    },
+    {
+      "el": 2,
+      "case": "bus-ones",
+      "registerLoads": [
+        "PWR"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   PWR"
+    },
+    {
+      "el": 2,
+      "case": "hce-off",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG",
+        "VER",
+        "HCE"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS DISABLED  HCE"
+    },
+    {
+      "el": 2,
+      "case": "load-abort",
+      "registerLoads": [
+        "PWR",
+        "RST",
+        "AHB",
+        "AXI",
+        "NOC",
+        "AGG",
+        "VER"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS FAULT     VER"
+    },
+    {
+      "el": 2,
+      "case": "wrong-board",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    }
+  ]
+}

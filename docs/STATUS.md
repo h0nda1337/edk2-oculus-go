@@ -1,5 +1,7 @@
 # Status
 
+**UFS.** QEMU recuperó el logo con la GPT y la geometría medidas del LUN 4. La sonda SEC para observar la entrega de LK está preparada y verificada en EL1 y EL2. Falta la lectura física del panel. [Resultados y procedimiento](UFS_HANDOFF.md)
+
 Reconstruction started 2026-10-22. Offline verification extended 2026-10-25.
 
 | Milestone | New tree |

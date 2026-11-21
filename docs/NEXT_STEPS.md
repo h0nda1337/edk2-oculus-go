@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de Pacific.** La [captura en Android](evidence/ufs-splash-physical-layout-20261120.json) confirmó la geometría de `splash` en el LUN 4. Queda por verificar el estado del controlador que recibe EDK2 al salir de LK. [Integración UFS](UFS_SPLASH.md)
+**UFS de Pacific.** La [captura en Android](evidence/ufs-splash-physical-layout-20261120.json) confirmó la geometría de `splash` en el LUN 4. La siguiente acción es el arranque temporal atendido de la [sonda de sólo lectura](UFS_HANDOFF.md) y registrar su panel. La imagen pasó los casos de QEMU en EL1 y EL2. [Integración UFS](UFS_SPLASH.md)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 

@@ -1,0 +1,22 @@
+{
+  "status": "PASS-STATIC",
+  "fdSha256": "a4bcf36f87840b7ad45954a1b702f3a40ccf0802d1b28233e7bfa058b086ca69",
+  "secOnly": "5bc15fed-b682-4b88-b6a2-5d4c84c3a90e",
+  "mmioLoad": "LDR W2,[X0]",
+  "vectorsVerified": 16,
+  "registerAddresses": [
+    "0x375004",
+    "0x375000",
+    "0x37500c",
+    "0x375008",
+    "0x375038",
+    "0x383014",
+    "0x624008",
+    "0x624034",
+    "0x624030",
+    "0x624060",
+    "0x624058",
+    "0x624080",
+    "0x624078"
+  ]
+}
