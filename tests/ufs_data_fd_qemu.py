@@ -30,7 +30,7 @@ CONTROL = TM + 640 + 256
 OFFSETS = [0, 2*PAGE-8, 2*PAGE, 4*PAGE-8]
 
 @contextmanager
-def board_guest(tmp, fd, harness, dt, regs, el, lun_bytes=LUN_BYTES, leaves=None):
+def board_guest(tmp, fd, harness, dt, regs, el, lun_bytes=LUN_BYTES, leaves=None, readonly_disk=None):
     flash = tmp/"board"
     with flash.open("wb") as stream:
         stream.truncate(64 << 20)
@@ -40,9 +40,13 @@ def board_guest(tmp, fd, harness, dt, regs, el, lun_bytes=LUN_BYTES, leaves=None
     trace, events, sock = tmp/"trace", tmp/"events", tmp/"qtest"
     events.write_text("ufs_exec_nop_cmd\nufs_exec_scsi_cmd\nufs_exec_query_cmd\n"
                       "scsi_disk_dma_command_READ\nscsi_disk_dma_command_WRITE\n")
+    unit = unit_args(lun_bytes) if readonly_disk is None else [
+        "-blockdev", f"driver=file,node-name=source,filename={readonly_disk},read-only=on",
+        "-blockdev", "driver=raw,node-name=lun4,file=source,read-only=on",
+        "-device", "ufs-lu,drive=lun4,lun=4"]
     extra = ["-machine", "highmem=off,iommu=smmuv3", "-drive",
              f"if=pflash,index=0,file={flash},format=raw,readonly=on", "-device", "ufs,addr=1.0,mcq=off",
-             *unit_args(lun_bytes), "-qtest", f"unix:{sock},server=on,wait=off", "-qtest-log", "/dev/null",
+             *unit, "-qtest", f"unix:{sock},server=on,wait=off", "-qtest-log", "/dev/null",
              "-trace", f"events={events},file={trace}"]
     with guest(fd, harness, el, BASE, extra) as (g, ram), socket.socket(socket.AF_UNIX) as conn:
         for _ in range(100):
