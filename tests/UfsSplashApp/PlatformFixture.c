@@ -7,6 +7,7 @@
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/DevicePathLib.h>
+#include <Library/GoUfsHandoffLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
@@ -16,6 +17,7 @@
 #include <Protocol/PciIo.h>
 
 typedef struct {
+  LIST_ENTRY           Link;
   VOID                 *PciToken;
   VOID                 *Host;
   VOID                 *BouncePage;
@@ -23,9 +25,11 @@ typedef struct {
   EFI_PHYSICAL_ADDRESS Bus;
   UINT64               Required;
   BOOLEAN              Granted;
+  UINTN                GrantNumber;
   BOOLEAN              Capacity;
 } FIXTURE_MAP;
 
+STATIC LIST_ENTRY mMappings = INITIALIZE_LIST_HEAD_VARIABLE (mMappings);
 STATIC EFI_PCI_IO_PROTOCOL *mPci;
 STATIC EFI_HANDLE mController;
 STATIC PLATFORM_CASE mCase;
@@ -39,6 +43,9 @@ BoardInitialize (NON_DISCOVERABLE_DEVICE *This)
   ++mInit;
   if (mCase == BusyHandoff) {
     return EFI_NOT_READY;
+  }
+  if (mCase == Takeover || mCase == NoRelease) {
+    return GoUfsCheckHandoff (mController, (UINTN)This->Resources->AddrRangeMin, GO_QEMU_UFS_VERSION);
   }
   // Enable only the assigned virtual PCI controller once DXE requests ownership.
   return mPci->Attributes (mPci, EfiPciIoAttributeOperationEnable,
@@ -121,6 +128,7 @@ BoardMap (EDKII_IOMMU_PROTOCOL *This, EDKII_IOMMU_OPERATION Operation, VOID *Hos
   }
   Record->Bus = *Bus;
   Record->Length = *Length;
+  InsertTailList (&mMappings, &Record->Link);
   *Mapping = Record;
   ++mMap;
   return EFI_SUCCESS;
@@ -150,7 +158,7 @@ BoardSetAttribute (EDKII_IOMMU_PROTOCOL *This, EFI_HANDLE Device, VOID *Mapping,
   }
   Record->Granted = Access != 0;
   if (Access != 0) {
-    ++mGrant;
+    Record->GrantNumber = ++mGrant;
   } else {
     ++mRevoke;
   }
@@ -183,9 +191,24 @@ BoardUnmap (EDKII_IOMMU_PROTOCOL *This, VOID *Mapping)
     }
     Print (L"\r\n");
   }
+  RemoveEntryList (&Record->Link);
   ++mUnmap;
   FreePool (Record);
   return EFI_SUCCESS;
+}
+
+UINTN
+LiveCommonGrant (EFI_PHYSICAL_ADDRESS Bus, UINTN Bytes)
+{
+  for (LIST_ENTRY *Link = GetFirstNode (&mMappings); !IsNull (&mMappings, Link);
+       Link = GetNextNode (&mMappings, Link)) {
+    FIXTURE_MAP *Record = BASE_CR (Link, FIXTURE_MAP, Link);
+    if (Record->Granted && Record->Required == (EDKII_IOMMU_ACCESS_READ | EDKII_IOMMU_ACCESS_WRITE) &&
+        Record->Bus == Bus && Record->Length >= Bytes && Bus <= MAX_UINT64 - Bytes) {
+      return Record->GrantNumber;
+    }
+  }
+  return 0;
 }
 
 STATIC EDKII_IOMMU_PROTOCOL mDma = {
@@ -262,7 +285,28 @@ PublishFixture (PLATFORM_CASE Mode, EFI_HANDLE *Platform)
   }
   *Platform = mController;
   Print (L"PLATFORM RESOURCE %lx SIZE %lx\r\n", Bar->AddrRangeMin, Bar->AddrLen);
+  if (Mode == Takeover || Mode == NoRelease) {
+    return PrepareInheritedQueues (Mode, mController, mPci, (UINTN)Bar->AddrRangeMin);
+  }
   return EFI_SUCCESS;
+}
+
+EFI_STATUS
+UnpublishInheritedFixture (EFI_STATUS Result)
+{
+  if (!IsListEmpty (&mMappings)) {
+    return EFI_NOT_READY;
+  }
+  EFI_STATUS Status = gBS->UninstallMultipleProtocolInterfaces (
+                             mController, &gGoUfsPlatformDmaProtocolGuid, &mDma,
+                             &gEdkiiNonDiscoverableDeviceProtocolGuid, &mDevice,
+                             &gEfiDevicePathProtocolGuid, &mPath.Vendor.Header, NULL);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+  FreePool (mDevice.Resources);
+  Print (L"PLATFORM FIXTURE RELEASED\r\n");
+  return Result;
 }
 
 VOID

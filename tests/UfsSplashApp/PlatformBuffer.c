@@ -22,7 +22,8 @@ ReadCase (EFI_HANDLE Esp, PLATFORM_CASE *Mode)
   STATIC CONST struct { CHAR16 *Name; PLATFORM_CASE Mode; } Markers[] = {
     { L"BOUNCE", Bounce }, { L"DENYTAIL", DenyTail }, { L"SHORTMAP", ShortTail },
     { L"OTHERDMA", WrongHandle }, { L"NODMA", MissingDma }, { L"BUSY", BusyHandoff }, { L"NOGRANT", RejectProbe },
-    { L"RETRY", RetryRevoke }, { L"ALLOC", Allocation }, { L"NOLUN4", MissingLun }, { L"GPT", Gpt }
+    { L"RETRY", RetryRevoke }, { L"ALLOC", Allocation }, { L"NOLUN4", MissingLun }, { L"GPT", Gpt },
+    { L"TAKEOVER", Takeover }, { L"NORELEASE", NoRelease }
   };
   EFI_SIMPLE_FILE_SYSTEM_PROTOCOL *Fs;
   EFI_STATUS Status = gBS->HandleProtocol (Esp, &gEfiSimpleFileSystemProtocolGuid, (VOID **)&Fs);
@@ -228,8 +229,14 @@ Run (EFI_HANDLE Image)
   }
   Print (L"PLATFORM TRANSPORT %r\r\n", Status);
   if (!EFI_ERROR (Status)) {
-    if (!Bds) {
+    if (Mode == Takeover) {
+      Status = CheckReplacementQueues (FALSE);
+    }
+    if (!Bds && !EFI_ERROR (Status)) {
       Status = TestCapacity (Controller);
+    }
+    if (Mode == Takeover && !EFI_ERROR (Status)) {
+      Status = CheckReplacementQueues (TRUE);
     }
     EFI_STATUS Stopped = Transport->Stop (Transport, Controller, 0, NULL);
     Print (L"PLATFORM STOP TRANSPORT %r\r\n", Stopped);
@@ -251,7 +258,7 @@ Run (EFI_HANDLE Image)
 EFI_STATUS EFIAPI
 UefiMain (EFI_HANDLE Image, EFI_SYSTEM_TABLE *Table)
 {
-  EFI_STATUS Status = Run (Image);
+  EFI_STATUS Status = FinishInheritedQueues (Run (Image));
   PrintFixtureStats ();
   Print (L"PLATFORM RESULT %r\r\n", Status);
   Table->RuntimeServices->ResetSystem (EfiResetShutdown, Status, 0, NULL);

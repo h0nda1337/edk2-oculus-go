@@ -29,6 +29,7 @@
   UefiDriverEntryPoint|MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf
   UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
   UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf
+  GoUfsHandoffLib|OculusGoPkg/Library/GoUfsHandoffLib/GoUfsHandoffLib.inf
   GoUfsSplashLib|OculusGoPkg/Library/GoUfsSplashLib/GoUfsSplashLib.inf
   NULL|ArmPkg/Library/CompilerIntrinsicsLib/CompilerIntrinsicsLib.inf
   NULL|MdePkg/Library/BaseStackCheckLib/BaseStackCheckLib.inf

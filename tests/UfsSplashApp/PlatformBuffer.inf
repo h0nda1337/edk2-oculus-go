@@ -8,6 +8,7 @@
 [Sources]
   PlatformBuffer.c
   PlatformFixture.c
+  InheritedQueues.c
   PlatformFixture.h
 [Packages]
   MdePkg/MdePkg.dec
@@ -18,6 +19,8 @@
   BaseMemoryLib
   DevicePathLib
   GoUfsSplashLib
+  GoUfsHandoffLib
+  IoLib
   MemoryAllocationLib
   UefiApplicationEntryPoint
   UefiBootServicesTableLib
@@ -31,6 +34,7 @@
   gEfiSimpleFileSystemProtocolGuid
   gEdkiiIoMmuProtocolGuid
   gGoUfsPlatformDmaProtocolGuid
+  gGoPacificUfsHandoffProtocolGuid
   gEdkiiNonDiscoverableDeviceProtocolGuid
   gEdkiiUfsHostControllerProtocolGuid
 [Guids]
