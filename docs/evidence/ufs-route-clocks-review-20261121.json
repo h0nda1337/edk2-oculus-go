@@ -1,0 +1,227 @@
+{
+  "scope": "terminal-ufs-route-clocks",
+  "decision": "ONE-ATTENDED-TEMPORARY-BOOT",
+  "maxAttempts": 1,
+  "dateMexicoCity": "2026-11-21",
+  "physicalExecution": "UNKNOWN",
+  "physicalScope": "CPU reads of one AGGRE2 GDSCR and four GCC branches; borrowed UFS queues, the SMMU and the medium receive no accesses",
+  "procedure": "docs/UFS_ROUTE_CLOCKS.md",
+  "entryAddress": "0x80081800",
+  "fd": {
+    "file": "build/DEBUG-UFS_ROUTE_CLOCKS-20261122-041647/OCULUS_GO_DIRECT.fd",
+    "sha256": "cfa621a393381fdc085c30afdd2041276de7c4ce291f06a59b044803e48709f7",
+    "size": 4194304
+  },
+  "image": {
+    "file": "local/OculusGo-UFS-ROUTE-CLOCKS-cfa621a39338.img",
+    "sha256": "0f91040c28e17c466acd89bf605a5b81b5da07f192b6b40a8fa3f58e973e3033",
+    "size": 380928
+  },
+  "containerManifest": {
+    "file": "local/OculusGo-UFS-ROUTE-CLOCKS-cfa621a39338.json",
+    "sha256": "19321e4367baee402e997d8f6b0dde91edbf18e9c9cc610f1b50c5a714e0fa49",
+    "size": 765
+  },
+  "model": {
+    "file": "build/DEBUG-UFS_ROUTE_CLOCKS-20261122-041647/QEMU.json",
+    "sha256": "9d45bf517f39d69547579f36aa84f3940ea4d891b063ceec2861bab4c54a631b",
+    "size": 5676
+  },
+  "staticAudit": {
+    "file": "build/DEBUG-UFS_ROUTE_CLOCKS-20261122-041647/STATIC.json",
+    "sha256": "bc95a68b6d544b944169ff276033de151e93d27e104caa55dcbbe1cfe93dcd09",
+    "size": 328
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-UFS_ROUTE_CLOCKS-20261122-041647/SOURCES.json",
+    "sha256": "59d6c37acc8fb1f1cf4fe3d6c0813d89a82320fa13fcf892a42534651d0bfb21",
+    "size": 30901
+  },
+  "publishedModel": {
+    "file": "docs/evidence/ufs-route-clocks-fd-qemu-20261121.json",
+    "sha256": "9d45bf517f39d69547579f36aa84f3940ea4d891b063ceec2861bab4c54a631b",
+    "size": 5676
+  },
+  "stockAudit": {
+    "file": "docs/evidence/ufs-route-clocks-stock-20261121.json",
+    "sha256": "0c14990719e36522c04a3653a77b1f21980fad285534dc50dea36e62728d3a96",
+    "size": 3652
+  },
+  "priorReadback": {
+    "file": "local/readonly-preflight-20261122-041010/REPORT.json",
+    "sha256": "c87d0a789c8f0a4969a9cf9d24cb764d996c1f651838d698f22547679e1c9112",
+    "size": 7738
+  },
+  "checkedSourceFiles": [
+    {
+      "file": "OculusGoPkg/Include/Display/Framebuffer.h",
+      "sha256": "f8b855b850cd0c495a1c7bc07a3572b8e37f21fb0e318c23505820c7e313da97",
+      "size": 549
+    },
+    {
+      "file": "OculusGoPkg/Include/third-party/edk2/ConsoleFont.h",
+      "sha256": "4c7df44858cdb105039c7ddf0f5a84b7a436e8dae810f5c331e5c5c3eabc4dac",
+      "size": 20331
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.dsc",
+      "sha256": "24108455514bbc70a5ad2fd06e2fc53da554de7e2cac231864a7c24f60947ce0",
+      "size": 21415
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.fdf",
+      "sha256": "0a5e1dd8de3ebf1fd34608bf8a377f34947f3a8c70402538ade1d78248ffd661",
+      "size": 9418
+    },
+    {
+      "file": "OculusGoPkg/SecMem/Fdt.c",
+      "sha256": "893a6fb0c29c71e87078725cda4a58c7467b25e83700b02517c43e2b4a73afc3",
+      "size": 8577
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsEntry.S",
+      "sha256": "a60a086a375d39a5a6e3b72628f0edfce93d9f88edb0210807ab7cda1d531cf7",
+      "size": 2018
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsHandoff.c",
+      "sha256": "74fc5a68bf5b1cd2dfe6b934516d5b2456c13e144b11ab6246c0a69e6cb7244d",
+      "size": 4053
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsPanel.h",
+      "sha256": "37dc4796c495cddab5d2491bbd154b13a99873c4acb88f7aa5edf88c72c99247",
+      "size": 1118
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsRouteClocks.c",
+      "sha256": "8bcebfc4576666f1417f59a8b9001b2b480764beb094840157257d33fbbe62bc",
+      "size": 1249
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsRouteClocks.inf",
+      "sha256": "c1aeaeb221908ad511d6a397986ba5d4c53e2b91f8dbb044bf5fab8a3ab195da",
+      "size": 523
+    },
+    {
+      "file": "scripts/build-edk2.ps1",
+      "sha256": "1206f7d1351a4dfe1c7af374cb1fc6187e1d69337e5b22d3462a1919e036f709",
+      "size": 1107
+    },
+    {
+      "file": "scripts/build.sh",
+      "sha256": "3ac890d5ba66048aa316dc7420df0ccde40cd9d8d559efa133eca00923247abb",
+      "size": 4690
+    },
+    {
+      "file": "tests/entry_harness.S",
+      "sha256": "1ab869ad8e6c554adbea895205d71f502e8e22c8e15f516686e767cac6c85c8a",
+      "size": 464
+    },
+    {
+      "file": "tests/sec_c_qemu.py",
+      "sha256": "e7ce7f305392f09732c1fc0a90db4313779278bb026cf90617f1ce7373d39e38",
+      "size": 7879
+    },
+    {
+      "file": "tests/sec_dxe_static.py",
+      "sha256": "8711bd8d7690abd383ae8638785d3e50e62e032755cf4b2b0ed90d255bc07429",
+      "size": 13652
+    },
+    {
+      "file": "tests/sec_mem_qemu.py",
+      "sha256": "f577fa3bbdd0fc6ed11563adc1042bdf5bc0116036a2b6bf85e4d30fcdb3ac17",
+      "size": 16519
+    },
+    {
+      "file": "tests/ufs_handoff_qemu.py",
+      "sha256": "e8d6e85646deeb7038fb4c8b7466b8fc9b9da2168653a9d0c4ba62da2a24e5db",
+      "size": 7824
+    },
+    {
+      "file": "tests/ufs_handoff_static.py",
+      "sha256": "87c9ce75c6bbf88ef54cdb43e339b0aa4ebaade4dbb8f34ad2c6132be311b289",
+      "size": 2485
+    },
+    {
+      "file": "tests/ufs_route_clocks_fd_qemu.py",
+      "sha256": "77182502dcb669714ea9442cac4e451c9e3704d14752d0f3c86f72f05d24967e",
+      "size": 3443
+    },
+    {
+      "file": "tools/android_boot.py",
+      "sha256": "5ee66042724df6eee47c394cb74e609224893861b75496fc479d193fd1e8e90f",
+      "size": 4968
+    },
+    {
+      "file": "tools/attended_terminal.py",
+      "sha256": "7750ccf180778102e560a5924c91a94c014d79b344447a7fe346bd29d616c067",
+      "size": 4608
+    },
+    {
+      "file": "tools/audit_build_sources.py",
+      "sha256": "d920f0f5d102b55a9d5aa9c692d5b3aab38aed379b78946e6166d183bfd60a6b",
+      "size": 4703
+    },
+    {
+      "file": "tools/audit_ufs_route_clocks.py",
+      "sha256": "3a25f9a191df6808b5c02db753915f257d7acbe828b585b9e61f0d63053a1177",
+      "size": 7543
+    },
+    {
+      "file": "tools/collect_readonly_preflight.py",
+      "sha256": "bf5a42f15ce19888199e12e4e1a73a7f92a0f7c0adf115cf86c7ef6aec165d89",
+      "size": 8495
+    },
+    {
+      "file": "tools/emulate_entry.py",
+      "sha256": "ee1576486a57a92fd0155481b2d7ed957badda779538be8df2bf284dadb5489f",
+      "size": 8358
+    },
+    {
+      "file": "tools/emulate_sec_handoff.py",
+      "sha256": "6a757be8988629c8f537fdd644089a5631ad6347c055b7ce14173affc12a1ee2",
+      "size": 13021
+    },
+    {
+      "file": "tools/inspect_fastboot.py",
+      "sha256": "386c1a286153cc98e03d4c39d31309ae07245bfe1a4df26c3bca8ee22f582c58",
+      "size": 5150
+    },
+    {
+      "file": "tools/run_sec_c_once.py",
+      "sha256": "f55dddfec47f0ed83ee3524c95790353bd9f7e0932ba06611b4a892c022fe4bc",
+      "size": 11681
+    },
+    {
+      "file": "tools/run_sec_visual_once.py",
+      "sha256": "626f21bd4b6ea88666227f428c1b9429e7e8eb10b568850adc433d7f16bcd82c",
+      "size": 10548
+    },
+    {
+      "file": "tools/run_ufs_handoff_once.py",
+      "sha256": "ae0f21505937d184992a06b33a40a2e9e8348786d7796e22cc80c77eb895b3cb",
+      "size": 2993
+    },
+    {
+      "file": "tools/run_ufs_route_clocks_once.py",
+      "sha256": "32310f396b780faad0d657799c739f7a0984cc93489f9ef74d02e83fc3efefde",
+      "size": 4803
+    },
+    {
+      "file": "tools/terminal_review.py",
+      "sha256": "d0ae89926b3980718af47ed171c8452458c56cf42346167b1931a6d4e6c2c82c",
+      "size": 3027
+    },
+    {
+      "file": "tools/verify_fd.py",
+      "sha256": "ff110daee60b4bc310aebaf8abe216e400ff59cea0cf5f81a792539780492243",
+      "size": 3753
+    },
+    {
+      "file": "tools/verify_sec_visual_data.py",
+      "sha256": "a23638b02c175399adf499c5abf6af8c9a7eaec71facb554f57b7ee3b727c7d8",
+      "size": 4628
+    }
+  ]
+}
