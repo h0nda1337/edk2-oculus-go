@@ -14,7 +14,10 @@ from ufs_splash_qemu import EFI, digest
 from ufs_data_qemu import CAPACITY, LUN_BYTES, unit_args
 from ufs_nop11_bus import PAGE, WINDOW
 
-def run(tmp, size, owned=False):
+SMMU_TRACE = ("smmuv3_translate_disable", "smmuv3_translate_bypass", "smmuv3_translate_success")
+
+
+def run(tmp, size, owned=False, *, machine="virt", route_slot=None):
     firmware = Path("/usr/share/AAVMF/AAVMF_CODE.fd")
     nvram = tmp / "vars.fd"
     shutil.copyfile("/usr/share/AAVMF/AAVMF_VARS.fd", nvram)
@@ -22,23 +25,32 @@ def run(tmp, size, owned=False):
     boot = esp / "EFI/BOOT"
     boot.mkdir(parents=True)
     app = "UfsOwnedPage.efi" if owned else "UfsCapacityMap.efi"
+    if route_slot is not None:
+        if not owned or not 1 <= route_slot <= 31:
+            raise ValueError("route probe needs the owned-page app and a valid PCI slot")
+        app = "UfsIortProbe.efi"
     modules = {app:boot/"BOOTAA64.EFI",
                "UfsPciHcDxe.efi":esp/"UfsPciHcDxe.efi", "UfsPassThruDxe.efi":esp/"UfsPassThruDxe.efi"}
     for name, dest in modules.items():
         shutil.copyfile(EFI/name, dest)
     events, trace = tmp/"events", tmp/"trace"
     forbidden = ("scsi_disk_dma_command_READ", "scsi_disk_dma_command_WRITE")
-    events.write_text("\n".join(("ufs_exec_scsi_cmd", *forbidden))+"\n")
-    cmd = ["qemu-system-aarch64", "-machine","virt", "-cpu","cortex-a57", "-m","1536M",
+    smmu_events = SMMU_TRACE if route_slot is not None else ()
+    events.write_text("\n".join(("ufs_exec_scsi_cmd", *forbidden, *smmu_events))+"\n")
+    ufs = "ufs,mcq=off" if route_slot is None else f"ufs,mcq=off,addr={route_slot:x}.0"
+    cmd = ["qemu-system-aarch64", "-machine",machine, "-cpu","cortex-a57", "-m","1536M",
            "-nodefaults","-display","none","-serial","stdio","-monitor","none","-no-reboot",
            "-drive",f"if=pflash,format=raw,readonly=on,file={firmware}",
            "-drive",f"if=pflash,format=raw,file={nvram}",
            "-drive",f"if=none,id=esp,format=raw,readonly=on,file=fat:ro:{esp}",
            "-device","virtio-blk-pci,drive=esp,bootindex=1",
-           "-device","ufs,mcq=off", *unit_args(size), "-trace",f"events={events},file={trace}"]
+           "-device",ufs, *unit_args(size), "-trace",f"events={events},file={trace}"]
     result = subprocess.run(cmd, capture_output=True, timeout=90, check=True)
     log = result.stdout.decode(errors="replace")
-    commands = trace.read_text().splitlines()
+    if route_slot is not None:
+        (tmp/"route-serial.log").write_text(log)
+    commands = [line for line in trace.read_text().splitlines()
+                if line.partition(" ")[0] not in smmu_events]
     allowed = re.compile(r"ufs_exec_scsi_cmd slot [0-9]+, lun 0x4, opcode 0x25")
     if not all(allowed.fullmatch(c) for c in commands):
         raise ValueError(f"unexpected UFS or disk access: {commands}")

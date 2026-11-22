@@ -1,6 +1,9 @@
 /** QEMU/AAVMF only. Observe the provider's actual DMA map on a synchronous SCSI read.
     SPDX-License-Identifier: BSD-2-Clause-Patent **/
 #include "ConnectProvider.h"
+#ifdef TEST_UFS_IORT
+#include "UfsIortProbe.h"
+#endif
 #include <IndustryStandard/Scsi.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/UefiBootServicesTableLib.h>
@@ -136,6 +139,11 @@ Measure (EFI_HANDLE Image)
   if (!EFI_ERROR (Status)) {
     Status = gBS->HandleProtocol (Handles[0], &gEdkiiUfsHostControllerProtocolGuid, (VOID **)&Hc);
   }
+#ifdef TEST_UFS_IORT
+  if (!EFI_ERROR (Status)) {
+    Status = PrintUfsIort (Handles[0]);
+  }
+#endif
   gBS->FreePool (Handles);
   if (EFI_ERROR (Status)) {
     return Status;

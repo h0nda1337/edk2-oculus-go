@@ -38,3 +38,4 @@
   tests/UfsSplashApp/UfsSplashApp.inf
   tests/UfsSplashApp/UfsCapacityMap.inf
   tests/UfsSplashApp/UfsOwnedPage.inf
+  tests/UfsSplashApp/UfsIortProbe.inf

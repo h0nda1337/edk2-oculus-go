@@ -1,0 +1,34 @@
+## QEMU only. SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = UfsIortProbe
+  FILE_GUID = 3194fffb-75cf-4879-9b72-696b53cf5e64
+  MODULE_TYPE = UEFI_APPLICATION
+  ENTRY_POINT = UefiMain
+[Sources]
+  UfsIortProbe.c
+  CapacityMap.c
+  ConnectProvider.c
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  DevicePathLib
+  MemoryAllocationLib
+  UefiApplicationEntryPoint
+  UefiBootServicesTableLib
+  UefiLib
+[Protocols]
+  gEfiDriverBindingProtocolGuid
+  gEfiLoadedImageProtocolGuid
+  gEfiPciIoProtocolGuid
+  gEdkiiUfsHostControllerProtocolGuid
+  gEfiExtScsiPassThruProtocolGuid
+
+[Guids]
+  gEfiAcpi20TableGuid
+
+[BuildOptions]
+  GCC:*_*_AARCH64_CC_FLAGS = -DTEST_OWNED_PAGE -DTEST_UFS_IORT

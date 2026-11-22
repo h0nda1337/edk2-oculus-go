@@ -1,0 +1,172 @@
+{
+  "outcome": "PASS-QEMU-UFS-IORT",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "readOnlyLun": 4,
+  "lunBytes": 4831838208,
+  "cases": [
+    {
+      "name": "slot-three",
+      "machine": "virt,acpi=on,gic-version=3,its=on,iommu=smmuv3",
+      "uefiPciLocation": "0000:00:03.0",
+      "requesterId": 24,
+      "firmwareRoute": {
+        "target": "SMMUv3",
+        "nodeIdentifier": 1,
+        "firstRequesterId": 0,
+        "lastRequesterId": 255,
+        "outputBase": 0,
+        "targetNodeOffset": 72,
+        "sid": 24,
+        "iortSha256": "3e377a7efdc4a6b7f17a222ed961489b5f37000f11d03f7d82c73e476338146c"
+      },
+      "endpoints": [
+        {
+          "page": 1,
+          "cpu": "0x80441000",
+          "bus": "0x80441000",
+          "payload": "0011ffff00001000",
+          "traceSid": 24,
+          "traceMode": "disable"
+        },
+        {
+          "page": 1,
+          "cpu": "0x80441ff8",
+          "bus": "0x80441ff8",
+          "payload": "0011ffff00001000",
+          "traceSid": 24,
+          "traceMode": "disable"
+        }
+      ],
+      "readCapacityCommands": 3,
+      "ufsMediaReads": 0,
+      "ufsMediaWrites": 0,
+      "tailRefusal": true,
+      "efiSha256": {
+        "UfsIortProbe.efi": "67e08eda95352c006e5187bd1e5056e9e735323788d37a4cae12f8de4811bd7a",
+        "UfsPciHcDxe.efi": "fc72ce301d3f6b3c268f9439bcb41769553b3d2bd91290daf4866a780e1f87c2",
+        "UfsPassThruDxe.efi": "5813c936a01deac4f9cf8b252f7cb93909de4eda44de20833163782460fef4dc"
+      },
+      "firmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3"
+    },
+    {
+      "name": "slot-five",
+      "machine": "virt,acpi=on,gic-version=3,its=on,iommu=smmuv3",
+      "uefiPciLocation": "0000:00:05.0",
+      "requesterId": 40,
+      "firmwareRoute": {
+        "target": "SMMUv3",
+        "nodeIdentifier": 1,
+        "firstRequesterId": 0,
+        "lastRequesterId": 255,
+        "outputBase": 0,
+        "targetNodeOffset": 72,
+        "sid": 40,
+        "iortSha256": "3e377a7efdc4a6b7f17a222ed961489b5f37000f11d03f7d82c73e476338146c"
+      },
+      "endpoints": [
+        {
+          "page": 1,
+          "cpu": "0x80441000",
+          "bus": "0x80441000",
+          "payload": "0011ffff00001000",
+          "traceSid": 40,
+          "traceMode": "disable"
+        },
+        {
+          "page": 1,
+          "cpu": "0x80441ff8",
+          "bus": "0x80441ff8",
+          "payload": "0011ffff00001000",
+          "traceSid": 40,
+          "traceMode": "disable"
+        }
+      ],
+      "readCapacityCommands": 3,
+      "ufsMediaReads": 0,
+      "ufsMediaWrites": 0,
+      "tailRefusal": true,
+      "efiSha256": {
+        "UfsIortProbe.efi": "67e08eda95352c006e5187bd1e5056e9e735323788d37a4cae12f8de4811bd7a",
+        "UfsPciHcDxe.efi": "fc72ce301d3f6b3c268f9439bcb41769553b3d2bd91290daf4866a780e1f87c2",
+        "UfsPassThruDxe.efi": "5813c936a01deac4f9cf8b252f7cb93909de4eda44de20833163782460fef4dc"
+      },
+      "firmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3"
+    },
+    {
+      "name": "only-its",
+      "machine": "virt,acpi=on,gic-version=3,its=on",
+      "uefiPciLocation": "0000:00:03.0",
+      "requesterId": 24,
+      "firmwareRoute": {
+        "target": "ITS",
+        "nodeIdentifier": 0,
+        "firstRequesterId": 0,
+        "lastRequesterId": 65535,
+        "outputBase": 0,
+        "targetNodeOffset": 48,
+        "sid": null,
+        "iortSha256": "23c07a885129bd71cac716300b7c1a806c79544ede33da36cb93e2538c3405a8"
+      },
+      "endpoints": [
+        {
+          "page": 1,
+          "cpu": "0x80441000",
+          "bus": "0x80441000",
+          "payload": "0011ffff00001000"
+        },
+        {
+          "page": 1,
+          "cpu": "0x80441ff8",
+          "bus": "0x80441ff8",
+          "payload": "0011ffff00001000"
+        }
+      ],
+      "readCapacityCommands": 3,
+      "ufsMediaReads": 0,
+      "ufsMediaWrites": 0,
+      "tailRefusal": true,
+      "efiSha256": {
+        "UfsIortProbe.efi": "67e08eda95352c006e5187bd1e5056e9e735323788d37a4cae12f8de4811bd7a",
+        "UfsPciHcDxe.efi": "fc72ce301d3f6b3c268f9439bcb41769553b3d2bd91290daf4866a780e1f87c2",
+        "UfsPassThruDxe.efi": "5813c936a01deac4f9cf8b252f7cb93909de4eda44de20833163782460fef4dc"
+      },
+      "firmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3"
+    },
+    {
+      "name": "no-iort",
+      "machine": "virt-2.7,acpi=on,gic-version=2",
+      "uefiPciLocation": "0000:00:03.0",
+      "requesterId": 24,
+      "firmwareRoute": {
+        "target": "NO-IORT",
+        "sid": null
+      },
+      "endpoints": [
+        {
+          "page": 1,
+          "cpu": "0x80441000",
+          "bus": "0x80441000",
+          "payload": "0011ffff00001000"
+        },
+        {
+          "page": 1,
+          "cpu": "0x80441ff8",
+          "bus": "0x80441ff8",
+          "payload": "0011ffff00001000"
+        }
+      ],
+      "readCapacityCommands": 3,
+      "ufsMediaReads": 0,
+      "ufsMediaWrites": 0,
+      "tailRefusal": true,
+      "efiSha256": {
+        "UfsIortProbe.efi": "67e08eda95352c006e5187bd1e5056e9e735323788d37a4cae12f8de4811bd7a",
+        "UfsPciHcDxe.efi": "fc72ce301d3f6b3c268f9439bcb41769553b3d2bd91290daf4866a780e1f87c2",
+        "UfsPassThruDxe.efi": "5813c936a01deac4f9cf8b252f7cb93909de4eda44de20833163782460fef4dc"
+      },
+      "firmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3"
+    }
+  ],
+  "pacificUfsSidAfterLk": "UNKNOWN",
+  "pacificSecPageBusAfterLk": "UNKNOWN"
+}
