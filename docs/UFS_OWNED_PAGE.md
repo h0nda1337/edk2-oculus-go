@@ -18,7 +18,13 @@ Cada respuesta de `READ CAPACITY(10)` mide ocho bytes. En QEMU, el LUN 4 devolvi
 
 El control negativo del proveedor rechazó el mapeo del extremo final antes del envío. Las cuatro páginas conservaron su patrón de guarda. Un LUN con un bloque menos produjo `Volume Corrupt`. Las trazas de ambos entornos registraron únicamente comandos SCSI de capacidad y cero operaciones de sector. La cobertura de los extremos alcanza 16 bytes distintos dentro de la página. [Proveedor EDK2 y control negativo](evidence/ufs-owned-page-provider-20261121.json) · [Traducción de bus independiente](evidence/ufs-owned-page-translated-20261121.json)
 
-## Qué puede aportar el próximo arranque
+## Resultado de UFS_HEAP4K en Pacific
+
+El Go mostró `UFS HEAP NO PAGE`. En el slot 0, LK había registrado la dirección de bus de descriptor `0x918FDF00`. El desplazamiento de 32 bytes sitúa la respuesta en `0x918FDF20`, dentro de la página `[0x918FD000, 0x918FE000)`. Tras dos recorridos estables de cuatro nodos, ningún intervalo libre tenía espacio útil que cubriera **esa página entera**. El operador confirmó que las etiquetas `FREE` y `END` estaban ausentes. El panel sólo las dibuja cuando encuentra un intervalo que cumpla el criterio. [Transcripción y huellas del arranque temporal](evidence/ufs-heap4k-transfer-20261121.json)
+
+Esta prueba pasiva descarta la candidatura de esa página en el arranque observado. La disponibilidad de otras páginas del montículo y la traducción DMA de la página propia en `0x80441000` siguen por determinar.
+
+## Cómo se interpreta el panel
 
 La copia original de `aboot_a` del Go muestra que LK reserva el descriptor de comando UFS con alineación de 128 bytes, escribe la dirección en el descriptor de transferencia y codifica la respuesta a 32 bytes de la base. En la ruta de finalización devuelve la asignación a su montículo. La lista de intervalos libres tiene la cabecera en `0x918E3170` y almacena anterior, siguiente y tamaño en las primeras tres palabras de cada nodo. [Auditoría reproducible del ELF](../tools/audit_lk_response_heap.py) · [Direcciones y huella de la copia](evidence/ufs-response-heap-stock-20261121.json) · [Límites iniciales del montículo](evidence/ufs-header-lifetime-20261121.json)
 

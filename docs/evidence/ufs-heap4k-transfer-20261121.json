@@ -1,0 +1,78 @@
+{
+  "scope": "terminal-ufs-heap4k",
+  "testedRevision": "cc939b480d0de77fd47b4ea76e8a592429884698",
+  "reviewSha256": "217e389b584a96442cbdfd5bc3503cbebc4fa3155615cfed061fdf013b0979c9",
+  "preflightReportSha256": "eb46751f2f6a7fe48f2d67367850780eeb6f4a72d9ecc35f6d70fc6ddb9937f5",
+  "matchedOriginalsBefore": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-22T03:43:54.784564+00:00",
+  "transferReportSha256": "8a79c96e1e294db16d82eae5f199ecf768ee63754987cf728a5669cd021b0236",
+  "fastbootBootStderrSha256": "cd7c83a44b092a017ca87373598f2b20943ac3555d2a3d0280aa9dbd4e3d31db",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "imageSha256": "f66bc63796b06b6df9fd9f9457980b2f9499db731a7e5c83b1ec55215f9e3ebb",
+  "fdSha256": "249e5a92feab1e510a84a4da11ba8b136c029e45b7401f72528269afca051d5c",
+  "fastbootResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "temporaryBootCommandIssued": true,
+  "partitionWriteCommandIssued": false,
+  "physicalProbeExecution": "CONFIRMED by operator transcription",
+  "physicalPanel": {
+    "source": "Operator transcription. Operator explicitly confirmed that the FREE and END labels did not appear.",
+    "rawLines": [
+      "UFS HEAP NO PAGE",
+      "UCD 918FDF00",
+      "RSP 918FDF20",
+      "PAGE 918FD000",
+      "NODES 00000004",
+      "CPU ONLY"
+    ],
+    "absentLabels": [
+      "FREE",
+      "END"
+    ]
+  },
+  "observation": {
+    "nativeSlot": 0,
+    "ucdBusFromUtrd": "0x918fdf00",
+    "responseBusFromDescriptor": "0x918fdf20",
+    "responsePageBus": "0x918fd000",
+    "responsePageEndExclusive": "0x918fe000",
+    "freeListNodes": 4,
+    "stableSnapshots": 2,
+    "wholePageInSingleFreePayload": false,
+    "freeExtentStart": null,
+    "freeExtentEnd": null
+  },
+  "resultScope": "Only the page containing the historical UFS response address was checked for full coverage inside a free payload.",
+  "scsiCommandsByProbe": 0,
+  "mediaSectorsReadByProbe": 0,
+  "physicalFdPageBus": "UNKNOWN",
+  "physicalGptReadFromEdk2": "UNKNOWN",
+  "postBootAndroid": "CONFIRMED by operator and via ADB",
+  "recovery": {
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-22T03:48:34+00:00",
+    "reportSha256": "6ea8f38098da3b06a3d50abbc2f23e7db01d5e0baa0e18908d64a79dc5197393",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}
