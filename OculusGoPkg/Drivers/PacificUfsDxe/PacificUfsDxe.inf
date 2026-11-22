@@ -14,13 +14,10 @@
 [LibraryClasses]
   DebugLib
   HobLib
-  IoLib
+  GoUfsHandoffLib
   NonDiscoverableDeviceRegistrationLib
-  UefiBootServicesTableLib
   UefiDriverEntryPoint
 [Guids]
   gOculusGoUfsResourceGuid
-[Protocols]
-  gGoPacificUfsHandoffProtocolGuid
 [Depex]
   TRUE

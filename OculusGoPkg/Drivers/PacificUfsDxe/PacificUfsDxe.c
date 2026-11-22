@@ -3,11 +3,9 @@
 #include <PiDxe.h>
 #include <Library/DebugLib.h>
 #include <Library/HobLib.h>
-#include <Library/IoLib.h>
+#include <Library/GoUfsHandoffLib.h>
 #include <Library/NonDiscoverableDeviceRegistrationLib.h>
-#include <Library/UefiBootServicesTableLib.h>
 #include <Platform/PacificUfs.h>
-#include <Protocol/PacificUfsHandoff.h>
 
 STATIC EFI_HANDLE mController;
 
@@ -19,29 +17,7 @@ PacificUfsPrepare (NON_DISCOVERABLE_DEVICE *Device)
       Device->Resources[0].AddrLen != PACIFIC_UFS_LENGTH) {
     return EFI_INVALID_PARAMETER;
   }
-  GO_PACIFIC_UFS_HANDOFF_PROTOCOL *Handoff;
-  EFI_STATUS Status = gBS->HandleProtocol (mController, &gGoPacificUfsHandoffProtocolGuid,
-                                           (VOID **)&Handoff);
-  if (EFI_ERROR (Status) || Handoff == NULL || Handoff->ConfirmReleased == NULL) {
-    return EFI_NOT_READY;
-  }
-  Status = Handoff->ConfirmReleased (Handoff, mController);
-  if (Status != EFI_SUCCESS) {
-    return EFI_ERROR (Status) ? Status : EFI_NOT_READY;
-  }
-
-  // UFSHCI 1.1 VER, HCE, transfer/task Run-Stop and doorbells. Check the
-  // actual release against live state before allowing transport initialization.
-  UINTN Base = (UINTN)Device->Resources[0].AddrRangeMin;
-  if (MmioRead32 (Base + 0x08) != 0x00010100) {
-    return EFI_UNSUPPORTED;
-  }
-  if ((MmioRead32 (Base + 0x34) > 1) || (MmioRead32 (Base + 0x60) != 0) ||
-      (MmioRead32 (Base + 0x80) != 0) || (MmioRead32 (Base + 0x58) != 0) ||
-      (MmioRead32 (Base + 0x78) != 0)) {
-    return EFI_NOT_READY;
-  }
-  return EFI_SUCCESS;
+  return GoUfsCheckHandoff (mController, (UINTN)Device->Resources[0].AddrRangeMin, 0x00010100);
 }
 
 EFI_STATUS EFIAPI

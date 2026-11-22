@@ -6,6 +6,9 @@
 #pragma GCC visibility pop
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
+#include <Library/IoLib.h>
+#include <Library/UefiBootServicesTableLib.h>
+#include <Protocol/PacificUfsHandoff.h>
 #include <Platform/PacificUfs.h>
 #include "../OculusGoPkg/Drivers/PacificUfsDxe/PacificUfsDxe.c"
 
@@ -23,13 +26,16 @@ HostParse (CONST VOID *Tree, UINTN Size, GO_PACIFIC_UFS_RESOURCE *Out)
   return GoPacificUfsFromFdt (Tree, Size, Out);
 }
 
-STATIC UINT32 Registers[6];
-STATIC UINTN Reads, Release;
+STATIC UINT32 Registers[2][10];
+STATIC UINTN Reads, Samples, Release;
 STATIC EFI_STATUS EFIAPI
 ConfirmReleased (GO_PACIFIC_UFS_HANDOFF_PROTOCOL *This, EFI_HANDLE Controller)
 {
   if (Controller != mController || Controller == NULL) {
     __builtin_trap ();
+  }
+  if (Release == 3) {
+    return EFI_WARN_STALE_DATA;
   }
   return Release == 2 ? EFI_SUCCESS : EFI_NOT_READY;
 }
@@ -54,25 +60,30 @@ EFI_BOOT_SERVICES *gBS = &Services;
 UINT32 EFIAPI
 MmioRead32 (UINTN Address)
 {
-  STATIC CONST UINTN Offsets[] = { 0x08, 0x34, 0x60, 0x80, 0x58, 0x78 };
+  STATIC CONST UINTN Offsets[] = { 0x08, 0x34, 0x60, 0x80, 0x58, 0x78, 0x50, 0x54, 0x70, 0x74 };
   for (UINTN I = 0; I < ARRAY_SIZE (Offsets); ++I) {
     if (Address == PACIFIC_UFS_BASE + Offsets[I] && Release == 2) {
       ++Reads;
-      return Registers[I];
+      if (Offsets[I] == 0x34 && ++Samples > 2) {
+        __builtin_trap ();
+      }
+      return Registers[Samples == 2][I];
     }
   }
   __builtin_trap ();
 }
 
 __attribute__((visibility("default"))) EFI_STATUS
-HostPrepare (UINTN State, CONST UINT32 *Snapshot, UINTN *ActualReads)
+HostPrepare (UINTN State, CONST UINT32 *First, CONST UINT32 *Second, UINTN *ActualReads)
 {
   EFI_ACPI_ADDRESS_SPACE_DESCRIPTOR Mmio = { .AddrRangeMin = PACIFIC_UFS_BASE, .AddrLen = PACIFIC_UFS_LENGTH };
   NON_DISCOVERABLE_DEVICE Device = { .Resources = &Mmio };
   mController = (EFI_HANDLE)&Device;
   Release = State;
   Reads = 0;
-  memcpy (Registers, Snapshot, sizeof (Registers));
+  Samples = 0;
+  memcpy (Registers[0], First, sizeof (Registers[0]));
+  memcpy (Registers[1], Second, sizeof (Registers[1]));
   EFI_STATUS Status = PacificUfsPrepare (&Device);
   *ActualReads = Reads;
   return Status;

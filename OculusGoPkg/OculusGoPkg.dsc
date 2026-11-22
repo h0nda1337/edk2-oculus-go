@@ -27,6 +27,7 @@
 [LibraryClasses.common]
   FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
   NonDiscoverableDeviceRegistrationLib|MdeModulePkg/Library/NonDiscoverableDeviceRegistrationLib/NonDiscoverableDeviceRegistrationLib.inf
+  GoUfsHandoffLib|OculusGoPkg/Library/GoUfsHandoffLib/GoUfsHandoffLib.inf
   GoUfsSplashLib|OculusGoPkg/Library/GoUfsSplashLib/GoUfsSplashLib.inf
 !if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf

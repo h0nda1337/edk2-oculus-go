@@ -11,6 +11,7 @@
   Include
 
 [LibraryClasses]
+  GoUfsHandoffLib|Include/Library/GoUfsHandoffLib.h
   GoUfsSplashLib|Include/Library/GoUfsSplashLib.h
 
 [Guids]

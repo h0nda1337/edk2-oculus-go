@@ -33,12 +33,15 @@ def run(stock, output):
                         "-DMDEPKG_NDEBUG", "-include", "Uefi.h", "-ffunction-sections", "-fdata-sections", "-fvisibility=hidden",
                         "-Wl,--gc-sections,-z,defs", *["-I" + str(ROOT / inc) for inc in includes],
                         ROOT / "OculusGoPkg/PrePi/PacificUfsFdt.c", ROOT / "tests/pacific_ufs_board_host.c",
+                        ROOT / "OculusGoPkg/Library/GoUfsHandoffLib/UfsHandoff.c",
                         *[fdtlib / f for f in ["fdt.c", "fdt_ro.c", "fdt_addresses.c"]],
                         "-o", module], check=True)
         guest = ct.CDLL(str(module))
         guest.HostParse.argtypes = [ct.c_void_p, ct.c_size_t, ct.POINTER(Resource)]
         guest.HostParse.restype = ct.c_uint8
-        guest.HostPrepare.argtypes = [ct.c_size_t, ct.POINTER(ct.c_uint32), ct.POINTER(ct.c_size_t)]
+        register_array = ct.c_uint32 * 10
+        guest.HostPrepare.argtypes = [ct.c_size_t, ct.POINTER(ct.c_uint32), ct.POINTER(ct.c_uint32),
+                                      ct.POINTER(ct.c_size_t)]
         guest.HostPrepare.restype = ct.c_uint64
 
         def parse(name, data, expected, coherent=0):
@@ -106,24 +109,60 @@ def run(stock, output):
             if (result, actual.value) != (expected, count):
                 raise AssertionError((name, result, actual.value))
             cases[name] = {"status": hex(result), "registrations": actual.value}
-        idle = [0x00010100, 1, 0, 0, 0, 0]
-        for name, release, registers, expected, reads in [
-            ("missing-handoff", 0, idle, high | 6, 0), ("declined-handoff", 1, idle, high | 6, 0),
-            ("unsupported-HCI", 2, [0x20000, *idle[1:]], high | 3, 1),
-            ("unexpected-HCE", 2, [idle[0], 0xffffffff, *idle[2:]], high | 6, 2),
-            ("LK-lists-running", 2, [*idle[:2], 1, 1, 0, 0], high | 6, 3),
-            ("task-list-running", 2, [*idle[:3], 1, 0, 0], high | 6, 4),
-            ("transfer-pending", 2, [*idle[:4], 1, 0], high | 6, 5),
-            ("task-pending", 2, [*idle[:5], 1], high | 6, 6),
-            ("released-idle", 2, idle, 0, 6),
+        source = "docs/evidence/ufs-handoff-transfer-20261121.json"
+        panel = json.loads((ROOT / source).read_text())["physicalPanel"]["registersHex"]
+        fields = ("VER", "HCE", "TRR", "TMR", "TRD", "TMD")
+        # The four base words model aligned, private test queues. Only the first
+        # six registers are replayed from the physical panel.
+        active = [int(panel[field], 16) for field in fields] + [0x10000, 0, 0x14000, 0]
+        assert active[:6] == [0x10100, 1, 1, 1, 0, 0]
+        stopped = [*active[:2], 0, 0, *active[4:]]
+
+        def change(registers, field, value):
+            variant = registers.copy()
+            variant[field] = value
+            return variant
+
+        denied = high | 6
+        for name, release, first, second, expected, reads in [
+            ("missing-handoff", 0, active, active, denied, 0),
+            ("declined-handoff", 1, active, active, denied, 0),
+            ("warning-handoff", 3, active, active, denied, 0),
+            ("unsupported-HCI", 2, change(active, 0, 0x20000), active, high | 3, 1),
+            ("unexpected-HCE", 2, change(active, 1, 0xffffffff), active, denied, 2),
+            ("disabled-running", 2, change(active, 1, 0), active, denied, 3),
+            ("invalid-run-bit", 2, change(active, 2, 3), active, denied, 3),
+            ("only-transfer-running", 2, change(active, 3, 0), active, denied, 4),
+            ("only-task-running", 2, change(active, 2, 0), active, denied, 4),
+            ("transfer-pending", 2, change(active, 4, 1), active, denied, 5),
+            ("task-pending", 2, change(active, 5, 1), active, denied, 6),
+            ("stopped-transfer-pending", 2, change(stopped, 4, 1), stopped, denied, 5),
+            ("unaligned-transfer-base", 2, change(active, 6, 0x10100), active, denied, 10),
+            ("unaligned-task-base", 2, change(active, 8, 0x14100), active, denied, 10),
+            ("missing-transfer-base", 2, change(active, 6, 0), active, denied, 10),
+            ("missing-task-base", 2, change(active, 8, 0), active, denied, 10),
+            ("aliased-list-bases", 2, change(active, 8, active[6]), active, denied, 10),
+            ("transfer-arrived", 2, active, change(active, 4, 1), denied, 14),
+            ("task-arrived", 2, active, change(active, 5, 1), denied, 15),
+            ("pair-stopped-during-sampling", 2, active, stopped, denied, 15),
+            ("pair-started-during-sampling", 2, stopped, active, denied, 15),
+            ("HCE-changed", 2, stopped, change(stopped, 1, 0), denied, 11),
+            ("transfer-base-changed", 2, active, change(active, 6, 0x18000), denied, 19),
+            ("transfer-base-upper-changed", 2, active, change(active, 7, 1), denied, 19),
+            ("task-base-changed", 2, active, change(active, 8, 0x18000), denied, 19),
+            ("task-base-upper-changed", 2, active, change(active, 9, 1), denied, 19),
+            ("released-disabled", 2, change(stopped, 1, 0), change(stopped, 1, 0), 0, 11),
+            ("released-stopped", 2, stopped, stopped, 0, 11),
+            ("released-LK-running-idle", 2, active, active, 0, 19),
         ]:
             actual = ct.c_size_t()
-            result = guest.HostPrepare(release, (ct.c_uint32 * 6)(*registers), ct.byref(actual))
+            result = guest.HostPrepare(release, register_array(*first), register_array(*second), ct.byref(actual))
             if (result, actual.value) != (expected, reads):
                 raise AssertionError((name, result, actual.value))
             cases[name] = {"status": hex(result), "mockRegisterReads": actual.value}
     report = {"result": "PASS", "scope": "Host replay with pinned libfdt, preserved EVT and mock MMIO",
-              "stockDtbSha256": EVT, "cases": cases}
+              "physicalStateSource": source, "replayedFields": fields,
+              "releaseAndQueueBaseSource": "Host fixture", "stockDtbSha256": EVT, "cases": cases}
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
 
