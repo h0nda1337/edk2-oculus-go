@@ -1,0 +1,272 @@
+{
+  "outcome": "PASS-QEMU-UFS-DXE-TAKEOVER",
+  "machine": "virt,acpi=on,gic-version=3,its=on,iommu=smmuv3",
+  "emulators": {
+    "extended": {
+      "version": "QEMU emulator version 10.0.13",
+      "binarySha256": "feaf60648d9e82e6e8297c4cf1047b08d47eb889f349f02b680c63a17d3dbe22"
+    },
+    "stock": {
+      "version": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+      "binarySha256": "2e7fe3008a900980493a85e606036793fd162153edac0228477579988c53e1f5"
+    }
+  },
+  "idleTaskListModelPatchSha256": "ae2dc464e14bb9639a12bdac45a8b979ac1fc2c2b3cdbebf858d96db0f4c72f4",
+  "firmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3",
+  "normalFdSha256": "e68d7f274a58a710dbeaaad5ba16e2d972d7560cdb8d399a334f3a78f259633c",
+  "efiSha256": {
+    "UfsPlatformBuffer.efi": "5953417cc384919f00c285e9742f89cc1132f39b09d9244abab4084c3254b3be",
+    "GoUfsHcDxe.efi": "a211dc1d7b425c938e80ea8fa8f8c006589b5f634f8bf34c456b3e67f63c2077",
+    "UfsPassThruDxe.efi": "569a8f19899ca52fdcef9380a960b1484475eaa3cc9bf47f2f146161dfd7d508"
+  },
+  "lun": {
+    "id": 4,
+    "logicalBlocks": 1179648,
+    "blockBytes": 4096,
+    "readOnly": true,
+    "backend": "null-co"
+  },
+  "virtualPciRequesterId": "0x18",
+  "scope": "Virtual PCI DMA provider and explicit transfer of ownership from a synthetic previous owner. Pacific queue ownership, SID and bus mappings remain unverified.",
+  "cases": [
+    {
+      "name": "stock-control",
+      "mode": "TAKEOVER",
+      "stockModel": true,
+      "ramMiB": 768,
+      "guestResult": "Unsupported",
+      "inheritedQueues": [
+        "0x6ea79400",
+        "0x6ea78400"
+      ],
+      "legacyRunsBeforeCleanup": [
+        1,
+        0
+      ],
+      "legacyDoorbellsBeforeCleanup": [
+        0,
+        0
+      ],
+      "taskRunUnsupportedEvent": true,
+      "readCapacityLun4": 0,
+      "sectorReads": 0,
+      "sectorWrites": 0,
+      "guestLog": [
+        "PLATFORM RESOURCE 10000000 SIZE 2000",
+        "PLATFORM OLD UTR 6EA79400 UTM 6EA78400",
+        "PLATFORM INITIAL HCE 1 TRR 1 TMR 0 TRD 0 TMD 0",
+        "PLATFORM OWNER CLEANUP",
+        "PLATFORM OLD BUFFERS FREED",
+        "PLATFORM FIXTURE RELEASED",
+        "PLATFORM PROBE DENIED 0 REVOKE FAILED 0",
+        "PLATFORM COUNTS INIT 0 ALLOC 0 FREE 0 MAP 0 GRANT 0 REVOKE 0 UNMAP 0 DENIED 0 SHORT 0",
+        "PLATFORM RESULT Unsupported"
+      ],
+      "traceSha256": "4c48354c93c64ad3b1f78f56ae26f3247cd05b033d15f00c0058659ea6137616"
+    },
+    {
+      "name": "owner-retained",
+      "mode": "NORELEASE",
+      "stockModel": false,
+      "ramMiB": 768,
+      "guestResult": "Access Denied",
+      "inheritedQueues": [
+        "0x6ea79400",
+        "0x6ea78400"
+      ],
+      "legacyRunsBeforeCleanup": [
+        1,
+        1
+      ],
+      "legacyDoorbellsBeforeCleanup": [
+        0,
+        0
+      ],
+      "taskRunUnsupportedEvent": false,
+      "readCapacityLun4": 0,
+      "sectorReads": 0,
+      "sectorWrites": 0,
+      "guestLog": [
+        "PLATFORM RESOURCE 10000000 SIZE 2000",
+        "PLATFORM OLD UTR 6EA79400 UTM 6EA78400",
+        "PLATFORM INITIAL HCE 1 TRR 1 TMR 1 TRD 0 TMD 0",
+        "PLATFORM PCI DMA SERVICE PRESERVED",
+        "PLATFORM RELEASE DENIED",
+        "PLATFORM BIND Access Denied HC 0 PCI 0",
+        "PLATFORM OLD PRESERVED",
+        "PLATFORM OWNER CLEANUP",
+        "PLATFORM OLD BUFFERS FREED",
+        "PLATFORM FIXTURE RELEASED",
+        "PLATFORM PROBE DENIED 0 REVOKE FAILED 0",
+        "PLATFORM COUNTS INIT 1 ALLOC 0 FREE 0 MAP 0 GRANT 0 REVOKE 0 UNMAP 0 DENIED 0 SHORT 0",
+        "PLATFORM RESULT Access Denied"
+      ],
+      "traceSha256": "47ad624db42757656028dcf1826436dea7653beba70a6e952ea8a5ede3f58841"
+    },
+    {
+      "name": "owner-released",
+      "mode": "TAKEOVER",
+      "stockModel": false,
+      "ramMiB": 768,
+      "guestResult": "Success",
+      "inheritedQueues": [
+        "0x6ea79400",
+        "0x6ea78400"
+      ],
+      "hceWrites": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "legacyRunsBeforeReset": [
+        1,
+        1
+      ],
+      "legacyDoorbellsBeforeReset": [
+        0,
+        0
+      ],
+      "dxeBasesProgrammedBeforeFirstDoorbell": true,
+      "readCapacityLun4": 3,
+      "oldQueuePageDmaEvents": 0,
+      "taskManagementRequests": 0,
+      "sectorReads": 0,
+      "sectorWrites": 0,
+      "newQueues": [
+        "0x6ea67000",
+        "0x6ea68000"
+      ],
+      "endpoints": [
+        {
+          "cpu": "0x6ea65000",
+          "bus": "0x6ea65000",
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x6ea65ff8",
+          "bus": "0x6ea65ff8",
+          "bytes": "0011ffff00001000"
+        }
+      ],
+      "smmuTraceModesAtVirtualUfsSid": [
+        "smmuv3_translate_disable"
+      ],
+      "rejectedTraceMutations": [
+        "missing-disable-readback",
+        "pending-inherited-transfer",
+        "pending-inherited-task",
+        "inherited-base-reused",
+        "base-installed-after-doorbell",
+        "no-device-utr-fetch",
+        "controller-touched-previous-queue",
+        "capacity-tail-dma-missing",
+        "ufs_exec_scsi_cmd:rejected",
+        "scsi_disk_dma_command_READ:rejected",
+        "scsi_disk_dma_command_WRITE:rejected"
+      ],
+      "guestLog": [
+        "PLATFORM RESOURCE 10000000 SIZE 2000",
+        "PLATFORM OLD UTR 6EA79400 UTM 6EA78400",
+        "PLATFORM INITIAL HCE 1 TRR 1 TMR 1 TRD 0 TMD 0",
+        "PLATFORM PCI DMA SERVICE PRESERVED",
+        "PLATFORM RELEASE GRANTED",
+        "PLATFORM BIND Success HC 1 PCI 0",
+        "PLATFORM HC BAR 10000000",
+        "PLATFORM TRANSPORT Success",
+        "PLATFORM NEW UTR 6EA67000 UTM 6EA68000",
+        "PLATFORM DATA CPU 6EA65000 DMA 6EA65000 MAPPED 8 BYTES A5A5A5A5A5A5A5A5",
+        "PLATFORM DATA CPU 6EA65000 DMA 6EA65000 MAPPED 8 BYTES 0011FFFF00001000",
+        "PLATFORM DATA CPU 6EA65FF8 DMA 6EA65FF8 MAPPED 8 BYTES 0011FFFF00001000",
+        "PLATFORM END 0 CPU 6EA65000 DMA 6EA65000 BYTES 0011FFFF00001000",
+        "PLATFORM END 1 CPU 6EA65FF8 DMA 6EA65FF8 BYTES 0011FFFF00001000",
+        "PLATFORM NEW MAPS STILL LIVE",
+        "PLATFORM OLD PRESERVED",
+        "PLATFORM STOP TRANSPORT Success",
+        "PLATFORM STOP HC Success",
+        "PLATFORM OLD BUFFERS FREED",
+        "PLATFORM FIXTURE RELEASED",
+        "PLATFORM PROBE DENIED 0 REVOKE FAILED 0",
+        "PLATFORM COUNTS INIT 1 ALLOC 46 FREE 46 MAP 49 GRANT 49 REVOKE 49 UNMAP 49 DENIED 0 SHORT 0",
+        "PLATFORM RESULT Success"
+      ],
+      "traceSha256": "4c83faf155476fc75d56cebb2bae49831583631fff83aaffd770c7af013ad6ff"
+    },
+    {
+      "name": "relocated",
+      "mode": "TAKEOVER",
+      "stockModel": false,
+      "ramMiB": 1536,
+      "guestResult": "Success",
+      "inheritedQueues": [
+        "0x9ea79400",
+        "0x9ea78400"
+      ],
+      "hceWrites": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "legacyRunsBeforeReset": [
+        1,
+        1
+      ],
+      "legacyDoorbellsBeforeReset": [
+        0,
+        0
+      ],
+      "dxeBasesProgrammedBeforeFirstDoorbell": true,
+      "readCapacityLun4": 3,
+      "oldQueuePageDmaEvents": 0,
+      "taskManagementRequests": 0,
+      "sectorReads": 0,
+      "sectorWrites": 0,
+      "newQueues": [
+        "0x9ea67000",
+        "0x9ea68000"
+      ],
+      "endpoints": [
+        {
+          "cpu": "0x9ea65000",
+          "bus": "0x9ea65000",
+          "bytes": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x9ea65ff8",
+          "bus": "0x9ea65ff8",
+          "bytes": "0011ffff00001000"
+        }
+      ],
+      "smmuTraceModesAtVirtualUfsSid": [
+        "smmuv3_translate_disable"
+      ],
+      "guestLog": [
+        "PLATFORM RESOURCE 10000000 SIZE 2000",
+        "PLATFORM OLD UTR 9EA79400 UTM 9EA78400",
+        "PLATFORM INITIAL HCE 1 TRR 1 TMR 1 TRD 0 TMD 0",
+        "PLATFORM PCI DMA SERVICE PRESERVED",
+        "PLATFORM RELEASE GRANTED",
+        "PLATFORM BIND Success HC 1 PCI 0",
+        "PLATFORM HC BAR 10000000",
+        "PLATFORM TRANSPORT Success",
+        "PLATFORM NEW UTR 9EA67000 UTM 9EA68000",
+        "PLATFORM DATA CPU 9EA65000 DMA 9EA65000 MAPPED 8 BYTES A5A5A5A5A5A5A5A5",
+        "PLATFORM DATA CPU 9EA65000 DMA 9EA65000 MAPPED 8 BYTES 0011FFFF00001000",
+        "PLATFORM DATA CPU 9EA65FF8 DMA 9EA65FF8 MAPPED 8 BYTES 0011FFFF00001000",
+        "PLATFORM END 0 CPU 9EA65000 DMA 9EA65000 BYTES 0011FFFF00001000",
+        "PLATFORM END 1 CPU 9EA65FF8 DMA 9EA65FF8 BYTES 0011FFFF00001000",
+        "PLATFORM NEW MAPS STILL LIVE",
+        "PLATFORM OLD PRESERVED",
+        "PLATFORM STOP TRANSPORT Success",
+        "PLATFORM STOP HC Success",
+        "PLATFORM OLD BUFFERS FREED",
+        "PLATFORM FIXTURE RELEASED",
+        "PLATFORM PROBE DENIED 0 REVOKE FAILED 0",
+        "PLATFORM COUNTS INIT 1 ALLOC 46 FREE 46 MAP 49 GRANT 49 REVOKE 49 UNMAP 49 DENIED 0 SHORT 0",
+        "PLATFORM RESULT Success"
+      ],
+      "traceSha256": "e5c779c4dacd13b765c5fc14c899e06d244259612411cba6da91a7688ac51a81"
+    }
+  ]
+}

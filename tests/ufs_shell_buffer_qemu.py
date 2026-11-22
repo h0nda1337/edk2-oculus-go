@@ -36,7 +36,7 @@ def require(condition, reason):
 
 
 def launch(work, modules, size_mib, lun_bytes, marker, with_ufs, module_names=MODULES, backing=None,
-           lun=4, extra_events=()):
+           lun=4, extra_events=(), qemu="qemu-system-aarch64"):
     boot = work / "esp/EFI/BOOT"
     boot.mkdir(parents=True)
     esp = work / "esp"
@@ -51,7 +51,7 @@ def launch(work, modules, size_mib, lun_bytes, marker, with_ufs, module_names=MO
     trace = work / "trace"
     events.write_text("\n".join(("ufs_exec_scsi_cmd", "scsi_disk_dma_command_READ",
                                  "scsi_disk_dma_command_WRITE", *SMMU_TRACE, *extra_events)) + "\n")
-    cmd = ["qemu-system-aarch64", "-machine", MACHINE, "-cpu", "cortex-a57", "-m", f"{size_mib}M",
+    cmd = [qemu, "-machine", MACHINE, "-cpu", "cortex-a57", "-m", f"{size_mib}M",
            "-nodefaults", "-display", "none", "-serial", "stdio", "-monitor", "none", "-no-reboot",
            "-drive", f"if=pflash,format=raw,readonly=on,file={FIRMWARE}",
            "-drive", f"if=pflash,format=raw,file={nvram}",
