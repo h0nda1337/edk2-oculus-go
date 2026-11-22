@@ -1,6 +1,6 @@
 # Status
 
-**UFS después de LK.** En el Go, `UFS_ROUTE_CLOCKS` mostró el dominio AGGRE2 encendido y las cuatro ramas de reloj activas en sus respectivas lecturas. La dirección de bus de la página CPU `0x80441000` sigue **UNKNOWN** en Pacific. En QEMU, el recorrido de las tablas de dos dominios S2 permitió descubrir la dirección y verificar la capacidad del LUN 4 en ambos extremos de la página. [Panel físico](evidence/ufs-route-clocks-transfer-20261121.json) · [Ensayo en QEMU](UFS_ROUTE_CLOCKS.md)
+**UFS tras LK.** El DT de Pacific sitúa al maestro UFS en AGGRE2, camino de SNOC. En las 71 referencias IOMMU del árbol no consta una asignación de UFS a ANOC2. Los cinco registros del GCC ya se leyeron en el Go. La ruta de traducción efectiva y el bus de la página CPU `0x80441000` siguen **UNKNOWN**. En QEMU se comprobó la capacidad en ambos extremos con traducción S2 y con bypass explícito. [Topología del Go](UFS_ROUTE_SOURCES.md) · [Resultados y nueva sonda](UFS_ROUTE_VIEW.md)
 
 **Destino directo de UFS.** `0x80441000` es candidato de identidad en Pacific. QEMU verificó ambos extremos y detectó DMA a la página vecina incluso con éxito SCSI. En el arranque físico de `UFS_PRDT`, el slot 0 conservaba el puntero UCD `0x918FDF00` y cero entradas de datos. La dirección de bus de la página propia sigue **UNKNOWN**. [Panel del Go](evidence/ufs-prdt-transfer-20261121.json) [Pruebas e interpretación](UFS_NATIVE_PRDT.md)
 
