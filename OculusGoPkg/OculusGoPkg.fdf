@@ -52,14 +52,19 @@ DATA = { 0x47,0x4f,0x44,0x58,0x45,0x46,0x44,0x31 }
 !endif
 0x003BE000|0x00042000
 DATA = { 0x47,0x4f,0x53,0x54,0x41,0x43,0x4b,0x31 }
-!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsQueues || $(GO_BUILD_FLAVOR) == OculusGoUfsLkMap || $(GO_BUILD_FLAVOR) == OculusGoUfsData || $(GO_BUILD_FLAVOR) == OculusGoUfsGptModel || $(GO_BUILD_FLAVOR) == OculusGoUfsZero4k || $(GO_BUILD_FLAVOR) == OculusGoUfsBuf4k || $(GO_BUILD_FLAVOR) == OculusGoUfsBounce || $(GO_BUILD_FLAVOR) == OculusGoUfsNop11
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsQueues || $(GO_BUILD_FLAVOR) == OculusGoUfsLkMap || $(GO_BUILD_FLAVOR) == OculusGoUfsData || $(GO_BUILD_FLAVOR) == OculusGoUfsGptModel || $(GO_BUILD_FLAVOR) == OculusGoUfsHeap || $(GO_BUILD_FLAVOR) == OculusGoUfsZero4k || $(GO_BUILD_FLAVOR) == OculusGoUfsBuf4k || $(GO_BUILD_FLAVOR) == OculusGoUfsBounce || $(GO_BUILD_FLAVOR) == OculusGoUfsNop11
 0x00001000|0x003BD000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVCOMPACT
 0x003BE000|0x00002000
 DATA = { 0x47,0x4f,0x53,0x54,0x41,0x43,0x4b,0x31 }
-# Private inspection window 0x80440000..0x80443fff. No allocations or stack here.
-0x003C0000|0x00004000
+# Private diagnostic window inside the loaded FD, excluded from FV and stack.
+0x003C0000|0x00001000
+DATA = { 0xff }
+# Exclusive CPU buffer for the two-ended UFS test: 0x80441000..0x80441fff.
+0x003C1000|0x00001000
+DATA = { 0xff }
+0x003C2000|0x00002000
 DATA = { 0xff }
 # Stack grows from 0x8047f000, upper guard occupies the final 4 KiB.
 0x003C4000|0x0003C000
@@ -126,6 +131,8 @@ WRITE_STATUS = TRUE
   INF OculusGoPkg/SecMem/UfsLkMap.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsGptModel
   INF OculusGoPkg/SecMem/UfsGptModel.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsHeap
+  INF OculusGoPkg/SecMem/UfsHeap.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsZero4k
   INF OculusGoPkg/SecMem/UfsZero4k.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsBuf4k

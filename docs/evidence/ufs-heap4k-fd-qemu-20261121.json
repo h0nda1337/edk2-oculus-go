@@ -1,0 +1,242 @@
+{
+  "outcome": "PASS-QEMU-HEAP4K",
+  "fdSha256": "249e5a92feab1e510a84a4da11ba8b136c029e45b7401f72528269afca051d5c",
+  "physicalFdBus": "UNKNOWN",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "cases": [
+    {
+      "case": "free",
+      "el": 1,
+      "panel": [
+        "UFS HEAP      CANDIDATE",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "NODES 00000001",
+        "FREE 91907C00",
+        "END  91909C00",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "alias",
+      "el": 1,
+      "panel": [
+        "UFS HEAP      CANDIDATE",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "NODES 00000001",
+        "FREE 91907C00",
+        "END  91909C00",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919600a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "short",
+      "el": 1,
+      "panel": [
+        "UFS HEAP      NO PAGE",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "NODES 00000001",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "metadata",
+      "el": 1,
+      "panel": [
+        "UFS HEAP      NO PAGE",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "NODES 00000001",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "empty",
+      "el": 1,
+      "panel": [
+        "UFS HEAP      NO PAGE",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "NODES 00000000",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "queue",
+      "el": 1,
+      "panel": [
+        "UFS SHARED    QUEUE PAGE",
+        "UCD  918EE080",
+        "RSP  918EE0A0",
+        "PAGE 918EE000",
+        "NODES 00000001",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x918ee0a0",
+      "fixtureResponseCpu": "0x918ee0a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "outside",
+      "el": 1,
+      "panel": [
+        "UFS STOP      HEAP LIST",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "loop",
+      "el": 1,
+      "panel": [
+        "UFS STOP      HEAP LIST",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "changing",
+      "el": 1,
+      "panel": [
+        "UFS STOP      HEAP LIST",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "queue-listed-free",
+      "el": 1,
+      "panel": [
+        "UFS STOP      HEAP LIST",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "stale-ocs",
+      "el": 1,
+      "panel": [
+        "UFS STOP      SLOT",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "wrong-offset",
+      "el": 1,
+      "panel": [
+        "UFS STOP      SLOT",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    },
+    {
+      "case": "free",
+      "el": 2,
+      "panel": [
+        "UFS HEAP      CANDIDATE",
+        "UCD  91908080",
+        "RSP  919080A0",
+        "PAGE 91908000",
+        "NODES 00000001",
+        "FREE 91907C00",
+        "END  91909C00",
+        "CPU ONLY"
+      ],
+      "fixtureResponseBus": "0x919080a0",
+      "fixtureResponseCpu": "0x919080a0",
+      "probeDoorbells": 0,
+      "mediaCommands": 0
+    }
+  ]
+}

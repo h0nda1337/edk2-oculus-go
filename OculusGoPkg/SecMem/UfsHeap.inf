@@ -1,0 +1,25 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = OculusGoUfsHeap
+  FILE_GUID      = c4813517-f568-49eb-bb60-d8db839c96d2
+  MODULE_TYPE    = SEC
+  VERSION_STRING = 1.0
+
+[Sources.AARCH64]
+  UfsEntry.S | GCC
+  UfsHandoff.c
+  UfsQueues.c
+  UfsHeap.c
+  UfsLkMap.c
+  Fdt.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[BuildOptions]
+  GCC:*_*_AARCH64_CC_FLAGS = -DGO_UFS_HEAP4K -DGO_UFS_QUEUES -DGO_UFS_LK_MAP

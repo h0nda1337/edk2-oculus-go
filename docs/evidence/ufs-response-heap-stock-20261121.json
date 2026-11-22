@@ -1,0 +1,21 @@
+{
+  "stockElfSha256": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+  "ucdAllocationAlignment": 128,
+  "allocCall": "0x9182bef4",
+  "utrdAddressStores": [
+    "0x9182c0c4",
+    "0x9182c0e8"
+  ],
+  "responseOffsetBytes": 32,
+  "offsetStore": "0x9182c0f0",
+  "freeCall": "0x9182c1d4",
+  "insertCall": "0x9184cabc",
+  "freeListHead": "0x918e3170",
+  "extentOffsets": {
+    "previous": 0,
+    "next": 4,
+    "bytes": 8
+  },
+  "retainedBusOfFdPage": "UNKNOWN",
+  "scope": "Static path. The last slot and current free-list membership require a live snapshot."
+}
