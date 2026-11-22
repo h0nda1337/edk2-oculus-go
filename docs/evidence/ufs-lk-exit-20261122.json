@@ -1,0 +1,58 @@
+{
+  "scope": "Offline stock LK slot A and one prior read-only SEC observation on temporary boot",
+  "stockAbootSha256": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+  "directHandoffsReviewed": [
+    "0x9183b4f8",
+    "0x9183bc14",
+    "0x9183d1bc"
+  ],
+  "commonCoordinator": "0x9183a9e4",
+  "storageSelector": "0x9182da78",
+  "ufsBranch": {
+    "selectorResult": 0,
+    "boardInitSite": "0x91800ec4",
+    "nativeReadSite": "0x91810ed8",
+    "targetCleanupSite": "0x918002d4",
+    "callsMmcCardSleepViaThisBranch": false
+  },
+  "lateTemporaryBootCallback": {
+    "transport": "dwc",
+    "slotOffset": "0xc",
+    "action": "clear DWC3 DCTL RUN_STOP",
+    "meaning": "USB device controller stop on the statically selected Fastboot transport",
+    "registerReference": "https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/usb/dwc3/core.h#L266"
+  },
+  "otherStorageBranch": {
+    "selectorResult": "nonzero",
+    "directCallSite": "0x91800338",
+    "routineIdentity": "mmc_put_card_to_sleep"
+  },
+  "separateRpmbCleanup": "The board checks an RPMB uninit result; this does not describe the HCI queues.",
+  "lateArm64Path": {
+    "kernelMagicCheck": "0x9183aaf4",
+    "wrapperBranch": "0x9183abd8",
+    "cpuCacheCleanupCall": "0x9183aae4",
+    "cpuMmuCleanupCall": "0x9183aae8"
+  },
+  "existingPhysicalEvidence": {
+    "file": "ufs-handoff-transfer-20261121.json",
+    "sha256": "5e9fe3db421389893620e8b07da038761d0381ca0480a0d304a87c2d0d730174",
+    "registers": {
+      "VER": 65792,
+      "HCE": 1,
+      "TRR": 1,
+      "TRD": 0,
+      "TMR": 1,
+      "TMD": 0
+    },
+    "bothListsRunning": true,
+    "bothDoorbellsClear": true
+  },
+  "conclusion": "No stopped-list handoff at the sampled SEC entry. Exclusive release to DXE is UNKNOWN.",
+  "limits": [
+    "This is the normal successful ARM64 exit, not every boot mode or every firmware image.",
+    "The USB callback was resolved from its static registration, not a runtime trace. Other board services and the external ARM64 handoff are not a proof about all side effects.",
+    "The entry panel samples final state; it cannot exclude a prior stop and restart.",
+    "CPU cache/MMU teardown and the two image-handoff arguments do not supply a UFS bus address for an allocation that is made later by DXE."
+  ]
+}
