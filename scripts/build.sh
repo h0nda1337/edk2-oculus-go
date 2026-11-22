@@ -37,6 +37,7 @@ case "$build_mode" in
   UFS_NOP11) build_flavor=OculusGoUfsNop11 ;;
   UFS_LK_MAP) build_flavor=OculusGoUfsLkMap ;;
   UFS_QUEUES) build_flavor=OculusGoUfsQueues ;;
+  UFS_ROUTE_CLOCKS) build_flavor=OculusGoUfsRouteClocks ;;
   UFS_HANDOFF) build_flavor=OculusGoUfsHandoff ;;
   SEC_STACK) build_flavor=OculusGoSecStack ;;
   *) echo "Unknown build mode: $build_mode" >&2; exit 2 ;;

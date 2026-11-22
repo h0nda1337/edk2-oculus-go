@@ -50,12 +50,22 @@ def screen_oracle(fb, lines):
                             raise AssertionError(("scanout", eye, r, c, char, x, y))
 
 
-def exercise(fd, harness, flash, dt, el, case, entry, stop, read):
+def handoff_panel(regs, count, state, vals):
+    last = "" if state == "DONE" else regs[count - 1][1]
+    lines = [("UFS " + state).ljust(14) + last] + [""] * 7
+    for i in range(count - (state == "FAULT")):
+        r = 1 + i // 2
+        lines[r] = lines[r].ljust((i % 2) * 15) + f"{regs[i][1]} {vals[i]:08X}"
+    return lines
+
+
+def exercise(fd, harness, flash, dt, el, case, entry, stop, read, *,
+             regs=REGS, ranges=RANGES, panel=handoff_panel):
     name, count, overrides, state = case
-    vals = [overrides.get(i, v) for i, (_, _, v) in enumerate(REGS)]
+    vals = [overrides.get(i, v) for i, (_, _, v) in enumerate(regs)]
     with flash.open("wb") as f:
         f.truncate(64 << 20)
-        for (addr, _, _), val in zip(REGS, vals):
+        for (addr, _, _), val in zip(regs, vals):
             f.seek(addr)
             f.write(struct.pack("<I", val))
     extra = ["-drive", f"if=pflash,index=0,file={flash},format=raw,readonly=on"]
@@ -76,17 +86,17 @@ def exercise(fd, harness, flash, dt, el, case, entry, stop, read):
         g.set_register(32, setup)
         until(g, entry)
         require(g.read(read, 4) == bytes.fromhex("020040b9"), "expected LDR W2,[X0]")
-        for lo, hi in RANGES:
+        for lo, hi in ranges:
             watch(g, 4, lo, hi)  # trap both reads and stores
         require(g.command(f"Z1,{stop:x},4") == "OK", "cannot observe terminal state")
         visits = []
         for i in range(count):
-            addr, label, _ = REGS[i]
+            addr, label, _ = regs[i]
             msg = g.command("c")
             require("watch:" in msg and g.register(32) == read and g.register(0) == addr,
                     f"{name} unexpected access at PC {g.register(32):#x} (wanted {addr:#x}): {msg}")
             visits.append(label)
-            lo, hi = next((a, b) for a, b in RANGES if a <= addr < b)
+            lo, hi = next((a, b) for a, b in ranges if a <= addr < b)
             watch(g, 4, lo, hi, False)
             if name == "load-abort" and i == count - 1:
                 # Deliberately cause a real same-EL alignment fault on the one
@@ -111,11 +121,7 @@ def exercise(fd, harness, flash, dt, el, case, entry, stop, read):
         if count == 0:
             require(not any(fb), "unrecognized FDT touched the framebuffer")
         else:
-            last = "" if state == "DONE" else REGS[count - 1][1]
-            lines = [("UFS " + state).ljust(14) + last] + [""] * 7
-            for i in range(count - (state == "FAULT")):
-                r = 1 + i // 2
-                lines[r] = lines[r].ljust((i % 2) * 15) + f"{REGS[i][1]} {vals[i]:08X}"
+            lines = panel(regs, count, state, vals)
             screen_oracle(fb, lines)
     return {"el": el, "case": name, "registerLoads": visits, "peripheralStores": 0,
             "expectedScreenVerified": True, "heading": lines[0].strip() if count else None}

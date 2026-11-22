@@ -1,0 +1,281 @@
+{
+  "outcome": "PASS-QEMU-ROUTE-CLOCKS",
+  "fdSha256": "cfa621a393381fdc085c30afdd2041276de7c4ce291f06a59b044803e48709f7",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "model": "GCC, UFS HBA and ANOC2 ranges watched; synthetic register values",
+  "watchedRangesEndExclusive": [
+    [
+      "0x300000",
+      "0x390000"
+    ],
+    [
+      "0x624000",
+      "0x626500"
+    ],
+    [
+      "0x1680000",
+      "0x16a0000"
+    ]
+  ],
+  "physicalBus": "UNKNOWN",
+  "cases": [
+    {
+      "el": 1,
+      "case": "active",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS CLOCKS    SAMPLED"
+    },
+    {
+      "el": 1,
+      "case": "domain-off",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      DOM"
+    },
+    {
+      "el": 1,
+      "case": "collapse-request",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      DOM"
+    },
+    {
+      "el": 1,
+      "case": "branches-off",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS CLOCKS    SAMPLED"
+    },
+    {
+      "el": 1,
+      "case": "invalid-dom",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   DOM"
+    },
+    {
+      "el": 1,
+      "case": "invalid-nax",
+      "registerLoads": [
+        "DOM",
+        "NAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   NAX"
+    },
+    {
+      "el": 1,
+      "case": "invalid-nah",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   NAH"
+    },
+    {
+      "el": 1,
+      "case": "invalid-sax",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   SAX"
+    },
+    {
+      "el": 1,
+      "case": "invalid-sah",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   SAH"
+    },
+    {
+      "el": 1,
+      "case": "load-abort",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS FAULT     SAX"
+    },
+    {
+      "el": 1,
+      "case": "wrong-board",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "active",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS CLOCKS    SAMPLED"
+    },
+    {
+      "el": 2,
+      "case": "domain-off",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      DOM"
+    },
+    {
+      "el": 2,
+      "case": "collapse-request",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      DOM"
+    },
+    {
+      "el": 2,
+      "case": "branches-off",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS CLOCKS    SAMPLED"
+    },
+    {
+      "el": 2,
+      "case": "invalid-dom",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   DOM"
+    },
+    {
+      "el": 2,
+      "case": "invalid-nax",
+      "registerLoads": [
+        "DOM",
+        "NAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   NAX"
+    },
+    {
+      "el": 2,
+      "case": "invalid-nah",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   NAH"
+    },
+    {
+      "el": 2,
+      "case": "invalid-sax",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   SAX"
+    },
+    {
+      "el": 2,
+      "case": "invalid-sah",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   SAH"
+    },
+    {
+      "el": 2,
+      "case": "load-abort",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS FAULT     SAX"
+    },
+    {
+      "el": 2,
+      "case": "wrong-board",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "scope": "Static Pacific RPM clock and power tables. Live handoff and DMA unmeasured.",
+  "stockRpmSha256": "d7c0541d0e56b1d2f812db8bffc24e521d75436c6a8969f17430b1faf359dae2",
+  "gccBase": "0x300000",
+  "aggre2Branches": [
+    {
+      "name": "gcc_aggre2_snoc_axi_clk",
+      "rpmFileOffset": "0x2cf90",
+      "gccOffset": "0x83008",
+      "physicalAddress": "0x383008"
+    },
+    {
+      "name": "gcc_aggre2_cnoc_ahb_clk",
+      "rpmFileOffset": "0x2d21c",
+      "gccOffset": "0x8300c",
+      "physicalAddress": "0x38300c"
+    },
+    {
+      "name": "gcc_smmu_aggre2_axi_clk",
+      "rpmFileOffset": "0x2d01c",
+      "gccOffset": "0x8301c",
+      "physicalAddress": "0x38301c"
+    },
+    {
+      "name": "gcc_smmu_aggre2_ahb_clk",
+      "rpmFileOffset": "0x2d318",
+      "gccOffset": "0x83020",
+      "physicalAddress": "0x383020"
+    }
+  ],
+  "domains": [
+    {
+      "name": "VDD_AGGRE0_NOC",
+      "rpmFileOffset": "0x2d114",
+      "gccOffset": "0x81004",
+      "physicalAddress": "0x381004"
+    },
+    {
+      "name": "VDD_AGGRE2_NOC",
+      "rpmFileOffset": "0x2d134",
+      "gccOffset": "0x83004",
+      "physicalAddress": "0x383004"
+    }
+  ],
+  "aggre0Controls": [
+    {
+      "name": "gcc_aggre0_snoc_axi_clk",
+      "rpmFileOffset": "0x2cf58",
+      "gccOffset": "0x81008",
+      "physicalAddress": "0x381008",
+      "headerControl": "GCC_AGGRE0_SNOC_AXI_CBCR"
+    },
+    {
+      "name": "gcc_aggre0_cnoc_ahb_clk",
+      "rpmFileOffset": "0x2d1e4",
+      "gccOffset": "0x8100c",
+      "physicalAddress": "0x38100c",
+      "headerControl": "GCC_AGGRE0_CNOC_AHB_CBCR"
+    },
+    {
+      "name": "gcc_smmu_aggre0_axi_clk",
+      "rpmFileOffset": "0x2cfe4",
+      "gccOffset": "0x81014",
+      "physicalAddress": "0x381014",
+      "headerControl": "GCC_SMMU_AGGRE0_AXI_CBCR"
+    },
+    {
+      "name": "gcc_smmu_aggre0_ahb_clk",
+      "rpmFileOffset": "0x2d2e0",
+      "gccOffset": "0x81018",
+      "physicalAddress": "0x381018",
+      "headerControl": "GCC_SMMU_AGGRE0_AHB_CBCR"
+    }
+  ],
+  "kernelHeaderSha256": "0da65a12dcba76f40175f5ef1731776b7f3b5a6a3a55d208044000d8322e8f58",
+  "registerFields": {
+    "CBCR": {
+      "statusBits": "31:28",
+      "on": [
+        0,
+        2
+      ],
+      "off": 8,
+      "other": "unclassified",
+      "localEnableBit": 0
+    },
+    "GDSCR": {
+      "powerOnBit": 31,
+      "softwareCollapseVoteBit": 0
+    }
+  },
+  "sources": {
+    "gccRange": "https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/arch/arm/boot/dts/qcom/msm8996.dtsi#L750-L753",
+    "headerControls": "https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/include/dt-bindings/clock/msm-clocks-hwio-8996.h#L462-L476",
+    "aggre0GdscControl": "https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/arch/arm/boot/dts/qcom/msm-gdsc-8996.dtsi#L207-L211",
+    "branchEnable": "https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/clock-local2.c#L67-L68",
+    "branchStatus": "https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/clock-local2.c#L668-L705",
+    "domainBits": "https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/gdsc.c#L28-L34",
+    "domainVotes": "https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/gdsc.c#L128-L137"
+  },
+  "physicalUfsStreamId": "UNKNOWN",
+  "busAddressForCpuPage80441000": "UNKNOWN"
+}

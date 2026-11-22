@@ -7,6 +7,7 @@
 
 #include "UfsPanel.h"
 
+#ifndef GO_UFS_ROUTE_CLOCKS
 enum { Power, Reset, Ahb, Axi, SysNoc, Aggre, Version, Enable, Status,
        TransferRun, TransferDoor, TaskRun, TaskDoor, SampleCount };
 
@@ -18,6 +19,7 @@ STATIC CONST struct { CONST CHAR8 *Name; UINT32 Address; } mSamples[] = {
   { "TMD", 0x624078 }
 };
 STATIC_ASSERT (ARRAY_SIZE (mSamples) == SampleCount, "register inventory");
+#endif
 
 // 29 columns x 8 lines inside the optically confirmed central viewport.
 // Coordinates increase right and down in worn orientation.
@@ -65,6 +67,7 @@ GoUfsDrawHex (UINTN Col, UINTN Row, UINT32 Value)
   GoUfsDraw (Col, Row, Hex);
 }
 
+#ifndef GO_UFS_ROUTE_CLOCKS
 STATIC BOOLEAN
 ClockRunning (UINT32 Value)
 {
@@ -127,3 +130,4 @@ GoUfsSnapshot (CONST VOID *Fdt)
   GoUfsHeading ("DONE", "");
 #endif
 }
+#endif
