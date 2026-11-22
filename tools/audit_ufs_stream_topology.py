@@ -25,8 +25,8 @@ def check(condition, message):
         raise ValueError(message)
 
 
-def read_tree(image):
-    check(sha(image) == DT_SHA, "unsupported runtime FDT")
+def read_tree(image, *, expected_sha=DT_SHA):
+    check(sha(image) == expected_sha, "unsupported FDT digest")
     magic, total, start, strings_at, _, version, _, _, names_len, struct_len = struct.unpack_from(">10I", image)
     check(magic == 0xd00dfeed and total == len(image) and version == 17 and
           start + struct_len <= strings_at <= total - names_len, "invalid FDT sections")

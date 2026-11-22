@@ -1,0 +1,166 @@
+{
+  "scope": "Offline stock partitions, archived running DT, published physical observations and NORMAL build",
+  "bootPartitions": {
+    "boot_a": {
+      "sha256": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "treeFileOffsets": {
+        "123a7f5d1f2c8dc7f9ada0ef10233f0cf6ea9cbba14089423b5b17d8e1f6dbe3": "0x89ee89",
+        "70ae171c99befc564acec661f3afc4365a831ebd1d6e01ca0e53035a4d8b1f35": "0x8f79ba"
+      }
+    },
+    "boot_b": {
+      "sha256": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a",
+      "treeFileOffsets": {
+        "123a7f5d1f2c8dc7f9ada0ef10233f0cf6ea9cbba14089423b5b17d8e1f6dbe3": "0x89f61f",
+        "70ae171c99befc564acec661f3afc4365a831ebd1d6e01ca0e53035a4d8b1f35": "0x8f8150"
+      }
+    }
+  },
+  "treeObservations": [
+    {
+      "model": "Oculus Pacific CNC",
+      "sha256": "123a7f5d1f2c8dc7f9ada0ef10233f0cf6ea9cbba14089423b5b17d8e1f6dbe3",
+      "fixedRegRanges": 7,
+      "dynamicSizeReservations": 4,
+      "fixedRegOverlapsWithShellArena": [],
+      "addressPropertiesOnUfsPath": {
+        "/": {},
+        "/soc": {
+          "ranges": [
+            0,
+            0,
+            0,
+            4294967295
+          ]
+        },
+        "/soc/ufshc@624000": {}
+      },
+      "ufsDeviceAndDescendantBindings": {
+        "/soc/ufshc@624000": [],
+        "/soc/ufshc@624000/ufs_variant": []
+      },
+      "oculusDmaRegion": {
+        "node": "/reserved-memory/oculus_dma_region",
+        "sizeBytes": 2097152,
+        "alignmentBytes": 1048576,
+        "allocRangesBaseAndSize": [
+          "0x0",
+          "0xffffffff"
+        ],
+        "hasReg": false,
+        "regionConsumers": [
+          {
+            "node": "/soc/qcom,ion/qcom,ion-heap@30",
+            "property": "memory-region"
+          }
+        ],
+        "ionHeapId": 30
+      }
+    },
+    {
+      "model": "Oculus Pacific EVT",
+      "sha256": "70ae171c99befc564acec661f3afc4365a831ebd1d6e01ca0e53035a4d8b1f35",
+      "fixedRegRanges": 7,
+      "dynamicSizeReservations": 4,
+      "fixedRegOverlapsWithShellArena": [],
+      "addressPropertiesOnUfsPath": {
+        "/": {},
+        "/soc": {
+          "ranges": [
+            0,
+            0,
+            0,
+            4294967295
+          ]
+        },
+        "/soc/ufshc@624000": {}
+      },
+      "ufsDeviceAndDescendantBindings": {
+        "/soc/ufshc@624000": [],
+        "/soc/ufshc@624000/ufs_variant": []
+      },
+      "oculusDmaRegion": {
+        "node": "/reserved-memory/oculus_dma_region",
+        "sizeBytes": 2097152,
+        "alignmentBytes": 1048576,
+        "allocRangesBaseAndSize": [
+          "0x0",
+          "0xffffffff"
+        ],
+        "hasReg": false,
+        "regionConsumers": [
+          {
+            "node": "/soc/qcom,ion/qcom,ion-heap@30",
+            "property": "memory-region"
+          }
+        ],
+        "ionHeapId": 30
+      }
+    },
+    {
+      "model": "Oculus Pacific EVT",
+      "sha256": "0877ab5ba9149c29af776389796978268c665c51878834f2335405cabef01929",
+      "fixedRegRanges": 7,
+      "dynamicSizeReservations": 4,
+      "fixedRegOverlapsWithShellArena": [],
+      "addressPropertiesOnUfsPath": {
+        "/": {},
+        "/soc": {
+          "ranges": [
+            0,
+            0,
+            0,
+            4294967295
+          ]
+        },
+        "/soc/ufshc@624000": {}
+      },
+      "ufsDeviceAndDescendantBindings": {
+        "/soc/ufshc@624000": [],
+        "/soc/ufshc@624000/ufs_variant": []
+      },
+      "oculusDmaRegion": {
+        "node": "/reserved-memory/oculus_dma_region",
+        "sizeBytes": 2097152,
+        "alignmentBytes": 1048576,
+        "allocRangesBaseAndSize": [
+          "0x0",
+          "0xffffffff"
+        ],
+        "hasReg": false,
+        "regionConsumers": [
+          {
+            "node": "/soc/qcom,ion/qcom,ion-heap@30",
+            "property": "memory-region"
+          }
+        ],
+        "ionHeapId": 30
+      }
+    }
+  ],
+  "stockLkAuditsReproduced": [
+    "ufs-lk-dma-stock-20261121.json",
+    "ufs-response-heap-stock-20261121.json",
+    "ufs-native-prdt-stock-20261121.json"
+  ],
+  "stockLkSha256": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+  "normalFdSha256": "177a7052c449e614f5b98ccdfd5424d757f22c33674fc15f6c2048f6640f0539",
+  "normalCpuArenaExclusive": [
+    "0x80480000",
+    "0x81480000"
+  ],
+  "previousPhysicalTransfer": {
+    "reference": "ufs-data-transfer-20261121.json",
+    "lun": 4,
+    "lkBufferBusRangeExclusive": [
+      "0x918eef80",
+      "0x918eef88"
+    ],
+    "bytes": 8,
+    "intersectsNormalCpuArenaNumerically": false,
+    "fdPagesTested": 0
+  },
+  "physicalShellCpuPageThisBoot": "UNKNOWN",
+  "physicalShellUfsBusAddressThisBoot": "UNKNOWN",
+  "newPhysicalOperation": false
+}
