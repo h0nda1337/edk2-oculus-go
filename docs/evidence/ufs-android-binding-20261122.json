@@ -1,0 +1,25 @@
+{
+  "scope": "Published UFS platform-device binding after Android completed boot",
+  "startUtc": "2026-11-22T19:27:46.859156+00:00",
+  "product": "pacific",
+  "result": "PASS-READONLY",
+  "collector": "tools/collect_ufs_binding.py",
+  "collectorRevision": "ba8d2b000b8ebaff1d1350344a28355d72c40c08",
+  "reportSha256": "5654fa9d84fba03ddc454ddd0487e1d037aa2387e4752193e4857fe4782cc770",
+  "device": "/sys/bus/platform/devices/624000.ufshc",
+  "consecutiveMatchingSamples": 2,
+  "links": {
+    "of_node": {
+      "state": "NOT-EXPORTED"
+    },
+    "driver": {
+      "state": "EXPORTED",
+      "target": "/sys/bus/platform/drivers/ufshcd"
+    },
+    "iommu_group": {
+      "state": "NOT-EXPORTED"
+    }
+  },
+  "postLkUfsSid": "UNKNOWN",
+  "postLkPageBus": "UNKNOWN"
+}

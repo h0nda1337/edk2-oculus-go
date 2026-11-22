@@ -16,11 +16,11 @@ La respuesta da último LBA inclusivo `0x0011FFFF` y bloque lógico de 4096 byte
 
 La prueba complementaria con una aplicación AArch64 en EDK2/AAVMF pidió las direcciones a `EDKII_UFS_HOST_CONTROLLER_PROTOCOL.Map`. En ese entorno el proveedor devolvió identidad en ambos extremos. El banco también comprobó el rechazo del mapeo final y el de un LUN con otra geometría. Este resultado y la traducción no idéntica de etapa 1 son reproducibles con dos configuraciones diferentes de QEMU. [Resultado del proveedor EDK2](evidence/ufs-owned-page-provider-20261121.json)
 
-## Próxima comprobación en el visor
+## Resultado en Android del Go
 
-Con Android ya arrancado, el colector consulta sólo las entradas `of_node`, `driver` e `iommu_group` del dispositivo de plataforma `624000.ufshc`. Comprueba que el transporte corresponde al Go conocido, el producto es `pacific` y dos muestras consecutivas coinciden. Registra por separado un enlace exportado, la ausencia de la entrada en el directorio y una muestra incompleta por falta de acceso. El resultado queda en `local/ufs-binding-*/REPORT.json`. Basta Android con depuración USB y el equipo autorizado. [Colector](../tools/collect_ufs_binding.py) · [Qué publica el kernel del Go](UFS_SID_SOURCES.md)
+El colector verificó que Android había arrancado en el Go `pacific`. En dos muestras consecutivas, `624000.ufshc/driver` resolvió a `/sys/bus/platform/drivers/ufshcd`. En el directorio del dispositivo faltaban las entradas `iommu_group` y `of_node`. [Lectura física](evidence/ufs-android-binding-20261122.json) · [Colector](../tools/collect_ufs_binding.py)
 
-Un número de grupo observado pertenece al kernel Android. El SID del maestro al salir de LK requiere evidencia que vincule el iniciador con su proveedor en ese momento. La dirección dada por un proveedor para una página de LK tampoco se puede extender a la página de EDK2. Si Android carece de un enlace de grupo, se conserva ese resultado sin asignar un SID ni una dirección de bus. La GPT del LUN 4 sigue pendiente para el driver de EDK2 en Pacific.
+El SID del maestro al salir de LK requiere evidencia que vincule el iniciador con su proveedor en ese momento. La dirección dada por un proveedor para una página de LK tampoco se puede extender a la página de EDK2. La GPT del LUN 4 sigue pendiente para el driver de EDK2 en Pacific.
 
 ## Repetir las pruebas de host
 

@@ -1,6 +1,6 @@
 # Next steps
 
-**Siguiente medición en Pacific.** Consultar por ADB los enlaces públicos `of_node`, `driver` e `iommu_group` del dispositivo `624000.ufshc` con Android arrancado. Registrar el vínculo del kernel y distinguirlo de la asociación vigente tras LK. Cuando exista una correspondencia independiente con la página de SEC, consultar capacidad en ambos extremos y después probar el LBA 1. [Prueba y colector](UFS_STAGE1_ENDPOINTS.md) · [Qué asigna el kernel de Pacific](UFS_SID_SOURCES.md)
+**Siguiente medición en Pacific.** Establecer la ruta del controlador UFS en el momento en que LK entrega el control a EDK2. La comprobación en Android ya identificó `ufshcd` y el dispositivo carecía de un enlace `iommu_group`. Cuando exista una correspondencia independiente con la página de SEC, consultar capacidad en ambos extremos y después probar el LBA 1. [Comprobación en Android](evidence/ufs-android-binding-20261122.json) · [Qué asigna el kernel de Pacific](UFS_SID_SOURCES.md)
 
 **DMA de 4096 bytes en Pacific.** El ensayo físico `UFS_HEAP4K` descartó `0x918FD000` como página completa disponible en un intervalo libre de LK durante ese arranque. El siguiente paso es establecer la traducción del UFS para una página reservada por EDK2. La candidata en SEC sigue siendo `0x80441000`. Antes de leer el LBA 1 hay que validar físicamente los ocho bytes de capacidad en ambos extremos. [Panel físico](evidence/ufs-heap4k-transfer-20261121.json) · [Pruebas de traducción en QEMU](UFS_OWNED_PAGE.md)
 
