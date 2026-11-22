@@ -24,6 +24,9 @@ VOID GoUfsDataControl (UINT64 Tr, UINT64 Tm);
 #ifdef GO_UFS_NOP11
 VOID GoUfsNop11 (UINT64 Tr, UINT64 Tm);
 #endif
+#ifdef GO_UFS_PRDT
+VOID GoUfsPrdt (UINT64 Tr, UINT64 Tm);
+#endif
 #ifdef GO_UFS_HEAP4K
 VOID GoUfsHeapPage (UINT64 Tr, UINT64 Tm);
 #endif

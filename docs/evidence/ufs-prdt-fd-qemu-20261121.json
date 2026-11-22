@@ -1,0 +1,292 @@
+{
+  "outcome": "PASS-QEMU-PRDT",
+  "fdSha256": "093f7f892d4c1173b31c679f4499d04b147aeae5fc6519a38aaabfa883d0ce59",
+  "physicalFdBus": "UNKNOWN",
+  "cases": [
+    {
+      "case": "capacity",
+      "el": 1,
+      "panel": [
+        "UFS PRDT      OUTSIDE",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "OP    00000025",
+        "LUN   00000004",
+        "FIRST 91940000",
+        "LAST  91940007",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "other-backing",
+      "el": 1,
+      "panel": [
+        "UFS PRDT      OUTSIDE",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "OP    00000025",
+        "LUN   00000004",
+        "FIRST 91940000",
+        "LAST  91940007",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91942000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "native-read",
+      "el": 1,
+      "panel": [
+        "UFS PRDT      COVERS",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "OP    00000028",
+        "LUN   00000004",
+        "FIRST 80441000",
+        "LAST  80441FFF",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "native-read16",
+      "el": 1,
+      "panel": [
+        "UFS PRDT      COVERS",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "OP    00000088",
+        "LUN   00000004",
+        "FIRST 80441000",
+        "LAST  80441FFF",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "partial",
+      "el": 1,
+      "panel": [
+        "UFS PRDT      PARTIAL",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "OP    00000028",
+        "LUN   00000004",
+        "FIRST 80441004",
+        "LAST  80442003",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "short-read",
+      "el": 1,
+      "panel": [
+        "UFS STOP      BLOCKS",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "OP    00000028",
+        "LUN   00000004",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "two-prds",
+      "el": 1,
+      "panel": [
+        "UFS PRDT      COVERS",
+        "UCD   918FDF00",
+        "NPRD  00000002",
+        "OP    00000028",
+        "LUN   00000004",
+        "FIRST 80401000",
+        "LAST  80441FFF",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "gap",
+      "el": 1,
+      "panel": [
+        "UFS STOP      ENTRY",
+        "UCD   918FDF00",
+        "NPRD  00000002",
+        "OP    00000028",
+        "LUN   00000004",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "zero-prd",
+      "el": 1,
+      "panel": [
+        "UFS PRDT      NO DATA",
+        "UCD   918FDF00",
+        "NPRD  00000000",
+        "",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "moved",
+      "el": 1,
+      "panel": [
+        "UFS STOP      UCD MOVED",
+        "UCD   918FDF80",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "bounds",
+      "el": 1,
+      "panel": [
+        "UFS STOP      DESCRIPTOR",
+        "UCD   918FDF00",
+        "NPRD  00000002",
+        "",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "changed",
+      "el": 1,
+      "panel": [
+        "UFS STOP      CHANGED",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "stale-tag",
+      "el": 1,
+      "panel": [
+        "UFS STOP      UPIU",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "OP    00000025",
+        "LUN   00000004",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "bad-ocs",
+      "el": 1,
+      "panel": [
+        "UFS STOP      DESCRIPTOR",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "",
+        "",
+        "",
+        "",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    },
+    {
+      "case": "capacity",
+      "el": 2,
+      "panel": [
+        "UFS PRDT      OUTSIDE",
+        "UCD   918FDF00",
+        "NPRD  00000001",
+        "OP    00000025",
+        "LUN   00000004",
+        "FIRST 91940000",
+        "LAST  91940007",
+        "CPU ONLY"
+      ],
+      "fixtureCapacityBus": "0x91940000",
+      "fixtureCapacityCpu": "0x91940000",
+      "firmwareDoorbells": 0,
+      "mediaReads": 0,
+      "mediaWrites": 0
+    }
+  ]
+}

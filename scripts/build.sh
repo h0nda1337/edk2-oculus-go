@@ -29,6 +29,7 @@ case "$build_mode" in
   SEC_MMU) build_flavor=OculusGoSecMmu ;;
   UFS_DATA) build_flavor=OculusGoUfsData ;;
   UFS_BOUNCE) build_flavor=OculusGoUfsBounce ;;
+  UFS_PRDT) build_flavor=OculusGoUfsPrdt ;;
   UFS_HEAP4K) build_flavor=OculusGoUfsHeap ;;
   UFS_ZERO4K) build_flavor=OculusGoUfsZero4k ;;
   UFS_BUF4K) build_flavor=OculusGoUfsBuf4k ;;

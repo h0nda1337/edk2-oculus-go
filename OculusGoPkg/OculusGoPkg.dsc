@@ -285,6 +285,8 @@
   OculusGoPkg/SecMem/UfsLkMap.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsGptModel
   OculusGoPkg/SecMem/UfsGptModel.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsPrdt
+  OculusGoPkg/SecMem/UfsPrdt.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsHeap
   OculusGoPkg/SecMem/UfsHeap.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsZero4k
