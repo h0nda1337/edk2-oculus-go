@@ -15,9 +15,15 @@
   BaseLib
   BaseMemoryLib
   DebugLib
+  DevicePathLib
   MemoryAllocationLib
   UefiBootServicesTableLib
+[Guids]
+  gEdkiiNonDiscoverableUfsDeviceGuid
 [Protocols]
+  gEdkiiNonDiscoverableDeviceProtocolGuid
+  gGoUfsPlatformDmaProtocolGuid
   gEdkiiUfsHostControllerProtocolGuid
   gEfiExtScsiPassThruProtocolGuid
   gGoUfsCapacityProtocolGuid
+  gGoUfsDmaGuardProtocolGuid

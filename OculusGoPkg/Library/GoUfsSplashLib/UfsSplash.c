@@ -5,11 +5,16 @@
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
+#include <Library/DevicePathLib.h>
 #include <Library/GoUfsSplashLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
+#include <Guid/NonDiscoverableDevice.h>
 #include <Protocol/GoUfsCapacity.h>
+#include <Protocol/GoUfsDmaGuard.h>
+#include <Protocol/GoUfsPlatformDma.h>
+#include <Protocol/NonDiscoverableDevice.h>
 #include <Protocol/ScsiPassThruExt.h>
 #include <Protocol/UfsHostController.h>
 #include <Uefi/UefiGpt.h>
@@ -251,6 +256,18 @@ VisitController (EFI_HANDLE Controller, GO_DECODE_SPLASH Decode, GO_OCULUS_LOGO 
   if (EFI_ERROR (Status)) {
     return Status;
   }
+  GO_UFS_DMA_GUARD_PROTOCOL *Guard = NULL;
+  Status = gBS->HandleProtocol (Controller, &gGoUfsDmaGuardProtocolGuid, (VOID **)&Guard);
+  if (EFI_ERROR (Status)) {
+    NON_DISCOVERABLE_DEVICE *Device;
+    if (Status != EFI_UNSUPPORTED ||
+        !EFI_ERROR (gBS->HandleProtocol (Controller, &gEdkiiNonDiscoverableDeviceProtocolGuid, (VOID **)&Device))) {
+      return Status;
+    }
+    Guard = NULL; // A PCI host in the legacy virtual configuration.
+  } else if (Guard == NULL || Guard->CheckIdle == NULL) {
+    return EFI_PROTOCOL_ERROR;
+  }
   UINTN Alignment = Disk.Bus->Mode->IoAlign;
   if (Alignment > CAPACITY_BYTES || (Alignment != 0 && (Alignment & (Alignment - 1)) != 0)) {
     return EFI_UNSUPPORTED;
@@ -273,7 +290,7 @@ VisitController (EFI_HANDLE Controller, GO_DECODE_SPLASH Decode, GO_OCULUS_LOGO 
   for (UINTN Iter = 0; Iter < 32; ++Iter) {
     Status = Disk.Bus->GetNextTargetLun (Disk.Bus, &Target, &Disk.Lun);
     if (EFI_ERROR (Status)) {
-      if (Status == EFI_NOT_FOUND && Decode != NULL && FindOtherUnit (&Disk, Decode, Logo)) {
+      if (Status == EFI_NOT_FOUND && Guard == NULL && Decode != NULL && FindOtherUnit (&Disk, Decode, Logo)) {
         Status = EFI_SUCCESS;
       }
       break;
@@ -288,6 +305,15 @@ VisitController (EFI_HANDLE Controller, GO_DECODE_SPLASH Decode, GO_OCULUS_LOGO 
       break;
     }
     Status = EFI_NOT_FOUND;
+  }
+  if (Guard != NULL) {
+    EFI_STATUS Idle = Guard->CheckIdle (Guard, Base, Pages);
+    if (EFI_ERROR (Idle)) {
+      // Quarantine this allocation until reboot. A provider may still own a
+      // mapping or have a pending bounce copy into the page.
+      DEBUG ((DEBUG_ERROR, "Go UFS: retaining DMA workspace %Lx (%u pages): %r\n", Base, (UINT32)Pages, Idle));
+      return Idle;
+    }
   }
   EFI_STATUS Released = gBS->FreePages (Base, Pages);
   return EFI_ERROR (Released) ? Released : Status;
@@ -310,13 +336,54 @@ GoUfsTestLun4Buffer (EFI_HANDLE Controller, GO_UFS_CAPACITY_SAMPLE *Result)
   return Status;
 }
 
+// An End node requests the controller only. A NULL remaining path allows a
+// SCSI bus driver to enumerate every child LUN before the capacity check.
+STATIC VOID
+ConnectHostOnly (EFI_HANDLE Handle)
+{
+  EFI_DEVICE_PATH_PROTOCOL End;
+  SetDevicePathEndNode (&End);
+  gBS->ConnectController (Handle, NULL, &End, FALSE);
+}
+
+// Bring up only described UFS controllers that already have a DMA service
+// on their own handle. The native driver checks board readiness before the
+// pass-through driver can initialize the transport.
+STATIC VOID
+ConnectPlatformUfs (VOID)
+{
+  EFI_HANDLE *Handles;
+  UINTN Count;
+  if (EFI_ERROR (gBS->LocateHandleBuffer (ByProtocol, &gEdkiiNonDiscoverableDeviceProtocolGuid,
+                                         NULL, &Count, &Handles))) {
+    return;
+  }
+
+  for (UINTN Index = 0; Index < Count; ++Index) {
+    EFI_HANDLE Handle = Handles[Index];
+    NON_DISCOVERABLE_DEVICE *Device;
+    VOID *Protocol;
+    if (!EFI_ERROR (gBS->HandleProtocol (Handle, &gEdkiiNonDiscoverableDeviceProtocolGuid, (VOID **)&Device)) &&
+        Device->Type != NULL && CompareGuid (Device->Type, &gEdkiiNonDiscoverableUfsDeviceGuid) &&
+        Device->Initialize != NULL &&
+        !EFI_ERROR (gBS->HandleProtocol (Handle, &gGoUfsPlatformDmaProtocolGuid, &Protocol)) &&
+        EFI_ERROR (gBS->HandleProtocol (Handle, &gEdkiiUfsHostControllerProtocolGuid, &Protocol))) {
+      ConnectHostOnly (Handle);
+    }
+  }
+  FreePool (Handles);
+}
+
 BOOLEAN
 GoReadUfsLogo (GO_DECODE_SPLASH Decode, GO_OCULUS_LOGO *Logo)
 {
   EFI_HANDLE *Handles;
   UINTN Count;
-  if (Decode == NULL || Logo == NULL ||
-      EFI_ERROR (gBS->LocateHandleBuffer (ByProtocol, &gEdkiiUfsHostControllerProtocolGuid, NULL, &Count, &Handles))) {
+  if (Decode == NULL || Logo == NULL) {
+    return FALSE;
+  }
+  ConnectPlatformUfs ();
+  if (EFI_ERROR (gBS->LocateHandleBuffer (ByProtocol, &gEdkiiUfsHostControllerProtocolGuid, NULL, &Count, &Handles))) {
     return FALSE;
   }
   BOOLEAN Found = FALSE;
@@ -324,7 +391,7 @@ GoReadUfsLogo (GO_DECODE_SPLASH Decode, GO_OCULUS_LOGO *Logo)
     VOID *CapacityIo;
     if (EFI_ERROR (gBS->HandleProtocol (Handles[Index], &gGoUfsCapacityProtocolGuid, &CapacityIo))) {
       // Give the FV transport a chance to bind to this UFS controller only.
-      gBS->ConnectController (Handles[Index], NULL, NULL, FALSE);
+      ConnectHostOnly (Handles[Index]);
     }
     Found = !EFI_ERROR (VisitController (Handles[Index], Decode, Logo, NULL));
   }
