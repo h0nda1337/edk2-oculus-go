@@ -1,0 +1,68 @@
+{
+  "outcome": "PASS-QEMU-OWNED-PAGE",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "results": {
+    "matched": {
+      "provider": "EDKII_UFS_HOST_CONTROLLER_PROTOCOL.Map / EFI_PCI_IO_PROTOCOL.Map",
+      "firmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3",
+      "efiSha256": {
+        "UfsOwnedPage.efi": "ddcdbdcd1edb9f09c9ad76578f0dee89bd6d06d1fdf263bd30d9a567cc451a5a",
+        "UfsPciHcDxe.efi": "fc72ce301d3f6b3c268f9439bcb41769553b3d2bd91290daf4866a780e1f87c2",
+        "UfsPassThruDxe.efi": "5813c936a01deac4f9cf8b252f7cb93909de4eda44de20833163782460fef4dc"
+      },
+      "lun": 4,
+      "lunBytes": 4831838208,
+      "logicalBlockBytes": 4096,
+      "rows": [
+        {
+          "page": 1,
+          "cpu": "0x80441000",
+          "bus": "0x80441000",
+          "payload": "0011ffff00001000"
+        },
+        {
+          "page": 1,
+          "cpu": "0x80441ff8",
+          "bus": "0x80441ff8",
+          "payload": "0011ffff00001000"
+        }
+      ],
+      "readCapacityCommands": 3,
+      "ufsMediaReads": 0,
+      "ufsMediaWrites": 0,
+      "terminal": "Success",
+      "tailMappingRefusalVerified": true
+    },
+    "different-last-lba": {
+      "provider": "EDKII_UFS_HOST_CONTROLLER_PROTOCOL.Map / EFI_PCI_IO_PROTOCOL.Map",
+      "firmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3",
+      "efiSha256": {
+        "UfsOwnedPage.efi": "ddcdbdcd1edb9f09c9ad76578f0dee89bd6d06d1fdf263bd30d9a567cc451a5a",
+        "UfsPciHcDxe.efi": "fc72ce301d3f6b3c268f9439bcb41769553b3d2bd91290daf4866a780e1f87c2",
+        "UfsPassThruDxe.efi": "5813c936a01deac4f9cf8b252f7cb93909de4eda44de20833163782460fef4dc"
+      },
+      "lun": 4,
+      "lunBytes": 4831834112,
+      "logicalBlockBytes": 4096,
+      "rows": [],
+      "readCapacityCommands": 2,
+      "ufsMediaReads": 0,
+      "ufsMediaWrites": 0,
+      "terminal": "Volume Corrupt",
+      "tailMappingRefusalVerified": false
+    }
+  },
+  "physicalPacificBusPages": [
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN"
+  ],
+  "pageCpu": "0x80441000",
+  "pageBytes": 4096,
+  "endpointOffsets": [
+    0,
+    4088
+  ],
+  "pacificDirectBus": "UNKNOWN"
+}

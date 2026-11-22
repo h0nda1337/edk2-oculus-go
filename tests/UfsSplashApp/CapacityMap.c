@@ -14,6 +14,13 @@
 #define PAGES     4
 #define LUN4      0x400   // EDK2 extended SCSI flat-space LUN encoding
 #define CAP_BYTES 8
+#ifdef TEST_OWNED_PAGE
+#define OWNED_PAGE 1U
+STATIC BOOLEAN mDenyTailMap;
+STATIC UINTN mDenied;
+STATIC UINTN mAccepted;
+STATIC CONST UINTN OwnedOffsets[] = { OWNED_PAGE * EFI_PAGE_SIZE, (OWNED_PAGE + 1U) * EFI_PAGE_SIZE - CAP_BYTES };
+#endif
 STATIC CONST UINT8 Expected[CAP_BYTES] = { 0, 0x11, 0xff, 0xff, 0, 0, 0x10, 0 };
 STATIC EDKII_UFS_HC_MAP mMap;
 STATIC VOID *mExpectedHost;
@@ -24,10 +31,20 @@ STATIC EFI_STATUS EFIAPI
 ObserveMap (EDKII_UFS_HOST_CONTROLLER_PROTOCOL *This, EDKII_UFS_HOST_CONTROLLER_OPERATION Operation,
             VOID *Host, UINTN *Length, EFI_PHYSICAL_ADDRESS *Bus, VOID **Mapping)
 {
+#ifdef TEST_OWNED_PAGE
+  if (mDenyTailMap && Operation == EdkiiUfsHcOperationBusMasterWrite &&
+      Host == mExpectedHost && (UINTN)Host == WINDOW + OwnedOffsets[1] && *Length == CAP_BYTES) {
+    ++mDenied;
+    return EFI_NO_MAPPING;
+  }
+#endif
   EFI_STATUS Status = mMap (This, Operation, Host, Length, Bus, Mapping);
   if (!EFI_ERROR (Status) && Operation == EdkiiUfsHcOperationBusMasterWrite &&
       Host == mExpectedHost && *Length == CAP_BYTES) {
     ++mMappings;
+#ifdef TEST_OWNED_PAGE
+    ++mAccepted;
+#endif
     mBus = *Bus;
   }
   return Status;
@@ -40,9 +57,8 @@ Canary (UINTN I)
 }
 
 STATIC EFI_STATUS
-Sample (EFI_EXT_SCSI_PASS_THRU_PROTOCOL *Scsi, UINT8 *Target, UINT8 *Window, UINTN Page)
+Sample (EFI_EXT_SCSI_PASS_THRU_PROTOCOL *Scsi, UINT8 *Target, UINT8 *Window, UINTN Offset)
 {
-  UINTN Offset = Page * EFI_PAGE_SIZE;
   UINT8 *Dest = Window + Offset;
   for (UINTN Attempt = 0; Attempt < 2; ++Attempt) {
     EFI_EXT_SCSI_PASS_THRU_SCSI_REQUEST_PACKET Packet = { 0 };
@@ -61,7 +77,7 @@ Sample (EFI_EXT_SCSI_PASS_THRU_PROTOCOL *Scsi, UINT8 *Target, UINT8 *Window, UIN
     EFI_STATUS Status = Scsi->PassThru (Scsi, Target, LUN4, &Packet, NULL);
     mExpectedHost = NULL;
     if (mMappings != 1) {
-      return EFI_NO_MAPPING;
+      return EFI_ERROR (Status) ? Status : EFI_PROTOCOL_ERROR;
     }
     for (UINTN I = 0; I < PAGES * EFI_PAGE_SIZE; ++I) {
       if ((I < Offset || I >= Offset + CAP_BYTES) && Window[I] != Canary (I)) {
@@ -81,7 +97,7 @@ Sample (EFI_EXT_SCSI_PASS_THRU_PROTOCOL *Scsi, UINT8 *Target, UINT8 *Window, UIN
       return EFI_VOLUME_CORRUPTED;
     }
     Print (L"UFS-MAP PAGE %u CPU %lx BUS %lx DATA 0011FFFF00001000\r\n",
-           (UINT32)Page, (UINT64)(UINTN)Dest, mBus);
+           (UINT32)(Offset / EFI_PAGE_SIZE), (UINT64)(UINTN)Dest, mBus);
     for (UINTN I = 0; I < CAP_BYTES; ++I) {
       Dest[I] = Canary (Offset + I);
     }
@@ -152,12 +168,42 @@ Measure (EFI_HANDLE Image)
   // Delegate every call and preserve the original handle, length and return values.
   mMap = Hc->Map;
   Hc->Map = ObserveMap;
-  for (UINTN Page = 0; Page < PAGES; ++Page) {
-    Status = Sample (Scsi, Target, Window, Page);
+#ifdef TEST_OWNED_PAGE
+  // Keep the two observations adjacent and inside one allocation. All other
+  // bytes, including the adjacent pages, are checked after each completion.
+  for (UINTN End = 0; End < ARRAY_SIZE (OwnedOffsets); ++End) {
+    Status = Sample (Scsi, Target, Window, OwnedOffsets[End]);
     if (EFI_ERROR (Status)) {
       break;
     }
   }
+  if (!EFI_ERROR (Status)) {
+    // Inject one provider refusal at the last eight bytes before any DMA.
+    // A rejected mapping must leave the whole allocation as it was.
+    mDenyTailMap = TRUE;
+    EFI_STATUS Rejected = Sample (Scsi, Target, Window, OwnedOffsets[1]);
+    mDenyTailMap = FALSE;
+    if (!EFI_ERROR (Rejected) || mDenied != 1 || mMappings != 0) {
+      Status = EFI_PROTOCOL_ERROR;
+    }
+    for (UINTN I = 0; I < PAGES * EFI_PAGE_SIZE; ++I) {
+      if (Window[I] != Canary (I)) {
+        Status = EFI_COMPROMISED_DATA;
+        break;
+      }
+    }
+    if (!EFI_ERROR (Status)) {
+      Print (L"UFS-MAP TAIL REFUSED MAPPED %u\r\n", (UINT32)mAccepted);
+    }
+  }
+#else
+  for (UINTN Page = 0; Page < PAGES; ++Page) {
+    Status = Sample (Scsi, Target, Window, Page * EFI_PAGE_SIZE);
+    if (EFI_ERROR (Status)) {
+      break;
+    }
+  }
+#endif
   Hc->Map = mMap;
   if (!EFI_ERROR (Status)) {
     Status = gBS->FreePages (Physical, PAGES);

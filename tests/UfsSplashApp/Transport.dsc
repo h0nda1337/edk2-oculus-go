@@ -37,3 +37,4 @@
   build/ufs-test-sources/UfsPassThruDxe/UfsPassThruDxe.inf
   tests/UfsSplashApp/UfsSplashApp.inf
   tests/UfsSplashApp/UfsCapacityMap.inf
+  tests/UfsSplashApp/UfsOwnedPage.inf

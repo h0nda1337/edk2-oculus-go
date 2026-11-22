@@ -1,0 +1,29 @@
+## QEMU only. SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = UfsOwnedPage
+  FILE_GUID = 9584afd1-e0e0-49a6-90a9-893c87554d97
+  MODULE_TYPE = UEFI_APPLICATION
+  ENTRY_POINT = UefiMain
+[Sources]
+  CapacityMap.c
+  ConnectProvider.c
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+[LibraryClasses]
+  BaseMemoryLib
+  DevicePathLib
+  MemoryAllocationLib
+  UefiApplicationEntryPoint
+  UefiBootServicesTableLib
+  UefiLib
+[Protocols]
+  gEfiDriverBindingProtocolGuid
+  gEfiLoadedImageProtocolGuid
+  gEfiPciIoProtocolGuid
+  gEdkiiUfsHostControllerProtocolGuid
+  gEfiExtScsiPassThruProtocolGuid
+
+[BuildOptions]
+  GCC:*_*_AARCH64_CC_FLAGS = -DTEST_OWNED_PAGE
