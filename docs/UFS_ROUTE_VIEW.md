@@ -15,27 +15,28 @@ Las dos configuraciones entregaron `00 11 FF FF 00 00 10 00` en las direcciones 
 
 El banco UEFI complementario ejercita `EDKII_UFS_HOST_CONTROLLER_PROTOCOL.Map` desde una aplicación AArch64 en AAVMF. Verifica ambos destinos, la negativa a mapear el extremo final y el rechazo de una geometría distinta. [Aplicación y arnés](../tests/ufs_capacity_map_qemu.py) · [Informe del proveedor](evidence/ufs-owned-page-provider-20261121.json)
 
-## Qué medirá el próximo arranque temporal
+## Vista global de ANOC2 observada en el Go
 
 `UFS_ROUTE_VIEW` utiliza la CPU para tomar una muestra de la vista global ordinaria de ANOC2 al entrar en EDK2. Valida el nodo y la traducción de direcciones MMIO del bus padre en el DT entregado por LK. En ese mismo arranque vuelve a comprobar dominio y relojes. Si se cumplen las condiciones, lee **cuatro** palabras del bloque ANOC2, una vez cada una. El panel conserva los valores crudos. El firmware carece de transporte UFS y de código para configurar la SMMU. [Código SEC](../OculusGoPkg/SecMem/UfsRouteClocks.c) · [Criterios del árbol](../OculusGoPkg/SecMem/Fdt.c)
 
-| Fila del panel | Dirección MMIO verificada | Lo que aporta |
-| --- | --- | --- |
-| `DOM NAX NAH SAX SAH` | Cinco direcciones del GCC identificadas en RPM | Estado del dominio de alimentación y las cuatro ramas de reloj antes de acceder a ANOC2. |
-| `ID0` | `0x01680020` | Capacidades de las etapas de traducción y modo de selección de streams que anuncia la unidad. |
-| `ID1` | `0x01680024` | Geometría de registros y bancos de contexto anunciados. |
-| `ID2` | `0x01680028` | Tamaños de direcciones y formatos de páginas anunciados. |
-| `CR0` | `0x01680000` | Control global visible en el arranque, incluidos `CLIENTPD` y `USFCFG`. |
+El operador transcribió `UFS ROUTE SAMPLED` y los cuatro registros globales siguientes. La cabecera acredita que SEC completó las nueve lecturas previstas. [Panel físico](evidence/ufs-route-view-transfer-20261121.json)
+
+| Registro | Dirección MMIO | Lectura del Go | Interpretación de los campos |
+| --- | --- | --- | --- |
+| `ID0` | `0x01680020` | `48014C09` | `S1TS=1`, `S2TS=0`, `NTS=0`. La unidad anuncia etapa 1 y selección por coincidencia de stream (`SMS=1`) con nueve grupos (`NUMSMRG=9`). |
+| `ID1` | `0x01680024` | `30008008` | Ocho bancos de contexto (`NUMCB=8`) y cero bancos dedicados a etapa 2 (`NUMS2CB=0`). |
+| `ID2` | `0x01680028` | `00007111` | Capacidades de direcciones de 36 bits (`IAS=OAS=UBS=1`). Admite gránulos de tabla de 4, 16 y 64 KiB. |
+| `CR0` | `0x01680000` | `00200626` | `CLIENTPD=0` habilita el acceso de clientes. `USFCFG=1` selecciona un fallo para los streams que lleguen a esta unidad y carezcan de coincidencia. |
 
 Los desplazamientos proceden del driver oficial del Go. El nodo de Pacific declara `qcom,skip-init` y el árbol carece en ese nodo de las opciones de alias especial y de bancos estáticos. La sonda se limita a la vista normal de sólo lectura. [Registros e interpretación](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/iommu/arm-smmu.c#L65-L135) · [Lecturas de identificación en el driver](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/iommu/arm-smmu.c#L3359-L3476)
 
-`UFS ROUTE SAMPLED` indica que las nueve lecturas terminaron. `STOP`, `INVALID` y `FAULT` conservan la última fila alcanzada. Una lectura de MMIO que bloquee el bus puede dejar visible la cabecera `READ`. Para documentar la prueba, copiar la cabecera y las filas visibles, también `UFS SID UNKNOWN` y `FD BUS UNKNOWN`. El valor de CR0 sólo describe el bloque consultado. Para atribuir el mapeo de la página a UFS hará falta vincular sus transacciones al stream y a la traducción efectiva, o disponer de un mapeo del proveedor DMA durante ese arranque. La primera transferencia física a la página será una consulta de capacidad en cada extremo. La cabecera GPT del LUN 4 queda para una prueba posterior.
+El control global por sí solo deja pendiente atribuir una coincidencia a UFS. Los resultados S2 del ensayo QEMU ilustran una ruta virtual. Para determinar el bus efectivo de Pacific se necesita identificar el emisor y su tratamiento durante el mismo arranque, u obtener una correspondencia del proveedor DMA. Una vez resuelto, el primer ensayo sobre la página consultará la capacidad en cada extremo antes de leer la GPT del LUN 4. [Política para streams sin coincidencia en el driver oficial](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/iommu/arm-smmu.c#L3137-L3141)
 
 ## Resultado del build para el visor
 
 El FD AArch64 pasó 54 arranques en QEMU, 27 en EL1 y 27 en EL2. El arnés vigiló el GCC, el controlador UFS y ANOC2. Cada caso verificó los accesos en orden y el resultado en ambos ojos del framebuffer. Se probaron relojes detenidos, abortos síncronos de lectura, capacidad de identificación incoherente y árboles con otra dirección, estado o vista de registros. Al volver a escribir el mismo valor de `reg` en una copia del árbol correcto, la lectura completa siguió funcionando. La inspección del FD confirmó el módulo SEC, las nueve direcciones MMIO y los 16 vectores. [Informe del firmware](evidence/ufs-route-view-fd-qemu-20261121.json)
 
-El contenedor de arranque temporal mide 380 928 bytes y su SHA-256 es `fb8d8518cc9aab7f457e537f9d58617a9249e1dbe64c8cd49dd45aa790fc5371`. El ensayo con acceso físico queda pendiente. [Manifiesto de la revisión](evidence/ufs-route-view-review-20261121.json)
+El contenedor de arranque temporal mide 380 928 bytes y su SHA-256 es `fb8d8518cc9aab7f457e537f9d58617a9249e1dbe64c8cd49dd45aa790fc5371`. [Manifiesto de la revisión](evidence/ufs-route-view-review-20261121.json)
 
 ## Reproducción offline
 

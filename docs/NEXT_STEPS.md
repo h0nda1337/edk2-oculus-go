@@ -1,6 +1,6 @@
 # Next steps
 
-**Siguiente prueba en Pacific.** Arranque temporal atendido de `UFS_ROUTE_VIEW` para leer las capacidades y el control global de ANOC2 después de LK. El panel recoge `ID0`, `ID1`, `ID2` y `CR0` tras verificar el dominio y sus relojes en el mismo arranque. Queda pendiente atribuir el stream y la traducción a UFS, verificar la capacidad en ambos extremos de la página y, después, leer la cabecera GPT del LUN 4. [Procedimiento e interpretación](UFS_ROUTE_VIEW.md)
+**Siguiente paso hacia la GPT.** Identificar por una fuente independiente el SID del maestro UFS y determinar qué tratamiento recibe en el arranque de LK, u obtener del proveedor DMA la correspondencia de bus para la página CPU `0x80441000`. La vista global de ANOC2 anuncia soporte de etapa 1 y coincidencia de streams. Con un destino comprobado, verificar los ocho bytes de capacidad del LUN 4 en ambos extremos antes de leer el LBA 1. [Panel físico](evidence/ufs-route-view-transfer-20261121.json) · [Ruta y capacidades](UFS_ROUTE_VIEW.md)
 
 **DMA de 4096 bytes en Pacific.** El ensayo físico `UFS_HEAP4K` descartó `0x918FD000` como página completa disponible en un intervalo libre de LK durante ese arranque. El siguiente paso es establecer la traducción del UFS para una página reservada por EDK2. La candidata en SEC sigue siendo `0x80441000`. Antes de leer el LBA 1 hay que validar físicamente los ocho bytes de capacidad en ambos extremos. [Panel físico](evidence/ufs-heap4k-transfer-20261121.json) · [Pruebas de traducción en QEMU](UFS_OWNED_PAGE.md)
 

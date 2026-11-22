@@ -1,6 +1,6 @@
 # Status
 
-**UFS tras LK.** El DT de Pacific sitúa al maestro UFS en AGGRE2, camino de SNOC. En las 71 referencias IOMMU del árbol no consta una asignación de UFS a ANOC2. Los cinco registros del GCC ya se leyeron en el Go. La ruta de traducción efectiva y el bus de la página CPU `0x80441000` siguen **UNKNOWN**. En QEMU se comprobó la capacidad en ambos extremos con traducción S2 y con bypass explícito. [Topología del Go](UFS_ROUTE_SOURCES.md) · [Resultados y nueva sonda](UFS_ROUTE_VIEW.md)
+**ANOC2 tras LK.** En el Go, EDK2 completó las nueve lecturas de `UFS_ROUTE_VIEW`. ANOC2 anuncia traducción de etapa 1, nueve grupos de coincidencia de stream y ocho bancos de contexto. El control global tenía activa la política de fallo para streams sin coincidencia. El SID de UFS, su ruta efectiva y la dirección de bus de la página CPU `0x80441000` siguen **UNKNOWN**. [Panel físico](evidence/ufs-route-view-transfer-20261121.json) · [Interpretación](UFS_ROUTE_VIEW.md)
 
 **Destino directo de UFS.** `0x80441000` es candidato de identidad en Pacific. QEMU verificó ambos extremos y detectó DMA a la página vecina incluso con éxito SCSI. En el arranque físico de `UFS_PRDT`, el slot 0 conservaba el puntero UCD `0x918FDF00` y cero entradas de datos. La dirección de bus de la página propia sigue **UNKNOWN**. [Panel del Go](evidence/ufs-prdt-transfer-20261121.json) [Pruebas e interpretación](UFS_NATIVE_PRDT.md)
 

@@ -1,0 +1,138 @@
+{
+  "scope": "terminal-ufs-route-view",
+  "testedRevision": "ca65b7919559d402933a3b3167479e6989f0ce68",
+  "reviewSha256": "0acdde36b00104081ff21649f328c8c16be6fb3034caf7ec6aabb364072ed5e6",
+  "preflightReportSha256": "f6197c2c4df0e55eadcfbdebc4518922e9985895554a3eeeff0427deee939fc8",
+  "matchedOriginalsBefore": {
+    "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+    "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+    "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+    "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+  },
+  "wholePartitionBytesComparedBefore": 136314880,
+  "transferReservedUtc": "2026-11-22T04:42:50.285124+00:00",
+  "transferReportSha256": "98643421182ec68083d7d9d400b2e689443e8d02252460c51867809ff889a782",
+  "fastbootBootStderrSha256": "3f239f398fa56faea7671480c957171a0bbdb9a64919f1ebb7e1a1565289132a",
+  "bootloader": {
+    "product": "pacific",
+    "slot": "_a",
+    "secure": "yes",
+    "secureBoot": "true",
+    "unlocked": "true",
+    "criticalUnlocked": "false"
+  },
+  "imageSha256": "fb8d8518cc9aab7f457e537f9d58617a9249e1dbe64c8cd49dd45aa790fc5371",
+  "fdSha256": "ad130a053ad19ad6aa93b3e1553fdd57270f66f753d270d5b3263e2ab9afd55e",
+  "fastbootResult": "COMMAND-ACCEPTED-EXECUTION-UNKNOWN",
+  "temporaryBootCommandIssued": true,
+  "partitionWriteCommandIssued": false,
+  "physicalProbeExecution": "CONFIRMED by operator transcription",
+  "physicalPanel": {
+    "source": "Operator transcription following the reviewed temporary boot",
+    "rawLines": [
+      "UFS ROUTE SAMPLED",
+      "ID0 48014C09",
+      "ID1 30008008",
+      "ID2 00007111",
+      "CR0 00200626"
+    ],
+    "registersHex": {
+      "ID0": "48014C09",
+      "ID1": "30008008",
+      "ID2": "00007111",
+      "CR0": "00200626"
+    },
+    "clockValuesTranscribedThisBoot": false
+  },
+  "observation": {
+    "scope": "ANOC2 ordinary global view after LK",
+    "stage1Supported": true,
+    "stage2Supported": false,
+    "nestedSupported": false,
+    "streamMatching": true,
+    "streamMatchGroups": 9,
+    "contextBanks": 8,
+    "stage2OnlyContextBanks": 0,
+    "iasOasUbsEncodings": [
+      1,
+      1,
+      1
+    ],
+    "addressWidthsBits": [
+      36,
+      36,
+      36
+    ],
+    "supportedTranslationGranulesKiB": [
+      4,
+      16,
+      64
+    ],
+    "clientPowerDown": false,
+    "unmatchedStreamFault": true
+  },
+  "physicalUfsStreamId": "UNKNOWN",
+  "physicalFdPageBus": "UNKNOWN",
+  "effectiveUfsRoute": "UNKNOWN",
+  "scsiCommandsByProbe": 0,
+  "mediaSectorsReadByProbe": 0,
+  "qemuReplay": {
+    "source": "Current four ANOC2 words and GCC values from the earlier clock probe, replayed as model inputs",
+    "reportSha256": "41e4ec489ba4c2810c1ee6f51c1fe7b8ebcc0c5ffb11ebb795e801b051225dce",
+    "outcome": "PASS-QEMU-ROUTE-VIEW-REPLAY",
+    "cases": [
+      {
+        "el": 1,
+        "case": "operator-panel",
+        "registerLoads": [
+          "DOM",
+          "NAX",
+          "NAH",
+          "SAX",
+          "SAH",
+          "ID0",
+          "ID1",
+          "ID2",
+          "CR0"
+        ],
+        "peripheralStores": 0,
+        "expectedScreenVerified": true,
+        "heading": "UFS ROUTE     SAMPLED"
+      },
+      {
+        "el": 2,
+        "case": "operator-panel",
+        "registerLoads": [
+          "DOM",
+          "NAX",
+          "NAH",
+          "SAX",
+          "SAH",
+          "ID0",
+          "ID1",
+          "ID2",
+          "CR0"
+        ],
+        "peripheralStores": 0,
+        "expectedScreenVerified": true,
+        "heading": "UFS ROUTE     SAMPLED"
+      }
+    ]
+  },
+  "postBootAndroid": "CONFIRMED by operator and via ADB",
+  "recovery": {
+    "result": "PASS-READONLY",
+    "preflightStartUtc": "2026-11-22T04:51:43+00:00",
+    "reportSha256": "da4de11a376727afbf0afea25f7ee7053f3cde79f0ff58b6fbc084e607df7da6",
+    "sameUnitAsPreflight": true,
+    "slot": "_a",
+    "bootCompleted": true,
+    "wholePartitionBytesCompared": 136314880,
+    "matchedBeforeAndOriginals": {
+      "aboot_a": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+      "aboot_b": "bc6cd8ef0e73798e159c756bacb5a08743d3d67b4dd4534d5b46c3a954030a89",
+      "boot_a": "cde63f886a379f51d328d7c01a65884ead57bf3b295755f0303e19876ce754be",
+      "boot_b": "f459689d282d02d0041f219b29b368702ff48fd44032a3ae5e34dcd2ca36fb1a"
+    }
+  }
+}
