@@ -1,0 +1,88 @@
+{
+  "scope": "Offline inspection of archived Android /sys/firmware inventories, runtime FDT, and project FD builds",
+  "sysFirmware": {
+    "captureCount": 6,
+    "sha256Frequency": {
+      "38d0e5a4f7d9575af91b200fb7bb58ebdc93b7cbedcddb4b7b45ec6778e774f7": 1,
+      "f7f4112bff954e38b577c668445731056868ee0d9ea0a79d1ddb8b4770419aa2": 3,
+      "faedab32219b77a888f23c969c7e808f0761f2b2140c6aac4ba1f978ae0f31e5": 2
+    },
+    "directChildrenInEveryCapture": [
+      "/sys/firmware/devicetree",
+      "/sys/firmware/fdt"
+    ],
+    "acpiDirectoryVisible": false
+  },
+  "runtimeFdt": {
+    "sha256": "0877ab5ba9149c29af776389796978268c665c51878834f2335405cabef01929",
+    "nodes": 1867,
+    "properties": {
+      "/chosen": {
+        "propertyCount": 3,
+        "properties": [
+          "bootargs",
+          "linux,initrd-end",
+          "linux,initrd-start"
+        ]
+      },
+      "/soc/ufshc@624000": {
+        "propertyCount": 27,
+        "routingPropertiesPresent": []
+      }
+    }
+  },
+  "inspectedFirmware": [
+    {
+      "build": "DEBUG-NORMAL-20261121-043835",
+      "fdSha256": "c454b231b432009a6cfeaf5894652baa29656663a5dfe7f6c6096f4e921008ab",
+      "buildReportSha256": "3f3c9023077faa07c255a28ddc10c123e225f1cea3e2c9dea6d79d466d59b010",
+      "moduleInfRows": 23,
+      "infPathsContainingAcpiOrIort": [],
+      "fdBase": "0x80080000",
+      "bytes": 20971520,
+      "fvStart": "0x80081000",
+      "fvEndExclusive": "0x80480000",
+      "pageInsideOuterFv": true,
+      "physicalTransferReference": "docs/evidence/oculus-logo-transfer-20261120.json",
+      "normalPrePiFirmwareHob": {
+        "base": "0x80080000",
+        "endExclusive": "0x80480000",
+        "memoryType": "EfiBootServicesCode"
+      }
+    },
+    {
+      "build": "DEBUG-NORMAL-20261121-054227",
+      "fdSha256": "415ca200f1fd898cf1c147e53107f9e65b7fb2088207783aab3e4facfad419a4",
+      "buildReportSha256": "49200627d58dc9efa66cd6fb05c2b774feb36406c3a8ac7b1002b19c206823bd",
+      "moduleInfRows": 23,
+      "infPathsContainingAcpiOrIort": [],
+      "fdBase": "0x80080000",
+      "bytes": 20971520,
+      "fvStart": "0x80081000",
+      "fvEndExclusive": "0x80480000",
+      "pageInsideOuterFv": true,
+      "normalPrePiFirmwareHob": {
+        "base": "0x80080000",
+        "endExclusive": "0x80480000",
+        "memoryType": "EfiBootServicesCode"
+      }
+    },
+    {
+      "build": "DEBUG-UFS_DATA-20261121-174623",
+      "fdSha256": "859ce9de5877b7d1ba64adae4a5cfb7f4a7c7c8400d1c053e0ff4c0142dea9e4",
+      "buildReportSha256": "23723944535736f1de74e6bfc5ebdc77984db401dce4a6cf8806b1264b0f41ba",
+      "moduleInfRows": 1,
+      "infPathsContainingAcpiOrIort": [],
+      "fdBase": "0x80080000",
+      "bytes": 4194304,
+      "fvStart": "0x80081000",
+      "fvEndExclusive": "0x8043e000",
+      "pageInsideOuterFv": false,
+      "physicalTransferReference": "docs/evidence/ufs-data-transfer-20261121.json",
+      "diagnosticPageStart": "0x80441000",
+      "diagnosticPageEndExclusive": "0x80442000"
+    }
+  ],
+  "physicalPostLkUfsSid": "UNKNOWN",
+  "physicalPostLkBusAddressFor80441000": "UNKNOWN"
+}

@@ -1,5 +1,7 @@
 # Status
 
+**Memoria de la Shell y de SEC.** En el FD de la Shell que arrancó en el Go, la página `0x80441000` pertenece al volumen de firmware. En `UFS_DATA` sí está reservada para datos. La prueba IORT en QEMU correlaciona el SID del controlador con su ubicación y comprueba las dos direcciones DMA con `READ CAPACITY`. En Pacific siguen pendientes ambos valores tras LK. [Geometría de las imágenes y resultados](UFS_BOARD_ROUTING.md)
+
 **UFS y la página de SEC.** En QEMU, la traducción de etapa 1 entregó la capacidad del LUN 4 en ambos extremos de `0x80441000`. La guarda detectó una segunda transferencia dirigida a la página vecina. El SID y la dirección de bus del Go siguen **UNKNOWN**. En el Go, Android enlazó `624000.ufshc` con `ufshcd`. Su directorio sysfs carecía de `iommu_group` y `of_node` en dos muestras. [Lectura física](evidence/ufs-android-binding-20261122.json) · [Ensayo en QEMU](UFS_STAGE1_ENDPOINTS.md)
 
 **ANOC2 tras LK.** En el Go, EDK2 completó las nueve lecturas de `UFS_ROUTE_VIEW`. ANOC2 anuncia traducción de etapa 1, nueve grupos de coincidencia de stream y ocho bancos de contexto. El control global tenía activa la política de fallo para streams sin coincidencia. El SID de UFS, su ruta efectiva y la dirección de bus de la página CPU `0x80441000` siguen **UNKNOWN**. [Panel físico](evidence/ufs-route-view-transfer-20261121.json) · [Interpretación](UFS_ROUTE_VIEW.md)
