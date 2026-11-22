@@ -2,6 +2,11 @@
 
 | Fuente | Revisión y archivo | Qué aporta | Confianza |
 | --- | --- | --- | --- |
+| Respaldos originales del Go | `aboot_a`, `hyp_a`, `tz_a`, huellas y offsets en el [informe reproducible](evidence/ufs-native-prdt-stock-20261121.json) | Constructor nativo del PRDT y presencia de la base ANOC2 por nombre en dos imágenes | CONFIRMED para los binarios. La traducción para la página del FD sigue UNKNOWN. |
+| [Kernel oficial de Oculus](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/clock-gcc-8996.c) | `9475755`, `drivers/clk/msm/clock-gcc-8996.c`, `include/dt-bindings/clock/msm-clocks-hwio-8996.h` | Reloj RPM de ANOC2 y rama AXI específica de UFS | CONFIRMED para la descripción del kernel. Estado tras LK pendiente. |
+
+| Fuente | Revisión y archivo | Qué aporta | Confianza |
+| --- | --- | --- | --- |
 | Copia privada de `aboot_a` del Go | SHA-256 `6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74`, rutina UFS y liberación del descriptor | Desplazamiento de respuesta, registro del puntero de bus y lista de intervalos libres. [Sitios exactos](evidence/ufs-response-heap-stock-20261121.json) | CONFIRMED para el ELF auditado. Pertenencia actual requiere medición. |
 | [Kernel oficial de Oculus Go](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/arch/arm/boot/dts/qcom/msm-arm-smmu-8996.dtsi) | `9475755`, nodo ANOC2, cotejado con el DTB observado | La descripción del SMMU y sus clocks no atribuye una traducción de UFS a la página del FD. [Inventario físico de la ventana](evidence/ufs-bus-pages-20261121.json) | CONFIRMED para la descripción. Mapeo de Pacific UNKNOWN. |
 | [Arm SMMU Architecture Specification](https://documentation-service.arm.com/static/5f900d34f86e16515cdc08fb) | IHI 0062D.c, §2.4, identificadores de flujo | La atribución del identificador a un maestro depende de la implementación. | Alta para arquitectura. Identificador UFS de Pacific UNKNOWN. |

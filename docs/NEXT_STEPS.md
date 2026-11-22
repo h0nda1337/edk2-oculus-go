@@ -1,5 +1,7 @@
 # Next steps
 
+**Siguiente medición.** Arrancar temporalmente `UFS_PRDT` para buscar la dirección de datos que LK dejó en el slot 0. Registrar el encabezado y las filas visibles. Si el registro es válido, comparar `FIRST` y `LAST` con la página propia y mantener pendiente su traducción física. [Sonda y significado de cada resultado](UFS_NATIVE_PRDT.md)
+
 **DMA de 4096 bytes en Pacific.** El ensayo físico `UFS_HEAP4K` descartó `0x918FD000` como página completa disponible en un intervalo libre de LK durante ese arranque. El siguiente paso es establecer la traducción del UFS para una página reservada por EDK2. La candidata en SEC sigue siendo `0x80441000`. Antes de leer el LBA 1 hay que validar físicamente los ocho bytes de capacidad en ambos extremos. [Panel físico](evidence/ufs-heap4k-transfer-20261121.json) · [Pruebas de traducción en QEMU](UFS_OWNED_PAGE.md)
 
 **UFS de Pacific.** El censo físico de `UFS_ZERO4K` confirmó los 4096 bytes en cero. Para avanzar hacia la GPT del LUN 4, falta identificar una región cuyo uso durante el comando corresponda a EDK2 y cuya dirección de bus pueda atribuirse al UFS del Go. En el búfer de LK siguen pendientes ambas comprobaciones. Con un destino respaldado por esa evidencia, la siguiente medición activa sería `READ CAPACITY(10)` de ocho bytes en cada extremo antes de leer el LBA 1. [Medición física](evidence/ufs-zero4k-transfer-20261121.json) · [Pruebas del mapeo en QEMU](UFS_GPT_HEADER.md)

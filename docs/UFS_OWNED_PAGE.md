@@ -24,6 +24,8 @@ El Go mostró `UFS HEAP NO PAGE`. En el slot 0, LK había registrado la direcci�
 
 Esta prueba pasiva descarta la candidatura de esa página en el arranque observado. La disponibilidad de otras páginas del montículo y la traducción DMA de la página propia en `0x80441000` siguen por determinar.
 
+La siguiente imagen, `UFS_PRDT`, inspecciona los metadatos de datos del slot 0 y muestra el intervalo de bus si sobrevivió al traspaso desde LK. [Comprobación del PRDT y control de destino DMA en QEMU](UFS_NATIVE_PRDT.md)
+
 ## Cómo se interpreta el panel
 
 La copia original de `aboot_a` del Go muestra que LK reserva el descriptor de comando UFS con alineación de 128 bytes, escribe la dirección en el descriptor de transferencia y codifica la respuesta a 32 bytes de la base. En la ruta de finalización devuelve la asignación a su montículo. La lista de intervalos libres tiene la cabecera en `0x918E3170` y almacena anterior, siguiente y tamaño en las primeras tres palabras de cada nodo. [Auditoría reproducible del ELF](../tools/audit_lk_response_heap.py) · [Direcciones y huella de la copia](evidence/ufs-response-heap-stock-20261121.json) · [Límites iniciales del montículo](evidence/ufs-header-lifetime-20261121.json)
