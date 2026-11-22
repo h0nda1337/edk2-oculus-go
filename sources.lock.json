@@ -13,14 +13,54 @@
   },
   "userRepositoryImports": [],
   "driverImports": [],
-  "edk2DriverAdaptations": [{
-    "repository": "https://github.com/tianocore/edk2",
-    "commit": "e7aac7fc137e247edad22f7ee53b9a1fba227397",
-    "file": "MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThru.c",
-    "gitBlob": "ae593ff03a0d6df7d236610e17268b8de937c1c8",
-    "license": "BSD-2-Clause-Patent",
-    "patch": "tests/UfsSplashApp/ufs-sparse-units.patch",
-    "changes": "Reset the descriptor size per LUN and validate returned unit identity and length.",
-    "scope": "AAVMF test ESP only"
-  }]
+  "edk2DriverAdaptations": [
+    {
+      "repository": "https://github.com/tianocore/edk2",
+      "commit": "e7aac7fc137e247edad22f7ee53b9a1fba227397",
+      "file": "MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThru.c",
+      "gitBlob": "ae593ff03a0d6df7d236610e17268b8de937c1c8",
+      "license": "BSD-2-Clause-Patent",
+      "patch": "tests/UfsSplashApp/ufs-sparse-units.patch",
+      "changes": "Reset the descriptor size per LUN and validate returned unit identity and length.",
+      "scope": "Shared platform and AAVMF pass-through provider"
+    },
+    {
+      "repository": "https://github.com/tianocore/edk2.git",
+      "commit": "e7aac7fc137e247edad22f7ee53b9a1fba227397",
+      "files": [
+        "MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThru.c",
+        "MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThru.h",
+        "MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThruDxe.inf",
+        "MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThruHci.c"
+      ],
+      "license": "BSD-2-Clause-Patent",
+      "patch": "patches/edk2-ufs-capacity.patch",
+      "changes": "Attach a synchronous, read-only LUN 4 capacity reporting protocol to the controller. Return the completed request's mapped PRDT bus address, preserve address zero, unmap partial transfers and release command buffers in pages.",
+      "scope": "Shared platform and AAVMF pass-through provider"
+    }
+  ],
+  "ufsTransport": {
+    "module": "MdeModulePkg/Bus/Ufs/UfsPassThruDxe",
+    "patches": [
+      {
+        "path": "tests/UfsSplashApp/ufs-sparse-units.patch",
+        "sha256": "0feccee00ef97896b13e714cf8e26cff9c8bd40b7c4d99b05e2fdf01c9e73c24"
+      },
+      {
+        "path": "patches/edk2-ufs-capacity.patch",
+        "sha256": "252a6658ef9e809aff00bf3e7c99a0bee99ec5fdacc3f3f5efabb36aa11be025"
+      }
+    ],
+    "generatedSha256": {
+      "ComponentName.c": "e0e9865446a65b149c423081b50f7b83c52f66ae5165c27ddf39e8202c302f73",
+      "UfsDevConfigProtocol.c": "da380598d6bccf09213df43cebcbc785be4cbd6335fa028c860408ece8e01d5b",
+      "UfsPassThru.c": "b464b611b29fec9d2d9e06dce162c3362b5cdc852f47bbbaa86bce3aec5d5f65",
+      "UfsPassThru.h": "d5741598201d687d9bc38a829eed728ad8f857430b9aadea08aafa093578dc90",
+      "UfsPassThru.uni": "cc0cd8c4002370b7f9daf6654863e5514bfa37ed2a945d92f973fd6187ab4b0e",
+      "UfsPassThruDxe.inf": "35267578b0fd1427475997fe1deeebcf02fa93d3237fb20f5896fbae2fe18cc4",
+      "UfsPassThruExtra.uni": "86e464df127d896428afda282629a97f1c02b3d2bed2f039adfcdb82f8a1cf30",
+      "UfsPassThruHci.c": "31c6a22be10751a4a4a5df61be07b52b44d369db6602f7ee7436f68b14fb7710",
+      "UfsPassThruHci.h": "991aab713dd85a9036c2ac6fca61cefc840235fac0805a73c4a2994ee970400f"
+    }
+  }
 }

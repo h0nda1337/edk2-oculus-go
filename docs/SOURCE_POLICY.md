@@ -24,7 +24,17 @@ Authenticated GitHub owner verified as `h0nda1337`.
 7. GCC/binutils, Python standard library, Git and WSL are build tools.
    Their implementation is not vendored into the platform. EDK2's compiler
    support libraries and BaseTools retain their upstream notices.
-8. The UFS emulator builds the PCI and pass-through modules from the pinned EDK2 tree. The [unit-enumeration patch](../tests/UfsSplashApp/ufs-sparse-units.patch) applies to a generated copy of `MdeModulePkg/Bus/Ufs/UfsPassThruDxe/UfsPassThru.c` for the guest. Original source and patch provenance are in the lock file.
+8. The platform and emulator use the same generated EDK2 UFS pass-through
+   module. The [unit-enumeration patch](../tests/UfsSplashApp/ufs-sparse-units.patch)
+   validates sparse units. The [capacity patch](../patches/edk2-ufs-capacity.patch)
+   reports the bus address used by a completed LUN 4 capacity request. Both
+   retain EDK2's BSD-2-Clause-Patent notices. The PCI host provider belongs
+   to the emulator. The [lock file](../sources.lock.json) records upstream
+   paths, commit, patch order and SHA-256 digests of both patches and all
+   generated files. The build atomically publishes this module from Git
+   blobs in a directory keyed by the output manifest digest. Simultaneous
+   builds read immutable copies and a changed recipe can publish a new
+   source tree while an earlier build is still running.
 9. Device captures and partition backups are evidence, not imported source.
    They remain local and are never uploaded by this repository's scripts.
 

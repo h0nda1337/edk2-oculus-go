@@ -1,0 +1,454 @@
+--- a/UfsPassThru.c
++++ b/UfsPassThru.c
+@@ -70 +70,2 @@
+-  }
++  },
++  { NULL }                        // Capacity
+@@ -139,0 +141,87 @@
++STATIC
++EFI_STATUS
++UfsPassThruRequest (
++  IN EFI_EXT_SCSI_PASS_THRU_PROTOCOL                 *This,
++  IN UINT8                                           *Target,
++  IN UINT64                                          Lun,
++  IN OUT EFI_EXT_SCSI_PASS_THRU_SCSI_REQUEST_PACKET  *Packet,
++  IN EFI_EVENT                                       Event OPTIONAL,
++  OUT EFI_PHYSICAL_ADDRESS                           *DmaAddress OPTIONAL
++  )
++{
++  EFI_STATUS                  Status;
++  UFS_PASS_THRU_PRIVATE_DATA  *Private;
++  UINT8                       UfsLun;
++  UINT16                      Index;
++
++  Private = UFS_PASS_THRU_PRIVATE_DATA_FROM_THIS (This);
++
++  if ((Packet == NULL) || (Packet->Cdb == NULL)) {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  //
++  // Don't support variable length CDB
++  //
++  if ((Packet->CdbLength != 6) && (Packet->CdbLength != 10) &&
++      (Packet->CdbLength != 12) && (Packet->CdbLength != 16))
++  {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  if ((Packet->SenseDataLength != 0) && (Packet->SenseData == NULL)) {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  if ((This->Mode->IoAlign > 1) && !IS_ALIGNED (Packet->InDataBuffer, This->Mode->IoAlign)) {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  if ((This->Mode->IoAlign > 1) && !IS_ALIGNED (Packet->OutDataBuffer, This->Mode->IoAlign)) {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  if ((This->Mode->IoAlign > 1) && !IS_ALIGNED (Packet->SenseData, This->Mode->IoAlign)) {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  //
++  // For UFS 2.0 compatible device, 0 is always used to represent the location of the UFS device.
++  //
++  SetMem (mUfsTargetId, TARGET_MAX_BYTES, 0x00);
++  if ((Target == NULL) || (CompareMem (Target, mUfsTargetId, TARGET_MAX_BYTES) != 0)) {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  //
++  // UFS 2.0 spec Section 10.6.7 - Translation of 8-bit UFS LUN to 64-bit SCSI LUN Address
++  // 0xC1 in the first 8 bits of the 64-bit address indicates a well known LUN address in the SAM SCSI format.
++  // The second 8 bits of the 64-bit address saves the corresponding 8-bit UFS LUN.
++  //
++  if ((UINT8)Lun == UFS_WLUN_PREFIX) {
++    UfsLun = BIT7 | (((UINT8 *)&Lun)[1] & 0xFF);
++  } else if ((UINT8)Lun == 0) {
++    UfsLun = ((UINT8 *)&Lun)[1] & 0xFF;
++  } else {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  for (Index = 0; Index < UFS_MAX_LUNS; Index++) {
++    if ((Private->Luns.BitMask & (BIT0 << Index)) == 0) {
++      continue;
++    }
++
++    if (Private->Luns.Lun[Index] == UfsLun) {
++      break;
++    }
++  }
++
++  if (Index == UFS_MAX_LUNS) {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  Status = UfsExecScsiCmds (Private, UfsLun, Packet, Event, DmaAddress);
++
++  return Status;
++}
++
+@@ -149,0 +238,17 @@
++  return UfsPassThruRequest (This, Target, Lun, Packet, Event, NULL);
++}
++
++/** Report the mapping of one synchronous READ CAPACITY(10) on LUN 4. **/
++STATIC
++EFI_STATUS
++EFIAPI
++GoUfsReadCapacity (
++  IN     GO_UFS_CAPACITY_PROTOCOL                    *This,
++  IN     UINT8                                       *Target,
++  IN OUT EFI_EXT_SCSI_PASS_THRU_SCSI_REQUEST_PACKET  *Packet,
++  OUT    EFI_PHYSICAL_ADDRESS                        *DmaAddress
++  )
++{
++  STATIC CONST UINT8          CapacityCdb[10] = { EFI_SCSI_OP_READ_CAPACITY };
++  EFI_PHYSICAL_ADDRESS        Mapped;
++  UFS_PASS_THRU_PRIVATE_DATA  *Private;
+@@ -151,15 +256,13 @@
+-  UFS_PASS_THRU_PRIVATE_DATA  *Private;
+-  UINT8                       UfsLun;
+-  UINT16                      Index;
+-
+-  Private = UFS_PASS_THRU_PRIVATE_DATA_FROM_THIS (This);
+-
+-  if ((Packet == NULL) || (Packet->Cdb == NULL)) {
+-    return EFI_INVALID_PARAMETER;
+-  }
+-
+-  //
+-  // Don't support variable length CDB
+-  //
+-  if ((Packet->CdbLength != 6) && (Packet->CdbLength != 10) &&
+-      (Packet->CdbLength != 12) && (Packet->CdbLength != 16))
++
++  if (DmaAddress == NULL) {
++    return EFI_INVALID_PARAMETER;
++  }
++
++  *DmaAddress = 0;
++  if ((This == NULL) || (Packet == NULL) || (Packet->Cdb == NULL) ||
++      (Packet->CdbLength != sizeof (CapacityCdb)) ||
++      (CompareMem (Packet->Cdb, CapacityCdb, sizeof (CapacityCdb)) != 0) ||
++      (Packet->DataDirection != EFI_EXT_SCSI_DATA_DIRECTION_READ) ||
++      (Packet->InDataBuffer == NULL) || !IS_ALIGNED (Packet->InDataBuffer, 4) ||
++      (Packet->InTransferLength != 8) || (Packet->OutTransferLength != 0) ||
++      (Packet->OutDataBuffer != NULL))
+@@ -170,54 +273,19 @@
+-  if ((Packet->SenseDataLength != 0) && (Packet->SenseData == NULL)) {
+-    return EFI_INVALID_PARAMETER;
+-  }
+-
+-  if ((This->Mode->IoAlign > 1) && !IS_ALIGNED (Packet->InDataBuffer, This->Mode->IoAlign)) {
+-    return EFI_INVALID_PARAMETER;
+-  }
+-
+-  if ((This->Mode->IoAlign > 1) && !IS_ALIGNED (Packet->OutDataBuffer, This->Mode->IoAlign)) {
+-    return EFI_INVALID_PARAMETER;
+-  }
+-
+-  if ((This->Mode->IoAlign > 1) && !IS_ALIGNED (Packet->SenseData, This->Mode->IoAlign)) {
+-    return EFI_INVALID_PARAMETER;
+-  }
+-
+-  //
+-  // For UFS 2.0 compatible device, 0 is always used to represent the location of the UFS device.
+-  //
+-  SetMem (mUfsTargetId, TARGET_MAX_BYTES, 0x00);
+-  if ((Target == NULL) || (CompareMem (Target, mUfsTargetId, TARGET_MAX_BYTES) != 0)) {
+-    return EFI_INVALID_PARAMETER;
+-  }
+-
+-  //
+-  // UFS 2.0 spec Section 10.6.7 - Translation of 8-bit UFS LUN to 64-bit SCSI LUN Address
+-  // 0xC1 in the first 8 bits of the 64-bit address indicates a well known LUN address in the SAM SCSI format.
+-  // The second 8 bits of the 64-bit address saves the corresponding 8-bit UFS LUN.
+-  //
+-  if ((UINT8)Lun == UFS_WLUN_PREFIX) {
+-    UfsLun = BIT7 | (((UINT8 *)&Lun)[1] & 0xFF);
+-  } else if ((UINT8)Lun == 0) {
+-    UfsLun = ((UINT8 *)&Lun)[1] & 0xFF;
+-  } else {
+-    return EFI_INVALID_PARAMETER;
+-  }
+-
+-  for (Index = 0; Index < UFS_MAX_LUNS; Index++) {
+-    if ((Private->Luns.BitMask & (BIT0 << Index)) == 0) {
+-      continue;
+-    }
+-
+-    if (Private->Luns.Lun[Index] == UfsLun) {
+-      break;
+-    }
+-  }
+-
+-  if (Index == UFS_MAX_LUNS) {
+-    return EFI_INVALID_PARAMETER;
+-  }
+-
+-  Status = UfsExecScsiCmds (Private, UfsLun, Packet, Event);
+-
+-  return Status;
++  Private = CR (This, UFS_PASS_THRU_PRIVATE_DATA, Capacity, UFS_PASS_THRU_SIG);
++  Mapped  = 0;
++  Status  = UfsPassThruRequest (
++              &Private->ExtScsiPassThru, Target, (UINT64)UFS_LUN_4 << 8,
++              Packet, NULL, &Mapped
++              );
++  if (EFI_ERROR (Status)) {
++    return Status;
++  }
++
++  if ((Packet->HostAdapterStatus != EFI_EXT_SCSI_STATUS_HOST_ADAPTER_OK) ||
++      (Packet->TargetStatus != EFI_EXT_SCSI_STATUS_TARGET_GOOD) ||
++      (Packet->InTransferLength != 8))
++  {
++    return EFI_DEVICE_ERROR;
++  }
++
++  *DmaAddress = Mapped;
++  return EFI_SUCCESS;
+@@ -1044,0 +1113 @@
++  Private->Capacity.ReadCapacity = GoUfsReadCapacity;
+@@ -1050,0 +1120,2 @@
++                  &gGoUfsCapacityProtocolGuid,
++                  &Private->Capacity,
+@@ -1053 +1124,3 @@
+-  ASSERT_EFI_ERROR (Status);
++  if (EFI_ERROR (Status)) {
++    goto Error;
++  }
+@@ -1178,0 +1252,2 @@
++                  &gGoUfsCapacityProtocolGuid,
++                  &Private->Capacity,
+--- a/UfsPassThru.h
++++ b/UfsPassThru.h
+@@ -13,0 +14,2 @@
++#include <IndustryStandard/Scsi.h>
++#include <Protocol/GoUfsCapacity.h>
+@@ -77,0 +80 @@
++  GO_UFS_CAPACITY_PROTOCOL              Capacity;
+@@ -93,0 +97 @@
++  EFI_PHYSICAL_ADDRESS                          DataDmaAddress;
+@@ -654 +658,2 @@
+-  IN     EFI_EVENT                                   Event    OPTIONAL
++  IN     EFI_EVENT                                   Event    OPTIONAL,
++  OUT    EFI_PHYSICAL_ADDRESS                        *DmaAddress OPTIONAL
+--- a/UfsPassThruDxe.inf
++++ b/UfsPassThruDxe.inf
+@@ -38,0 +39 @@
++  OculusGoPkg/OculusGoPkg.dec
+@@ -53,0 +55 @@
++  gGoUfsCapacityProtocolGuid                    ## BY_START
+--- a/UfsPassThruHci.c
++++ b/UfsPassThruHci.c
+@@ -388,2 +388,2 @@
+-  IN  VOID        *Buffer,
+-  IN  UINT32      BufferSize
++  IN  EFI_PHYSICAL_ADDRESS  Buffer,
++  IN  UINT32                BufferSize
+@@ -394,4 +394,4 @@
+-  UINT8   *Remaining;
+-  UINTN   PrdtNumber;
+-
+-  ASSERT (((UINTN)Buffer & (BIT0 | BIT1)) == 0);
++  EFI_PHYSICAL_ADDRESS  Remaining;
++  UINTN                 PrdtNumber;
++
++  ASSERT ((Buffer & (BIT0 | BIT1)) == 0);
+@@ -415,2 +415,2 @@
+-    Prdt[PrdtIndex].DbAddr  = (UINT32)RShiftU64 ((UINT64)(UINTN)Remaining, 2);
+-    Prdt[PrdtIndex].DbAddrU = (UINT32)RShiftU64 ((UINT64)(UINTN)Remaining, 32);
++    Prdt[PrdtIndex].DbAddr  = (UINT32)RShiftU64 (Remaining, 2);
++    Prdt[PrdtIndex].DbAddrU = (UINT32)RShiftU64 (Remaining, 32);
+@@ -1332 +1332 @@
+-VOID
++EFI_STATUS
+@@ -1337,0 +1338,2 @@
++  EFI_STATUS  Status;
++
+@@ -1339,4 +1341,4 @@
+-    Private->UfsHostController->Unmap (
+-                                  Private->UfsHostController,
+-                                  TransReq->DataBufMapping
+-                                  );
++    Status = Private->UfsHostController->Unmap (Private->UfsHostController, TransReq->DataBufMapping);
++    if (EFI_ERROR (Status)) {
++      return Status;
++    }
+@@ -1362,0 +1365,2 @@
++
++  return EFI_SUCCESS;
+@@ -1443 +1447,13 @@
+-    if (EFI_ERROR (Status) || (DataLen != MapLength)) {
++    if (EFI_ERROR (Status) || (DataLen != MapLength) ||
++        ((DataBufPhyAddr & 3) != 0) || (DataBufPhyAddr > MAX_UINT64 - (DataLen - 1)) ||
++        (((Private->UfsHcInfo.Capabilities & UFS_HC_CAP_64ADDR) == 0) &&
++         (DataBufPhyAddr > MAX_UINT32 - (DataLen - 1))))
++    {
++      // A successful partial Map owns a token even though no PRDT is submitted.
++      if (!EFI_ERROR (Status) && (TransReq->DataBufMapping != NULL)) {
++        Status = Private->UfsHostController->Unmap (Private->UfsHostController, TransReq->DataBufMapping);
++        if (EFI_ERROR (Status)) {
++          return Status;
++        }
++      }
++
+@@ -1462 +1478,2 @@
+-  UfsInitUtpPrdt (PrdtBase, (VOID *)(UINTN)DataBufPhyAddr, DataLen);
++  UfsInitUtpPrdt (PrdtBase, DataBufPhyAddr, DataLen);
++  TransReq->DataDmaAddress = DataBufPhyAddr;
+@@ -1496 +1513,2 @@
+-  IN     EFI_EVENT                                   Event    OPTIONAL
++  IN     EFI_EVENT                                   Event    OPTIONAL,
++  OUT    EFI_PHYSICAL_ADDRESS                        *DmaAddress OPTIONAL
+@@ -1499,0 +1518 @@
++  EFI_STATUS                          CleanupStatus;
+@@ -1521,0 +1541 @@
++    FreePool (TransReq);
+@@ -1538,0 +1559 @@
++    FreePool (TransReq);
+@@ -1562 +1583,4 @@
+-  UfsStartExecCmd (Private, TransReq->Slot);
++  Status = UfsStartExecCmd (Private, TransReq->Slot);
++  if ((Event == NULL) && EFI_ERROR (Status)) {
++    goto Exit;
++  }
+@@ -1602,0 +1627,9 @@
++  if ((DmaAddress != NULL) &&
++      ((Response->TransCode != 0x21) ||
++       (Response->TaskTag != ((UTP_COMMAND_UPIU *)TransReq->CmdDescHost)->TaskTag) ||
++       ((Response->Flags & (BIT5 | BIT6)) != 0)))
++  {
++    Status = EFI_DEVICE_ERROR;
++    goto Exit;
++  }
++
+@@ -1628,5 +1661,14 @@
+-  UfsHc->Flush (UfsHc);
+-
+-  UfsStopExecCmd (Private, TransReq->Slot);
+-
+-  UfsReconcileDataTransferBuffer (Private, TransReq);
++  CleanupStatus = UfsHc->Flush (UfsHc);
++  if (!EFI_ERROR (Status) && EFI_ERROR (CleanupStatus)) {
++    Status = CleanupStatus;
++  }
++
++  CleanupStatus = UfsStopExecCmd (Private, TransReq->Slot);
++  if (!EFI_ERROR (Status) && EFI_ERROR (CleanupStatus)) {
++    Status = CleanupStatus;
++  }
++
++  CleanupStatus = UfsReconcileDataTransferBuffer (Private, TransReq);
++  if (!EFI_ERROR (Status) && EFI_ERROR (CleanupStatus)) {
++    Status = CleanupStatus;
++  }
+@@ -1634,0 +1677 @@
++  CleanupStatus = EFI_SUCCESS;
+@@ -1636,11 +1679,16 @@
+-    UfsHc->Unmap (UfsHc, TransReq->CmdDescMapping);
+-  }
+-
+-  if (TransReq->CmdDescHost != NULL) {
+-    UfsHc->FreeBuffer (UfsHc, EFI_SIZE_TO_PAGES (TransReq->CmdDescSize), TransReq->CmdDescHost);
+-  }
+-
+-  if (TransReq != NULL) {
+-    FreePool (TransReq);
+-  }
+-
++    CleanupStatus = UfsHc->Unmap (UfsHc, TransReq->CmdDescMapping);
++  }
++
++  if (!EFI_ERROR (CleanupStatus) && (TransReq->CmdDescHost != NULL)) {
++    CleanupStatus = UfsHc->FreeBuffer (UfsHc, EFI_SIZE_TO_PAGES (TransReq->CmdDescSize), TransReq->CmdDescHost);
++  }
++
++  if (!EFI_ERROR (Status) && EFI_ERROR (CleanupStatus)) {
++    Status = CleanupStatus;
++  }
++
++  if (!EFI_ERROR (Status) && (DmaAddress != NULL)) {
++    *DmaAddress = TransReq->DataDmaAddress;
++  }
++
++  FreePool (TransReq);
+@@ -1773 +1821,3 @@
+-  BOOLEAN                             Is32BitAddr;
++  UINTN                               Pages;
++  UINTN                               AllocatedBytes;
++  EFI_PHYSICAL_ADDRESS                  MaxAddress;
+@@ -1776,5 +1826,3 @@
+-  if ((Private->UfsHcInfo.Capabilities & UFS_HC_CAP_64ADDR) == UFS_HC_CAP_64ADDR) {
+-    Is32BitAddr = FALSE;
+-  } else {
+-    Is32BitAddr = TRUE;
+-  }
++  Pages          = EFI_SIZE_TO_PAGES (Size);
++  AllocatedBytes = EFI_PAGES_TO_SIZE (Pages);
++  MaxAddress     = ((Private->UfsHcInfo.Capabilities & UFS_HC_CAP_64ADDR) != 0) ? MAX_UINT64 : MAX_UINT32;
+@@ -1787 +1835 @@
+-                    EFI_SIZE_TO_PAGES (Size),
++                    Pages,
+@@ -1798 +1846 @@
+-  Bytes  = EFI_PAGES_TO_SIZE (EFI_SIZE_TO_PAGES (Size));
++  Bytes  = AllocatedBytes;
+@@ -1808,23 +1856,19 @@
+-  if (EFI_ERROR (Status) || (Bytes != EFI_PAGES_TO_SIZE (EFI_SIZE_TO_PAGES (Size)))) {
+-    UfsHc->FreeBuffer (
+-             UfsHc,
+-             EFI_PAGES_TO_SIZE (EFI_SIZE_TO_PAGES (Size)),
+-             *CmdDescHost
+-             );
+-    *CmdDescHost = NULL;
+-    return EFI_OUT_OF_RESOURCES;
+-  }
+-
+-  if (Is32BitAddr && ((*CmdDescPhyAddr) > 0x100000000ULL)) {
+-    //
+-    // The UFS host controller doesn't support 64bit addressing, so should not get a >4G UFS bus master address.
+-    //
+-    UfsHc->Unmap (
+-             UfsHc,
+-             *CmdDescMapping
+-             );
+-    UfsHc->FreeBuffer (
+-             UfsHc,
+-             EFI_PAGES_TO_SIZE (EFI_SIZE_TO_PAGES (Size)),
+-             *CmdDescHost
+-             );
++  if (!EFI_ERROR (Status) &&
++      ((Bytes != AllocatedBytes) || (*CmdDescPhyAddr > MaxAddress - (AllocatedBytes - 1))))
++  {
++    if (*CmdDescMapping != NULL) {
++      Status = UfsHc->Unmap (UfsHc, *CmdDescMapping);
++      if (EFI_ERROR (Status)) {
++        // The provider did not confirm release. Do not recycle its pages.
++        *CmdDescMapping = NULL;
++        *CmdDescHost    = NULL;
++        *CmdDescPhyAddr = 0;
++        return Status;
++      }
++    }
++
++    Status = EFI_DEVICE_ERROR;
++  }
++
++  if (EFI_ERROR (Status)) {
++    UfsHc->FreeBuffer (UfsHc, Pages, *CmdDescHost);
+@@ -1833,4 +1877,5 @@
+-    return EFI_DEVICE_ERROR;
+-  }
+-
+-  ZeroMem (*CmdDescHost, EFI_PAGES_TO_SIZE (EFI_SIZE_TO_PAGES (Size)));
++    *CmdDescPhyAddr = 0;
++    return Status;
++  }
++
++  ZeroMem (*CmdDescHost, AllocatedBytes);
