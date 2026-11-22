@@ -1,0 +1,26 @@
+{
+  "outcome": "PASS-QEMU-MISDIRECTED-TAIL",
+  "provider": "QEMU virt PCI UFS + SMMUv3 stage 2",
+  "rows": [
+    {
+      "cpu": "0x80441000",
+      "bus": "0x88000000",
+      "payload": "0011ffff00001000"
+    },
+    {
+      "cpu": "0x80441ff8",
+      "bus": "0x88001ff8",
+      "payload": "a5a5a5a5a5a5a5a5",
+      "observedCpu": "0x80442ff8",
+      "observedPayload": "0011ffff00001000",
+      "scsiStatus": 0,
+      "destinationVerified": false
+    }
+  ],
+  "guardsIntact": false,
+  "numericAliasIntact": true,
+  "capacityCommands": 4,
+  "mediaReads": 0,
+  "mediaWrites": 0,
+  "physicalPacificBus": "UNKNOWN"
+}

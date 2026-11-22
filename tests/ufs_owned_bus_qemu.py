@@ -25,14 +25,18 @@ def capacity(bus, destination):
     return response
 
 
-def trial(tmp):
+def trial(tmp, misdirect_tail=False):
     machine = [part.replace("1280M", "1536M").replace("virt,highmem=off", "virt,highmem=off,iommu=smmuv3")
                for part in MACHINE]
     cpu = WINDOW+PAGE
     sentinel = bytes([0xa5])*PAGE
     expected = bytearray(sentinel*4)
     with controller(tmp, 0x3f000000, BAR, machine=machine, units=unit_args(LUN_BYTES)) as bus:
-        set_translation(bus, [(IOVA, cpu)])
+        wrong_bus, wrong_cpu = IOVA + PAGE, WINDOW + 2*PAGE
+        leaves = [(IOVA, cpu)]
+        if misdirect_tail:
+            leaves.append((wrong_bus, wrong_cpu))
+        set_translation(bus, leaves)
         seed_lk(bus)
         bus.write(WINDOW, expected)
         bus.write(IOVA, sentinel)
@@ -42,25 +46,40 @@ def trial(tmp):
         check(capacity(bus, control)[7] == 0 and bus.read(control, 8)==CAPACITY, "control failed")
         rows = []
         for offset in (0, PAGE-8):
-            response = capacity(bus, IOVA+offset)
+            negative = misdirect_tail and offset == PAGE-8
+            destination = (wrong_bus if negative else IOVA) + offset
+            check(bus.read(cpu+offset, 8) != CAPACITY, "stale successful response before request")
+            response = capacity(bus, destination)
             check(response[6:8] == bytes(2) and response[12:16] == bytes(4), "SCSI error or residual")
             expected[PAGE+offset:PAGE+offset+8] = CAPACITY
-            check(bus.read(WINDOW, len(expected))==expected, "unexpected data or guards")
+            observed = bus.read(WINDOW, len(expected))
+            if negative:
+                check(observed != expected and bus.read(cpu+offset, 8)==sentinel[:8],
+                      "wrong DMA destination accepted as a successful tail")
+                expected[PAGE+offset:PAGE+offset+8] = sentinel[:8]
+                expected[2*PAGE+offset:2*PAGE+offset+8] = CAPACITY
+            check(observed==expected, "unexpected data or guards")
             check(bus.read(IOVA, PAGE)==sentinel, "numeric alias changed")
-            rows.append(dict(cpu=hex(cpu+offset), bus=hex(IOVA+offset), payload=CAPACITY.hex()))
+            row = dict(cpu=hex(cpu+offset), bus=hex(destination), payload=bus.read(cpu+offset, 8).hex())
+            if negative:
+                row.update(observedCpu=hex(wrong_cpu+offset), observedPayload=bus.read(wrong_cpu+offset, 8).hex(),
+                           scsiStatus=response[7], destinationVerified=False)
+            rows.append(row)
     events = (tmp/"ufs.trace").read_text().splitlines()
     check(events == ["ufs_exec_nop_cmd UTRLDBR slot 0"]+["ufs_exec_scsi_cmd slot 1, lun 0x4, opcode 0x25"]*4,
           f"unexpected device trace {events}")
-    return dict(outcome="PASS-QEMU-NONIDENTITY-ENDPOINTS", provider="QEMU virt PCI UFS + SMMUv3 stage 2",
-                rows=rows, guardsIntact=True, numericAliasIntact=True, capacityCommands=4,
+    return dict(outcome="PASS-QEMU-MISDIRECTED-TAIL" if misdirect_tail else "PASS-QEMU-NONIDENTITY-ENDPOINTS",
+                provider="QEMU virt PCI UFS + SMMUv3 stage 2",
+                rows=rows, guardsIntact=not misdirect_tail, numericAliasIntact=True, capacityCommands=4,
                 mediaReads=0, mediaWrites=0, physicalPacificBus="UNKNOWN")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--misdirect-tail", action="store_true", help="send the second DMA to a different mapped page")
     args = parser.parse_args()
     with tempfile.TemporaryDirectory() as directory:
-        result = trial(Path(directory))
+        result = trial(Path(directory), args.misdirect_tail)
     args.report.write_text(json.dumps(result, indent=2)+"\n")
     print(result["outcome"], result["rows"])
