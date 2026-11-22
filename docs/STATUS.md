@@ -1,6 +1,6 @@
 # Status
 
-**UFS después de LK.** Con dos dominios S2 preparados por separado, QEMU recuperó la dirección de bus desde sus tablas activas y el LUN 4 entregó la capacidad en ambos extremos de la página CPU `0x80441000`. En Pacific el bus sigue **UNKNOWN**. El próximo arranque temporal medirá el dominio AGGRE2 y sus cuatro ramas de reloj identificadas en el RPM original. [Resultados y panel](UFS_ROUTE_CLOCKS.md)
+**UFS después de LK.** En el Go, `UFS_ROUTE_CLOCKS` mostró el dominio AGGRE2 encendido y las cuatro ramas de reloj activas en sus respectivas lecturas. La dirección de bus de la página CPU `0x80441000` sigue **UNKNOWN** en Pacific. En QEMU, el recorrido de las tablas de dos dominios S2 permitió descubrir la dirección y verificar la capacidad del LUN 4 en ambos extremos de la página. [Panel físico](evidence/ufs-route-clocks-transfer-20261121.json) · [Ensayo en QEMU](UFS_ROUTE_CLOCKS.md)
 
 **Destino directo de UFS.** `0x80441000` es candidato de identidad en Pacific. QEMU verificó ambos extremos y detectó DMA a la página vecina incluso con éxito SCSI. En el arranque físico de `UFS_PRDT`, el slot 0 conservaba el puntero UCD `0x918FDF00` y cero entradas de datos. La dirección de bus de la página propia sigue **UNKNOWN**. [Panel del Go](evidence/ufs-prdt-transfer-20261121.json) [Pruebas e interpretación](UFS_NATIVE_PRDT.md)
 

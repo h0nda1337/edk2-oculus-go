@@ -1,6 +1,6 @@
 # Next steps
 
-**Siguiente medición en Pacific.** Usar el arranque temporal de `UFS_ROUTE_CLOCKS` para recoger el estado del dominio y los cuatro relojes tras LK. Para pasar a DMA hace falta además evidencia del stream y su traducción, o un mapeo del proveedor asociado al UFS en ese arranque. El ensayo en QEMU ya descubre un mapeo único y verifica los dos extremos antes de cualquier lectura de sector. [Procedimiento y significado de las filas](UFS_ROUTE_CLOCKS.md)
+**Siguiente medición en Pacific.** Con el estado de los relojes ya registrado, queda identificar el stream del maestro UFS y su traducción tras LK, u obtener del proveedor UFS la correspondencia entre la página CPU `0x80441000` y su dirección de bus en ese arranque. Una vez acreditada esa dirección, verificar con `READ CAPACITY(10)` los ocho bytes de cada extremo antes de leer la GPT del LUN 4. [Panel físico](evidence/ufs-route-clocks-transfer-20261121.json) · [Prueba de los extremos en QEMU](UFS_ROUTE_CLOCKS.md)
 
 **DMA de 4096 bytes en Pacific.** El ensayo físico `UFS_HEAP4K` descartó `0x918FD000` como página completa disponible en un intervalo libre de LK durante ese arranque. El siguiente paso es establecer la traducción del UFS para una página reservada por EDK2. La candidata en SEC sigue siendo `0x80441000`. Antes de leer el LBA 1 hay que validar físicamente los ocho bytes de capacidad en ambos extremos. [Panel físico](evidence/ufs-heap4k-transfer-20261121.json) · [Pruebas de traducción en QEMU](UFS_OWNED_PAGE.md)
 

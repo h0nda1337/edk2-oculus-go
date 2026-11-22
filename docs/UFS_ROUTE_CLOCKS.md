@@ -16,19 +16,21 @@ El dispositivo virtual devolvió la capacidad del LUN 4. Cada respuesta cubre oc
 
 Un segundo ensayo, sólo en QEMU, comprobó el sentido contrario. La CPU alternó dos cabeceras de ocho bytes. La respuesta del modelo SCSI cambió con la cabecera cuando UFS leía el extremo correcto de la página, y permaneció fija cuando leía un alias distinto. QMP confirmó cero lecturas, escrituras y vaciados del medio virtual. Las páginas de parámetros conservaron el mismo hash. Este experimento usa el comportamiento concreto de `scsi-hd` de QEMU y se ejecuta en el host. [Ensayo](../tests/ufs_outbound_witness_qemu.py) · [Resultados](evidence/ufs-outbound-qemu-20261121.json)
 
-## Qué puede medir el Go en el próximo arranque
+## Estado de AGGRE2 observado en el Go tras LK
 
 El firmware RPM original del Go identifica por nombre cuatro ramas del controlador global de relojes (GCC) y el registro de alimentación del dominio AGGRE2. El auditor verifica el ELF contra el SHA-256 de la partición respaldada, localiza cada registro y contrasta los campos con cuatro controles AGGRE0 del kernel oficial. El DT de Pacific describe una SMMU ANOC2. El identificador de stream del UFS y el modo de traducción que empleaba LK siguen pendientes. [Auditoría del RPM y fuentes del kernel](evidence/ufs-route-clocks-stock-20261121.json) · [Evidencia de topología](UFS_NATIVE_PRDT.md)
 
 `UFS_ROUTE_CLOCKS` captura hasta cinco valores de 32 bits del GCC después de validar el DT de Pacific EVT. La imagen SEC usa la CPU y el framebuffer heredado. El transporte UFS, las tablas de traducción y los sectores del medio quedan fuera de esa captura. El panel presenta los valores crudos de una lectura secuencial.
 
-| Fila | Dirección CPU en el GCC | Qué representa |
-| --- | --- | --- |
-| DOM | `0x00383004` | Alimentación AGGRE2. Bit 31 indica encendido y bit 0 indica solicitud de colapso por software. |
-| NAX | `0x00383008` | Rama AXI de AGGRE2 hacia SNOC. |
-| NAH | `0x0038300C` | Rama AHB de AGGRE2 hacia CNOC. |
-| SAX | `0x0038301C` | Rama AXI de la SMMU de AGGRE2. |
-| SAH | `0x00383020` | Rama AHB de la SMMU de AGGRE2. |
+El operador leyó `UFS CLOCKS SAMPLED` en la cabecera y `FD BUS UNKNOWN` en la última fila. El dominio figuraba encendido, con el bit de solicitud de colapso en cero. Cada rama indicaba reloj activo en el instante de su lectura. [Transcripción física](evidence/ufs-route-clocks-transfer-20261121.json)
+
+| Fila | Dirección CPU en el GCC | Valor observado | Qué representa |
+| --- | --- | --- | --- |
+| DOM | `0x00383004` | `A0222000` | Alimentación AGGRE2. Bit 31 indica encendido y bit 0 indica solicitud de colapso por software. |
+| NAX | `0x00383008` | `00000001` | Rama AXI de AGGRE2 hacia SNOC. |
+| NAH | `0x0038300C` | `20008001` | Rama AHB de AGGRE2 hacia CNOC. |
+| SAX | `0x0038301C` | `2000C221` | Rama AXI de la SMMU de AGGRE2. |
+| SAH | `0x00383020` | `20008001` | Rama AHB de la SMMU de AGGRE2. |
 
 `CLOCKS SAMPLED` indica que se obtuvieron las cinco lecturas. Para las cuatro ramas, el nibble superior 0 o 2 indica reloj activo, 8 indica parado y los otros valores quedan sin clasificar. `STOP DOM` conserva la lectura si el dominio figuraba apagado o si había una solicitud de colapso. Ambos bits pueden estar a uno por votos de alimentación de otros clientes. `INVALID` indica una lectura de todos unos y `FAULT` una excepción durante la lectura. Conviene copiar la cabecera y todas las filas visibles, incluida `FD BUS UNKNOWN`. [Driver de relojes](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/clock-local2.c#L668-L705) · [Driver de alimentación](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/gdsc.c#L128-L137)
 
