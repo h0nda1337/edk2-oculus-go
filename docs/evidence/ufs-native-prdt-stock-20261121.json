@@ -1,0 +1,32 @@
+{
+  "stockElfSha256": "6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74",
+  "firstDataPointer": "native command +8",
+  "taskTag": "previous counter at HBA+0x174, low byte",
+  "taskTagStore": "0x9182bf6c",
+  "firstPrdStore": "0x9182c27c",
+  "prdtOffsetStore": "0x9182c0f8",
+  "fullSegmentBytes": 262144,
+  "nextPrdIncrement": "0x9182c2c4",
+  "namedAnoc2Base": "0x01680000",
+  "namedRecords": {
+    "hyp_a": {
+      "sha256": "25484f850d760bcb376fef2b33cf0b588d65aa06ed6510c25e6b4d8a32cf9413",
+      "namedBaseOffsets": [
+        "0x3084c",
+        "0x33bbc"
+      ]
+    },
+    "tz_a": {
+      "sha256": "81151a62cf4ce294d9c068f8cb8199cc733e1c315f8a05ad29ae5117cf8cef2e",
+      "namedBaseOffsets": [
+        "0xe5b64",
+        "0xe8ed4"
+      ]
+    }
+  },
+  "physicalUfsStreamId": "UNKNOWN",
+  "observedUcd": "0x918fdf00",
+  "probeCpuLimitExclusive": "0x918fe000",
+  "directFdBusCandidate": "0x80441000",
+  "directFdBus": "UNKNOWN"
+}
