@@ -69,7 +69,7 @@ DATA = { 0xff }
 # Stack grows from 0x8047f000, upper guard occupies the final 4 KiB.
 0x003C4000|0x0003C000
 DATA = { 0xff }
-!elseif $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoUfsRouteClocks || $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff
+!elseif $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoUfsRouteView || $(GO_BUILD_FLAVOR) == OculusGoUfsRouteClocks || $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff
 0x00001000|0x003BD000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVCOMPACT
@@ -145,6 +145,8 @@ WRITE_STATUS = TRUE
   INF OculusGoPkg/SecMem/UfsData.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsNop11
   INF OculusGoPkg/SecMem/UfsNop11.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsRouteView
+  INF OculusGoPkg/SecMem/UfsRouteView.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsRouteClocks
   INF OculusGoPkg/SecMem/UfsRouteClocks.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff

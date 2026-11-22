@@ -14,7 +14,7 @@
 !include MdePkg/MdeLibs.dsc.inc
 
 [BuildOptions.common]
-!if $(GO_BUILD_FLAVOR) == OculusGoUfsNop11 || $(GO_BUILD_FLAVOR) == OculusGoUfsLkMap || $(GO_BUILD_FLAVOR) == OculusGoUfsQueues || $(GO_BUILD_FLAVOR) == OculusGoUfsRouteClocks || $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff || $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText || $(GO_BUILD_FLAVOR) == OculusGoDxeApp
+!if $(GO_BUILD_FLAVOR) == OculusGoUfsNop11 || $(GO_BUILD_FLAVOR) == OculusGoUfsLkMap || $(GO_BUILD_FLAVOR) == OculusGoUfsQueues || $(GO_BUILD_FLAVOR) == OculusGoUfsRouteView || $(GO_BUILD_FLAVOR) == OculusGoUfsRouteClocks || $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff || $(GO_BUILD_FLAVOR) == OculusGoSecMem || $(GO_BUILD_FLAVOR) == OculusGoSecStack || $(GO_BUILD_FLAVOR) == OculusGoSecMmu || $(GO_BUILD_FLAVOR) == OculusGoSecDxe || $(GO_BUILD_FLAVOR) == OculusGoDxeMem || $(GO_BUILD_FLAVOR) == OculusGoDxeGcd || $(GO_BUILD_FLAVOR) == OculusGoDxeTables || $(GO_BUILD_FLAVOR) == OculusGoDxeDebug || $(GO_BUILD_FLAVOR) == OculusGoDxeDispatch || $(GO_BUILD_FLAVOR) == OculusGoDxeGop || $(GO_BUILD_FLAVOR) == OculusGoDxeText || $(GO_BUILD_FLAVOR) == OculusGoDxeApp
   # Keep the PI handoff calls visible in the ELF used by the measurement.
   GCC:*_*_AARCH64_CC_FLAGS = -march=armv8-a -mgeneral-regs-only -fno-jump-tables -fno-lto -fno-stack-protector
   # GCC5's EDK2 link recipe always forwards an option to the GCC linker
@@ -299,6 +299,8 @@
   OculusGoPkg/SecMem/UfsData.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsNop11
   OculusGoPkg/SecMem/UfsNop11.inf
+!elseif $(GO_BUILD_FLAVOR) == OculusGoUfsRouteView
+  OculusGoPkg/SecMem/UfsRouteView.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsRouteClocks
   OculusGoPkg/SecMem/UfsRouteClocks.inf
 !elseif $(GO_BUILD_FLAVOR) == OculusGoUfsHandoff

@@ -1,0 +1,23 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION    = 0x0001001B
+  BASE_NAME      = OculusGoUfsRouteView
+  FILE_GUID      = 561537ce-d1cf-4251-a732-23809d46b55f
+  MODULE_TYPE    = SEC
+  VERSION_STRING = 1.0
+
+[Sources.AARCH64]
+  UfsEntry.S | GCC
+  UfsHandoff.c
+  UfsRouteClocks.c
+  Fdt.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+
+[BuildOptions]
+  GCC:*_*_AARCH64_CC_FLAGS = -DGO_UFS_ROUTE_CLOCKS -DGO_UFS_ROUTE_VIEW

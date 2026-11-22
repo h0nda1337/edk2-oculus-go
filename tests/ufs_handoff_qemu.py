@@ -98,7 +98,7 @@ def exercise(fd, harness, flash, dt, el, case, entry, stop, read, *,
             visits.append(label)
             lo, hi = next((a, b) for a, b in ranges if a <= addr < b)
             watch(g, 4, lo, hi, False)
-            if name == "load-abort" and i == count - 1:
+            if state == "FAULT" and i == count - 1:
                 # Deliberately cause a real same-EL alignment fault on the one
                 # watched LDR. Never modify the guest FD or its vector table.
                 saved = [g.register(n) for n in range(17, 21)]
@@ -111,7 +111,7 @@ def exercise(fd, harness, flash, dt, el, case, entry, stop, read, *,
                 g.set_register(0, addr + 1)
             msg = g.command("s")
             require(msg.startswith(("T", "S")), "single-step failed")
-            if not (name == "load-abort" and i == count - 1):
+            if not (state == "FAULT" and i == count - 1):
                 require(g.register(32) == read + 4 and g.register(2) == vals[i],
                         f"{name}/{label}: wrong register value")
             watch(g, 4, lo, hi)

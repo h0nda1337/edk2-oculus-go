@@ -72,6 +72,91 @@ ClearOfSamples (CONST UINT8 *Range, BOOLEAN CheckWindow)
 }
 
 enum { OtherNode, MemoryNode, ReservedNode };
+#ifdef GO_UFS_ROUTE_VIEW
+enum { SocBus = ReservedNode + 1, Anoc2 };
+enum {
+  RouteSoc = BIT0, RouteSmmu = BIT1, SocCompatible = BIT2, SocAddress = BIT3,
+  SocSize = BIT4, SocRanges = BIT5, SmmuCompatible = BIT6, SmmuReg = BIT7,
+  SmmuStatus = BIT8, SmmuSkip = BIT9, SmmuSave = BIT10, SmmuCells = BIT11,
+  SmmuClockName = BIT12, SocStatus = BIT13
+};
+#define ROUTE_REQUIRED  (RouteSoc | RouteSmmu | SocCompatible | SocAddress | \
+                         SocSize | SocRanges | SmmuCompatible | SmmuReg | \
+                         SmmuStatus | SmmuSkip | SmmuSave | SmmuCells | SmmuClockName)
+
+STATIC BOOLEAN
+RecordRouteField (UINT32 *Seen, UINT32 Flag, BOOLEAN Valid)
+{
+  if (!Valid || ((*Seen & Flag) != 0)) {
+    return FALSE;
+  }
+  *Seen |= Flag;
+  return TRUE;
+}
+
+// V17 FDT parser validated lengths before this call. Only inspect properties
+// of these precise nodes, never of siblings or descendants.
+STATIC BOOLEAN
+CheckRouteProperty (
+  UINT32 Depth, UINT32 Branch, CONST UINT8 *Name, CONST UINT8 *NamesEnd,
+  CONST UINT8 *Value, UINT32 Bytes, UINT32 *Seen
+  )
+{
+  if ((Depth == 2) && (Branch == SocBus)) {
+    if (NameIs (Name, NamesEnd, "compatible")) {
+      return RecordRouteField (Seen, SocCompatible, (Bytes == sizeof ("simple-bus")) &&
+                               NameIs (Value, Value + Bytes, "simple-bus"));
+    }
+    if (NameIs (Name, NamesEnd, "#address-cells")) {
+      return RecordRouteField (Seen, SocAddress, (Bytes == 4) && (Be32 (Value) == 1));
+    }
+    if (NameIs (Name, NamesEnd, "#size-cells")) {
+      return RecordRouteField (Seen, SocSize, (Bytes == 4) && (Be32 (Value) == 1));
+    }
+    if (NameIs (Name, NamesEnd, "ranges")) {
+      // Child address, two parent address cells, size: identity below 0xffffffff.
+      return RecordRouteField (Seen, SocRanges, (Bytes == 16) && (Be32 (Value) == 0) &&
+                               (Be64 (Value + 4) == 0) && (Be32 (Value + 12) == MAX_UINT32));
+    }
+    if (NameIs (Name, NamesEnd, "status")) {
+      // CheckProperty already validates "ok"/"okay" for this top-level branch.
+      return RecordRouteField (Seen, SocStatus, TRUE);
+    }
+  } else if ((Depth == 3) && (Branch == Anoc2)) {
+    if (NameIs (Name, NamesEnd, "calxeda,smmu-secure-config-access") ||
+        NameIs (Name, NamesEnd, "qcom,enable-static-cb")) {
+      return FALSE;
+    }
+    if (NameIs (Name, NamesEnd, "compatible")) {
+      return RecordRouteField (Seen, SmmuCompatible, (Bytes == sizeof ("qcom,smmu-v2")) &&
+                               NameIs (Value, Value + Bytes, "qcom,smmu-v2"));
+    }
+    if (NameIs (Name, NamesEnd, "reg")) {
+      return RecordRouteField (Seen, SmmuReg, (Bytes == 8) && (Be32 (Value) == 0x1680000) &&
+                               (Be32 (Value + 4) == 0x20000));
+    }
+    if (NameIs (Name, NamesEnd, "status")) {
+      return RecordRouteField (Seen, SmmuStatus, (Bytes == sizeof ("ok")) &&
+                               NameIs (Value, Value + Bytes, "ok"));
+    }
+    if (NameIs (Name, NamesEnd, "qcom,skip-init")) {
+      return RecordRouteField (Seen, SmmuSkip, Bytes == 0);
+    }
+    if (NameIs (Name, NamesEnd, "qcom,register-save")) {
+      return RecordRouteField (Seen, SmmuSave, Bytes == 0);
+    }
+    if (NameIs (Name, NamesEnd, "#iommu-cells")) {
+      return RecordRouteField (Seen, SmmuCells, (Bytes == 4) && (Be32 (Value) == 1));
+    }
+    if (NameIs (Name, NamesEnd, "clock-names")) {
+      return RecordRouteField (Seen, SmmuClockName, (Bytes == sizeof ("smmu_aggre2_noc_clk")) &&
+                               NameIs (Value, Value + Bytes, "smmu_aggre2_noc_clk"));
+    }
+  }
+  return TRUE;
+}
+#endif
+
 enum {
   RootAddress = 1, RootSize = 2, RamType = 4, RamReg = 8,
   ReservedAddress = 16, ReservedSize = 32, ReservedRanges = 64
@@ -150,6 +235,9 @@ ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific, IN BOOLEAN CheckWind
   CONST UINT8 *Name;
   UINT32 Total, Struct, Strings, Reserve, StructSize, StringsSize, End, Pos;
   UINT32 Depth = 0, Branch = OtherNode, Seen = 0;
+#ifdef GO_UFS_ROUTE_VIEW
+  UINT32 RouteSeen = 0;
+#endif
   BOOLEAN PacificModel = FALSE;
   BOOLEAN RootSeen = FALSE, MemorySeen = FALSE, ReservedSeen = FALSE;
   UINT32 Token, Bytes, NameOffset, Start;
@@ -223,6 +311,20 @@ ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific, IN BOOLEAN CheckWind
             ReservedSeen = TRUE;
             Branch = ReservedNode;
           }
+#ifdef GO_UFS_ROUTE_VIEW
+          else if (NameIs (Name, Data + End, "soc")) {
+            if (!RecordRouteField (&RouteSeen, RouteSoc, TRUE)) {
+              return FALSE;
+            }
+            Branch = SocBus;
+          }
+        } else if ((Depth == 2) && (Branch == SocBus) &&
+                   NameIs (Name, Data + End, "arm,smmu-anoc2@1680000")) {
+          if (!RecordRouteField (&RouteSeen, RouteSmmu, TRUE)) {
+            return FALSE;
+          }
+          Branch = Anoc2;
+#endif
         } else if ((Depth >= 3) && (Branch == ReservedNode)) {
           return FALSE; // No nested address translations in the captured reservations.
         }
@@ -236,6 +338,11 @@ ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific, IN BOOLEAN CheckWind
         if (--Depth == 1) {
           Branch = OtherNode;
         }
+#ifdef GO_UFS_ROUTE_VIEW
+        if ((Depth == 2) && (Branch == Anoc2)) {
+          Branch = SocBus;
+        }
+#endif
         break;
       case 3: // FDT_PROP
         if ((Depth == 0) || (End - Pos < 8)) {
@@ -257,11 +364,22 @@ ValidateFdt (IN CONST VOID *Fdt, IN BOOLEAN RequirePacific, IN BOOLEAN CheckWind
           }
           PacificModel = TRUE;
         }
+#ifdef GO_UFS_ROUTE_VIEW
+        if (!CheckRouteProperty (Depth, Branch, Data + Strings + NameOffset,
+                                 Data + Strings + StringsSize, Data + Pos, Bytes, &RouteSeen)) {
+          return FALSE;
+        }
+#endif
         Pos += (Bytes + 3) & ~3U;
         break;
       case 4: // FDT_NOP
         break;
       case 9: // FDT_END
+#ifdef GO_UFS_ROUTE_VIEW
+        if ((RouteSeen & ROUTE_REQUIRED) != ROUTE_REQUIRED) {
+          return FALSE;
+        }
+#endif
         return (!RequirePacific || PacificModel) && (Pos == End) && (Depth == 0) &&
                (Seen == (RootAddress | RootSize | RamType | RamReg |
                          ReservedAddress | ReservedSize | ReservedRanges));

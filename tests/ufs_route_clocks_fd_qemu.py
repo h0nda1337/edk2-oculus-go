@@ -41,7 +41,7 @@ def route_panel(regs, count, state, values):
     return lines
 
 
-def main():
+def run_panel_suite(*, guid, regs, cases, panel, outcome, make_tree=None):
     ap = argparse.ArgumentParser(description=__doc__)
     for name in ("fd", "sec-elf", "runtime-fdt", "report", "static-report"):
         ap.add_argument("--" + name, type=Path, required=True)
@@ -49,7 +49,7 @@ def main():
     dt = args.runtime_fdt.read_bytes()
     require(hashlib.sha256(dt).hexdigest() == RUNTIME_SHA, "wrong runtime DT")
     fd = args.fd.read_bytes()
-    static = inspect(fd, args.sec_elf, GUID, {"mRouteSamples": REGS})
+    static = inspect(fd, args.sec_elf, guid, {"mRouteSamples": regs})
     entry = int(verify(fd)["secEntryAddress"], 16)
     names = symbols(args.sec_elf)
     bias = entry - names["_ModuleEntryPoint"]
@@ -60,12 +60,13 @@ def main():
         subprocess.run(["aarch64-linux-gnu-gcc", "-c", ROOT / "tests/entry_harness.S", "-o", obj], check=True)
         subprocess.run(["aarch64-linux-gnu-objcopy", "-O", "binary", obj, harness], check=True)
         for el in (1, 2):
-            for case in CASES:
-                rows.append(exercise(args.fd, harness, tmp / "registers.rom", dt, el, case,
+            for case in cases:
+                fixture = make_tree(dt, case[0], tmp) if make_tree else dt
+                rows.append(exercise(args.fd, harness, tmp / "registers.rom", fixture, el, case,
                                      entry, bias + names["UfsStop"], bias + names["GoUfsRead32"],
-                                     regs=REGS, ranges=WATCHED, panel=route_panel))
+                                     regs=regs, ranges=WATCHED, panel=panel))
                 print(el, case[0], "PASS", flush=True)
-    result = {"outcome": "PASS-QEMU-ROUTE-CLOCKS", "fdSha256": static["fdSha256"],
+    result = {"outcome": outcome, "fdSha256": static["fdSha256"],
               "qemu": subprocess.check_output(["qemu-system-aarch64", "--version"], text=True).splitlines()[0],
               "model": "GCC, UFS HBA and ANOC2 ranges watched; synthetic register values",
               "watchedRangesEndExclusive": [[hex(lo), hex(hi)] for lo, hi in WATCHED],
@@ -75,4 +76,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_panel_suite(guid=GUID, regs=REGS, cases=CASES, panel=route_panel, outcome="PASS-QEMU-ROUTE-CLOCKS")

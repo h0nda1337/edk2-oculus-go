@@ -1,0 +1,719 @@
+{
+  "outcome": "PASS-QEMU-ROUTE-VIEW",
+  "fdSha256": "ad130a053ad19ad6aa93b3e1553fdd57270f66f753d270d5b3263e2ab9afd55e",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "model": "GCC, UFS HBA and ANOC2 ranges watched; synthetic register values",
+  "watchedRangesEndExclusive": [
+    [
+      "0x300000",
+      "0x390000"
+    ],
+    [
+      "0x624000",
+      "0x626500"
+    ],
+    [
+      "0x1680000",
+      "0x16a0000"
+    ]
+  ],
+  "physicalBus": "UNKNOWN",
+  "cases": [
+    {
+      "el": 1,
+      "case": "active",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS ROUTE     SAMPLED"
+    },
+    {
+      "el": 1,
+      "case": "dt-positive-rewrite",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS ROUTE     SAMPLED"
+    },
+    {
+      "el": 1,
+      "case": "clientpd-set",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS ROUTE     SAMPLED"
+    },
+    {
+      "el": 1,
+      "case": "cr0-zero",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS ROUTE     SAMPLED"
+    },
+    {
+      "el": 1,
+      "case": "domain-off",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      DOM"
+    },
+    {
+      "el": 1,
+      "case": "collapse-request",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      DOM"
+    },
+    {
+      "el": 1,
+      "case": "gated-nax",
+      "registerLoads": [
+        "DOM",
+        "NAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      NAX"
+    },
+    {
+      "el": 1,
+      "case": "gated-nah",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      NAH"
+    },
+    {
+      "el": 1,
+      "case": "gated-sax",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      SAX"
+    },
+    {
+      "el": 1,
+      "case": "gated-sah",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      SAH"
+    },
+    {
+      "el": 1,
+      "case": "zero-clock",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      SAH"
+    },
+    {
+      "el": 1,
+      "case": "transition",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      SAX"
+    },
+    {
+      "el": 1,
+      "case": "no-stages",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   ID0"
+    },
+    {
+      "el": 1,
+      "case": "no-banks",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   ID1"
+    },
+    {
+      "el": 1,
+      "case": "invalid-bank-count",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   ID1"
+    },
+    {
+      "el": 1,
+      "case": "invalid-id2",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   ID2"
+    },
+    {
+      "el": 1,
+      "case": "invalid-cr0",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   CR0"
+    },
+    {
+      "el": 1,
+      "case": "abort-id0",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS FAULT     ID0"
+    },
+    {
+      "el": 1,
+      "case": "abort-cr0",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS FAULT     CR0"
+    },
+    {
+      "el": 1,
+      "case": "wrong-board",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 1,
+      "case": "wrong-reg",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 1,
+      "case": "wrong-compatible",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 1,
+      "case": "wrong-range",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 1,
+      "case": "disabled-node",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 1,
+      "case": "static-cb",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 1,
+      "case": "secure-alias",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 1,
+      "case": "missing-skip-init",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "active",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS ROUTE     SAMPLED"
+    },
+    {
+      "el": 2,
+      "case": "dt-positive-rewrite",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS ROUTE     SAMPLED"
+    },
+    {
+      "el": 2,
+      "case": "clientpd-set",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS ROUTE     SAMPLED"
+    },
+    {
+      "el": 2,
+      "case": "cr0-zero",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS ROUTE     SAMPLED"
+    },
+    {
+      "el": 2,
+      "case": "domain-off",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      DOM"
+    },
+    {
+      "el": 2,
+      "case": "collapse-request",
+      "registerLoads": [
+        "DOM"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      DOM"
+    },
+    {
+      "el": 2,
+      "case": "gated-nax",
+      "registerLoads": [
+        "DOM",
+        "NAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      NAX"
+    },
+    {
+      "el": 2,
+      "case": "gated-nah",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      NAH"
+    },
+    {
+      "el": 2,
+      "case": "gated-sax",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      SAX"
+    },
+    {
+      "el": 2,
+      "case": "gated-sah",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      SAH"
+    },
+    {
+      "el": 2,
+      "case": "zero-clock",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      SAH"
+    },
+    {
+      "el": 2,
+      "case": "transition",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS STOP      SAX"
+    },
+    {
+      "el": 2,
+      "case": "no-stages",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   ID0"
+    },
+    {
+      "el": 2,
+      "case": "no-banks",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   ID1"
+    },
+    {
+      "el": 2,
+      "case": "invalid-bank-count",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   ID1"
+    },
+    {
+      "el": 2,
+      "case": "invalid-id2",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   ID2"
+    },
+    {
+      "el": 2,
+      "case": "invalid-cr0",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS INVALID   CR0"
+    },
+    {
+      "el": 2,
+      "case": "abort-id0",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS FAULT     ID0"
+    },
+    {
+      "el": 2,
+      "case": "abort-cr0",
+      "registerLoads": [
+        "DOM",
+        "NAX",
+        "NAH",
+        "SAX",
+        "SAH",
+        "ID0",
+        "ID1",
+        "ID2",
+        "CR0"
+      ],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": "UFS FAULT     CR0"
+    },
+    {
+      "el": 2,
+      "case": "wrong-board",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "wrong-reg",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "wrong-compatible",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "wrong-range",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "disabled-node",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "static-cb",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "secure-alias",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    },
+    {
+      "el": 2,
+      "case": "missing-skip-init",
+      "registerLoads": [],
+      "peripheralStores": 0,
+      "expectedScreenVerified": true,
+      "heading": null
+    }
+  ]
+}
