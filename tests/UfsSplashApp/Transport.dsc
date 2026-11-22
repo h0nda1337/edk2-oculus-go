@@ -36,6 +36,7 @@
   MdeModulePkg/Bus/Pci/UfsPciHcDxe/UfsPciHcDxe.inf
   $(GO_UFS_INF)
   tests/UfsSplashApp/UfsSplashApp.inf
+  tests/UfsSplashApp/ShellBuffer.inf
   tests/UfsSplashApp/UfsCapacityMap.inf
   tests/UfsSplashApp/UfsOwnedPage.inf
   tests/UfsSplashApp/UfsIortProbe.inf

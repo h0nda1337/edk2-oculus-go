@@ -1,0 +1,30 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = UfsShellBuffer
+  FILE_GUID = e53689da-4e4f-4842-bd00-edce39f486de
+  MODULE_TYPE = UEFI_APPLICATION
+  ENTRY_POINT = UefiMain
+[Sources]
+  ConnectProvider.c
+  ShellBuffer.c
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  DevicePathLib
+  GoUfsSplashLib
+  MemoryAllocationLib
+  UefiApplicationEntryPoint
+  UefiBootServicesTableLib
+  UefiLib
+[Protocols]
+  gEfiDriverBindingProtocolGuid
+  gEfiLoadedImageProtocolGuid
+  gEfiPciIoProtocolGuid
+  gEdkiiUfsHostControllerProtocolGuid
+  gEfiExtScsiPassThruProtocolGuid
+  gEfiSimpleFileSystemProtocolGuid
