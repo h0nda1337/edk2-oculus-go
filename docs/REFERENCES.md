@@ -1,5 +1,11 @@
 # Allowed sources and evidence
 
+| Fuente | Revisión y archivo | Qué aporta | Confianza |
+| --- | --- | --- | --- |
+| Copia privada de `aboot_a` del Go | SHA-256 `6a564482e8cd6bbefe662bb76c0b5b24c736ad7804800fa1909f38200c890b74`, rutina UFS y liberación del descriptor | Desplazamiento de respuesta, registro del puntero de bus y lista de intervalos libres. [Sitios exactos](evidence/ufs-response-heap-stock-20261121.json) | CONFIRMED para el ELF auditado. Pertenencia actual requiere medición. |
+| [Kernel oficial de Oculus Go](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/arch/arm/boot/dts/qcom/msm-arm-smmu-8996.dtsi) | `9475755`, nodo ANOC2, cotejado con el DTB observado | La descripción del SMMU y sus clocks no atribuye una traducción de UFS a la página del FD. [Inventario físico de la ventana](evidence/ufs-bus-pages-20261121.json) | CONFIRMED para la descripción. Mapeo de Pacific UNKNOWN. |
+| [Arm SMMU Architecture Specification](https://documentation-service.arm.com/static/5f900d34f86e16515cdc08fb) | IHI 0062D.c, §2.4, identificadores de flujo | La atribución del identificador a un maestro depende de la implementación. | Alta para arquitectura. Identificador UFS de Pacific UNKNOWN. |
+
 | Origin | Revision / file | Use | Confidence |
 | --- | --- | --- | --- |
 | https://github.com/tianocore/edk2 | `e7aac7fc137e247edad22f7ee53b9a1fba227397` | PI HOB/FV/DXE implementation; ARM CPU/MMU/GIC/timer libraries; build rules | Upstream code, pinned |

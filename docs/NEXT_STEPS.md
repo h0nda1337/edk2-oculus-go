@@ -1,5 +1,7 @@
 # Next steps
 
+**Siguiente arranque físico.** Con el visor disponible, ejecutar el perfil temporal `UFS_HEAP4K` y transcribir el panel completo. Si aparece `CANDIDATE`, registrar por separado el puntero de bus y el intervalo CPU libre. Seguir con un mapeo verificable para una página reservada antes de probar DMA en Pacific. [Procedimiento e interpretación](UFS_OWNED_PAGE.md)
+
 **UFS de Pacific.** El censo físico de `UFS_ZERO4K` confirmó los 4096 bytes en cero. Para avanzar hacia la GPT del LUN 4, falta identificar una región cuyo uso durante el comando corresponda a EDK2 y cuya dirección de bus pueda atribuirse al UFS del Go. En el búfer de LK siguen pendientes ambas comprobaciones. Con un destino respaldado por esa evidencia, la siguiente medición activa sería `READ CAPACITY(10)` de ocho bytes en cada extremo antes de leer el LBA 1. [Medición física](evidence/ufs-zero4k-transfer-20261121.json) · [Pruebas del mapeo en QEMU](UFS_GPT_HEADER.md)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)

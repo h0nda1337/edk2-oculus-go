@@ -1,0 +1,302 @@
+{
+  "scope": "terminal-ufs-heap4k",
+  "decision": "ONE-ATTENDED-TEMPORARY-BOOT",
+  "maxAttempts": 1,
+  "dateMexicoCity": "2026-11-21",
+  "physicalExecution": "UNKNOWN",
+  "physicalScope": "CPU-only inspection of native UFS slot zero and two LK free-list snapshots",
+  "procedure": "docs/UFS_OWNED_PAGE.md",
+  "entryAddress": "0x80083800",
+  "fd": {
+    "file": "build/DEBUG-UFS_HEAP4K-20261122-033605/OCULUS_GO_DIRECT.fd",
+    "sha256": "249e5a92feab1e510a84a4da11ba8b136c029e45b7401f72528269afca051d5c",
+    "size": 4194304
+  },
+  "image": {
+    "file": "local/OculusGo-UFS-HEAP4K-249e5a92feab.img",
+    "sha256": "f66bc63796b06b6df9fd9f9457980b2f9499db731a7e5c83b1ec55215f9e3ebb",
+    "size": 380928
+  },
+  "containerManifest": {
+    "file": "local/OculusGo-UFS-HEAP4K-249e5a92feab.json",
+    "sha256": "a5e65b69ba8f7cfbe200f6a8ee9a188184fb241f7d91414743409f2e00a1c2d0",
+    "size": 765
+  },
+  "model": {
+    "file": "build/DEBUG-UFS_HEAP4K-20261122-033605/QEMU.json",
+    "sha256": "41ea6d6c40d9094bc37eb97a347980369aafc0c63b36cdb418194b6351ed995c",
+    "size": 5265
+  },
+  "staticAudit": {
+    "file": "build/DEBUG-UFS_HEAP4K-20261122-033605/STATIC.json",
+    "sha256": "db1d4e8d9c4f6db734594bad97797e9142bff187c4dcf21766524fdcf67bcc86",
+    "size": 660
+  },
+  "sourceAudit": {
+    "file": "build/DEBUG-UFS_HEAP4K-20261122-033605/SOURCES.json",
+    "sha256": "a0e7f9689076557c954e35dc40cfa624d6432ab04091227c8328b42a4c803530",
+    "size": 31078
+  },
+  "publishedModel": {
+    "file": "docs/evidence/ufs-heap4k-fd-qemu-20261121.json",
+    "sha256": "41ea6d6c40d9094bc37eb97a347980369aafc0c63b36cdb418194b6351ed995c",
+    "size": 5265
+  },
+  "stockAudit": {
+    "file": "docs/evidence/ufs-response-heap-stock-20261121.json",
+    "sha256": "471600fad3ff47479c03abca0e30e16d0b5e2ff6b4a6afa4abce05e8ba15c1fd",
+    "size": 578
+  },
+  "priorReadback": {
+    "file": "local/readonly-preflight-20261122-031935/REPORT.json",
+    "sha256": "d3cd1b0d4c634cb8a23fccf58611c09d54b3262615973ae627c02c57aeba23e5",
+    "size": 7738
+  },
+  "checkedSourceFiles": [
+    {
+      "file": "OculusGoPkg/Include/Display/Framebuffer.h",
+      "sha256": "f8b855b850cd0c495a1c7bc07a3572b8e37f21fb0e318c23505820c7e313da97",
+      "size": 549
+    },
+    {
+      "file": "OculusGoPkg/Include/third-party/edk2/ConsoleFont.h",
+      "sha256": "4c7df44858cdb105039c7ddf0f5a84b7a436e8dae810f5c331e5c5c3eabc4dac",
+      "size": 20331
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.dsc",
+      "sha256": "baf82866312a3d4dc30ce7698e94227d7e06637697d0fabac26fd28413520452",
+      "size": 21195
+    },
+    {
+      "file": "OculusGoPkg/OculusGoPkg.fdf",
+      "sha256": "2952c9cd873fe4ee29a622dddb626b415c2852fe0728558bb84db80f0d692573",
+      "size": 9149
+    },
+    {
+      "file": "OculusGoPkg/SecMem/Fdt.c",
+      "sha256": "893a6fb0c29c71e87078725cda4a58c7467b25e83700b02517c43e2b4a73afc3",
+      "size": 8577
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsEntry.S",
+      "sha256": "a60a086a375d39a5a6e3b72628f0edfce93d9f88edb0210807ab7cda1d531cf7",
+      "size": 2018
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsHandoff.c",
+      "sha256": "38f4247391fb770dfe13ef064abb7f82ab496d1594ffa0570de7cae3690b66fe",
+      "size": 3983
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsHeap.c",
+      "sha256": "7fd5940c0a71cc38753c1ed8d5124f8537c3275d239287352b1b501fa9767cc9",
+      "size": 4326
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsHeap.inf",
+      "sha256": "6c0055f8bd60a9c29b8d4b9fd07165bc1f60e4fde448ac29977dfa95a580b1f3",
+      "size": 562
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsLkMap.c",
+      "sha256": "cb675bd1bbfc290f7c2e4bfb69b247e297fd8892ab3bf07a30a0997fc12b9955",
+      "size": 3988
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsPanel.h",
+      "sha256": "fb18da0ab165a55b5789ce38118f816871ae34433826c6e3b0d81cea25e6a014",
+      "size": 1053
+    },
+    {
+      "file": "OculusGoPkg/SecMem/UfsQueues.c",
+      "sha256": "19ba26ef42487a190d54547b4a9d61e86f0684e7269ec9ce82b1f14377e873b1",
+      "size": 4598
+    },
+    {
+      "file": "scripts/build-edk2.ps1",
+      "sha256": "e00b2a388c2d6e2935d579a148e3546b31faea9588acaa95f123cca8ddc6f095",
+      "size": 1075
+    },
+    {
+      "file": "scripts/build.sh",
+      "sha256": "3bcd3dc7e8bb929e7036373a586de5e0092112a8d67859f97e92fd53ff8a9dcd",
+      "size": 4587
+    },
+    {
+      "file": "tests/entry_harness.S",
+      "sha256": "1ab869ad8e6c554adbea895205d71f502e8e22c8e15f516686e767cac6c85c8a",
+      "size": 464
+    },
+    {
+      "file": "tests/sec_c_qemu.py",
+      "sha256": "e7ce7f305392f09732c1fc0a90db4313779278bb026cf90617f1ce7373d39e38",
+      "size": 7879
+    },
+    {
+      "file": "tests/sec_dxe_static.py",
+      "sha256": "8711bd8d7690abd383ae8638785d3e50e62e032755cf4b2b0ed90d255bc07429",
+      "size": 13652
+    },
+    {
+      "file": "tests/sec_mem_qemu.py",
+      "sha256": "f577fa3bbdd0fc6ed11563adc1042bdf5bc0116036a2b6bf85e4d30fcdb3ac17",
+      "size": 16519
+    },
+    {
+      "file": "tests/ufs_data_fd_qemu.py",
+      "sha256": "d3c0b26d5d2d24b799fe0b40c173b35232d13b04b78fb23c08eb86149d28d6eb",
+      "size": 7889
+    },
+    {
+      "file": "tests/ufs_data_qemu.py",
+      "sha256": "215d541f668774b79a0a698f53356faf8a760b5ff94e808d9d20ff666f4fedd1",
+      "size": 6873
+    },
+    {
+      "file": "tests/ufs_handoff_qemu.py",
+      "sha256": "23f092a5394d31956e9d2ae6b61c69ba2392cebbb413e2abb19b517fe1ab91ac",
+      "size": 7685
+    },
+    {
+      "file": "tests/ufs_handoff_static.py",
+      "sha256": "87c9ce75c6bbf88ef54cdb43e339b0aa4ebaade4dbb8f34ad2c6132be311b289",
+      "size": 2485
+    },
+    {
+      "file": "tests/ufs_header_fd_qemu.py",
+      "sha256": "a8e0474451778326e167c6d4e079e52d06bc0c1f46d3c65f376a2f4974de3765",
+      "size": 12550
+    },
+    {
+      "file": "tests/ufs_heap_fd_qemu.py",
+      "sha256": "95caa35c7e77e101be25eb3902e85340d8cd3fbccd0b9bbf63897e5cd6e71aba",
+      "size": 5830
+    },
+    {
+      "file": "tests/ufs_lk_map_qemu.py",
+      "sha256": "ac46b93f3e7fc4963d41bf62c0beb3c1fd9f7b75d47a3955809012b3b2a96a95",
+      "size": 7682
+    },
+    {
+      "file": "tests/ufs_lk_nop_guest.c",
+      "sha256": "f524c0faebe4794cb3c88e0a6f03a349e0009d11881d5b0b9bbd16e416a55417",
+      "size": 3373
+    },
+    {
+      "file": "tests/ufs_lk_nop_qemu.py",
+      "sha256": "ef1234408b49a8da8436c399c08660c4693f6d83fa75fdca51626dd47bd684b3",
+      "size": 7782
+    },
+    {
+      "file": "tests/ufs_nop11_bus.py",
+      "sha256": "a1fdc9dcd3f51b088cfd7f418d99b2181d18f11401c4cb02bf0fcf6be7a268bf",
+      "size": 2225
+    },
+    {
+      "file": "tests/ufs_nop11_fd_qemu.py",
+      "sha256": "947492964221212e2ca98a7eff5297be640069a57cc5950e3d7537e0e7095cab",
+      "size": 9243
+    },
+    {
+      "file": "tests/ufs_queue_dma_model.py",
+      "sha256": "6aac6a467d464675b07be21a085999ae0950cddf90c15f2a19e0af12a6f5254d",
+      "size": 6575
+    },
+    {
+      "file": "tests/ufs_queues_qemu.py",
+      "sha256": "c4f7383c2e7f10a81ad3b2a2e91f1b74ee37bbce257683caf84e01b44fb6d0fc",
+      "size": 10427
+    },
+    {
+      "file": "tests/ufs_queues_static.py",
+      "sha256": "c7a636c0b73ec81f19f8c060613785bc5aa9e7fc4d7a8fc5e8f9974b09a5e0e8",
+      "size": 1265
+    },
+    {
+      "file": "tools/android_boot.py",
+      "sha256": "5ee66042724df6eee47c394cb74e609224893861b75496fc479d193fd1e8e90f",
+      "size": 4968
+    },
+    {
+      "file": "tools/attended_terminal.py",
+      "sha256": "7750ccf180778102e560a5924c91a94c014d79b344447a7fe346bd29d616c067",
+      "size": 4608
+    },
+    {
+      "file": "tools/audit_build_sources.py",
+      "sha256": "d920f0f5d102b55a9d5aa9c692d5b3aab38aed379b78946e6166d183bfd60a6b",
+      "size": 4703
+    },
+    {
+      "file": "tools/audit_lk_response_heap.py",
+      "sha256": "a2e58e1cd8b8cb4b6cc65b4afaa6c2e2fbbf130235b198e52ea22d4f20ed728e",
+      "size": 2442
+    },
+    {
+      "file": "tools/audit_lk_ufs_dma.py",
+      "sha256": "a93a29e743c64d528e2d3d8a956b92c34c34e3068340bac63bf23fc66a9f7b98",
+      "size": 4788
+    },
+    {
+      "file": "tools/collect_readonly_preflight.py",
+      "sha256": "bf5a42f15ce19888199e12e4e1a73a7f92a0f7c0adf115cf86c7ef6aec165d89",
+      "size": 8495
+    },
+    {
+      "file": "tools/emulate_entry.py",
+      "sha256": "ee1576486a57a92fd0155481b2d7ed957badda779538be8df2bf284dadb5489f",
+      "size": 8358
+    },
+    {
+      "file": "tools/emulate_sec_handoff.py",
+      "sha256": "6a757be8988629c8f537fdd644089a5631ad6347c055b7ce14173affc12a1ee2",
+      "size": 13021
+    },
+    {
+      "file": "tools/inspect_fastboot.py",
+      "sha256": "386c1a286153cc98e03d4c39d31309ae07245bfe1a4df26c3bca8ee22f582c58",
+      "size": 5150
+    },
+    {
+      "file": "tools/run_sec_c_once.py",
+      "sha256": "f55dddfec47f0ed83ee3524c95790353bd9f7e0932ba06611b4a892c022fe4bc",
+      "size": 11681
+    },
+    {
+      "file": "tools/run_sec_visual_once.py",
+      "sha256": "626f21bd4b6ea88666227f428c1b9429e7e8eb10b568850adc433d7f16bcd82c",
+      "size": 10548
+    },
+    {
+      "file": "tools/run_ufs_handoff_once.py",
+      "sha256": "ae0f21505937d184992a06b33a40a2e9e8348786d7796e22cc80c77eb895b3cb",
+      "size": 2993
+    },
+    {
+      "file": "tools/run_ufs_heap4k_once.py",
+      "sha256": "dac7200784b8adb50db2db2082d32afde450d638c7ae6b40af3dfe9a4c9146ca",
+      "size": 3997
+    },
+    {
+      "file": "tools/run_ufs_lk_map_once.py",
+      "sha256": "359af42084af36f6462bc3c14a068d65d39c964b2561df7b226802785722d989",
+      "size": 3696
+    },
+    {
+      "file": "tools/run_ufs_queues_once.py",
+      "sha256": "435fb4964d3b2527725eeb33c01697186a4435fe9f6f90be5d4bd4a95d7c53c8",
+      "size": 3521
+    },
+    {
+      "file": "tools/terminal_review.py",
+      "sha256": "d0ae89926b3980718af47ed171c8452458c56cf42346167b1931a6d4e6c2c82c",
+      "size": 3027
+    },
+    {
+      "file": "tools/verify_fd.py",
+      "sha256": "ff110daee60b4bc310aebaf8abe216e400ff59cea0cf5f81a792539780492243",
+      "size": 3753
+    }
+  ]
+}

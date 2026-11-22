@@ -1,5 +1,7 @@
 # Status
 
+**UFS, página propia de 4096 bytes.** En QEMU, el LUN 4 entregó su capacidad en `0x80441000` y `0x80441FF8`, incluso con traducción de bus distinta de la dirección CPU. La dirección de bus de esa página en el Go sigue **UNKNOWN**. La sonda física preparada examina el último descriptor de LK y el estado de su asignador. [Página, pruebas y alcance físico](UFS_OWNED_PAGE.md)
+
 **Búfer de LK.** En el arranque temporal de `UFS_ZERO4K`, el Go mostró `NZ 00000000`, `FIRST NONE` y `ZERO EXACT`. Las dos muestras por CPU coincidieron en los 4096 bytes a partir de `0x918D7E80`. LK inicializa ese intervalo a cero en su BSS. La disponibilidad para uso exclusivo de EDK2 y el DMA de UFS a sus extremos siguen **UNKNOWN**. [Panel del Go](evidence/ufs-zero4k-transfer-20261121.json) · [Diez pruebas en QEMU](UFS_GPT_HEADER.md#censo-de-los-4096-bytes-con-ufs_zero4k)
 
 **Cabecera GPT del LUN 4.** SEC leyó el LBA 1 completo en QEMU en el búfer de cabecera de LK de `0x918D7E80`. Los 4096 bytes coincidieron con el respaldo de Android. En el Go, la CPU leyó dos veces los 4096 bytes en ese intervalo. Las dos muestras coincidieron y dieron CRC32 `C71C0011` y clasificación `OTHER`. El acceso DMA a ese búfer sigue pendiente. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) [Resultado y sonda física](UFS_GPT_HEADER.md)
