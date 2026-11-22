@@ -1,0 +1,74 @@
+{
+  "source": "archived Pacific /sys/firmware/fdt at Android runtime",
+  "runtimeFdtSha256": "0877ab5ba9149c29af776389796978268c665c51878834f2335405cabef01929",
+  "nodes": 1867,
+  "iommuConsumerNodes": 29,
+  "iommuReferences": 71,
+  "referencedProviders": {
+    "/soc/arm,smmu-anoc0@1640000": 3,
+    "/soc/arm,smmu-cpp_fd@d60000": 2,
+    "/soc/arm,smmu-jpeg@d80000": 3,
+    "/soc/arm,smmu-kgsl@b40000": 2,
+    "/soc/arm,smmu-lpass_q6@1600000": 9,
+    "/soc/arm,smmu-mdp@d00000": 2,
+    "/soc/arm,smmu-rot@d20000": 2,
+    "/soc/arm,smmu-venus@d40000": 44,
+    "/soc/arm,smmu-vfe@da0000": 4
+  },
+  "otherRoutePropertyNodeCounts": {
+    "mmu-masters": 0,
+    "iommu-map": 0,
+    "iommu-map-mask": 0,
+    "dma-ranges": 0
+  },
+  "ufsAncestorBindingsPresent": {
+    "/": [],
+    "/soc": [],
+    "/soc/ufshc@624000": []
+  },
+  "master": "/soc/ad-hoc-bus/mas-ufs",
+  "interconnectIds": {
+    "cell-id": [
+      95
+    ],
+    "qcom,qport": [
+      2
+    ],
+    "qcom,mas-rpm-id": [
+      68
+    ]
+  },
+  "interconnectEdges": {
+    "masterFabric": [
+      "/soc/ad-hoc-bus/fab-a2noc"
+    ],
+    "masterConnections": [
+      "/soc/ad-hoc-bus/slv-a2noc-snoc"
+    ],
+    "bridgeFabric": [
+      "/soc/ad-hoc-bus/fab-snoc"
+    ],
+    "bridgeConnections": [
+      "/soc/ad-hoc-bus/mas-a2noc-snoc"
+    ]
+  },
+  "anoc2": {
+    "node": "/soc/arm,smmu-anoc2@1680000",
+    "status": "ok",
+    "compatible": "qcom,smmu-v2",
+    "reg": [
+      "0x1680000",
+      "0x20000"
+    ],
+    "iommuCells": 1,
+    "flags": {
+      "qcom,register-save": true,
+      "qcom,skip-init": true,
+      "phandle": false,
+      "linux,phandle": false
+    },
+    "iommuReferences": 0
+  },
+  "physicalUfsStreamIdAfterLk": "UNKNOWN",
+  "physicalBusForPage80441000": "UNKNOWN"
+}
