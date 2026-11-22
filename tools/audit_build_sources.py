@@ -58,7 +58,11 @@ def main():
         staged_inf = (root / inf).resolve()
         if staged_inf != (root / args.ufs_inf).resolve() or args.report is None:
             raise SystemExit('Active UFS module differs from the verified lock or lacks a build report')
-        reported = re.findall(r'^Module INF Path:\s*(.+?)\s*$', args.report.read_text(), re.M)
+        # BuildReport wraps long INF paths at a directory separator. File GUID
+        # is the next field of the module summary, including on Windows.
+        fields = re.findall(r'^Module INF Path:[ \t]*(.*?)\nFile GUID:',
+                            args.report.read_text(), re.M | re.S)
+        reported = [''.join(value.splitlines()).strip() for value in fields]
         ufs_modules = [(root / item).resolve() for item in reported
                        if Path(item).name == 'UfsPassThruDxe.inf']
         if ufs_modules != [staged_inf]:
