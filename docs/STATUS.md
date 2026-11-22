@@ -1,5 +1,7 @@
 # Status
 
+**Colas propias de DXE.** QEMU reprodujo el estado registrado tras LK: HCI y ambas listas en marcha, con los dos *doorbells* a cero. Tras la cesión explícita, DXE programó dos listas nuevas y leyó capacidad del LUN 4 en ambos extremos de una página. El caso sin cesión dejó las dos listas en manos del propietario anterior. En Pacific sigue pendiente establecer quién cede el controlador y cómo mapear las páginas de DXE para DMA. [Prueba y alcance](UFS_DXE_TAKEOVER.md)
+
 **Salida de LK y DMA de la Shell.** En la copia del firmware, la salida del arranque temporal detiene USB DWC y la rama UFS omite la rutina de reposo de MMC. La captura en SEC mostró las listas UFS en marcha y sus solicitudes pendientes a cero. La reserva de 2 MiB `oculus_dma_region` corresponde a ION. La dirección de bus de una página dinámica de la Shell en Pacific sigue UNKNOWN. [Auditoría del firmware y sus límites](UFS_LK_EXIT.md)
 
 **UFS en el arranque de la Shell.** El firmware integra el enumerador de Pacific EVT, el driver de host de la placa y el transporte. Con el backend virtual, pasaron 14 escenarios en QEMU. El LUN 4 devolvió su capacidad en ambos extremos de la página y BDS leyó después la GPT de prueba. En el Go todavía faltan el servicio DMA asociado al controlador y la entrega exclusiva de las colas de LK. [Resultados y pendientes](UFS_PLATFORM_DXE.md)

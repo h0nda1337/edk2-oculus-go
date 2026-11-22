@@ -28,6 +28,8 @@ El replay del código del enumerador pasó 35 casos con el DTB original, árbole
 
 El FD normal de 20 MiB arrancó a EL1 en QEMU con el DTB EVT. Al llegar al prompt, la lista HOB publicada en la tabla del sistema UEFI contenía `0x624000 + 0x2500`, la marca de DMA no coherente y una reserva MMIO de tres páginas. Se cotejaron los tres drivers UFS del FV con sus binarios AArch64. La auditoría de fuentes verificó 107 listas de dependencias. [Prompt, tabla UEFI y hashes del FD](evidence/ufs-platform-normal-qemu-20261122.json)
 
+El [ensayo de entrega con listas en marcha](UFS_DXE_TAKEOVER.md) extiende estos resultados al estado observado tras LK y comprueba la identidad de las listas desde la traza del dispositivo.
+
 ## Qué falta en el Go
 
 **CONFIRMED en la captura del Go.** El DTB identifica los registros. En la prueba física anterior, LK dejó habilitado el HCI y las dos listas en marcha. El controlador respondió a capacidad usando memoria de LK. [Panel del HCI](UFS_HANDOFF.md) · [Geometría y mapeos comprobados](UFS_SHELL_BUFFER.md)

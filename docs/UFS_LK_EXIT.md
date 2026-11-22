@@ -22,7 +22,7 @@ El nodo UFS, su padre `/soc` y la raíz de los árboles EVT y de ejecución care
 
 ## Próxima prueba que cambiaría la conclusión
 
-El siguiente trabajo de placa es preparar en el emulador la transición desde HCI activo, listas en marcha y sin solicitudes pendientes hasta colas administradas por DXE, con las condiciones de alimentación, PHY y DMA del driver oficial. Para medir en el Go, primero hace falta una ruta DMA documentada para ese maestro o un búfer intermedio dedicado con alcance CPU–bus y sincronización conocidos. Entonces una consulta de capacidad en cada extremo de una página propia podrá distinguir un mapeo válido de una coincidencia numérica. Repetir el panel de estado mostraría los mismos tipos de registros que ya están archivados.
+La [prueba de transición en QEMU](UFS_DXE_TAKEOVER.md) ya reprodujo el HCI activo y las dos listas en marcha sin pendientes. Tras una cesión simulada, el transporte tomó sus propias colas y obtuvo la capacidad en ambos extremos de su página. Para medir en el Go, primero hace falta una ruta DMA documentada para ese maestro o un búfer intermedio dedicado con alcance CPU–bus y sincronización conocidos. Entonces una consulta de capacidad en cada extremo de una página propia podrá distinguir un mapeo válido de una coincidencia numérica. Repetir el panel de estado mostraría los mismos tipos de registros que ya están archivados.
 
 ## Reproducir desde las copias conservadas
 
