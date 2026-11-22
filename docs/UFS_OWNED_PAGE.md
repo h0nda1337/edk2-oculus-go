@@ -24,7 +24,7 @@ El Go mostró `UFS HEAP NO PAGE`. En el slot 0, LK había registrado la direcci�
 
 Esta prueba pasiva descarta la candidatura de esa página en el arranque observado. La disponibilidad de otras páginas del montículo y la traducción DMA de la página propia en `0x80441000` siguen por determinar.
 
-La siguiente imagen, `UFS_PRDT`, inspecciona los metadatos de datos del slot 0 y muestra el intervalo de bus si sobrevivió al traspaso desde LK. [Comprobación del PRDT y control de destino DMA en QEMU](UFS_NATIVE_PRDT.md)
+En el ensayo posterior, `UFS_PRDT` observó el mismo puntero UCD en el slot 0 y cero entradas PRDT. La muestra carecía de una dirección de datos que comparar con la página propia. [Panel del Go](evidence/ufs-prdt-transfer-20261121.json) · [Interpretación y control en QEMU](UFS_NATIVE_PRDT.md)
 
 ## Cómo se interpreta el panel
 

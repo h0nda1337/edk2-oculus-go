@@ -34,7 +34,11 @@ La imagen lee por CPU el slot 0 de la cola de LK. Sólo inspecciona el UCD si el
 
 Se probó el FD completo en QEMU con 15 ejecuciones, incluyendo EL1 y EL2. Los casos con traducción identidad y con otra RAM de respaldo produjeron el mismo panel para la misma dirección de bus. Los casos de cobertura usan metadatos sintéticos de READ(10) y READ(16). La preparación de la cola emplea capacidad real del UFS virtual. El observador no envió comandos ni leyó sectores en ninguno de los casos. [Paneles y resultados](evidence/ufs-prdt-fd-qemu-20261121.json)
 
-El resultado físico se tomará durante un arranque temporal atendido. Antes de una lectura física del LBA 1 se necesita un destino de datos que el UFS pueda usar en ese arranque y verificar en RAM las dos transferencias de ocho bytes. Un intervalo retenido cubriendo ambas direcciones, por sí solo, es insuficiente para autorizar DMA directo.
+## Resultado en el Go
+
+El panel físico mostró `UFS PRDT NO DATA`, `UCD 918FDF00`, `NPRD 00000000` y `CPU ONLY`. La sonda leyó dos veces el descriptor del slot 0 con las colas en reposo. El recuento de cero entradas hizo que terminara antes de acceder al UCD. No se obtuvo opcode, LUN ni intervalo de datos para el comando anterior. Las cuatro líneas coincidieron con el caso `zero-prd` de QEMU. La dirección de bus para la página CPU `0x80441000` sigue **UNKNOWN**. [Transcripción física y registro del arranque](evidence/ufs-prdt-transfer-20261121.json)
+
+Antes de una lectura física del LBA 1 se necesita un destino de datos que el UFS pueda usar en ese arranque y verificar en RAM las dos transferencias de ocho bytes. Un intervalo retenido cubriendo ambas direcciones, por sí solo, es insuficiente para autorizar DMA directo.
 
 ## Reproducción
 

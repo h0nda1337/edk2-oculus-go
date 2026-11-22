@@ -1,6 +1,6 @@
 # Next steps
 
-**Siguiente medición.** Arrancar temporalmente `UFS_PRDT` para buscar la dirección de datos que LK dejó en el slot 0. Registrar el encabezado y las filas visibles. Si el registro es válido, comparar `FIRST` y `LAST` con la página propia y mantener pendiente su traducción física. [Sonda y significado de cada resultado](UFS_NATIVE_PRDT.md)
+**Siguiente medición.** El slot 0 de LK mostró cero entradas PRDT en el arranque observado. Para determinar el destino directo, buscar una fuente independiente que vincule al controlador UFS con la traducción vigente de la página `0x80441000`. Verificar después los ocho bytes en ambos extremos antes de leer el LBA 1 del LUN 4. [Panel físico](evidence/ufs-prdt-transfer-20261121.json) · [Control de DMA con destino incorrecto](UFS_NATIVE_PRDT.md)
 
 **DMA de 4096 bytes en Pacific.** El ensayo físico `UFS_HEAP4K` descartó `0x918FD000` como página completa disponible en un intervalo libre de LK durante ese arranque. El siguiente paso es establecer la traducción del UFS para una página reservada por EDK2. La candidata en SEC sigue siendo `0x80441000`. Antes de leer el LBA 1 hay que validar físicamente los ocho bytes de capacidad en ambos extremos. [Panel físico](evidence/ufs-heap4k-transfer-20261121.json) · [Pruebas de traducción en QEMU](UFS_OWNED_PAGE.md)
 

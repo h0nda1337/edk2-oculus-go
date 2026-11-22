@@ -1,6 +1,6 @@
 # Status
 
-**Destino directo de UFS.** `0x80441000` es candidato de identidad en Pacific. QEMU verificó ambos extremos y detectó DMA a la página vecina incluso con éxito SCSI. Está preparado `UFS_PRDT` para inspeccionar en el visor el último descriptor nativo de datos de LK. [Pruebas e interpretación](UFS_NATIVE_PRDT.md)
+**Destino directo de UFS.** `0x80441000` es candidato de identidad en Pacific. QEMU verificó ambos extremos y detectó DMA a la página vecina incluso con éxito SCSI. En el arranque físico de `UFS_PRDT`, el slot 0 conservaba el puntero UCD `0x918FDF00` y cero entradas de datos. La dirección de bus de la página propia sigue **UNKNOWN**. [Panel del Go](evidence/ufs-prdt-transfer-20261121.json) [Pruebas e interpretación](UFS_NATIVE_PRDT.md)
 
 **UFS, página propia de 4096 bytes.** En QEMU, el LUN 4 entregó su capacidad en `0x80441000` y `0x80441FF8`, incluso con traducción de bus distinta de la dirección CPU. La dirección de bus de esa página en el Go sigue **UNKNOWN**. En el Go, la respuesta del último descriptor de LK apuntaba a `0x918FDF20`. Dos recorridos estables de cuatro intervalos libres dieron `UFS HEAP NO PAGE` para la página `0x918FD000`. [Panel físico](evidence/ufs-heap4k-transfer-20261121.json) [Página, pruebas y alcance físico](UFS_OWNED_PAGE.md)
 
