@@ -29,9 +29,9 @@ CASES = {
     "wrong-iova": ("STOP", "CAPACITY", 0),
 }
 
-def unit_args(size):
+def unit_args(size, lun=4):
     return ["-blockdev", f"driver=null-co,node-name=capacity,size={size},read-only=on",
-            "-device", "ufs-lu,drive=capacity,lun=4"]
+            "-device", f"ufs-lu,drive=capacity,lun={lun}"]
 
 def compile_guest(tmp):
     entry = tmp / "entry.S"

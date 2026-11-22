@@ -22,6 +22,7 @@
   MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
+  IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
   TimerLib|ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib.inf
   UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
   UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
@@ -37,6 +38,8 @@
   $(GO_UFS_INF)
   tests/UfsSplashApp/UfsSplashApp.inf
   tests/UfsSplashApp/ShellBuffer.inf
+  tests/UfsSplashApp/PlatformBuffer.inf
+  OculusGoPkg/Drivers/GoUfsHcDxe/GoUfsHcDxe.inf
   tests/UfsSplashApp/UfsCapacityMap.inf
   tests/UfsSplashApp/UfsOwnedPage.inf
   tests/UfsSplashApp/UfsIortProbe.inf

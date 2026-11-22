@@ -35,12 +35,13 @@ def require(condition, reason):
         raise ValueError(reason)
 
 
-def launch(work, modules, size_mib, lun_bytes, marker, with_ufs):
+def launch(work, modules, size_mib, lun_bytes, marker, with_ufs, module_names=MODULES, backing=None,
+           lun=4, extra_events=()):
     boot = work / "esp/EFI/BOOT"
     boot.mkdir(parents=True)
     esp = work / "esp"
-    for name in MODULES:
-        dest = boot / "BOOTAA64.EFI" if name == MODULES[0] else esp / name
+    for name in module_names:
+        dest = boot / "BOOTAA64.EFI" if name == module_names[0] else esp / name
         shutil.copyfile(modules / name, dest)
     if marker:
         (esp / marker).touch()
@@ -49,7 +50,7 @@ def launch(work, modules, size_mib, lun_bytes, marker, with_ufs):
     events = work / "events"
     trace = work / "trace"
     events.write_text("\n".join(("ufs_exec_scsi_cmd", "scsi_disk_dma_command_READ",
-                                 "scsi_disk_dma_command_WRITE", *SMMU_TRACE)) + "\n")
+                                 "scsi_disk_dma_command_WRITE", *SMMU_TRACE, *extra_events)) + "\n")
     cmd = ["qemu-system-aarch64", "-machine", MACHINE, "-cpu", "cortex-a57", "-m", f"{size_mib}M",
            "-nodefaults", "-display", "none", "-serial", "stdio", "-monitor", "none", "-no-reboot",
            "-drive", f"if=pflash,format=raw,readonly=on,file={FIRMWARE}",
@@ -58,9 +59,16 @@ def launch(work, modules, size_mib, lun_bytes, marker, with_ufs):
            "-device", "virtio-blk-pci,drive=esp,bootindex=1",
            "-trace", f"events={events},file={trace}"]
     if with_ufs:
-        cmd.extend(["-device", "ufs,mcq=off,addr=3.0", *unit_args(lun_bytes)])
-    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=100,
-                            text=True, errors="replace")
+        backend = unit_args(lun_bytes, lun) if backing is None else [
+            "-drive", f"if=none,id=capacity,format=raw,readonly=on,file={backing}",
+            "-device", f"ufs-lu,drive=capacity,lun={lun}"]
+        cmd.extend(["-device", "ufs,mcq=off,addr=3.0", *backend])
+    try:
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=100,
+                                text=True, errors="replace")
+    except subprocess.TimeoutExpired as error:
+        output = (error.stdout or b"").decode(errors="replace")
+        raise RuntimeError(f"QEMU timeout; last guest output:\n{output[-2400:]}") from error
     require(result.returncode == 0, f"QEMU exited with {result.returncode}\n{result.stdout[-2000:]}")
     return result.stdout, trace.read_text().splitlines()
 
