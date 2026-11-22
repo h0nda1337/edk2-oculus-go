@@ -45,7 +45,14 @@ Authenticated GitHub owner verified as `h0nda1337`.
    `MdeModulePkg/Library/NonDiscoverableDeviceRegistrationLib` is used
    unchanged under BSD-2-Clause-Patent. The emulator-only board fixture supplies its DMA interface
    using QEMU's PCI device. It is outside the normal Pacific firmware.
-9. Device captures and partition backups are evidence, not imported source.
+9. QEMU 10.0.13 is a host test tool. The project maintains a narrow
+   [emulator patch](../tests/qemu/ufs-idle-task-list-10.0.13.patch) for the
+   idle legacy task-list run bit and clearing idle run bits at HCI disable.
+   It applies to upstream `hw/ufs/ufs.c` (Samsung, GPL-2.0-or-later) under
+   the same license. The [build script](../scripts/build-qemu-ufs-handoff.sh)
+   pins the archive and the hashes of the original and patched file. The QEMU
+   executable and these changes stay on the host.
+10. Device captures and partition backups are evidence, not imported source.
    They remain local and are never uploaded by this repository's scripts.
 
 The initial EDK2 commit is retained to avoid changing compiler compatibility

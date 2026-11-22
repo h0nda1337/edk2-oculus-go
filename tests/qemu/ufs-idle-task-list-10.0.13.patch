@@ -1,0 +1,31 @@
+--- a/hw/ufs/ufs.c
++++ b/hw/ufs/ufs.c
+@@ -696,6 +696,11 @@
+             u->reg.hce = FIELD_DP32(u->reg.hce, HCE, HCE, 1);
+         } else if (FIELD_EX32(u->reg.hce, HCE, HCE) &&
+                    !FIELD_EX32(data, HCE, HCE)) {
++            /* Idle legacy lists stop when the host is disabled. */
++            if (!u->reg.utrldbr && !u->reg.utmrldbr) {
++                u->reg.utrlrsr = 0;
++                u->reg.utmrlrsr = 0;
++            }
+             u->reg.hcs = 0;
+             u->reg.hce = FIELD_DP32(u->reg.hce, HCE, HCE, 0);
+         }
+@@ -740,10 +745,15 @@
+     case A_MCQCONFIG:
+         u->reg.mcqconfig = data;
+         break;
++    case A_UTMRLRSR:
++        /* Model only the idle task-list latch. No task UPIUs are executed. */
++        if (FIELD_EX32(u->reg.hce, HCE, HCE) && !u->reg.utmrldbr) {
++            u->reg.utmrlrsr = data & 1;
++        }
++        break;
+     case A_UTRLCLR:
+     case A_UTMRLDBR:
+     case A_UTMRLCLR:
+-    case A_UTMRLRSR:
+         trace_ufs_err_unsupport_register_offset(offset);
+         break;
+     default:
