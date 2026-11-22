@@ -1,0 +1,152 @@
+{
+  "outcome": "PASS-QEMU-V2-ROUTE",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "v2": "synthetic host snapshot, classic stream matching, AArch64 S2 test profile",
+  "backend": "QEMU PCI UFS and SMMUv3 with read-only null-co LUN 4",
+  "cpuPage": "0x80441000",
+  "virtualSidFromPciAndDtb": 8,
+  "pacificUfsSid": "UNKNOWN",
+  "pacificBus": "UNKNOWN",
+  "mediaReads": 0,
+  "mediaWrites": 0,
+  "cases": [
+    {
+      "case": "masked-s2",
+      "testedSid": 8,
+      "backend": "stage2",
+      "slot": 3,
+      "route": "S2",
+      "endpoints": [
+        {
+          "cpu": "0x80441000",
+          "bus": "0x85120000",
+          "data": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80441ff8",
+          "bus": "0x85120ff8",
+          "data": "0011ffff00001000"
+        }
+      ],
+      "capacityCommands": 4
+    },
+    {
+      "case": "masked-bypass",
+      "testedSid": 8,
+      "backend": "bypass",
+      "slot": 3,
+      "route": "bypass",
+      "endpoints": [
+        {
+          "cpu": "0x80441000",
+          "bus": "0x80441000",
+          "data": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80441ff8",
+          "bus": "0x80441ff8",
+          "data": "0011ffff00001000"
+        }
+      ],
+      "capacityCommands": 4
+    },
+    {
+      "case": "missing-identity",
+      "testedSid": null,
+      "backend": "bypass",
+      "refused": "UFS stream identity unavailable",
+      "capacityCommands": 0
+    },
+    {
+      "case": "unsupported-numsidb",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "unsupported stream mode",
+      "capacityCommands": 0
+    },
+    {
+      "case": "foreign-id-bit",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "unrepresentable stream match",
+      "capacityCommands": 0
+    },
+    {
+      "case": "no-match-fault",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "unmatched stream faults",
+      "capacityCommands": 0
+    },
+    {
+      "case": "no-match-default",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "unmatched default unresolved",
+      "capacityCommands": 0
+    },
+    {
+      "case": "stream-fault",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "stream fault",
+      "capacityCommands": 0
+    },
+    {
+      "case": "overlap",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "overlapping matches",
+      "capacityCommands": 0
+    },
+    {
+      "case": "truncated",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "incomplete stream snapshot",
+      "capacityCommands": 0
+    },
+    {
+      "case": "clientpd",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "unsupported stream mode",
+      "capacityCommands": 0
+    },
+    {
+      "case": "missing-context",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "unsupported or missing context",
+      "capacityCommands": 0
+    },
+    {
+      "case": "different-stage",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "unverified context geometry",
+      "capacityCommands": 0
+    },
+    {
+      "case": "wrong-root",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "context root disagrees with backend",
+      "capacityCommands": 0
+    },
+    {
+      "case": "bypass-on-translated-backend",
+      "testedSid": 8,
+      "backend": "stage2",
+      "refused": "bypass disagrees with backend",
+      "capacityCommands": 0
+    },
+    {
+      "case": "wrong-page",
+      "testedSid": 8,
+      "backend": "other-page",
+      "refused": "page absent",
+      "capacityCommands": 0
+    }
+  ]
+}
