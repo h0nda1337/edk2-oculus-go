@@ -54,6 +54,7 @@ def embedded_shell(fd, reference):
     volume = unique(s[4:] for kind, s in sections(payload) if kind == 0x17)
     entries = list(files(volume))
     modules = {}
+    transport_sha = None
     for kind, guid, body in entries:
         if kind == 0xF0 or (kind == 2 and str(guid) == "fc510ee7-ffdc-11d4-bd41-0080c73c8881"):
             continue
@@ -64,6 +65,12 @@ def embedded_shell(fd, reference):
         if name in modules:
             raise ValueError("Duplicate module in FV")
         modules[name] = str(guid)
+        if name == "UfsPassThruDxe":
+            transport = unique(sec[4:] for tag, sec in sections(body) if tag == 0x10)
+            if (str(guid) != "e7f1dff9-dab6-498a-9adf-57f344eddf57"
+                    or transport != reference.with_name("UfsPassThruDxe.efi").read_bytes()):
+                raise ValueError("UFS transport in FV differs from the compiled driver")
+            transport_sha = sha(transport)
     body = unique(b for kind, guid, b in entries if kind == 9 and guid == UUID(SHELL_GUID))
     pe = unique(s[4:] for kind, s in sections(body) if kind == 0x10)
     if pe != reference.read_bytes():
@@ -79,6 +86,7 @@ def embedded_shell(fd, reference):
     return {
         "shellPeSha256": sha(pe),
         "shellPeBytes": len(pe),
+        "ufsTransportSha256": transport_sha,
         "innerFvSha256": sha(volume),
         "modules": modules,
     }
@@ -102,6 +110,7 @@ def inspect_pacific(fd, reference):
         "RealTimeClock",
         "ConSplitterDxe",
         "GoBdsDxe",
+        "UfsPassThruDxe",
         "Shell",
         "ArmGicDxe",
         "ArmCpuDxe",
@@ -118,7 +127,9 @@ def inspect_pacific(fd, reference):
         **report,
         "fdSha256": sha(data),
         "shellFileGuid": SHELL_GUID,
-        "flashBackedStorageDrivers": [],
+        "flashBackedStorageDrivers": ["UfsPassThruDxe"],
+        "ufsPassThruDriver": report["modules"]["UfsPassThruDxe"],
+        "nativeUfsHostControllerDrivers": [],
     }
 
 

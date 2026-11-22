@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 
 
 def host_path(text):
@@ -23,6 +24,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--build', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--report', type=Path, help='EDK2 build report for this invocation')
+    parser.add_argument('--ufs-inf', type=Path, help='active staged INF used by this Shell build')
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     build = host_path(args.build)
@@ -47,15 +50,44 @@ def main():
         raise SystemExit('EDK2 tracked source changes found')
     tracked = set(git_output('ls-files', '-z').split('\0'))
     paths = set()
-    lists = sorted(build.rglob('deps.txt'))
+    transport_root = (root / 'build/ufs-transport').resolve()
+    transport = None
+    if args.ufs_inf:
+        stage_tool = [sys.executable, str(root / 'tools/stage_ufs_transport.py'), '--verify-only']
+        inf = subprocess.check_output(stage_tool, text=True, cwd=root).strip()
+        staged_inf = (root / inf).resolve()
+        if staged_inf != (root / args.ufs_inf).resolve() or args.report is None:
+            raise SystemExit('Active UFS module differs from the verified lock or lacks a build report')
+        reported = re.findall(r'^Module INF Path:\s*(.+?)\s*$', args.report.read_text(), re.M)
+        ufs_modules = [(root / item).resolve() for item in reported
+                       if Path(item).name == 'UfsPassThruDxe.inf']
+        if ufs_modules != [staged_inf]:
+            raise SystemExit(f'Unexpected UFS module(s) in build report: {ufs_modules}')
+        transport = staged_inf.parent
+
+    # Cached outputs from previous recipes can share the platform target dir.
+    # Verify the module selected by this build and reject links to older recipes.
+    transport_outputs = build / 'AARCH64/build/ufs-transport'
+    active_outputs = (build / 'AARCH64' / transport.relative_to(root)) if transport else None
+
+    def obsolete_module(path):
+        return (path.is_relative_to(transport_outputs) and active_outputs is not None
+                and not path.is_relative_to(active_outputs))
+
+    lists = sorted(path for path in build.rglob('deps.txt') if not obsolete_module(path))
+    if transport and not any(path.is_relative_to(active_outputs) for path in lists):
+        raise SystemExit('Missing dependency list for the selected UFS module')
     if not lists:
         raise SystemExit('No compiler dependency lists found')
     for listing in lists:
         for text in listing.read_text().splitlines():
             if text.strip():
                 paths.add(text.strip())
+    input_paths = {host_path(text) for text in paths}
     archives = set()
     for listing in build.rglob('static_library_files.lst'):
+        if obsolete_module(listing):
+            continue
         for text in listing.read_text().splitlines():
             if text.strip():
                 archives.add(text.strip())
@@ -65,7 +97,7 @@ def main():
     rejected = []
     # Resolve each distinct input once; the same EDK2 header occurs in many
     # module lists and repeated drvfs symlink checks are particularly costly.
-    for path in sorted({host_path(text) for text in paths | archives}):
+    for path in sorted(input_paths | {host_path(text) for text in archives}):
         if path.is_relative_to(root / 'edk2'):
             origin = 'upstream-edk2'
             if path.relative_to(root / 'edk2').as_posix() not in tracked:
@@ -75,6 +107,11 @@ def main():
             origin = 'adapted-edk2-font'
         elif path.is_relative_to(root / 'OculusGoPkg'):
             origin = 'original-project'
+        elif transport is not None and path.is_relative_to(transport):
+            origin = 'adapted-edk2-ufs'
+        elif path.is_relative_to(transport_root) or obsolete_module(path):
+            rejected.append(str(path))
+            continue
         elif path.is_relative_to(build):
             origin = 'edk2-generated'
         else:
@@ -94,7 +131,7 @@ def main():
     host_path(args.output).write_text(json.dumps(result, indent=2) + '\n',
                                      encoding='utf-8', newline='\n')
     counts = {kind: sum(r['origin'] == kind for r in records)
-              for kind in ('original-project', 'upstream-edk2', 'edk2-generated', 'adapted-edk2-font')}
+              for kind in ('original-project', 'upstream-edk2', 'edk2-generated', 'adapted-edk2-font', 'adapted-edk2-ufs')}
     print(json.dumps({'result': result['result'], 'counts': counts,
         'dependencyLists': len(lists), 'rejected': rejected}, indent=2))
     if rejected:

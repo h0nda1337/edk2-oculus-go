@@ -66,6 +66,8 @@ def run(splash, output, pacific_layout=None):
     if digest(splash) != STOCK_HASH:
         raise ValueError("Unexpected private splash digest")
     source = splash.read_bytes()
+    measured = json.loads((ROOT / "docs/evidence/ufs-splash-physical-layout-20261120.json").read_text())
+    pacific_last = measured["lunBytes"] // measured["logicalBlockBytes"] - 1
     result = {
         "qemu": subprocess.check_output(["qemu-system-aarch64", "--version"], text=True).splitlines()[0],
         "splashSha256": STOCK_HASH, "sectorBytes": SECTOR, "cases": {},
@@ -91,14 +93,16 @@ def run(splash, output, pacific_layout=None):
             f.truncate(1024 * 1024)
         cases = [("stock", 4), ("moved", 2), ("sparse", 4), ("wrong-label", 4),
                           ("bad-header-crc", 4), ("bad-entries-crc", 4), ("outside-range", 4),
-                          ("duplicate", 4), ("bad-logo", 4)]
+                          ("duplicate", 4), ("bad-logo", 4), ("wrong-geometry", 4)]
         positive = {"stock", "moved", "sparse", "pacific"}
         for case, lun in ([("pacific", 4)] if pacific_layout else cases):
             image = work / "gpt.raw"
             if pacific_layout:
                 result["geometry"] = write_lun(image, source, pacific_layout)
             else:
-                disk(image, source, "other" if case == "wrong-label" else "splash", sector=SECTOR)
+                last = pacific_last - int(case == "wrong-geometry") if lun == 4 else None
+                disk(image, source, "other" if case == "wrong-label" else "splash",
+                     sector=SECTOR, last_lba=last)
             if case == "bad-header-crc":
                 flip(image, SECTOR + 16)
             elif case == "bad-entries-crc":
@@ -148,9 +152,20 @@ def run(splash, output, pacific_layout=None):
                 raise AssertionError((case, "unexpected UFS management operations", query_ops))
             matches = re.findall(r"ufs_exec_scsi_cmd slot \d+, lun 0x([\da-fA-F]+), opcode 0x([\da-fA-F]+)", trace_text)
             commands = Counter((int(unit, 16), int(op, 16)) for unit, op in matches)
-            if not commands[(lun, 0x28)] or not commands[(0, 0x25)] or any(
+            if case == "wrong-geometry":
+                if set(commands) != {(4, 0x25)}:
+                    raise AssertionError((case, "unexpected CDB after capacity mismatch", commands))
+            elif lun == 4:
+                stream = [(int(unit, 16), int(op, 16)) for unit, op in matches]
+                first_read = next((i for i, (_, op) in enumerate(stream) if op == 0x28), 0)
+                if first_read < 2 or any(unit != 4 for unit, _ in stream) or any(
+                    op != 0x25 for _, op in stream[:first_read]
+                ):
+                    raise AssertionError((case, "GPT before LUN 4 capacity pair", stream))
+            if ((case != "wrong-geometry" and not commands[(lun, 0x28)])
+                or (lun != 4 and not commands[(0, 0x25)]) or any(
                 op not in (0x25, 0x28) or unit not in range(lun + 1) for unit, op in commands
-            ):
+            )):
                 raise AssertionError((case, commands))
             if before != {p.name: digest(p) for p in (image, blank)}:
                 raise AssertionError("UFS backing digest changed")

@@ -14,8 +14,10 @@
 [LibraryClasses]
   BaseLib
   BaseMemoryLib
+  DebugLib
   MemoryAllocationLib
   UefiBootServicesTableLib
 [Protocols]
   gEdkiiUfsHostControllerProtocolGuid
   gEfiExtScsiPassThruProtocolGuid
+  gGoUfsCapacityProtocolGuid

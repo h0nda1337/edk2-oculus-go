@@ -20,13 +20,15 @@ ROOT = Path(__file__).resolve().parents[1]
 BDS = ROOT / "OculusGoPkg/Drivers/GoBdsDxe"
 
 
-def disk(path, payload, label, sector=512):
+def disk(path, payload, label, sector=512, last_lba=None):
     if sector not in (512, 4096) or not payload or len(payload) % sector:
         raise ValueError("Fixture must contain whole logical blocks")
     start = 2048
     table_blocks = 128 * 128 // sector
     end = start + len(payload) // sector - 1
-    last = end + 2048
+    last = end + 2048 if last_lba is None else last_lba
+    if end >= last - table_blocks:
+        raise ValueError("Fixture does not fit the requested geometry")
     entries = bytearray(128 * 128)
     struct.pack_into(
         "<16s16sQQQ",

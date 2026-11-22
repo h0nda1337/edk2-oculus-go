@@ -189,6 +189,7 @@ APRIORI DXE {
   INF MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   INF EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
   INF MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitterDxe.inf
+  INF $(GO_UFS_INF)
   INF OculusGoPkg/Drivers/GoBdsDxe/GoBdsDxe.inf
   INF ShellPkg/Application/Shell/Shell.inf
 !endif

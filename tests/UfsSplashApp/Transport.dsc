@@ -34,7 +34,7 @@
 
 [Components]
   MdeModulePkg/Bus/Pci/UfsPciHcDxe/UfsPciHcDxe.inf
-  build/ufs-test-sources/UfsPassThruDxe/UfsPassThruDxe.inf
+  $(GO_UFS_INF)
   tests/UfsSplashApp/UfsSplashApp.inf
   tests/UfsSplashApp/UfsCapacityMap.inf
   tests/UfsSplashApp/UfsOwnedPage.inf

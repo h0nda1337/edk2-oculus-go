@@ -338,6 +338,7 @@
   MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
   MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitterDxe.inf
+  $(GO_UFS_INF)
   OculusGoPkg/Drivers/GoBdsDxe/GoBdsDxe.inf
   ShellPkg/Application/Shell/Shell.inf {
     <LibraryClasses>

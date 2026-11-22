@@ -21,13 +21,6 @@ if command -v git.exe >/dev/null && command -v wslpath >/dev/null; then
 fi
 test "$("${source_git[@]}" rev-parse HEAD | tr -d '\r')" = "$expected"
 "${source_git[@]}" diff --quiet HEAD --
-# Generate just this nine-file EDK2 module from the pinned checkout. Use
-# canonical Git blobs independently of checkout line-ending settings.
-module=MdeModulePkg/Bus/Ufs/UfsPassThruDxe
-overlay=build/ufs-test-sources/UfsPassThruDxe
-mkdir -p "$overlay"
-git -C edk2 archive "$expected:$module" | tar -x -C "$overlay"
-sed -i 's/\r$//' "$overlay/UfsPassThru.c"
-patch --batch --fuzz=0 -d "$overlay" -p1 < tests/UfsSplashApp/ufs-sparse-units.patch
+ufs_inf=$(python3 tools/stage_ufs_transport.py)
 python3 "$EDK_TOOLS_PATH/Source/Python/build/build.py" -a AARCH64 -t GCC5 -b DEBUG \
-  -p tests/UfsSplashApp/Transport.dsc -n 12
+  -p tests/UfsSplashApp/Transport.dsc -D "GO_UFS_INF=$ufs_inf" -n 12

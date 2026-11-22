@@ -10,6 +10,7 @@ build_mode=${3:-NORMAL}
 [[ "$jobs" =~ ^[1-9][0-9]*$ ]] || exit 2
 build_flavor=OculusGo
 build_arguments=()
+audit_arguments=()
 case "$build_mode" in
   NORMAL) ;;
   SHELL_QEMU) build_flavor=OculusGoShellQemu ;;
@@ -75,6 +76,11 @@ fi
 actual=$("${git_command[@]}" -C "$git_root" rev-parse HEAD | tr -d '\r')
 [[ "$actual" == "$expected" ]] || { echo 'EDK2 commit mismatch' >&2; exit 3; }
 "${git_command[@]}" -C "$git_root" diff --quiet HEAD -- || { echo 'EDK2 source modifications found' >&2; exit 3; }
+if [[ "$build_mode" == NORMAL || "$build_mode" == SHELL_QEMU ]]; then
+  ufs_inf=$(python3 tools/stage_ufs_transport.py)
+  build_arguments+=(-D "GO_UFS_INF=$ufs_inf")
+  audit_arguments+=(--ufs-inf "$ufs_inf")
+fi
 mkdir -p "$CONF_PATH" "$project_root/logs"
 for name in target tools_def build_rule; do
   [[ -f "$CONF_PATH/$name.txt" ]] || cp "$EDK_TOOLS_PATH/Conf/$name.template" "$CONF_PATH/$name.txt"
@@ -92,5 +98,6 @@ cp "$project_root/Build/$build_flavor/${build_target}_GCC5/FV/OCULUS_GO_DIRECT.f
 cp "$project_root/Build/$build_flavor/${build_target}_GCC5/FV/Guid.xref" "$report_dir/"
 python3 "$project_root/tools/verify_fd.py" "$report_dir/OCULUS_GO_DIRECT.fd" --report "$report_dir/VERIFY.json"
 python3 "$project_root/tools/audit_build_sources.py" \
-  --build "$project_root/Build/$build_flavor/${build_target}_GCC5" --output "$report_dir/SOURCES.json"
+  --build "$project_root/Build/$build_flavor/${build_target}_GCC5" --output "$report_dir/SOURCES.json" \
+  --report "$report_dir/BUILD_REPORT.txt" "${audit_arguments[@]}"
 echo "Output: $report_dir"
