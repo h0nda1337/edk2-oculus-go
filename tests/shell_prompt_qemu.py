@@ -54,7 +54,12 @@ def embedded_shell(fd, reference):
     volume = unique(s[4:] for kind, s in sections(payload) if kind == 0x17)
     entries = list(files(volume))
     modules = {}
-    transport_sha = None
+    expected_driver_guids = {
+        "PacificUfsDxe": "8e92a8a5-00fa-4a8b-bfa9-051767e184e9",
+        "GoUfsHcDxe": "b6d1b708-b039-43cf-8ec9-dcd66bceec37",
+        "UfsPassThruDxe": "e7f1dff9-dab6-498a-9adf-57f344eddf57",
+    }
+    driver_hashes = {}
     for kind, guid, body in entries:
         if kind == 0xF0 or (kind == 2 and str(guid) == "fc510ee7-ffdc-11d4-bd41-0080c73c8881"):
             continue
@@ -65,12 +70,12 @@ def embedded_shell(fd, reference):
         if name in modules:
             raise ValueError("Duplicate module in FV")
         modules[name] = str(guid)
-        if name == "UfsPassThruDxe":
-            transport = unique(sec[4:] for tag, sec in sections(body) if tag == 0x10)
-            if (str(guid) != "e7f1dff9-dab6-498a-9adf-57f344eddf57"
-                    or transport != reference.with_name("UfsPassThruDxe.efi").read_bytes()):
-                raise ValueError("UFS transport in FV differs from the compiled driver")
-            transport_sha = sha(transport)
+        if name in expected_driver_guids:
+            driver = unique(sec[4:] for tag, sec in sections(body) if tag == 0x10)
+            if (kind != 7 or str(guid) != expected_driver_guids[name]
+                    or driver != reference.with_name(f"{name}.efi").read_bytes()):
+                raise ValueError(f"{name} in FV differs from the compiled driver")
+            driver_hashes[name] = sha(driver)
     body = unique(b for kind, guid, b in entries if kind == 9 and guid == UUID(SHELL_GUID))
     pe = unique(s[4:] for kind, s in sections(body) if kind == 0x10)
     if pe != reference.read_bytes():
@@ -86,7 +91,8 @@ def embedded_shell(fd, reference):
     return {
         "shellPeSha256": sha(pe),
         "shellPeBytes": len(pe),
-        "ufsTransportSha256": transport_sha,
+        "ufsTransportSha256": driver_hashes.get("UfsPassThruDxe"),
+        "ufsDriverPeSha256": driver_hashes,
         "innerFvSha256": sha(volume),
         "modules": modules,
     }
@@ -111,6 +117,8 @@ def inspect_pacific(fd, reference):
         "ConSplitterDxe",
         "GoBdsDxe",
         "UfsPassThruDxe",
+        "PacificUfsDxe",
+        "GoUfsHcDxe",
         "Shell",
         "ArmGicDxe",
         "ArmCpuDxe",
@@ -127,9 +135,10 @@ def inspect_pacific(fd, reference):
         **report,
         "fdSha256": sha(data),
         "shellFileGuid": SHELL_GUID,
-        "flashBackedStorageDrivers": ["UfsPassThruDxe"],
+        "flashBackedStorageDrivers": ["GoUfsHcDxe", "UfsPassThruDxe"],
         "ufsPassThruDriver": report["modules"]["UfsPassThruDxe"],
-        "nativeUfsHostControllerDrivers": [],
+        "nativeUfsHostControllerDrivers": ["GoUfsHcDxe"],
+        "ufsBoardEnumerator": "PacificUfsDxe",
     }
 
 
@@ -248,6 +257,57 @@ def wait_for_prompt(wire, log, surface, deadline, trace_loader, layout, welcome=
     raise TimeoutError("Prompt not observed. " + regs[:330] + " " + serial[-1700:])
 
 
+def pacific_ufs_handoff(wire, path):
+    """Follow the live UEFI configuration table in the NORMAL guest's DXE arena."""
+    base, size = 0x80480000, 0x1000000
+    request(wire, "pmemsave", {"val": base, "size": size, "filename": str(path)})
+    arena = path.read_bytes()
+
+    def read(address, length):
+        if address < base or address + length > base + len(arena):
+            raise ValueError("UEFI table lies outside the virtual DXE arena")
+        return arena[address-base:address-base+length]
+
+    # CoreInitializeDebugImageInfoTable publishes the UEFI table pointer at a
+    # 4 MiB boundary. Check the destination header before following its entries.
+    signature = b"IBI SYST"
+    tables = [struct.unpack("<Q", read(addr+8, 8))[0]
+              for addr in range(0x80800000, base+size, 0x400000) if read(addr, 8) == signature]
+    if len(tables) != 1 or read(tables[0], 8) != signature:
+        raise ValueError("Live EFI system table was not found")
+    count, array = struct.unpack("<QQ", read(tables[0]+104, 16))
+    if not 1 <= count <= 256:
+        raise ValueError("Invalid EFI configuration table count")
+    hob_guid = UUID("7739f24c-93d7-11d4-9a3a-0090273fc14d").bytes_le
+    hobs = [p for guid, p in struct.iter_unpack("<16sQ", read(array, 24*count)) if guid == hob_guid]
+    if len(hobs) != 1:
+        raise ValueError("No unique HOB list in the live system table")
+    cursor = hobs[0]
+    resource = UUID("d1c40495-d0b1-48bd-8d3e-5e991b9c24cc").bytes_le
+    board, mmio = [], []
+    for _ in range(1024):
+        kind, length, reserved = struct.unpack("<HHI", read(cursor, 8))
+        if reserved or length < 8 or length % 8:
+            raise ValueError("Malformed HOB at the Shell prompt")
+        body = read(cursor+8, length-8)
+        if kind == 0xffff:
+            break
+        if kind == 4 and body[:16] == resource:
+            board.append(struct.unpack("<QII", body[16:]))
+        if kind == 3:
+            typ, attrs, start, span = struct.unpack("<IIQQ", body[16:])
+            if typ == 1 and start == 0x624000:
+                mmio.append((attrs, span))
+        cursor += length
+    else:
+        raise ValueError("Missing HOB list terminator")
+    if board != [(0x624000, 0x2500, 0)] or mmio != [(0x401, 0x3000)]:
+        raise ValueError(f"Unexpected Pacific UFS handoff: {board!r}, {mmio!r}")
+    return {"source": "live UEFI system configuration table at Shell prompt",
+            "registerBase": hex(board[0][0]), "registerBytes": board[0][1],
+            "dmaCoherent": bool(board[0][2]), "reservedMmioBytes": mmio[0][1]}
+
+
 def verify_viewport(frame, rows, layout):
     columns, height, cell_w, cell_h = LAYOUTS[layout]
     left = (EYE_WIDTH - columns * cell_w) // 2
@@ -363,6 +423,8 @@ def run(fd, reference, output, timeout, el, dtb=None, layout="wide", observe_wel
                     assert "QMP" in json.loads(wire.readline())
                     request(wire, "qmp_capabilities")
                     frame, rows, serial = wait_for_prompt(wire, log, surface, deadline, dtb is None, layout, welcome, mark)
+                    if dtb is not None and "PacificUfsDxe" in evidence["modules"]:
+                        evidence["pacificUfsHob"] = pacific_ufs_handoff(wire, Path(tmp) / "dxe-arena")
             loads = re.findall(r"Loading driver at [^\r\n]+ (?:GoBdsDxe|Shell)\.efi", serial)
             if dtb is None and [line.split()[-1] for line in loads] != [
                 "GoBdsDxe.efi",

@@ -172,14 +172,27 @@ def run_case(work, modules, name, ram, marker):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", required=True, type=Path)
+    parser.add_argument("--normal-build", type=Path,
+                        help="Use both UFS driver PEs verified against the NORMAL build's firmware volume")
     args = parser.parse_args()
+    driver_dir = EFI
+    normal_fd = None
+    if args.normal_build is not None:
+        from shell_prompt_qemu import inspect_pacific
+        driver_dir = args.normal_build / "AARCH64"
+        normal_fd = inspect_pacific(args.normal_build / "FV/OCULUS_GO_DIRECT.fd", driver_dir / "Shell.efi")
     results = []
     with tempfile.TemporaryDirectory() as tmp:
         modules = Path(tmp) / "modules"
         modules.mkdir()
         for name in MODULES:
-            shutil.copyfile(EFI / name, modules / name)
+            source = EFI if name == "UfsPlatformBuffer.efi" else driver_dir
+            shutil.copyfile(source / name, modules / name)
         binaries = {name: digest(modules / name) for name in MODULES}
+        if normal_fd:
+            for driver in MODULES[1:]:
+                require(binaries[driver] == normal_fd["ufsDriverPeSha256"][Path(driver).stem],
+                        f"{driver} changed since FV verification")
         for name, ram, marker in CASES:
             work = Path(tmp) / name
             work.mkdir()
@@ -196,6 +209,8 @@ def main():
               "checkedAccess": "Fixture enforces operation-specific grant/revoke on the platform handle. "
                                "QEMU's SMMU trace correlates the virtual requester and bus addresses.",
               "pacificPhysicalDmaAddress": "UNKNOWN", "cases": results}
+    if normal_fd:
+        report["normalFdSha256"] = normal_fd["fdSha256"]
     with tempfile.TemporaryDirectory(dir=args.report.parent) as tmp:
         path = Path(tmp) / "evidence.json"
         path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

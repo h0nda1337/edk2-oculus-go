@@ -5,8 +5,8 @@
   "firmwareSha256": "5d3147294c56ce8cb636c57c181776a89bc7ba254274c35698dc5795758052d3",
   "efiSha256": {
     "UfsPlatformBuffer.efi": "ec7a795cdf05d8fe5b57fd30b83508e452f8c4fc369c32eadbd2bef09e44b299",
-    "GoUfsHcDxe.efi": "0a5dac590fde51a220a5689ea5d49f0c620097aeb9cd6f2ac6a1456715cc86b0",
-    "UfsPassThruDxe.efi": "e3e28ad0a1523b077150df95d79bc0378f8a9b029e7181f7229c7641d8434a33"
+    "GoUfsHcDxe.efi": "a211dc1d7b425c938e80ea8fa8f8c006589b5f634f8bf34c456b3e67f63c2077",
+    "UfsPassThruDxe.efi": "569a8f19899ca52fdcef9380a960b1484475eaa3cc9bf47f2f146161dfd7d508"
   },
   "virtualBus": "Non-discoverable UFS resource + controller-local GoUfsPlatformDma (EDKII_IOMMU_PROTOCOL ABI)",
   "pciBackend": "QEMU PCI BAR and PciIo DMA; UfsPciHcDxe omitted",
@@ -20,7 +20,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 325,
+        "ufs_mmio_read": 316,
         "ufs_mmio_write": 57
       },
       "resourceBase": "0x10000000",
@@ -64,7 +64,7 @@
           "bytes": "0011ffff00001000"
         }
       ],
-      "traceSha256": "4a04cb5f44302bdf401dc5b00c22805cbe34dab387be95a408590ba4a46f7916",
+      "traceSha256": "124956a83c1f20da62d24ff2b2f0b1368726bbf44f476e0f8687d7806b09b703",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
@@ -90,7 +90,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 308,
+        "ufs_mmio_read": 354,
         "ufs_mmio_write": 57
       },
       "resourceBase": "0x10000000",
@@ -134,7 +134,7 @@
           "bytes": "0011ffff00001000"
         }
       ],
-      "traceSha256": "b40b310ac9cdb72f114b3c377fce895fea505ba88fda06b3fa11d0522a505a76",
+      "traceSha256": "761357e10e89bd537f78efb61c82c7f40d3bb72c4918461433a2154434d2accd",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
@@ -160,7 +160,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 315,
+        "ufs_mmio_read": 357,
         "ufs_mmio_write": 57
       },
       "resourceBase": "0x10000000",
@@ -187,35 +187,35 @@
       "capacityObservations": [
         {
           "cpu": "0x6ea75000",
-          "dma": "0x6ea5e000",
+          "dma": "0x6ea63000",
           "mappedBytes": 8,
           "bytes": "a5a5a5a5a5a5a5a5"
         },
         {
           "cpu": "0x6ea75000",
-          "dma": "0x6ea5e000",
+          "dma": "0x6ea63000",
           "mappedBytes": 8,
           "bytes": "0011ffff00001000"
         },
         {
           "cpu": "0x6ea75ff8",
-          "dma": "0x6ea5e000",
+          "dma": "0x6ea63000",
           "mappedBytes": 8,
           "bytes": "0011ffff00001000"
         }
       ],
-      "traceSha256": "cd626e7c81c56b4443551194226e899ab555660e6a06c5ca03ebef73c3abe681",
+      "traceSha256": "865981bacf2c9f11475339d57cc5ee85a402a5faebbf4ea4ed1ba17051833b05",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
         "PLATFORM BIND Success HC 1 PCI 0",
         "PLATFORM HC BAR 10000000",
         "PLATFORM TRANSPORT Success",
-        "PLATFORM DATA CPU 6EA75000 DMA 6EA5E000 MAPPED 8 BYTES A5A5A5A5A5A5A5A5",
-        "PLATFORM DATA CPU 6EA75000 DMA 6EA5E000 MAPPED 8 BYTES 0011FFFF00001000",
-        "PLATFORM DATA CPU 6EA75FF8 DMA 6EA5E000 MAPPED 8 BYTES 0011FFFF00001000",
-        "PLATFORM END 0 CPU 6EA75000 DMA 6EA5E000 BYTES 0011FFFF00001000",
-        "PLATFORM END 1 CPU 6EA75FF8 DMA 6EA5E000 BYTES 0011FFFF00001000",
+        "PLATFORM DATA CPU 6EA75000 DMA 6EA63000 MAPPED 8 BYTES A5A5A5A5A5A5A5A5",
+        "PLATFORM DATA CPU 6EA75000 DMA 6EA63000 MAPPED 8 BYTES 0011FFFF00001000",
+        "PLATFORM DATA CPU 6EA75FF8 DMA 6EA63000 MAPPED 8 BYTES 0011FFFF00001000",
+        "PLATFORM END 0 CPU 6EA75000 DMA 6EA63000 BYTES 0011FFFF00001000",
+        "PLATFORM END 1 CPU 6EA75FF8 DMA 6EA63000 BYTES 0011FFFF00001000",
         "PLATFORM STOP TRANSPORT Success",
         "PLATFORM STOP HC Success",
         "PLATFORM PROBE DENIED 0 REVOKE FAILED 0",
@@ -230,7 +230,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 326,
+        "ufs_mmio_read": 404,
         "ufs_mmio_write": 56
       },
       "resourceBase": "0x10000000",
@@ -267,7 +267,7 @@
           "bytes": "0011fffe00001000"
         }
       ],
-      "traceSha256": "767500966d2d0f66a0ef0526ea026c339162e8150ffc86052666b1bd5489de46",
+      "traceSha256": "41fa63a58aad16086b8a4c3973a0773c16681d1f034b25fa66f12809b6fa1aeb",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
@@ -290,7 +290,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 316,
+        "ufs_mmio_read": 365,
         "ufs_mmio_write": 56
       },
       "resourceBase": "0x10000000",
@@ -333,7 +333,7 @@
           "bytes": "a5a5a5a5a5a5a5a5"
         }
       ],
-      "traceSha256": "d87369dcfb5ac40e6fa4e6d977a7de3942cfe66904fc63fe2af989091fafe134",
+      "traceSha256": "428534d8f91b09bfbda91912fa94f42f69ff9a27da791e725107a4c0c8b0572b",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
@@ -357,7 +357,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 305,
+        "ufs_mmio_read": 346,
         "ufs_mmio_write": 56
       },
       "resourceBase": "0x10000000",
@@ -400,7 +400,7 @@
           "bytes": "a5a5a5a5a5a5a5a5"
         }
       ],
-      "traceSha256": "f1d2baf91c60e4567f1dfe12f78daee2962cc6fe36f8a3b9a5f0c7d0acf96409",
+      "traceSha256": "e9759a8785ab1a52a16fc723a00f65ae9b16f23a1cedfaa0e59b25527bcc5549",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
@@ -576,7 +576,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 312,
+        "ufs_mmio_read": 338,
         "ufs_mmio_write": 57
       },
       "resourceBase": "0x10000000",
@@ -620,7 +620,7 @@
           "bytes": "0011ffff00001000"
         }
       ],
-      "traceSha256": "7c3f9bcbb23e481c8be31699188749db3a898e471b6c1d07ee1ff247df717289",
+      "traceSha256": "085bbdd46f06087bf5b4aa17b8bc5747845a7cd7853e1f6b64e6aa60b525cdc8",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
@@ -644,7 +644,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 367,
+        "ufs_mmio_read": 335,
         "ufs_mmio_write": 57
       },
       "resourceBase": "0x10000000",
@@ -688,7 +688,7 @@
           "bytes": "0011ffff00001000"
         }
       ],
-      "traceSha256": "d0b207ebdd52a6ea7d20883f244f76c67ea2f7fdbcafc2e5c237ff9ddbd06772",
+      "traceSha256": "b4949c13fa7ad478fe8dbd595d13ed43d897b41dba8ffdd6f075b143e619bee2",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
@@ -715,7 +715,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 311,
+        "ufs_mmio_read": 321,
         "ufs_mmio_write": 54
       },
       "resourceBase": "0x10000000",
@@ -736,7 +736,7 @@
       "ufsSectorWrites": 0,
       "backingSha256BeforeAndAfter": null,
       "capacityObservations": [],
-      "traceSha256": "ecc551fbff3a0240b34366d9a0410c3e1b6ddd345b85cdf4c5b3f533e73821d7",
+      "traceSha256": "2ae278acfcba12e98fcee37c066ec70568d3f4f2b55413fc06c9b46bf9ba1ae9",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
@@ -758,7 +758,7 @@
       "hostBinding": "Success",
       "hcPublished": true,
       "mmioTraceCounts": {
-        "ufs_mmio_read": 365,
+        "ufs_mmio_read": 412,
         "ufs_mmio_write": 60
       },
       "resourceBase": "0x10000000",
@@ -800,31 +800,31 @@
       "backingSha256BeforeAndAfter": "71e91742bd3a8fdba8d804777e2057c2d74e757bc8483f7a7a890b5296b6e9f8",
       "capacityObservations": [
         {
-          "cpu": "0x6ea4e000",
-          "dma": "0x6ea4e000",
+          "cpu": "0x6ea3c000",
+          "dma": "0x6ea3c000",
           "mappedBytes": 8,
           "bytes": "a5a5a5a5a5a5a5a5"
         },
         {
-          "cpu": "0x6ea4e000",
-          "dma": "0x6ea4e000",
+          "cpu": "0x6ea3c000",
+          "dma": "0x6ea3c000",
           "mappedBytes": 8,
           "bytes": "0011ffff00001000"
         },
         {
-          "cpu": "0x6ea4eff8",
-          "dma": "0x6ea4eff8",
+          "cpu": "0x6ea3cff8",
+          "dma": "0x6ea3cff8",
           "mappedBytes": 8,
           "bytes": "0011ffff00001000"
         }
       ],
-      "traceSha256": "d7bd2f3af292a7f802d3f9d6d6a957bae02c44cdcac53ac6167e769ff368c48a",
+      "traceSha256": "04576de748c0aef7abe736266f9f3473e7c75610354c84b3a6ba09c610ba4d9d",
       "guestLog": [
         "PLATFORM RESOURCE 10000000 SIZE 2000",
         "PLATFORM PCI DMA SERVICE PRESERVED",
-        "PLATFORM DATA CPU 6EA4E000 DMA 6EA4E000 MAPPED 8 BYTES A5A5A5A5A5A5A5A5",
-        "PLATFORM DATA CPU 6EA4E000 DMA 6EA4E000 MAPPED 8 BYTES 0011FFFF00001000",
-        "PLATFORM DATA CPU 6EA4EFF8 DMA 6EA4EFF8 MAPPED 8 BYTES 0011FFFF00001000",
+        "PLATFORM DATA CPU 6EA3C000 DMA 6EA3C000 MAPPED 8 BYTES A5A5A5A5A5A5A5A5",
+        "PLATFORM DATA CPU 6EA3C000 DMA 6EA3C000 MAPPED 8 BYTES 0011FFFF00001000",
+        "PLATFORM DATA CPU 6EA3CFF8 DMA 6EA3CFF8 MAPPED 8 BYTES 0011FFFF00001000",
         "PLATFORM BDS GPT MARKER FOUND",
         "PLATFORM BIND Success HC 1 PCI 0",
         "PLATFORM HC BAR 10000000",
@@ -836,5 +836,6 @@
         "PLATFORM RESULT Success"
       ]
     }
-  ]
+  ],
+  "normalFdSha256": "177a7052c449e614f5b98ccdfd5424d757f22c33674fc15f6c2048f6640f0539"
 }

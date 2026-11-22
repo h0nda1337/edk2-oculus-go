@@ -1,0 +1,120 @@
+{
+  "shellPeSha256": "30f92b9a31d8efb18f622ace99c693e2eedd1c835f75e53b69237ee12c7d107d",
+  "shellPeBytes": 368640,
+  "ufsTransportSha256": "569a8f19899ca52fdcef9380a960b1484475eaa3cc9bf47f2f146161dfd7d508",
+  "ufsDriverPeSha256": {
+    "PacificUfsDxe": "8bac7908d58b0a989081a4d8023c0a9e6543929eabe6546765a9cd8fd86455b0",
+    "GoUfsHcDxe": "a211dc1d7b425c938e80ea8fa8f8c006589b5f634f8bf34c456b3e67f63c2077",
+    "UfsPassThruDxe": "569a8f19899ca52fdcef9380a960b1484475eaa3cc9bf47f2f146161dfd7d508"
+  },
+  "innerFvSha256": "3be37e77c5b766d7c1b8852c60f7b9bd6652840eeaa5d87c02f02f4e0689b731",
+  "modules": {
+    "DevicePathDxe": "9b680fce-ad6b-4f3a-b60b-f59899003443",
+    "InheritedGopDxe": "8cd15dc8-f091-4917-b779-342c1e0aa2de",
+    "HiiDatabase": "348c4d62-bfbd-4882-9ece-c80bb1c4783b",
+    "EnglishDxe": "cd3bafb6-50fb-4fe8-8e4e-ab74d2c1a600",
+    "VariableRuntimeDxe": "cbd2e4d5-7068-4ff5-b462-9822b4ad8d60",
+    "CapsuleRuntimeDxe": "42857f0a-13f2-4b21-8a23-53d3f714b840",
+    "WatchdogTimer": "f099d67f-71ae-4c36-b2a3-dceb0eb2b7d8",
+    "RealTimeClock": "b336f62d-4135-4a55-ae4e-4971bbf0885d",
+    "ConSplitterDxe": "408edcec-cf6d-477c-a5a8-b4844e3de281",
+    "PacificUfsDxe": "8e92a8a5-00fa-4a8b-bfa9-051767e184e9",
+    "GoUfsHcDxe": "b6d1b708-b039-43cf-8ec9-dcd66bceec37",
+    "UfsPassThruDxe": "e7f1dff9-dab6-498a-9adf-57f344eddf57",
+    "GoBdsDxe": "e1227d54-0dfa-4363-b714-4b580ac97c88",
+    "Shell": "7c04a583-9e3e-4f1c-ad65-e05268d0b4d1",
+    "DxeCore": "d6a2cb7f-6a18-4e2f-b43b-9920a733700a",
+    "PcdDxe": "80cf7257-87ab-47f9-a3fe-d50b76d89541",
+    "TrustMeBroDxe": "54ccb903-e352-4144-a204-2cc03d743e48",
+    "ArmGicDxe": "de371f7c-dec4-4d21-adf1-593abcc15882",
+    "ArmCpuDxe": "b8d9777e-d72a-451f-9bdb-bafb52a68415",
+    "ArmTimerDxe": "49ea041e-6752-42ca-b0b1-7344fe2546b7",
+    "MetronomeDxe": "4c6e0267-c77d-410d-8100-1495911a989d",
+    "EmbeddedMonotonicCounter": "fcabe6a7-7953-4a84-b7ec-d29e89b62e87",
+    "RuntimeDxe": "b601f8c4-43b7-4784-95b1-f4226cb40cee",
+    "ResetSystemRuntimeDxe": "4b28e4c7-ff36-4e10-93cf-a82159e777c5",
+    "SecurityStubDxe": "f80697e9-7fd6-4665-8646-88e33ef71dfc"
+  },
+  "pacificUfsHob": {
+    "source": "live UEFI system configuration table at Shell prompt",
+    "registerBase": "0x624000",
+    "registerBytes": 9472,
+    "dmaCoherent": false,
+    "reservedMmioBytes": 12288
+  },
+  "el": 1,
+  "machine": "virt,gic-version=3,secure=off,virtualization=on",
+  "fdSha256": "177a7052c449e614f5b98ccdfd5424d757f22c33674fc15f6c2048f6640f0539",
+  "shellFileGuid": "7c04a583-9e3e-4f1c-ad65-e05268d0b4d1",
+  "screenRows": [
+    "UEFI Basic Shell v2.2",
+    "EDK II",
+    "UEFI v2.70 (OculusGo UEFI, 0x00000002)",
+    "map: No mapping found.",
+    "",
+    "Shell>",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "eyeGeometry": {
+    "perEyeDimensions": [
+      1280,
+      1440
+    ],
+    "viewportXYWH": [
+      315,
+      557,
+      650,
+      325
+    ],
+    "promptCellBoundsXYWH": [
+      315,
+      682,
+      60,
+      25
+    ]
+  },
+  "eyesMatch": true,
+  "eyeNativeBgrSha256": "92c02d35319625797c82baa19293ae5e95fee4fa6547c3853fc3042fdd7651ec",
+  "eyePngSha256": "f15a8392926b4ca4d73b11dc327220e766c6f124015f59439f88f62b83209841",
+  "uartLoadMessages": [],
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "stockEmblemAbsent": true,
+  "pacificFdAtEl1": true,
+  "dtbSha256": "70ae171c99befc564acec661f3afc4365a831ebd1d6e01ca0e53035a4d8b1f35",
+  "counterHz": 19200000,
+  "el2FixtureSha256": "3851ce8543f634065fae932aa04c1339a61b21d9e2c66449810f398bd4762083",
+  "sourceAudit": {
+    "result": "PASS",
+    "edk2": {
+      "url": "https://github.com/tianocore/edk2.git",
+      "commit": "e7aac7fc137e247edad22f7ee53b9a1fba227397"
+    },
+    "dependencyLists": 107,
+    "linkArchives": 108,
+    "rejected": []
+  },
+  "structuralCheck": "PASS-STRUCTURAL-ONLY",
+  "scope": "NORMAL firmware under QEMU using the stock EVT tree, with no physical UFS host attached",
+  "originalSourceHashes": {
+    "OculusGoPkg/Drivers/GoUfsHcDxe/Dma.c": "67ee3c46d14bbb53495dfaf6b85a82aeda6e7811f5d0ccf764b7722d284d3418",
+    "OculusGoPkg/Drivers/GoUfsHcDxe/GoUfsHc.c": "a99cf061d0fb35e1d84768fd4fc96571383000036d9bd45eef73cd9db52b9d33",
+    "OculusGoPkg/Drivers/GoUfsHcDxe/GoUfsHc.h": "fa366cfb34b495b10b1dfd3daa1923cb34d4f7148cbc5105d0c1e22b84c69e46",
+    "OculusGoPkg/Drivers/PacificUfsDxe/PacificUfsDxe.c": "93f3ba8b791acc0c0ffc4f92d36518b5960c7159419d0f04acff959ac3a254ac",
+    "OculusGoPkg/Include/Library/GoUfsSplashLib.h": "87a809c4ecee002ae44505f69a1c0da71ce9a7ebcea959d4e84d0a86a21df09d",
+    "OculusGoPkg/Include/Platform/PacificUfs.h": "45944232ce840177d37424686047b5fe29284ea7cdc393b658d92a4b7c06bd87",
+    "OculusGoPkg/Include/Protocol/GoUfsCapacity.h": "9494568475f3da40280fc2650e60a629feef3898555f2e5db52e1d5667d56125",
+    "OculusGoPkg/Include/Protocol/GoUfsDmaGuard.h": "7c950cd6f3b12a475209360e0769f28701c7c7e2824a008943c931aa8484b4c4",
+    "OculusGoPkg/Include/Protocol/GoUfsPlatformDma.h": "fa1bbfb08f4c65edddf5f79c8ab922ca1b62b0c277deb012352bd76fbda37c98",
+    "OculusGoPkg/Include/Protocol/PacificUfsHandoff.h": "d136c099a18b8d09d2adeff6be41917eb279653a8a7e3d80ba4a9bff2174f9e3",
+    "OculusGoPkg/Library/GoUfsSplashLib/UfsSplash.c": "1cad8a856a7ee747af03048a1a0182139e6a30dff04e152ab6c446bde955b80a",
+    "OculusGoPkg/PrePi/Memory.c": "22adc2cb8af83b14bf9bd600b6def83d10078a170484eee059dce92e0194047c",
+    "OculusGoPkg/PrePi/PacificUfsFdt.c": "beca37bbf4efd449f44dc5ea84d61cd33bcd76c68e4b1364cc01e5b08362ff49",
+    "OculusGoPkg/PrePi/SecMain.c": "854c6804b23549b5408fcce68a6d8c6bc7b4ff94c40050d329326616dbbe9272"
+  }
+}
