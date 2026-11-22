@@ -24,9 +24,11 @@ Los diez casos de regresión del lector cubrieron también una GPT con CRC invá
 
 El control de arranque ejecutó en QEMU el FD `NORMAL` de la plataforma, en EL1 con el DTB EVT preservado y sin una controladora UFS conectada. La aplicación Shell y el driver `UfsPassThruDxe` dentro del volumen coincidieron byte a byte con sus binarios compilados. La auditoría cotejó 103 listas de dependencias y las fuentes del transporte con los hashes fijados. El framebuffer mostró `Shell>` completo en ambos ojos. [Arranque del FD y hashes](evidence/ufs-shell-buffer-normal-qemu-20261122.json)
 
-## Qué hace falta en Pacific
+## Estado de Pacific al probar el transporte PCI
 
 **UNKNOWN** para la dirección DMA física de una página dinámica. BDS busca un handle con `EDKII_UFS_HOST_CONTROLLER_PROTOCOL`. El volumen normal incluye el transporte SCSI que se enlaza a ese handle. La siguiente dependencia en Pacific es un proveedor para el controlador UFS integrado que pueda mapear, sincronizar y liberar la memoria del cliente durante DXE. QEMU aporta un proveedor PCI para su propio dispositivo. La dirección de una asignación caduca al liberar su mapeo. La lectura continua de 4.096 bytes requiere un mapeo de esa longitud y una prueba propia. El antiguo `0x80441000` está ocupado por el FV de la Shell. [Mapa del FD y estado del controlador](UFS_BOARD_ROUTING.md)
+
+La integración posterior ya incorpora el enumerador del DTB y el driver de host al FV normal. La traducción física sigue dependiendo del servicio DMA de la placa y de la entrega de las colas. [Controlador integrado en DXE](UFS_PLATFORM_DXE.md)
 
 ## Reproducción en QEMU
 

@@ -1,5 +1,7 @@
 # Status
 
+**UFS en el arranque de la Shell.** El firmware integra el enumerador de Pacific EVT, el driver de host de la placa y el transporte. Con el backend virtual, pasaron 14 escenarios en QEMU. El LUN 4 devolvió su capacidad en ambos extremos de la página y BDS leyó después la GPT de prueba. En el Go todavía faltan el servicio DMA asociado al controlador y la entrega exclusiva de las colas de LK. [Resultados y pendientes](UFS_PLATFORM_DXE.md)
+
 **Búfer del lector UFS de la Shell.** En QEMU, Boot Services asignó la página y el transporte comunicó la dirección DMA de las dos peticiones de capacidad del LUN 4. Pasaron ocho escenarios. Después, el lector verificó la GPT reconstruida y el emblema de `splash`. En Pacific, la dirección DMA de una página de la Shell sigue **UNKNOWN** hasta disponer del proveedor de la controladora integrada. [Pruebas y direcciones](UFS_SHELL_BUFFER.md)
 
 **Memoria de la Shell y de SEC.** En el FD de la Shell que arrancó en el Go, la página `0x80441000` pertenece al volumen de firmware. En `UFS_DATA` sí está reservada para datos. La prueba IORT en QEMU correlaciona el SID del controlador con su ubicación y comprueba las dos direcciones DMA con `READ CAPACITY`. En Pacific siguen pendientes ambos valores tras LK. [Geometría de las imágenes y resultados](UFS_BOARD_ROUTING.md)

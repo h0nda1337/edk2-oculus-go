@@ -35,6 +35,16 @@ Authenticated GitHub owner verified as `h0nda1337`.
    blobs in a directory keyed by the output manifest digest. Simultaneous
    builds read immutable copies and a changed recipe can publish a new
    source tree while an earlier build is still running.
+   PacificUfsDxe, GoUfsHcDxe, the Pacific FDT validation and the controller-scoped
+   DMA protocol are original project code. The FDT parser calls the pinned
+   EDK2 FdtLib at `e7aac7fc137e247edad22f7ee53b9a1fba227397`.
+   Upstream paths are `EmbeddedPkg/Library/FdtLib/{FdtLib.inf,fdt*.c,libfdt_internal.h}` and
+   `EmbeddedPkg/Include/{fdt.h,libfdt.h,libfdt_env.h}`. They are compiled unchanged.
+   The EDK2 integration retains BSD-2-Clause-Patent, and the dual-licensed
+   libfdt files retain their BSD alternative and notices. The upstream
+   `MdeModulePkg/Library/NonDiscoverableDeviceRegistrationLib` is used
+   unchanged under BSD-2-Clause-Patent. The emulator-only board fixture supplies its DMA interface
+   using QEMU's PCI device. It is outside the normal Pacific firmware.
 9. Device captures and partition backups are evidence, not imported source.
    They remain local and are never uploaded by this repository's scripts.
 

@@ -1,5 +1,7 @@
 # Memory evidence and candidate layout
 
+El perfil de Shell registra un área MMIO de CPU para UFS únicamente si valida el DTB Pacific EVT recibido. El recurso del controlador abarca `[0x00624000, 0x00626500)`; la MMU y el HOB de recursos reservan páginas completas hasta `0x00627000` (fin exclusivo). El protocolo UFS limita los accesos a la longitud del recurso. La página de datos procede de Boot Services y recibe su dirección de bus al mapearla. [Entrega a DXE y procedencia](UFS_PLATFORM_DXE.md)
+
 **Página del FD de diagnóstico UFS.** `[0x80441000, 0x80442000)` corresponde a 4096 bytes reservados en la ventana privada del perfil SEC. El proveedor de bus para Pacific está pendiente. La imagen de Shell utiliza una distribución distinta. [Diseño y pruebas de ambos extremos](UFS_OWNED_PAGE.md)
 
 LK usa `[0x918D7E80, 0x918D8E80)` en su BSS para leer la cabecera de arranque. El primer fragmento mide 384 bytes y el segundo 3712. El UFS virtual transfirió allí el LBA 1 completo del LUN 4. En el arranque temporal del Go, el tamaño leído fue `0x1000`, las dos muestras CPU coincidieron y su CRC32 fue `C71C0011`. En el arranque temporal posterior de `UFS_ZERO4K`, la CPU confirmó cero bytes distintos de cero en dos muestras coincidentes. [Censo físico](evidence/ufs-zero4k-transfer-20261121.json) La propiedad del intervalo al salir de Fastboot y su accesibilidad DMA siguen **UNKNOWN**. [Panel físico](evidence/ufs-buf4k-transfer-20261121.json) [Auditoría y prueba del bloque](UFS_GPT_HEADER.md)

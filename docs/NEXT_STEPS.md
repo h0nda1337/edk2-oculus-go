@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de la Shell en Pacific.** Integrar el proveedor DXE de la controladora integrada que implemente el contrato de DMA de EDK2 para páginas de Boot Services. Con ese proveedor, el siguiente ensayo físico es sólo de capacidad, con el LUN 4 y el mismo par de extremos que en el emulador. Una vez validado en el Go, probar la transferencia de un bloque completo con un mapeo nuevo. [Búfer de la Shell](UFS_SHELL_BUFFER.md)
+**Siguiente prueba de UFS en la Shell de Pacific.** El enumerador y el host DXE están integrados. Para emitir capacidad en el visor hay que demostrar que LK cedió las colas y suministrar la traducción y sincronización de DMA del controlador para una página asignada en ese arranque. Con esos dos datos, el ensayo físico debe limitarse a ocho bytes por extremo y registrar ambas respuestas y las dos direcciones. El bloque completo y la GPT vienen después. [Integración y pruebas](UFS_PLATFORM_DXE.md)
 
 **Siguiente paso de UFS en Pacific.** Falta una fuente de Pacific que relacione el maestro UFS con su ruta tras LK, y un mapeo válido del proveedor para el búfer usado en ese mismo arranque. En el perfil SEC que reserva `0x80441000` el ensayo corresponde a esa página. En la Shell se requiere un búfer obtenido de Boot Services. Repetir el listado de Android o arrancar la Shell actual aportaría la misma información. Con un destino verificado, comprobar la capacidad en ambos extremos antes de la GPT. [Evidencia de placa y método en QEMU](UFS_BOARD_ROUTING.md)
 
