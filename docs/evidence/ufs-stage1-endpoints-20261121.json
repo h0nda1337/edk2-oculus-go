@@ -1,0 +1,64 @@
+{
+  "outcome": "PASS-QEMU-STAGE1-ENDPOINTS",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "backend": "QEMU virt PCI UFS and SMMUv3",
+  "lun": 4,
+  "backendBytes": 4831838208,
+  "backendReadOnly": true,
+  "dtDerivedVirtualSid": 8,
+  "fixtureInputBits": 36,
+  "fixtureOutputBits": 36,
+  "fixtureGranule": 4096,
+  "pacificUfsSid": "UNKNOWN",
+  "pacificPageBus": "UNKNOWN",
+  "cases": [
+    {
+      "case": "mapped-endpoints",
+      "rows": [
+        {
+          "cpu": "0x80441000",
+          "bus": "0x85120000",
+          "payload": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80441ff8",
+          "bus": "0x85120ff8",
+          "payload": "0011ffff00001000"
+        }
+      ],
+      "verifiedTraceSid": 8,
+      "verifiedStage": 1,
+      "cpuGuardWindowComparedBytesAfterEach": 16384,
+      "capacityCommands": 4,
+      "mediaReads": 0,
+      "mediaWrites": 0,
+      "traceSha256": "58493f751bd1088029b127737c51f787fefa9fc7edfbb4f926077095372b89e8"
+    },
+    {
+      "case": "misdirected-tail",
+      "rows": [
+        {
+          "cpu": "0x80441000",
+          "bus": "0x85120000",
+          "payload": "0011ffff00001000"
+        },
+        {
+          "cpu": "0x80441ff8",
+          "bus": "0x85121ff8",
+          "payload": "a5a5a5a5a5a5a5a5",
+          "observedCpu": "0x80442ff8",
+          "observedPayload": "0011ffff00001000",
+          "scsiStatus": 0,
+          "destinationVerified": false
+        }
+      ],
+      "verifiedTraceSid": 8,
+      "verifiedStage": 1,
+      "cpuGuardWindowComparedBytesAfterEach": 16384,
+      "capacityCommands": 4,
+      "mediaReads": 0,
+      "mediaWrites": 0,
+      "traceSha256": "05ba2d65d0ed764b7b885c77825c5a2b42dafd59035b50492ad56e6dced8da3d"
+    }
+  ]
+}

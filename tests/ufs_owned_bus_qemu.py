@@ -25,46 +25,55 @@ def capacity(bus, destination):
     return response
 
 
+def exercise_endpoints(bus, iova, misdirect_tail):
+    """Issue two control requests and one at each page endpoint. Verify guards after each."""
+    cpu = WINDOW + PAGE
+    wrong_bus, wrong_cpu = iova + PAGE, cpu + PAGE
+    sentinel = bytes([0xa5]) * PAGE
+    expected = bytearray(sentinel * 4)
+    seed_lk(bus)
+    bus.write(WINDOW, expected)
+    bus.write(iova, sentinel)
+    control = TM+640+256
+    before = capacity(bus, control)
+    check(before[7] == 2 and (before[36] & 15) == 6, "expected initial unit attention")
+    check(capacity(bus, control)[7] == 0 and bus.read(control, 8)==CAPACITY, "control failed")
+    rows = []
+    for offset in (0, PAGE-8):
+        negative = misdirect_tail and offset == PAGE-8
+        destination = (wrong_bus if negative else iova) + offset
+        check(bus.read(cpu+offset, 8) != CAPACITY, "stale successful response before request")
+        response = capacity(bus, destination)
+        check(response[2] == 4 and response[6:8] == bytes(2) and response[12:16] == bytes(4),
+              "wrong LUN, SCSI error or residual")
+        expected[PAGE+offset:PAGE+offset+8] = CAPACITY
+        observed = bus.read(WINDOW, len(expected))
+        if negative:
+            check(observed != expected and bus.read(cpu+offset, 8)==sentinel[:8],
+                  "wrong DMA destination accepted as a successful tail")
+            expected[PAGE+offset:PAGE+offset+8] = sentinel[:8]
+            expected[2*PAGE+offset:2*PAGE+offset+8] = CAPACITY
+        check(observed==expected, "unexpected data or guards")
+        check(bus.read(iova, PAGE)==sentinel, "numeric alias changed")
+        row = dict(cpu=hex(cpu+offset), bus=hex(destination), payload=bus.read(cpu+offset, 8).hex())
+        if negative:
+            row.update(observedCpu=hex(wrong_cpu+offset), observedPayload=bus.read(wrong_cpu+offset, 8).hex(),
+                       scsiStatus=response[7], destinationVerified=False)
+        rows.append(row)
+    return rows
+
+
 def trial(tmp, misdirect_tail=False):
     machine = [part.replace("1280M", "1536M").replace("virt,highmem=off", "virt,highmem=off,iommu=smmuv3")
                for part in MACHINE]
     cpu = WINDOW+PAGE
-    sentinel = bytes([0xa5])*PAGE
-    expected = bytearray(sentinel*4)
     with controller(tmp, 0x3f000000, BAR, machine=machine, units=unit_args(LUN_BYTES)) as bus:
         wrong_bus, wrong_cpu = IOVA + PAGE, WINDOW + 2*PAGE
         leaves = [(IOVA, cpu)]
         if misdirect_tail:
             leaves.append((wrong_bus, wrong_cpu))
         set_translation(bus, leaves)
-        seed_lk(bus)
-        bus.write(WINDOW, expected)
-        bus.write(IOVA, sentinel)
-        control = TM+640+256
-        before = capacity(bus, control)
-        check(before[7] == 2 and (before[36] & 15) == 6, "expected initial unit attention")
-        check(capacity(bus, control)[7] == 0 and bus.read(control, 8)==CAPACITY, "control failed")
-        rows = []
-        for offset in (0, PAGE-8):
-            negative = misdirect_tail and offset == PAGE-8
-            destination = (wrong_bus if negative else IOVA) + offset
-            check(bus.read(cpu+offset, 8) != CAPACITY, "stale successful response before request")
-            response = capacity(bus, destination)
-            check(response[6:8] == bytes(2) and response[12:16] == bytes(4), "SCSI error or residual")
-            expected[PAGE+offset:PAGE+offset+8] = CAPACITY
-            observed = bus.read(WINDOW, len(expected))
-            if negative:
-                check(observed != expected and bus.read(cpu+offset, 8)==sentinel[:8],
-                      "wrong DMA destination accepted as a successful tail")
-                expected[PAGE+offset:PAGE+offset+8] = sentinel[:8]
-                expected[2*PAGE+offset:2*PAGE+offset+8] = CAPACITY
-            check(observed==expected, "unexpected data or guards")
-            check(bus.read(IOVA, PAGE)==sentinel, "numeric alias changed")
-            row = dict(cpu=hex(cpu+offset), bus=hex(destination), payload=bus.read(cpu+offset, 8).hex())
-            if negative:
-                row.update(observedCpu=hex(wrong_cpu+offset), observedPayload=bus.read(wrong_cpu+offset, 8).hex(),
-                           scsiStatus=response[7], destinationVerified=False)
-            rows.append(row)
+        rows = exercise_endpoints(bus, IOVA, misdirect_tail)
     events = (tmp/"ufs.trace").read_text().splitlines()
     check(events == ["ufs_exec_nop_cmd UTRLDBR slot 0"]+["ufs_exec_scsi_cmd slot 1, lun 0x4, opcode 0x25"]*4,
           f"unexpected device trace {events}")
