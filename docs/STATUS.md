@@ -1,5 +1,7 @@
 # Status
 
+**Salida de LK y DMA de la Shell.** En la copia del firmware, la salida del arranque temporal detiene USB DWC y la rama UFS omite la rutina de reposo de MMC. La captura en SEC mostró las listas UFS en marcha y sus solicitudes pendientes a cero. La reserva de 2 MiB `oculus_dma_region` corresponde a ION. La dirección de bus de una página dinámica de la Shell en Pacific sigue UNKNOWN. [Auditoría del firmware y sus límites](UFS_LK_EXIT.md)
+
 **UFS en el arranque de la Shell.** El firmware integra el enumerador de Pacific EVT, el driver de host de la placa y el transporte. Con el backend virtual, pasaron 14 escenarios en QEMU. El LUN 4 devolvió su capacidad en ambos extremos de la página y BDS leyó después la GPT de prueba. En el Go todavía faltan el servicio DMA asociado al controlador y la entrega exclusiva de las colas de LK. [Resultados y pendientes](UFS_PLATFORM_DXE.md)
 
 **Búfer del lector UFS de la Shell.** En QEMU, Boot Services asignó la página y el transporte comunicó la dirección DMA de las dos peticiones de capacidad del LUN 4. Pasaron ocho escenarios. Después, el lector verificó la GPT reconstruida y el emblema de `splash`. En Pacific, la dirección DMA de una página de la Shell sigue **UNKNOWN** hasta disponer del proveedor de la controladora integrada. [Pruebas y direcciones](UFS_SHELL_BUFFER.md)

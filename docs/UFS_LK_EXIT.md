@@ -1,0 +1,35 @@
+# Estado de UFS al pasar de LK a la Shell
+
+**CONFIRMED en el arranque temporal observado del slot A.** La primera sonda de SEC encontró el host UFS habilitado y sus dos listas en marcha. Ambas lecturas de solicitudes pendientes dieron cero. El análisis de la copia de `aboot_a` identifica qué dispositivo se detiene en la salida de Fastboot. **UNKNOWN** para la cesión exclusiva a DXE y la dirección DMA de una página que la Shell asigne en el visor. [Auditoría del binario](evidence/ufs-lk-exit-20261122.json) · [Panel físico previo](evidence/ufs-handoff-transfer-20261121.json)
+
+## Qué hace LK antes del salto
+
+- Dos rutas que procesan cabeceras de arranque y el manejador de arranque temporal convergen en el mismo coordinador. En la limpieza final, LK consulta el mismo selector de almacenamiento que usa para inicializar el HBA de Pacific y despachar lecturas UFS. La selección UFS omite la llamada a `mmc_put_card_to_sleep`. La limpieza específica de RPMB tiene seguimiento aparte. La revisión está fijada a los bytes del slot A. [Comprobaciones de flujo](../tools/audit_lk_ufs_exit.py)
+- El callback indirecto anterior al coordinador de arranque temporal se resuelve con la tabla de la controladora USB DWC. Su función limpia el bit Run/Stop del registro DCTL del dispositivo USB. Las operaciones posteriores de caché y MMU se ejecutan en la CPU. La revisión deja abiertas las llamadas externas cuyos efectos no se pueden demostrar con este ELF. [Auditor del binario](../tools/audit_lk_ufs_exit.py) · [Definición DCTL del kernel](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/usb/dwc3/core.h#L262-L269)
+- En la entrada observada, `HCE=1`, `UTRLRSR=1` y `UTMRLRSR=1`. Los registros de solicitudes pendientes (`UTRLDBR`, `UTMRLDBR`) valían cero en sus respectivas lecturas. En otro arranque, las bases de las listas coincidieron con las guardadas por LK. Estas muestras permiten descartar una entrega con las listas detenidas en el instante medido. Una parada y un rearranque anteriores o una cesión lógica de propiedad requieren evidencia distinta. [Registros](evidence/ufs-handoff-transfer-20261121.json) · [Bases cotejadas](evidence/ufs-lk-map-transfer-20261121.json)
+- El ABI de arranque documentado por el kernel del Go pide dejar inactivos los dispositivos capaces de DMA. El driver de Linux contempla recibir el HCI habilitado, lo detiene al inicializarlo, asigna sus listas mediante la API DMA y programa sus direcciones de dispositivo. Este es un precedente para una toma de control propia de Pacific. El driver DXE actual exige una entrega confirmada y listas detenidas antes de iniciar el transporte. [ABI ARM64](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/Documentation/arm64/booting.txt#L124-L134) · [Reinicio del HCI](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/scsi/ufs/ufshcd.c#L4387-L4430) · [Asignación de listas](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/scsi/ufs/ufshcd.c#L3483-L3537) · [Comprobación de DXE](../OculusGoPkg/Drivers/PacificUfsDxe/PacificUfsDxe.c)
+
+## Qué memoria puede recibir la respuesta
+
+| Región o dato | Evidencia | Alcance |
+| --- | --- | --- |
+| `0x918EEF80` en la asignación de LK | El ensayo físico recibió los ocho bytes de capacidad del LUN 4. La dirección procede de la imagen de la sonda y el panel confirma el resultado. | Aquella asignación y aquella transferencia. [Registro](evidence/ufs-data-transfer-20261121.json) |
+| `0x80441000` | El FV de la Shell normal ocupa esa página. Un perfil de diagnóstico distinto la reservó para datos. | Usarla como búfer en el perfil normal sobrescribiría el FV. [Mapa por perfil](UFS_BOARD_ROUTING.md) |
+| `oculus_dma_region` | Los DTB conservados asocian esta reserva dinámica con el heap 30 de ION. | La reserva pide memoria para ese consumidor. La descripción de UFS carece de una referencia a ella. [Auditoría de procedencia](evidence/ufs-shell-dma-provenance-20261122.json) · [Identidad del heap en el kernel](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/staging/android/uapi/msm_ion.h#L22-L42) |
+| Página asignada por Boot Services | DXE la pide después de que LK sale. La API del host produce una dirección de bus por mapeo. | **UNKNOWN en Pacific** hasta tener una asignación atribuible a ese controlador. En QEMU pasaron tanto el caso directo como el de página intermedia. [Resultados](UFS_PLATFORM_DXE.md) |
+
+El nodo UFS, su padre `/soc` y la raíz de los árboles EVT y de ejecución carecen de `dma-ranges`. El `ranges` de `/soc` sí traduce los registros accesibles por CPU. En el kernel oficial, cuando falla la consulta de `dma-ranges`, el código de creación del dispositivo usa un desplazamiento inicial de cero y selecciona las operaciones DMA por separado. El kernel extraído de `boot_a` está compilado con soporte para SMMU y SWIOTLB. Este último puede usar una página intermedia para una petición concreta. La configuración compilada y la falta de grupo IOMMU publicado en Android dejan abierta la traducción que tenía UFS justo después de LK. [Configuración original medida](evidence/ufs-stock-kernel-config-20261122.json) · [Configuración del dispositivo](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/of/device.c#L100-L149) · [Dirección por petición en SWIOTLB](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/lib/swiotlb.c#L871-L900) · [Estado observado en Android](evidence/ufs-android-binding-20261122.json)
+
+## Próxima prueba que cambiaría la conclusión
+
+El siguiente trabajo de placa es preparar en el emulador la transición desde HCI activo, listas en marcha y sin solicitudes pendientes hasta colas administradas por DXE, con las condiciones de alimentación, PHY y DMA del driver oficial. Para medir en el Go, primero hace falta una ruta DMA documentada para ese maestro o un búfer intermedio dedicado con alcance CPU–bus y sincronización conocidos. Entonces una consulta de capacidad en cada extremo de una página propia podrá distinguir un mapeo válido de una coincidencia numérica. Repetir el panel de estado mostraría los mismos tipos de registros que ya están archivados.
+
+## Reproducir desde las copias conservadas
+
+Los argumentos son archivos locales. `BACKUPS` contiene el conjunto de particiones respaldadas, `FDT` es el árbol de ejecución conservado y `NORMAL` es el directorio de informe del FD cuya huella figura en la prueba de la Shell. Las tres órdenes imprimen o guardan únicamente metadatos.
+
+```sh
+python3 -B tools/audit_lk_ufs_exit.py --aboot "$BACKUPS/aboot_a.img"
+python3 -B tools/audit_stock_ufs_config.py --boot "$BACKUPS/boot_a.img" --report logs/ufs-kernel-config.json
+python3 -B tools/audit_pacific_shell_dma.py --backup-directory "$BACKUPS" --runtime-fdt "$FDT" --normal-build "$NORMAL" --report logs/ufs-shell-provenance.json
+```
