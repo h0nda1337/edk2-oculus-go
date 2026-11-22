@@ -54,7 +54,11 @@ El nuevo SEC toma dos muestras por CPU. Al coincidir las 1024 palabras y mantene
 
 Los diez casos cotejaron el panel, el intervalo completo con sus guardas y la página de colas. La traza de cada invitado mostró cero órdenes de la sonda. El NOP previo pertenece al banco que prepara el controlador virtual. QEMU emitió avisos GLib al cerrar instancias. Pasaron las comprobaciones de RAM, pantalla y traza. [Resultados del FD](evidence/ufs-zero4k-fd-qemu-20261121.json)
 
-Por separado se repitieron los siete casos del perfil activo `UFS_GPT_MODEL`. Con la cabecera de Android conocida y ambas hojas del IOMMU virtual preparadas, `READ CAPACITY(10)` entregó `00 11 FF FF 00 00 10 00` en `0x918D7E80` y en `0x918D8E78`. Sin la segunda hoja, el segundo destino conservó el patrón del banco y el firmware terminó en `STOP CAPACITY` antes de leer el LBA 1. Con el búfer inicial lleno de ceros volvió a `STOP ORIGINAL` y envió cero comandos. El resultado coincide con el informe publicado de los siete casos. La prueba física pendiente mide únicamente el contenido del búfer. [Informe del perfil DMA](evidence/ufs-gpt-header-fd-qemu-20261121.json)
+Por separado se repitieron los siete casos del perfil activo `UFS_GPT_MODEL`. Con la cabecera de Android conocida y ambas hojas del IOMMU virtual preparadas, `READ CAPACITY(10)` entregó `00 11 FF FF 00 00 10 00` en `0x918D7E80` y en `0x918D8E78`. Sin la segunda hoja, el segundo destino conservó el patrón del banco y el firmware terminó en `STOP CAPACITY` antes de leer el LBA 1. Con el búfer inicial lleno de ceros volvió a `STOP ORIGINAL` y envió cero comandos. El resultado coincide con el informe publicado de los siete casos. El uso de esos destinos DMA en el Go sigue pendiente. [Informe del perfil DMA](evidence/ufs-gpt-header-fd-qemu-20261121.json)
+
+## Censo físico en el Go
+
+El operador leyó las ocho filas del arranque temporal de `UFS_ZERO4K`. `LKPG 00001000` corresponde a 4096 bytes en `0x918D7E80`. Las dos lecturas por CPU coincidieron, y el recuento dio `NZ 00000000`, `FIRST NONE` y `ZERO EXACT`. El CRC32 fue `C71C0011`. El panel coincidió fila por fila con el caso de ceros de QEMU. El diagnóstico terminó en `CPU ONLY` y su único intento quedó consumido. La disponibilidad del búfer para EDK2 y el acceso DMA a los extremos siguen **UNKNOWN**. [Panel físico y registro del arranque](evidence/ufs-zero4k-transfer-20261121.json)
 
 ## Reproducción sin USB
 

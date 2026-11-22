@@ -1,6 +1,6 @@
 # Next steps
 
-**UFS de Pacific.** La próxima prueba física es el arranque temporal de `UFS_ZERO4K`. Registrar el estado final y las filas `OLD`, `NZ` y `FIRST` u `OFF`. Una eventual lectura `ZERO EXACT` establece el contenido durante la muestra. El uso exclusivo y el mapeo físico DMA de los dos extremos siguen pendientes. El perfil activo ya reprodujo ambos extremos y el fallo por falta de la segunda página en QEMU. [Pruebas, límites y procedimiento](UFS_GPT_HEADER.md)
+**UFS de Pacific.** El censo físico de `UFS_ZERO4K` confirmó los 4096 bytes en cero. Para avanzar hacia la GPT del LUN 4, falta identificar una región cuyo uso durante el comando corresponda a EDK2 y cuya dirección de bus pueda atribuirse al UFS del Go. En el búfer de LK siguen pendientes ambas comprobaciones. Con un destino respaldado por esa evidencia, la siguiente medición activa sería `READ CAPACITY(10)` de ocho bytes en cada extremo antes de leer el LBA 1. [Medición física](evidence/ufs-zero4k-transfer-20261121.json) · [Pruebas del mapeo en QEMU](UFS_GPT_HEADER.md)
 
 **Aplicación del volumen confirmada en el Go.** DXE arrancó `ConsoleProbe.efi` y el operador leyó su fila verde «5 APP EFI 6» debajo de «1 EDK2 GO 2» en blanco. [Carga de la aplicación](DXE_APP.md) · [Registro físico](evidence/dxe-app-transfer-20261120.json)
 
