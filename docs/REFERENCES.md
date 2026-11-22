@@ -2,6 +2,8 @@
 
 | Fuente | Revisión y archivo | Qué aporta | Confianza |
 | --- | --- | --- | --- |
+| [Kernel oficial del Go](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/iommu/arm-smmu.c#L148-L164) | `9475755`, `drivers/iommu/arm-smmu.c`, GR0 SMR/S2CR y registro de maestros | Patrón, máscara y política de un grupo ordinario, procedencia de SID de plataforma | CONFIRMED para el formato. Atribución al UFS de Pacific UNKNOWN. [Comprobaciones adicionales](UFS_SID_SOURCES.md) |
+| [QEMU SMMUv3](https://github.com/qemu/qemu/blob/v10.0.0/hw/arm/smmuv3-internal.h#L516-L588) y [DMA API de Linux](https://docs.kernel.org/6.1/core-api/dma-api-howto.html) | Formato del descriptor en QEMU 10 y contrato de direcciones del dispositivo en Linux 6.1 | Distinción entre dirección CPU y dirección DMA, reproducción de etapa 1 en el emulador | CONFIRMED en QEMU 10.0.13 mediante traza y bytes de RAM. [Ensayo](UFS_STAGE1_ENDPOINTS.md) |
 | Respaldos originales del Go | `aboot_a`, `hyp_a`, `tz_a`, huellas y offsets en el [informe reproducible](evidence/ufs-native-prdt-stock-20261121.json) | Constructor nativo del PRDT y presencia de la base ANOC2 por nombre en dos imágenes | CONFIRMED para los binarios. La traducción para la página del FD sigue UNKNOWN. |
 | [Kernel oficial de Oculus](https://github.com/facebookincubator/oculus-linux-kernel/blob/9475755c1a328a7b873721897ef339a8ad35c86a/drivers/clk/msm/clock-gcc-8996.c) | `9475755`, `drivers/clk/msm/clock-gcc-8996.c`, `include/dt-bindings/clock/msm-clocks-hwio-8996.h` | Reloj RPM de ANOC2 y rama AXI específica de UFS | CONFIRMED para la descripción del kernel. Estado tras LK pendiente. |
 

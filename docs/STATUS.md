@@ -1,5 +1,7 @@
 # Status
 
+**UFS y la página de SEC.** En QEMU, la traducción de etapa 1 entregó la capacidad del LUN 4 en ambos extremos de `0x80441000`. La guarda detectó una segunda transferencia dirigida a la página vecina. El SID y la dirección de bus del Go siguen **UNKNOWN**. El próximo dato físico es el vínculo que exporta Android para el propio controlador UFS. [Ensayo y medición pendiente](UFS_STAGE1_ENDPOINTS.md)
+
 **ANOC2 tras LK.** En el Go, EDK2 completó las nueve lecturas de `UFS_ROUTE_VIEW`. ANOC2 anuncia traducción de etapa 1, nueve grupos de coincidencia de stream y ocho bancos de contexto. El control global tenía activa la política de fallo para streams sin coincidencia. El SID de UFS, su ruta efectiva y la dirección de bus de la página CPU `0x80441000` siguen **UNKNOWN**. [Panel físico](evidence/ufs-route-view-transfer-20261121.json) · [Interpretación](UFS_ROUTE_VIEW.md)
 
 **Destino directo de UFS.** `0x80441000` es candidato de identidad en Pacific. QEMU verificó ambos extremos y detectó DMA a la página vecina incluso con éxito SCSI. En el arranque físico de `UFS_PRDT`, el slot 0 conservaba el puntero UCD `0x918FDF00` y cero entradas de datos. La dirección de bus de la página propia sigue **UNKNOWN**. [Panel del Go](evidence/ufs-prdt-transfer-20261121.json) [Pruebas e interpretación](UFS_NATIVE_PRDT.md)
