@@ -1,0 +1,101 @@
+{
+  "outcome": "PASS-QEMU-REVERSE-S2",
+  "physicalPacificBus": "UNKNOWN",
+  "cpuPage": "0x80441000",
+  "provider": "qtest virt PCI UFS, SMMUv3 stage 2",
+  "qemu": "QEMU emulator version 10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)",
+  "cases": [
+    {
+      "case": "unique-a",
+      "discoveredBus": "0x81673000",
+      "tablesRead": 4,
+      "streamTable": "0x40500000",
+      "translationRoot": "0x40510000",
+      "endpoints": [
+        {
+          "offset": 0,
+          "bus": "0x81673000",
+          "payload": "0011ffff00001000"
+        },
+        {
+          "offset": 4088,
+          "bus": "0x81673ff8",
+          "payload": "0011ffff00001000"
+        }
+      ],
+      "capacityCommands": 4
+    },
+    {
+      "case": "unique-b",
+      "discoveredBus": "0x88ad0000",
+      "tablesRead": 4,
+      "streamTable": "0x40501000",
+      "translationRoot": "0x4051f000",
+      "endpoints": [
+        {
+          "offset": 0,
+          "bus": "0x88ad0000",
+          "payload": "0011ffff00001000"
+        },
+        {
+          "offset": 4088,
+          "bus": "0x88ad0ff8",
+          "payload": "0011ffff00001000"
+        }
+      ],
+      "capacityCommands": 4
+    },
+    {
+      "case": "absent",
+      "refused": "page absent",
+      "capacityCommands": 0
+    },
+    {
+      "case": "other-backing",
+      "refused": "page absent",
+      "capacityCommands": 0
+    },
+    {
+      "case": "aliased",
+      "refused": "ambiguous alias",
+      "capacityCommands": 0
+    },
+    {
+      "case": "not-owned",
+      "refused": "page not reserved for this test",
+      "capacityCommands": 0
+    },
+    {
+      "case": "read-only",
+      "refused": "endpoint not writable or AF clear",
+      "capacityCommands": 0
+    },
+    {
+      "case": "af-clear",
+      "refused": "endpoint not writable or AF clear",
+      "capacityCommands": 0
+    },
+    {
+      "case": "other-stream",
+      "refused": "unsupported STE or translation geometry",
+      "capacityCommands": 0
+    },
+    {
+      "case": "foreign-stream-table",
+      "refused": "stream table outside fixture allocation",
+      "capacityCommands": 0
+    },
+    {
+      "case": "foreign-root",
+      "refused": "translation table outside fixture allocation",
+      "capacityCommands": 0
+    },
+    {
+      "case": "foreign-child",
+      "refused": "translation table outside fixture allocation",
+      "capacityCommands": 0
+    }
+  ],
+  "mediaReads": 0,
+  "mediaWrites": 0
+}

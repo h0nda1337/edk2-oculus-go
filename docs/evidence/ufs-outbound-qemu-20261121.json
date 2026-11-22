@@ -1,0 +1,51 @@
+{
+  "qemu": {
+    "qemu": {
+      "micro": 13,
+      "minor": 0,
+      "major": 10
+    },
+    "package": "Debian 1:10.0.13+ds-0+deb13u1"
+  },
+  "backend": "null-co",
+  "readOnly": true,
+  "operations": {
+    "rd_operations": 0,
+    "wr_operations": 0,
+    "flush_operations": 0
+  },
+  "result": "PASS-QEMU-OUTBOUND",
+  "lun": 4,
+  "cpu": "0x80441000",
+  "virtualBus": "0x88000000",
+  "signatures": {
+    "control": [
+      "GOOD",
+      "05/1a/00",
+      "GOOD"
+    ],
+    "head": [
+      "GOOD",
+      "05/1a/00",
+      "GOOD"
+    ],
+    "tail": [
+      "GOOD",
+      "05/1a/00",
+      "GOOD"
+    ],
+    "aliasZero": [
+      "GOOD",
+      "GOOD",
+      "GOOD"
+    ],
+    "aliasForeign": [
+      "05/1a/00",
+      "05/1a/00",
+      "05/1a/00"
+    ]
+  },
+  "modeBytes": 104,
+  "modeSha256": "d14e216b726d1980333a9fc5f79da5898f0ce8f832494e1ee1e6cc18bce1e4a7",
+  "physicalBus": "UNKNOWN"
+}
