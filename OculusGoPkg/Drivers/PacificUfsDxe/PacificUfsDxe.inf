@@ -1,0 +1,26 @@
+## SPDX-License-Identifier: BSD-2-Clause-Patent
+[Defines]
+  INF_VERSION = 0x0001001B
+  BASE_NAME = PacificUfsDxe
+  FILE_GUID = 8e92a8a5-00fa-4a8b-bfa9-051767e184e9
+  MODULE_TYPE = DXE_DRIVER
+  ENTRY_POINT = PacificUfsEntry
+[Sources]
+  PacificUfsDxe.c
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OculusGoPkg/OculusGoPkg.dec
+[LibraryClasses]
+  DebugLib
+  HobLib
+  IoLib
+  NonDiscoverableDeviceRegistrationLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+[Guids]
+  gOculusGoUfsResourceGuid
+[Protocols]
+  gGoPacificUfsHandoffProtocolGuid
+[Depex]
+  TRUE

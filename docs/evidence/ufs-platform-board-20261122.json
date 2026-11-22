@@ -1,0 +1,147 @@
+{
+  "result": "PASS",
+  "scope": "Host replay with pinned libfdt, preserved EVT and mock MMIO",
+  "stockDtbSha256": "70ae171c99befc564acec661f3afc4365a831ebd1d6e01ca0e53035a4d8b1f35",
+  "cases": {
+    "evt": {
+      "resource": true,
+      "coherent": false
+    },
+    "null": {
+      "resource": false,
+      "coherent": null
+    },
+    "truncated": {
+      "resource": false,
+      "coherent": null
+    },
+    "short-totalsize": {
+      "resource": false,
+      "coherent": null
+    },
+    "strings-outside": {
+      "resource": false,
+      "coherent": null
+    },
+    "name-outside": {
+      "resource": false,
+      "coherent": null
+    },
+    "controller-disabled": {
+      "resource": false,
+      "coherent": null
+    },
+    "parent-disabled": {
+      "resource": false,
+      "coherent": null
+    },
+    "okay": {
+      "resource": true,
+      "coherent": false
+    },
+    "different-model": {
+      "resource": false,
+      "coherent": null
+    },
+    "wrong-base": {
+      "resource": false,
+      "coherent": null
+    },
+    "wrong-length": {
+      "resource": false,
+      "coherent": null
+    },
+    "different-compatible": {
+      "resource": false,
+      "coherent": null
+    },
+    "different-bus": {
+      "resource": false,
+      "coherent": null
+    },
+    "inherited-coherence": {
+      "resource": true,
+      "coherent": true
+    },
+    "no-controller": {
+      "resource": false,
+      "coherent": null
+    },
+    "child-overrides-parent": {
+      "resource": true,
+      "coherent": false
+    },
+    "conflicting-coherence": {
+      "resource": false,
+      "coherent": null
+    },
+    "missing-hob": {
+      "status": "0x800000000000000e",
+      "registrations": 0
+    },
+    "short-hob": {
+      "status": "0x8000000000000021",
+      "registrations": 0
+    },
+    "long-hob": {
+      "status": "0x8000000000000021",
+      "registrations": 0
+    },
+    "wrong-hob-base": {
+      "status": "0x8000000000000021",
+      "registrations": 0
+    },
+    "wrong-hob-length": {
+      "status": "0x8000000000000021",
+      "registrations": 0
+    },
+    "wrong-hob-coherence": {
+      "status": "0x8000000000000021",
+      "registrations": 0
+    },
+    "register-noncoherent": {
+      "status": "0x0",
+      "registrations": 1
+    },
+    "register-coherent": {
+      "status": "0x0",
+      "registrations": 1
+    },
+    "missing-handoff": {
+      "status": "0x8000000000000006",
+      "mockRegisterReads": 0
+    },
+    "declined-handoff": {
+      "status": "0x8000000000000006",
+      "mockRegisterReads": 0
+    },
+    "unsupported-HCI": {
+      "status": "0x8000000000000003",
+      "mockRegisterReads": 1
+    },
+    "unexpected-HCE": {
+      "status": "0x8000000000000006",
+      "mockRegisterReads": 2
+    },
+    "LK-lists-running": {
+      "status": "0x8000000000000006",
+      "mockRegisterReads": 3
+    },
+    "task-list-running": {
+      "status": "0x8000000000000006",
+      "mockRegisterReads": 4
+    },
+    "transfer-pending": {
+      "status": "0x8000000000000006",
+      "mockRegisterReads": 5
+    },
+    "task-pending": {
+      "status": "0x8000000000000006",
+      "mockRegisterReads": 6
+    },
+    "released-idle": {
+      "status": "0x0",
+      "mockRegisterReads": 6
+    }
+  }
+}

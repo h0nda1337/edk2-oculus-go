@@ -11,6 +11,7 @@
 [Sources]
   SecMain.c
   Memory.c
+  PacificUfsFdt.c
 
 [Sources.AARCH64]
   Entry.S | GCC
@@ -26,6 +27,8 @@
   ArmLib
   ArmMmuLib
   BaseLib
+  BaseMemoryLib
+  FdtLib
   CacheMaintenanceLib
   DebugLib
   ExtractGuidedSectionLib
@@ -37,6 +40,7 @@
 
 [Guids]
   gOculusGoEntryHobGuid
+  gOculusGoUfsResourceGuid
 
 [FixedPcd]
   gArmTokenSpaceGuid.PcdGicDistributorBase

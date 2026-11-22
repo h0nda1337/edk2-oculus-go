@@ -25,6 +25,8 @@
 !endif
 
 [LibraryClasses.common]
+  FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
+  NonDiscoverableDeviceRegistrationLib|MdeModulePkg/Library/NonDiscoverableDeviceRegistrationLib/NonDiscoverableDeviceRegistrationLib.inf
   GoUfsSplashLib|OculusGoPkg/Library/GoUfsSplashLib/GoUfsSplashLib.inf
 !if $(GO_BUILD_FLAVOR) == OculusGo || $(GO_BUILD_FLAVOR) == OculusGoShellQemu
   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
@@ -338,6 +340,8 @@
   MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
   MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitterDxe.inf
+  OculusGoPkg/Drivers/PacificUfsDxe/PacificUfsDxe.inf
+  OculusGoPkg/Drivers/GoUfsHcDxe/GoUfsHcDxe.inf
   $(GO_UFS_INF)
   OculusGoPkg/Drivers/GoBdsDxe/GoBdsDxe.inf
   ShellPkg/Application/Shell/Shell.inf {

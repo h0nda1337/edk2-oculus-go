@@ -3,6 +3,7 @@
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 #include <PiPei.h>
+#include <Platform/PacificUfs.h>
 #include <Library/ArmMmuLib.h>
 #include <Library/HobLib.h>
 #include <Library/PcdLib.h>
@@ -21,9 +22,9 @@ STATIC_ASSERT ((GO_FB_SIZE & EFI_PAGE_MASK) == 0, "Unaligned model surface size"
   EFI_RESOURCE_ATTRIBUTE_WRITE_BACK_CACHEABLE | EFI_RESOURCE_ATTRIBUTE_TESTED)
 
 EFI_STATUS
-OculusGoInitializeMemory (VOID)
+OculusGoInitializeMemory (UINT64 FdtAddress)
 {
-  ARM_MEMORY_REGION_DESCRIPTOR  Map[6 + GO_DISPLAY_REGIONS];
+  ARM_MEMORY_REGION_DESCRIPTOR  Map[7 + GO_DISPLAY_REGIONS];
   VOID                         *Tables;
   UINTN                         TableSize;
   RETURN_STATUS                 Result;
@@ -66,6 +67,22 @@ OculusGoInitializeMemory (VOID)
 #endif
   UINTN Next = 4 + GO_DISPLAY_REGIONS;
 #if defined (OCULUS_GO_BOOT_CONSOLE)
+  GO_PACIFIC_UFS_RESOURCE Ufs;
+  // Only this address and bounded read were established in physical SEC_MEM.
+  // Other boot paths can supply NULL or a different tree without touching MMIO.
+  if (FdtAddress == PACIFIC_ENTRY_FDT &&
+      GoPacificUfsFromFdt ((CONST VOID *)(UINTN)FdtAddress, PACIFIC_MAX_FDT_BYTES, &Ufs)) {
+    UINTN Bytes = ALIGN_VALUE (Ufs.Length, EFI_PAGE_SIZE);
+    Map[Next++] = (ARM_MEMORY_REGION_DESCRIPTOR) {
+      Ufs.Base, Ufs.Base, Bytes, ARM_MEMORY_REGION_ATTRIBUTE_DEVICE
+    };
+    BuildResourceDescriptorHob (EFI_RESOURCE_MEMORY_MAPPED_IO,
+      EFI_RESOURCE_ATTRIBUTE_PRESENT | EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
+      Ufs.Base, Bytes);
+    if (BuildGuidDataHob (&gOculusGoUfsResourceGuid, &Ufs, sizeof (Ufs)) == NULL) {
+      return EFI_OUT_OF_RESOURCES;
+    }
+  }
   UINT64 Serial = FixedPcdGet64 (PcdSerialRegisterBase);
   if (Serial != 0) {
     Map[Next++] = (ARM_MEMORY_REGION_DESCRIPTOR) { Serial, Serial, SIZE_4KB, ARM_MEMORY_REGION_ATTRIBUTE_DEVICE };

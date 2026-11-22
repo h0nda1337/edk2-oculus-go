@@ -13,7 +13,7 @@
 #include <Protocol/TrustMeBro.h>
 
 VOID EFIAPI ProcessLibraryConstructorList (VOID);
-EFI_STATUS OculusGoInitializeMemory (VOID);
+EFI_STATUS OculusGoInitializeMemory (UINT64 FdtAddress);
 
 STATIC VOID
 RequireSuccess (EFI_STATUS Status)
@@ -46,7 +46,7 @@ OculusGoSecMain (IN OCULUS_GO_ENTRY_STATE *Entry)
     CpuDeadLoop ();
   }
 
-  RequireSuccess (OculusGoInitializeMemory ());
+  RequireSuccess (OculusGoInitializeMemory (Entry->Fdt));
   Published->Phase = OCULUS_GO_PHASE_MMU;
   BuildStackHob (Stack, FixedPcdGet32 (PcdStackSize));
   BuildCpuHob (ArmGetPhysicalAddressBits (), 0);
