@@ -16,7 +16,9 @@ Desde WSL, pasa la ruta del respaldo privado de `splash` a la prueba de host. Es
 bash scripts/test-host.sh "$splash"
 ```
 
-La prueba QEMU añade `--observe-welcome --stock-splash "$splash"` al comando de la [Shell](SHELL_BOOT.md#reproducir). El host carga temporalmente los píxeles en el framebuffer inicial del invitado. El observador compara cada píxel de ambos emblemas bajo el saludo y en el centro de la ventana de la Shell con una reducción independiente del respaldo. También verifica el giro, las letras y los márgenes. Ejecuta el mismo FD sin `--stock-splash` para comprobar el arranque con el framebuffer inicial vacío. Los fotogramas y el respaldo se conservan localmente. La lectura de la UFS del Go y el contenido exacto que deja el Fastboot físico son comprobaciones separadas.
+La prueba QEMU añade `--observe-welcome --stock-splash "$splash"` al comando de la [Shell](SHELL_BOOT.md#reproducir). El host carga temporalmente los píxeles en el framebuffer inicial del invitado. El observador compara cada píxel de ambos emblemas bajo el saludo y en el centro de la ventana de la Shell con una reducción independiente del respaldo. También verifica el giro, las letras y los márgenes. Ejecuta el mismo FD sin `--stock-splash` para comprobar el arranque con el framebuffer inicial vacío.
+
+La [captura de la consola en QEMU](evidence/oculus-logo-qemu.png) muestra el resultado en un ojo. El respaldo de la partición se conserva localmente. [Comparación de píxeles en ambos ojos](evidence/oculus-logo-pacific-el1-20261120.json)
 
 ### Lectura directa de la partición en una máquina virtual
 

@@ -4,6 +4,19 @@ Experimental ARM64 UEFI firmware for Oculus Go (`pacific`), built with
 TianoCore EDK II. The headset can temporarily boot the UEFI Shell and display
 its prompt in both eyes. [Hardware results](docs/STATUS.md)
 
+![A blue glass pyramid rotates above the glowing words “Welcome to EDK2 Go!”](docs/evidence/welcome-pyramid-loop.gif)
+
+This GIF combines the rotation and the fully lit greeting from a single-eye
+view in QEMU. During boot, the pyramid turns once and then the letters light
+up. [Welcome animation](docs/WELCOME.md)
+
+![QEMU capture showing the Shell prompt and the gray Oculus emblem centered inside the blue console frame](docs/evidence/oculus-logo-qemu.png)
+
+In this QEMU run, EDK II found the Oculus emblem in the inherited framebuffer
+and drew it in both eyes. The headset trial displayed the Shell with the logo
+area empty. [QEMU pixel comparison](docs/evidence/oculus-logo-pacific-el1-20261120.json) ·
+[Headset observation](docs/evidence/oculus-logo-transfer-20261120.json)
+
 Permitted sources are original project code, repositories owned by
 `h0nda1337`, upstream TianoCore EDK2, the official Oculus Go kernel, and
 individually documented compatible drivers. No driver is imported yet.
@@ -75,8 +88,6 @@ The normal boot path now selects the Go text console in BDS and starts the upstr
 
 The owner is notified before physical work and separately
 authorizes partition writes. [Build instructions](docs/BUILD.md) · [Platform status](docs/STATUS.md)
-
-The current welcome scene renders a blue square-based pyramid in stereo before opening the centered Shell. [Animation, source and QEMU evidence](docs/WELCOME.md)
 
 The planned VR boot menu puts the boot entries, UEFI Shell, settings and
 diagnostics on a floating stereo monitor. The first compositor can be tested
