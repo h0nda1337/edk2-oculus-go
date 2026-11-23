@@ -87,7 +87,7 @@ during transfer. Never select Factory Reset or Sideload Update.
 The one native payload command, after those checks, is:
 
 ```powershell
-fastboot -s <verified-local-serial> boot "C:\Users\Angelo\Documents\Codex\2026-08-24\OculusGo_EDK2_UEFI\local\OculusGo-SEC-VISUAL-20261025-MEASUREMENT.img"
+fastboot -s <verified-local-serial> boot ".\local\OculusGo-SEC-VISUAL-20261025-MEASUREMENT.img"
 ```
 
 ```text

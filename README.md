@@ -1,7 +1,8 @@
-# OculusGo_EDK2_UEFI
+# EDK II for Oculus Go
 
-Reconstruction of the Oculus Go (`pacific`) ARM64 UEFI platform, started
-2026-10-22 under the owner's restricted source policy.
+Experimental ARM64 UEFI firmware for Oculus Go (`pacific`), built with
+TianoCore EDK II. The headset can temporarily boot the UEFI Shell and display
+its prompt in both eyes. [Hardware results](docs/STATUS.md)
 
 Permitted sources are original project code, repositories owned by
 `h0nda1337`, upstream TianoCore EDK2, the official Oculus Go kernel, and

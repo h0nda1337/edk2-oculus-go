@@ -44,7 +44,7 @@ python3 tests/sec_mmu_static.py --fd "$FD" --sec-elf "$elf" --report "$STATIC_RE
 python3 tests/sec_mmu_qemu.py --fd "$FD" --sec-elf "$elf" --report "$MODEL_REPORT"
 ```
 
-`FD` es el `OCULUS_GO_DIRECT.fd` del directorio de resultados que imprime el build. Ambas rutas de informe deben ser nuevas. El empaquetador del proyecto utiliza el DTB EVT local. La imagen de arranque pesa **376 832 bytes** y su SHA-256 es `86dd2aaea11086407ff8175c4e7a69ad842b61f925a73c725290f20f2b465fb8`. El código y los hashes se publican en el repositorio privado; los artefactos derivados del visor se conservan localmente.
+`FD` es el `OCULUS_GO_DIRECT.fd` del directorio de resultados que imprime el build. Ambas rutas de informe deben ser nuevas. El empaquetador del proyecto utiliza el DTB EVT local. La imagen de arranque pesa **376 832 bytes** y su SHA-256 es `86dd2aaea11086407ff8175c4e7a69ad842b61f925a73c725290f20f2b465fb8`. El código y los hashes se publican en el repositorio. Los artefactos derivados del visor se conservan localmente.
 
 La compilación normal reprodujo su FD de referencia, SHA-256 `72f602d2eec7d2bff0117bf8d8370218e47ef22fbd7023ab42b3497af9294e58`. Las seis comprobaciones de regresión pasaron, incluida la llegada a DXE y la consulta de TrustMeBro en QEMU en EL1 y EL2. El SHA-256 del informe local es `8d9d1d04ee9d3a4f7125408a96f0cdfd8d36792207562f2f312ed6b88695abc9`. Las 47 pruebas Python de host pasaron en Windows.
 

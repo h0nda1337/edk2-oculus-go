@@ -1,5 +1,17 @@
 # Dependencies
 
+## QEMU host-side test
+
+The idle task-list patch applies to `hw/ufs/ufs.c` in QEMU v10.0.13,
+copyright 2023 Samsung Electronics Co., Ltd., licensed under GPL-2.0-or-later.
+The project changed the handling of the idle task-list run bit and of idle
+lists when disabling the emulated controller. These changes are in the QEMU
+test executable. [Patch](tests/qemu/ufs-idle-task-list-10.0.13.patch) ·
+[Original source](https://github.com/qemu/qemu/blob/v10.0.13/hw/ufs/ufs.c) ·
+[GPL version 2](LICENSES/GPL-2.0.txt)
+
+## Firmware
+
 Original platform, protocol, container writer and local scripts: project
 contributors, BSD-2-Clause-Patent (see LICENSE).
 

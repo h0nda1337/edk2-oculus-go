@@ -15,6 +15,6 @@ the physical Oculus Go. Do not issue ADB/Fastboot commands in an offline
 development session. Never flash, erase, repartition, change slots or use EDL
 without explicit disclosure and separate authorization.
 
-Use small commits and push progress to the existing private origin. Preserve
+Use small commits and push progress to `h0nda1337/edk2-oculus-go`. Preserve
 the previous experimental project's code, backups and consumed-test ledger.
 Distinguish source/build/emulator evidence from physical execution.
